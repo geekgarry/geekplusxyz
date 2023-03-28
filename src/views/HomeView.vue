@@ -49,10 +49,20 @@
                       <router-link :to="'/article/' + oneIndexArticle.id">
                         <img
                           alt=""
-                          v-lazy="oneIndexArticle.indexPicture!=''?oneIndexArticle.indexPicture:'/imgs/ChMlWl0u8wCIHuEaAAdIaEpOtlQAAL4fwFRPPMAB0iA385.jpg'"
+                          v-lazy="
+                            oneIndexArticle.indexPicture != ''
+                              ? oneIndexArticle.indexPicture
+                              : '/imgs/ChMlWl0u8wCIHuEaAAdIaEpOtlQAAL4fwFRPPMAB0iA385.jpg'
+                          "
                         />
                         <span class="entry-wrapper">
-                          <p class="entry-title">{{ oneIndexArticle.articleTitle? oneIndexArticle.articleTitle : '我是谁?我该如何去认识自己?'}}</p>
+                          <p class="entry-title">
+                            {{
+                              oneIndexArticle.articleTitle
+                                ? oneIndexArticle.articleTitle
+                                : "我是谁?我该如何去认识自己?"
+                            }}
+                          </p>
                           <div class="entry-meta"><img v-lazy="MKLogo" /></div>
                         </span>
                       </router-link>
@@ -65,19 +75,30 @@
                   </li>
                   <li class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                     <div class="row no-gutter square-art-list">
-                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" v-for="item,index in fourIndexArticle" :key="index">
+                      <div
+                        class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+                        v-for="(item, index) in fourIndexArticle"
+                        :key="index"
+                      >
                         <div class="square-art-item">
-                          <router-link
-                            :to="'/article/'+item.id">
+                          <router-link :to="'/article/' + item.id">
                             <!-- :to="{path:'/general',query:{articleId}}" -->
                             <img
                               alt=""
                               class="img-responsive"
-                              v-lazy="item.indexPicture?item.indexPicture:'/imgs/ChMlWl0u8xCIJbgPAAFwuwZ4mHUAAL4gABSWUYAAXDT092.jpg'"
+                              v-lazy="
+                                item.indexPicture
+                                  ? item.indexPicture
+                                  : '/imgs/ChMlWl0u8xCIJbgPAAFwuwZ4mHUAAL4gABSWUYAAXDT092.jpg'
+                              "
                             />
                             <span class="entry-wrapper">
                               <p class="entry-title">
-                                {{ item.articleTitle? item.articleTitle : '这是一个文章标题！！！'}}
+                                {{
+                                  item.articleTitle
+                                    ? item.articleTitle
+                                    : "这是一个文章标题！！！"
+                                }}
                               </p>
                               <div class="entry-meta">
                                 <img v-lazy="MKLogo" />
@@ -159,25 +180,41 @@
             </article>
             <article class="latest-new-article">
               <div class="row no-gutter">
-                <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12" v-for="item,index in sixRecommendArticle" :key="index">
+                <section
+                  class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
+                  v-for="(item, index) in sixRecommendArticle"
+                  :key="index"
+                >
                   <div class="index-newtalk-list">
                     <a>
                       <i>
                         <img
                           alt=""
-                          v-lazy="item.indexPicture?item.indexPicture:'/imgs/ChMlWl0u8yuIA4eeAANiIvCoMFEAAL4gQBsYywAA2I6970.jpg'"
+                          v-lazy="
+                            item.indexPicture
+                              ? item.indexPicture
+                              : '/imgs/ChMlWl0u8yuIA4eeAANiIvCoMFEAAL4gQBsYywAA2I6970.jpg'
+                          "
                         />
                       </i>
                     </a>
                     <div>
                       <h3>
-                        <router-link :to="'/article/'+item.id">
-                          {{item.articleTitle?item.articleTitle:'这是我的个人博客，主要是对所学知识的梳理和总结'}}
+                        <router-link :to="'/article/' + item.id">
+                          {{
+                            item.articleTitle
+                              ? item.articleTitle
+                              : "这是我的个人博客，主要是对所学知识的梳理和总结"
+                          }}
                         </router-link>
                       </h3>
-                      <p class="publish-time">{{item.createTime?item.createTime:'2019-10-24'}}</p>
-                      <p v-if="item.abstractText&&item.abstractText!=''" v-text="item.abstractText">
+                      <p class="publish-time">
+                        {{ item.createTime ? item.createTime : "2019-10-24" }}
                       </p>
+                      <p
+                        v-if="item.abstractText && item.abstractText != ''"
+                        v-text="item.abstractText"
+                      ></p>
                       <p v-else>
                         这是我的个人博客，主要是对所学知识的梳理和总结，同时也希望能够帮到其他同学。
                         另外，本博客也分享一些资源文献，软件教程等。欢迎前来阅读观看
@@ -308,26 +345,42 @@
               </div>
             </article>
             <div class="article-list">
-              <article class="item" v-for="item,index in indexAllArticle" :key="index">
+              <article
+                class="item"
+                v-for="(item, index) in indexAllArticle"
+                :key="index"
+              >
                 <div class="art-item">
                   <div class="left-art-img">
                     <div class="art-img">
                       <a href="#">
                         <img
-                          v-lazy="item.indexPicture?item.indexPicture:'/imgs/ChMkJlXVQXKIKzCsAAaeJs-t2BQAAAUwwO6VAIABp4-885.jpg'"
+                          v-lazy="
+                            item.indexPicture
+                              ? item.indexPicture
+                              : '/imgs/ChMkJlXVQXKIKzCsAAaeJs-t2BQAAAUwwO6VAIABp4-885.jpg'
+                          "
                         />
                       </a>
                       <!-- class="animated hover_" data-in="swing" data-out="pulse" -->
                       <div class="overlay hidden-sm hidden-xs">
-                        <h2>{{item.articleTitle?item.articleTitle:'title'}}</h2>
-                        <router-link class="info" :to="'/article/'+item.id">详细</router-link>
+                        <h2>
+                          {{ item.articleTitle ? item.articleTitle : "title" }}
+                        </h2>
+                        <router-link class="info" :to="'/article/' + item.id"
+                          >详细</router-link
+                        >
                       </div>
                     </div>
                   </div>
                   <div class="right-art-abstract">
                     <div class="art-abstract-flex">
                       <div class="title">
-                        <router-link :to="'/article/'+item.id" >{{item.articleTitle?item.articleTitle:'《maike市集》'}}</router-link>
+                        <router-link :to="'/article/' + item.id">{{
+                          item.articleTitle
+                            ? item.articleTitle
+                            : "《maike市集》"
+                        }}</router-link>
                       </div>
                       <div class="base-info">
                         <ul>
@@ -338,14 +391,25 @@
                             />
                           </li>
                           <li class="hidden-xs">
-                            <a href="javascript:void(0);">{{item.authorName?item.authorName:'geekcjj'}}</a>
+                            <a href="javascript:void(0);">{{
+                              item.authorName ? item.authorName : "geekcjj"
+                            }}</a>
                           </li>
-                          <li>{{item.createTime?getOnlyYearMonthDay(item.createTime):'2015-04-04'}}</li>
+                          <li>
+                            {{
+                              item.createTime
+                                ? getOnlyYearMonthDay(item.createTime)
+                                : "2015-04-04"
+                            }}
+                          </li>
                         </ul>
                       </div>
-                      <div v-if="item.articleContent!==''" v-text="item.abstractText" class="desc">
-                      </div>
-                      <div v-else class="desc" >
+                      <div
+                        v-if="item.articleContent !== ''"
+                        v-text="item.abstractText"
+                        class="desc"
+                      ></div>
+                      <div v-else class="desc">
                         这是一篇文章，虽然他没有文字，市集里最熟悉的陌生人，多年以后，我们又在繁华的市集相遇，伫立对视片刻，便擦肩而过，消失在了人潮中。
                       </div>
                     </div>
@@ -564,6 +628,140 @@
                 </div>
               </article> -->
             </div>
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li :class="queryParams.pageNum == 1 ? 'disabled' : ''">
+                  <a
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(queryParams.pageNum - 1)"
+                    aria-label="Previous"
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <!-- Math.ceil(articleTotal / queryParams.pageSize) -->
+                <li
+                  :class="queryParams.pageNum == pageNumber ? 'active' : ''"
+                  v-for="(pageNumber, index) in Math.ceil(
+                    articleTotal / queryParams.pageSize
+                  )"
+                  :key="index"
+                >
+                  <a
+                    v-if="queryParams.pageNum <= 4 && pageNumber <= 9"
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum - 4
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum - 3
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum - 2
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum - 1
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum + 1
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum + 2
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum + 3
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                  <a
+                    v-if="
+                      queryParams.pageNum > 4 &&
+                      pageNumber == queryParams.pageNum + 4
+                    "
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(pageNumber)"
+                    >{{ pageNumber }}
+                  </a>
+                </li>
+                <!-- <li >
+                  <a v-for="index in Math.ceil(articleTotal / queryParams.pageSize)" :key="index" 
+                   href="javascript:void(0);" @click="getArticleList(index)">{{index}}
+                  </a>
+                </li> -->
+                <!-- <li><a href="javascript:void(0);">2</a></li>
+                <li><a href="javascript:void(0);">3</a></li>
+                <li><a href="javascript:void(0);">4</a></li>
+                <li><a href="javascript:void(0);">5</a></li> -->
+                <li
+                  :class="
+                    queryParams.pageNum ==
+                    Math.ceil(articleTotal / queryParams.pageSize)
+                      ? 'disabled'
+                      : ''
+                  "
+                >
+                  <a
+                    href="javascript:void(0);"
+                    @click="getIndexAllArticleList(queryParams.pageNum + 1)"
+                    aria-label="Next"
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
           <aside class="col-lg-3 col-md-3 right animated slideInRight">
             <div class="right-fun">
@@ -617,11 +815,14 @@
                     </form>
                   </div> -->
                   <div class="search_aside_bar">
-                    <form class="form-horizontal">
+                    <form
+                      class="form-horizontal"
+                      @submit.prevent="searchResult()"
+                    >
                       <div class="input-group search-input-group">
                         <input type="hidden" name="scope" value="1" />
                         <input
-                          name="key"
+                          name="keywords"
                           autocomplete="off"
                           type="text"
                           v-model="keywords"
@@ -764,14 +965,46 @@
                 <div class="panel-body">
                   <!-- <div class="model recommend">                                    						                            <div class="title">热门推荐</div>						                            <div class="content"> -->
                   <div class="latest-hot-article">
-                    <div :class="index==0?'articlelist-first-life':'articlelist'" v-for="item ,index in asideSixArticle1" :key="index">
-                      <router-link v-if="index==0" :to="'/article/'+item.id">
-                        <img :alt="item.articleTitle" v-lazy="item.indexPicture?item.indexPicture:'imgs/IMG_0541.JPG'" />
-                        <span>{{item.articleTitle?item.articleTitle:'我是谁'}}</span>
+                    <div
+                      :class="
+                        index == 0 ? 'articlelist-first-life' : 'articlelist'
+                      "
+                      v-for="(item, index) in asideSixArticle1"
+                      :key="index"
+                    >
+                      <router-link
+                        v-if="index == 0"
+                        :to="'/article/' + item.id"
+                      >
+                        <img
+                          :alt="item.articleTitle"
+                          v-lazy="
+                            item.indexPicture
+                              ? item.indexPicture
+                              : 'imgs/IMG_0541.JPG'
+                          "
+                        />
+                        <span>{{
+                          item.articleTitle ? item.articleTitle : "我是谁"
+                        }}</span>
                       </router-link>
-                      <router-link v-else :to="'/article/'+item.id">
-                        <i><img :alt="item.articleTitle" v-lazy="item.indexPicture?item.indexPicture:'imgs/IMG_0541.JPG'" /></i>
-                        <p>{{item.articleTitle?item.articleTitle:'那个老师那个看来是看到那个上课了'}}</p>
+                      <router-link v-else :to="'/article/' + item.id">
+                        <i
+                          ><img
+                            :alt="item.articleTitle"
+                            v-lazy="
+                              item.indexPicture
+                                ? item.indexPicture
+                                : 'imgs/IMG_0541.JPG'
+                            "
+                        /></i>
+                        <p>
+                          {{
+                            item.articleTitle
+                              ? item.articleTitle
+                              : "那个老师那个看来是看到那个上课了"
+                          }}
+                        </p>
                       </router-link>
                     </div>
                     <!-- <div class="articlelist">
@@ -815,11 +1048,13 @@
                   <span class="glyphicon glyphicon-th"></span>&nbsp;标签云图
                 </div>
                 <div class="panel-body" id="cat-list">
-                  <router-link class="btn btn-info" type="text" to="#"
-                   v-for="item,index in allTagArticleCount" :key="index" >
-                   {{item.tagName?item.tagName:'Java'}}
-                   <span class="badge badge-info">{{item.articleCount!=-1?item.articleCount:1}}</span>
-                  </router-link>
+                  <div style="margin:2px;" v-for="(item, index) in allTagArticleCount"
+                      :key="index">
+                    <router-link to="#" class="label label-info" > 
+                      {{ item.tagName ? item.tagName : "Java" }}
+                      <span class="badge">{{ item.articleCount != -1 ? item.articleCount : 1 }}</span>
+                    </router-link>
+                  </div>
                   <!-- <a class="btn btn-info"
                     >Python<span class="badge badge-info">2</span>
                   </a>
@@ -850,7 +1085,7 @@
                   </a> -->
                 </div>
               </div>
-              
+
               <div class="panel panel-default recommendlist">
                 <div
                   class="panel-heading"
@@ -861,8 +1096,12 @@
                 <div class="panel-body">
                   <!-- <div class="model recommend">                                                                       <div class="title">热门推荐</div>						                            <div class="content"> -->
                   <div class="fastmenu">
-                    <span v-for="item,index in allCategoryList" :key="index" >
-                      <router-link :to="'/articleList/'+item.path">{{item.categoryName?item.categoryName:'编程技术&nbsp;(13)'}}</router-link>
+                    <span v-for="(item, index) in allCategoryList" :key="index">
+                      <router-link :to="'/articleList/' + item.path">{{
+                        item.categoryName
+                          ? item.categoryName
+                          : "编程技术&nbsp;(13)"
+                      }}</router-link>
                     </span>
                     <!-- <span
                       ><a href="https://www.geekplus.xyz"
@@ -920,10 +1159,20 @@
                   <!-- <div class="model recommend">
                     <div class="title">热门推荐</div>
                   <div class="content"> -->
-                  <p v-for="item,index in sixNewArticle" :key="index">
-                    <a href="javascript:void(0);"
-                     @click="$router.push({name:'article',params:{'articleId':item.id}})"
-                      >{{item.articleTitle?item.articleTitle:'dw个人网页模板作业成品'}}</a
+                  <p v-for="(item, index) in sixNewArticle" :key="index">
+                    <a
+                      href="javascript:void(0);"
+                      @click="
+                        $router.push({
+                          name: 'article',
+                          params: { articleId: item.id },
+                        })
+                      "
+                      >{{
+                        item.articleTitle
+                          ? item.articleTitle
+                          : "dw个人网页模板作业成品"
+                      }}</a
                     >
                   </p>
                   <!-- <p>
@@ -1008,18 +1257,18 @@ export default {
       indexTextInfo: null,
       carouselSlideParams: {},
       articleId: 1,
-      allCategoryList:[],
-      allTagArticleCount:[],//查询每个标签的文章数量
-      asideSixArticle1:[],//首页侧边六条文章面板
-      sixNewArticle:[],//侧边最热六条文章面板
-      sixRecommendArticle:[],//首页六条大屏推荐文章
-      oneIndexArticle:{},//首页4+1文章
-      fourIndexArticle:[],//首页4+1文章
-      indexAllArticle:[],
-      allArticleTotal:0,
-      queryParams:{
-        pageNum:1,
-        pageSize:10,
+      allCategoryList: [],
+      allTagArticleCount: [], //查询每个标签的文章数量
+      asideSixArticle1: [], //首页侧边六条文章面板
+      sixNewArticle: [], //侧边最热六条文章面板
+      sixRecommendArticle: [], //首页六条大屏推荐文章
+      oneIndexArticle: {}, //首页4+1文章
+      fourIndexArticle: [], //首页4+1文章
+      indexAllArticle: [],
+      articleTotal: 0,
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
       },
     };
   },
@@ -1037,10 +1286,19 @@ export default {
     this.getSixNewArticle();
     this.getSixRecommendArticle();
     this.getFourPlusOneArticles();
-    this.getIndexAllArticleList();
+    this.getIndexAllArticleList(this.queryParams.pageNum);
     this.getAllArticleCategory();
     this.getSixSameCategoryArticle1();
     this.getTagAndArticleCount();
+    // document.onkeydown = function (e) {
+    //   // 回车提交表单
+    //   // 兼容FF和IE和Opera
+    //   var theEvent = window.event || e;
+    //   var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+    //   if (code == 13) {
+    //     this.searchResult();
+    //   }
+    // };
   },
   mounted() {
     this.indexTextInfo = document.getElementsByClassName("text-info")[0];
@@ -1091,14 +1349,11 @@ export default {
         })
         .catch((error) => {
           //console.log(error);
-          this.$toasted.error(
-          error.msg,
-          {
-            position:'top-center',
-            duration:3000,
-            theme:'bubble'
-          }
-          );
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
         });
     },
     getCovidData() {
@@ -1122,117 +1377,121 @@ export default {
 
       this.keywords = "";
     },
-    getFourPlusOneArticles(){
-      var queryParams={firstPathName:'java',secondPathName:''}
-      getFourPlusOneArticles(queryParams).then((response) => {
-        //console.log(response);
-        this.oneIndexArticle=response.one;
-        this.fourIndexArticle=response.four;
-      }).catch((error) => {
-        this.$toasted.error(
-          error.msg,
-          {
-            position:'top-center',
-            duration:3000,
-            theme:'bubble'
-          }
-        );
-      })
+    getFourPlusOneArticles() {
+      var queryParams = { firstPathName: "java", secondPathName: "" };
+      getFourPlusOneArticles(queryParams)
+        .then((response) => {
+          //console.log(response);
+          this.oneIndexArticle = response.one;
+          this.fourIndexArticle = response.four;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
-    getSixNewArticle(){
-      let data={isDisplay:1}
-      getSixNewestArticle(data).then((response)=>{
-        //console.log(response.data);
-        this.sixNewArticle=response.data;
-      }).catch((error)=>{
-        //console.log(error.msg)
-        this.$toasted.error(
-          error.msg,
-          {
-            position:'top-center',
-            duration:3000,
-            theme:'bubble'
-          }
-        );
-      })
+    getSixNewArticle() {
+      let data = { isDisplay: 1 };
+      getSixNewestArticle(data)
+        .then((response) => {
+          //console.log(response.data);
+          this.sixNewArticle = response.data;
+        })
+        .catch((error) => {
+          //console.log(error.msg)
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
-    getSixSameCategoryArticle1(){
-      var params={pathName:"beautyPicture",limitCount:6}
-      getArticlesByCategoryLimit(params).then((response) => {
-        //console.log(response.data);
-        this.asideSixArticle1=response.data;
-      }).catch((error) => {
-        this.$toasted.error(
-          error.msg,
-          {
-            position:'top-center',
-            duration:3000,
-            theme:'bubble'
-          }
-        );
-      })
+    getSixSameCategoryArticle1() {
+      var params = { pathName: "beautyPicture", limitCount: 6 };
+      getArticlesByCategoryLimit(params)
+        .then((response) => {
+          //console.log(response.data);
+          this.asideSixArticle1 = response.data;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
-    getSixRecommendArticle(){
-      var params={pathName:"java",limitCount:6}
-      getArticlesByCategoryLimit(params).then((response) => {
-        //console.log(response);
-        this.sixRecommendArticle=response.data;
-      }).catch((error) => {
-        this.$toasted.error(
-          error.msg,
-          {
-            position:'top-center',
-            duration:3000,
-            theme:'bubble'
-          }
-        );
-      })
+    getSixRecommendArticle() {
+      var params = { pathName: "java", limitCount: 6 };
+      getArticlesByCategoryLimit(params)
+        .then((response) => {
+          //console.log(response);
+          this.sixRecommendArticle = response.data;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
-    getIndexAllArticleList(){
-      
-      getIndexAllCategoryArticleList(this.queryParams).then((response) => {
-        //console.log(response);
-        this.indexAllArticle=response.rows;
-      }).catch((error) => {
-        this.$toasted.error(
-          error.msg,
-          {
-            position:'top-center',
-            duration:3000,
-            theme:'bubble'
-          }
-        );
-      })
+    //获取首页所有类型文章
+    getIndexAllArticleList(pageNum) {
+      this.queryParams.pageNum=pageNum;
+      if(pageNum==null ||pageNum==''){
+        this.queryParams.pageNum=1;
+      }else if(this.articleTotal <= this.queryParams.pageSize){
+        this.queryParams.pageNum=1;
+      }else if(pageNum <= 0){
+        this.queryParams.pageNum=1;
+      }else if(pageNum>=Math.ceil(this.articleTotal/this.queryParams.pageSize)){
+        this.queryParams.pageNum=Math.ceil(this.articleTotal/this.queryParams.pageSize);
+      }
+      getIndexAllCategoryArticleList(this.queryParams)
+        .then((response) => {
+          console.log(response);
+          this.indexAllArticle = response.rows;
+          this.articleTotal=response.total;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
-    getAllArticleCategory(){
-      listSubCategory().then((response)=>{
-        //console.log(response)
-        this.allCategoryList=response.data;
-      }).catch((error) => {
-        this.$toasted.error(
-          error.msg,
-          {
-            position:'top-center',
-            duration:3000,
-            theme:'bubble'
-          }
-        );
-      })
+    getAllArticleCategory() {
+      listSubCategory()
+        .then((response) => {
+          //console.log(response)
+          this.allCategoryList = response.data;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
-    getTagAndArticleCount(){
-      getTagArticleCount().then((response) => {
-        //console.log(response.data);
-        this.allTagArticleCount=response.data;
-      }).catch((error) => {
-        this.$toasted.error(
-          error.msg,
-          {
-            position:'top-center',
-            duration:3000,
-            theme:'bubble'
-          }
-        );
-      })
+    getTagAndArticleCount() {
+      getTagArticleCount()
+        .then((response) => {
+          //console.log(response.data);
+          this.allTagArticleCount = response.data;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
     // test() {
     //   this.axios

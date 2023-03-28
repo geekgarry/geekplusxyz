@@ -2,8 +2,8 @@
   <div>
     <div class="banner_bar">
       <div class="container">
-        <div id="banner_bar_label">
-          <a href="#">{{ $route.query.keyword }}</a>
+        <div id="page-header ">
+          <h3 class="text-center">“ {{ $route.query.keyword }} ”</h3>
         </div>
       </div>
     </div>
@@ -12,50 +12,82 @@
         <section class="row">
           <div class="">
             <div class="col-lg-9 col-md-9 animated slideInLeft">
-              {{ $route.query.keyword }}
               <div class="article-list">
-                <article class="item">
+                <article
+                  class="item"
+                  v-for="(item, index) in articleList"
+                  :key="index"
+                >
                   <div class="art-item">
                     <div class="left-art-img">
                       <div class="art-img">
                         <a href="#">
-                          <img src="images/IMG_0541.JPG" />
+                          <img
+                            v-lazy="
+                              item.indexPicture
+                                ? item.indexPicture
+                                : '/imgs/IMG_0541.JPG'
+                            "
+                          />
                         </a>
                         <!-- class="animated hover_" data-in="swing" data-out="pulse" -->
                         <div class="overlay hidden-sm hidden-xs">
-                          <h2>title</h2>
-                          <a class="info" href="#">更多</a>
+                          <h2>
+                            {{
+                              item.articleTitle ? item.articleTitle : "title"
+                            }}
+                          </h2>
+                          <router-link class="info" :to="'/article/' + item.id"
+                            >详细</router-link
+                          >
                         </div>
                       </div>
                     </div>
                     <div class="right-art-abstract">
                       <div class="art-abstract-flex">
                         <div class="title">
-                          <a href="http://market.maikete.com/">《maike市集》</a>
+                          <router-link :to="'/article/' + item.id">{{
+                            item.articleTitle
+                              ? item.articleTitle
+                              : "《maike市集》"
+                          }}</router-link>
                         </div>
                         <div class="base-info">
                           <ul>
                             <li class="hidden-xs">
                               <img
-                                src="images/mai.png"
+                                v-lazy="require('@/assets/icon/mai.png')"
                                 class="article_user_pic"
                               />
                             </li>
                             <li class="hidden-xs">
-                              <a href="http://www.maikete.com">geekcjj</a>
+                              <a href="javascript:void(0);">{{
+                                item.authorName ? item.authorName : "geekcjj"
+                              }}</a>
                             </li>
-                            <li>2015-04-04</li>
+                            <li>
+                              {{
+                                item.createTime
+                                  ? getOnlyYearMonthDay(item.createTime)
+                                  : "2015-04-04"
+                              }}
+                            </li>
                           </ul>
                         </div>
-                        <div class="desc">
-                          市集里最熟悉的陌生人，多年以后，我们又在繁华的市集相遇，伫立对视片刻，便擦肩而过，消失在了人潮中。
+                        <div
+                          v-if="item.articleContent !== ''"
+                          v-text="item.abstractText"
+                          class="desc"
+                        ></div>
+                        <div v-else class="desc">
+                          这是一篇文章，虽然他没有文字，市集里最熟悉的陌生人，多年以后，我们又在繁华的市集相遇，伫立对视片刻，便擦肩而过，消失在了人潮中。
                         </div>
                       </div>
                     </div>
                   </div>
                 </article>
 
-                <article class="item">
+                <!-- <article class="item">
                   <div class="art-item">
                     <div class="left-art-img">
                       <div class="art-img">
@@ -92,160 +124,6 @@
                     </div>
                   </div>
                 </article>
-
-                <article class="item">
-                  <div class="art-item">
-                    <div class="left-art-img">
-                      <div class="art-img">
-                        <img
-                          src="images/ChMkJlbKzjiIH0M_AAJdB-7pn-MAALJIwFYdAsAAl0f724.jpg"
-                        />
-                      </div>
-                    </div>
-                    <div class="right-art-abstract">
-                      <div class="art-abstract-flex">
-                        <div class="title">
-                          <a href="http://www.maike.com/detail_366.html"
-                            >将网站LOGO放到浏览器地址栏</a
-                          >
-                        </div>
-                        <div class="base-info">
-                          <ul>
-                            <li class="hidden-xs">
-                              <img
-                                src="images/mai.png"
-                                class="article_user_pic"
-                              />
-                            </li>
-                            <li class="hidden-xs">
-                              <a href="http://www.maike.com">周末</a>
-                            </li>
-                            <li>2015-04-04</li>
-                          </ul>
-                        </div>
-                        <p class="desc">
-                          首先您必须了解什么是icon，所谓的图标（Icon）是一种特殊的图形文件格式，它是以
-                          .ico 作为扩展名。
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="item">
-                  <div class="art-item">
-                    <div class="left-art-img">
-                      <div class="art-img">
-                        <img
-                          src="images/ChMkJlbKzjiIRT2jAAUGaYr8PEsAALJIwFpbtoABQaB552.jpg"
-                        />
-                      </div>
-                    </div>
-                    <div class="right-art-abstract">
-                      <div class="art-abstract-flex">
-                        <div class="title">
-                          <a href="http://www.maike.com/detail_364.html"
-                            >专属学生的简单html静态网页模板</a
-                          >
-                        </div>
-                        <div class="base-info">
-                          <ul>
-                            <li class="hidden-xs">
-                              <img
-                                src="images/mai.png"
-                                class="article_user_pic"
-                              />
-                            </li>
-                            <li class="hidden-xs">
-                              <a href="http://www.maike.com">周末</a>
-                            </li>
-                            <li>2015-04-04</li>
-                          </ul>
-                        </div>
-                        <p class="desc">
-                          该模板为纯html5模板，主题为周末·黑色调，此模板采用黑色为主色，不包含任何服务器端code
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="item">
-                  <div class="art-item">
-                    <div class="left-art-img">
-                      <div class="art-img">
-                        <img
-                          src="images/ChMly12Ng9KIdCjVAAiP30n-S5UAAX2nAKAALIACI_3995.jpg"
-                        />
-                      </div>
-                    </div>
-                    <div class="right-art-abstract">
-                      <div class="art-abstract-flex">
-                        <div class="title">
-                          <a href="http://www.maike.com/detail_361.html"
-                            >html个人网页制作源代码</a
-                          >
-                        </div>
-                        <div class="base-info">
-                          <ul>
-                            <li class="hidden-xs">
-                              <img
-                                src="images/mai.png"
-                                class="article_user_pic"
-                              />
-                            </li>
-                            <li class="hidden-xs">
-                              <a href="http://www.maike.com">周末</a>
-                            </li>
-                            <li>2015-04-04</li>
-                          </ul>
-                        </div>
-                        <p class="desc">
-                          该模板为纯html5模板，主题为周末·黑色调，此模板采用黑色为主色，不包含任何服务器端code
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="item">
-                  <div class="art-item">
-                    <div class="left-art-img">
-                      <div class="art-img">
-                        <img
-                          src="images/ChMlWl0u-KqIAHkyAAP26MoZWWcAAL4jAH0yZ4AA_cA353.jpg"
-                        />
-                      </div>
-                    </div>
-                    <div class="right-art-abstract">
-                      <div class="art-abstract-flex">
-                        <div class="title">
-                          <a href="http://www.maikete.com/detail_355.html"
-                            >html5优秀个人博客模板下载</a
-                          >
-                        </div>
-                        <div class="base-info">
-                          <ul>
-                            <li class="hidden-xs">
-                              <img
-                                src="images/mai.png"
-                                class="article_user_pic"
-                              />
-                            </li>
-                            <li class="hidden-xs">
-                              <a href="http://www.maikete.com">周末</a>
-                            </li>
-                            <li>2015-04-04</li>
-                          </ul>
-                        </div>
-                        <p class="desc">
-                          该模板为纯html5模板，主题为周末·黑色调，此模板采用黑色为主色，不包含任何服务器端code
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-
                 <article class="item">
                   <div class="art-item">
                     <div class="left-art-img">
@@ -282,8 +160,142 @@
                       </div>
                     </div>
                   </div>
-                </article>
+                </article> -->
               </div>
+              <nav aria-label="Page navigation">
+                <ul class="pagination">
+                  <li :class="queryParams.pageNum == 1 ? 'disabled' : ''">
+                    <a
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(queryParams.pageNum - 1)"
+                      aria-label="Previous"
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <!-- Math.ceil(articleTotal / queryParams.pageSize) -->
+                  <li
+                    :class="queryParams.pageNum == pageNumber ? 'active' : ''"
+                    v-for="(pageNumber, index) in Math.ceil(
+                      articleTotal / queryParams.pageSize
+                    )"
+                    :key="index"
+                  >
+                    <a
+                      v-if="queryParams.pageNum <= 4 && pageNumber <= 9"
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum - 4
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum - 3
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum - 2
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum - 1
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum + 1
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum + 2
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum + 3
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                    <a
+                      v-if="
+                        queryParams.pageNum > 4 &&
+                        pageNumber == queryParams.pageNum + 4
+                      "
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(pageNumber)"
+                      >{{ pageNumber }}
+                    </a>
+                  </li>
+                  <!-- <li >
+                    <a v-for="index in Math.ceil(articleTotal / queryParams.pageSize)" :key="index" 
+                     href="javascript:void(0);" @click="searchGpArticlesList(index)">{{index}}
+                    </a>
+                  </li> -->
+                  <!-- <li><a href="javascript:void(0);">2</a></li>
+                  <li><a href="javascript:void(0);">3</a></li>
+                  <li><a href="javascript:void(0);">4</a></li>
+                  <li><a href="javascript:void(0);">5</a></li> -->
+                  <li
+                    :class="
+                      queryParams.pageNum ==
+                      Math.ceil(articleTotal / queryParams.pageSize)
+                        ? 'disabled'
+                        : ''
+                    "
+                  >
+                    <a
+                      href="javascript:void(0);"
+                      @click="searchGpArticlesList(queryParams.pageNum + 1)"
+                      aria-label="Next"
+                    >
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
             <aside class="col-lg-3 col-md-3 right animated slideInRight">
               <div class="right-fun">
@@ -320,11 +332,10 @@
                                             </form>
                                         </div> -->
                     <div class="search_aside_bar">
-                      <form class="form-horizontal">
+                      <form class="form-horizontal" @submit.prevent="searchResultForResult()">
                         <div class="input-group search-input-group">
-                          <input type="hidden" name="scope" value="1" />
                           <input
-                            name="key"
+                            name="keywords"
                             autocomplete="off"
                             type="text"
                             v-model="keywords"
@@ -332,7 +343,10 @@
                             placeholder="输入搜索关键字"
                           />
                           <span class="input-group-addon">
-                            <button type="button" @click="searchResultForResult()">
+                            <button
+                              type="button"
+                              @click="searchResultForResult()"
+                            >
                               <span class="glyphicon glyphicon-search"></span>
                             </button>
                           </span>
@@ -443,7 +457,7 @@
                     </div>
                   </div>
                 </div>
-                <div
+                <!-- <div
                   id="geekcjj-tool"
                   class="panel panel-info hidden-xs"
                   style="margin-top: 20px"
@@ -544,8 +558,8 @@
                       </a>
                     </div>
                   </div>
-                </div>
-                <div class="panel panel-default" style="margin-top: 20px">
+                </div> -->
+                <div class="panel panel-default">
                   <div
                     class="panel-heading"
                     style="background: rgba(0, 0, 0, 0.0001)"
@@ -553,24 +567,23 @@
                     <span class="glyphicon glyphicon-th"></span>&nbsp;分类
                   </div>
                   <div class="panel-body" id="cat-list">
-                    <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
+                    <a style="margin-bottom: 3px" class="label label-info"
                       >Linux系统编程<span class="badge badge-info"></span>
                     </a>
-                    <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
+                    <a style="margin-bottom: 3px" class="label label-info"
                       >Python<span class="badge badge-info"></span>
                     </a>
-                    <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
+                    <a style="margin-bottom: 3px" class="label label-info"
                       >Django<span class="badge badge-info"></span>
                     </a>
-                    <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
+                    <a style="margin-bottom: 3px" class="label label-info"
                       >深度学习<span class="badge badge-info"></span>
                     </a>
-                    <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
+                    <a style="margin-bottom: 3px" class="label label-info"
                       >MySql<span class="badge badge-info"></span>
                     </a>
-                    <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
+                    <a style="margin-bottom: 3px" class="label label-info"
                       >生活<span class="badge badge-info"></span>
-                      <!-- type="button" -->
                     </a>
                   </div>
                 </div>
@@ -588,11 +601,21 @@
                     <!-- <div class="model recommend">
                                                                                                                         <div class="title">热门推荐</div>						                            <div class="content"> -->
                     <div class="fastmenu">
-                      <span><a href="http://www.maikete.com">文章博客</a></span>
+                      <span
+                        v-for="(item, index) in allCategoryList"
+                        :key="index"
+                      >
+                        <router-link :to="'/articleList/' + item.path">{{
+                          item.categoryName
+                            ? item.categoryName
+                            : "编程技术&nbsp;(13)"
+                        }}</router-link>
+                      </span>
+                      <!-- <span><a href="http://www.maikete.com">文章博客</a></span>
                       <span><a href="http://www.maikete.com">新闻资讯</a></span>
                       <span><a href="http://www.maikete.com">资源文件</a></span>
                       <span><a href="http://www.maikete.com">格物生活</a></span>
-                      <span><a href="http://www.maikete.com">给我留言</a></span>
+                      <span><a href="http://www.maikete.com">给我留言</a></span> -->
                     </div>
                   </div>
                 </div>
@@ -622,33 +645,30 @@
                   </div>
                   <div class="panel-body recommendlist">
                     <!-- <div class="model recommend">
-                                                                                        <div class="title">热门推荐</div>
-                                                                                        <div class="content"> -->
-                    <p>
+                    <div class="title">热门推荐</div>
+                    <div class="content"> -->
+                    <p v-for="(item, index) in sixNewArticle" :key="index">
+                      <a
+                        href="javascript:void(0);"
+                        @click="
+                          $router.push({
+                            name: 'article',
+                            params: { articleId: item.id },
+                          })
+                        "
+                      >
+                        {{
+                          item.articleTitle
+                            ? item.articleTitle
+                            : "dw个人网页模板作业成品"
+                        }}
+                      </a>
+                    </p>
+                    <!-- <p>
                       <a href="http://www.youtiy.com/detail_317.html"
                         >dw个人网页模板作业成品</a
                       >
-                    </p>
-                    <p>
-                      <a href="http://www.youtiy.com/detail_382.html"
-                        >HTML个人简历源代码</a
-                      >
-                    </p>
-                    <p>
-                      <a href="http://www.youtiy.com/detail_381.html"
-                        >自我介绍个人网页设计模板</a
-                      >
-                    </p>
-                    <p>
-                      <a href="http://www.youtiy.com/detail_379.html"
-                        >DIV+CSS静态HTML网页设计模板</a
-                      >
-                    </p>
-                    <p>
-                      <a href="http://www.youtiy.com/detail_377.html"
-                        >一个完整的html网页设计代码免费下载</a
-                      >
-                    </p>
+                    </p> -->
                   </div>
                 </div>
               </div>
@@ -661,21 +681,130 @@
 </template>
 
 <script>
+import {
+  selectGpArticlesListByKeyWords,
+  getSixNewestArticle,
+  listSubCategory,
+} from "@/api/geekplus/geekplus";
 export default {
   data() {
     return {
       keywords: "",
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        articleTitle: "",
+      },
+      articleList: [],
+      articleTotal: 0,
+      pageNum: 9,
+      sixNewArticle: [],
+      allCategoryList: [],
     };
   },
+  created() {
+    this.$router.onReady(() => {
+      this.keywords = this.$route.query.keyword;
+    });
+    console.log(this.keywords)
+    // document.onkeydown = function (e) {
+    //   // 回车提交表单
+    //   // 兼容FF和IE和Opera
+    //   var theEvent = window.event || e;
+    //   var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+    //   if (code == 13) {
+    //     this.searchResultForResult();
+    //   }
+    // };
+    this.searchGpArticlesList(1);
+    this.getSixNewArticle();
+    this.getAllArticleCategory();
+  },
+  mounted(){
+    //console.log("mounted");
+    // document.addEventListener("keydown", (e) => {
+    //   let key = window.event.keyCode;
+    //   if (key == 13 && !this.keywords!='') {
+    //     // 13是enter键的键盘码 如果等于13 就调用click的登录方法
+    //     this.searchResultForResult();
+    //   }
+    // });
+  },
+  activated() { // 使用该生命周期方法可以解决第二次进入该页面数据不刷新问题
+    this.keywords = this.$route.query.keyword;
+    //console.log(this.keywords);
+    this.searchGpArticlesList(1)// 这个是获取列表数据的方法
+  },
   methods: {
+    searchGpArticlesList(pageNum) {
+      var total = this.articleTotal;
+      var pageSize = this.queryParams.pageSize;
+      var pageAllNum = total / pageSize;
+      this.queryParams.pageNum = pageNum;
+      if (pageNum <= 0) {
+        //console.log("页数等于0");
+        this.queryParams.pageNum = 1;
+      } else if (total <= pageSize) {
+        //console.log("页数小于一");
+        this.queryParams.pageNum = 1;
+      } else if (pageNum >= Math.ceil(pageAllNum)) {
+        //console.log("页数等于最大页数");
+        this.queryParams.pageNum = Math.ceil(pageAllNum);
+      }
+      this.queryParams.articleTitle=this.$route.query.keyword;
+      //this.queryParams.pageSize=10;
+      selectGpArticlesListByKeyWords(this.queryParams)
+        .then((response) => {
+          console.log(response);
+          this.articleList = response.rows;
+          this.articleTotal = response.total;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
+    },
+    getSixNewArticle() {
+      let data = { isDisplay: 1 };
+      getSixNewestArticle(data)
+        .then((response) => {
+          //console.log(response.data);
+          this.sixNewArticle = response.data;
+        })
+        .catch((error) => {
+          //console.log(error.msg)
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
+    },
+    getAllArticleCategory() {
+      listSubCategory()
+        .then((response) => {
+          this.allCategoryList = response.data;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
+    },
     searchResultForResult() {
-      if(this.keywords!==''){
+      if (this.keywords !== "") {
         //this.$router.push("/search?keayword="+this.keywords);
-      this.$router.push({
+        this.$router.push({
           path: "/search",
           query: { keyword: this.keywords },
         });
       }
+      this.searchGpArticlesList(1);
       this.keywords = "";
     },
   },

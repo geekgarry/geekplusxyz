@@ -313,7 +313,7 @@
                   <li :class="queryParams.pageNum == 1 ? 'disabled' : ''">
                     <a
                       href="javascript:void(0);"
-                      @click="getArticleList(this.queryParams.pageNum - 1)"
+                      @click="getArticleList(queryParams.pageNum - 1)"
                       aria-label="Previous"
                     >
                       <span aria-hidden="true">&laquo;</span>
@@ -321,7 +321,7 @@
                   </li>
                   <!-- Math.ceil(articleTotal / queryParams.pageSize) -->
                   <li
-                    :class="queryParams.pageNum == pageNumber ? '' : ''"
+                    :class="queryParams.pageNum == pageNumber ? 'active' : ''"
                     v-for="(pageNumber, index) in Math.ceil(
                       articleTotal / queryParams.pageSize
                     )"
@@ -434,7 +434,7 @@
                   >
                     <a
                       href="javascript:void(0);"
-                      @click="getArticleList(this.queryParams.pageNum + 1)"
+                      @click="getArticleList(queryParams.pageNum + 1)"
                       aria-label="Next"
                     >
                       <span aria-hidden="true">&raquo;</span>
@@ -476,11 +476,10 @@
                   </div>
                   <div class="content">
                     <div class="search_aside_bar">
-                      <form class="form-horizontal">
+                      <form class="form-horizontal" @submit.prevent="searchResult()">
                         <div class="input-group search-input-group">
-                          <input type="hidden" name="scope" value="1" />
                           <input
-                            name="key"
+                            name="keywords"
                             autocomplete="off"
                             type="text"
                             v-model="keywords"
@@ -743,8 +742,8 @@ export default {
         pageSize: 10,
         pathName: "",
       },
-      articleList: [],
       articleTotal: 0,
+      articleList: [],
       pageNum: 9,
       sixNewArticle: [],
       allCategoryList: [],
@@ -760,6 +759,15 @@ export default {
     this.getArticleList(1);
     this.getSixNewArticle();
     this.getAllArticleCategory();
+    // document.onkeydown = function (e) {
+    //   // 回车提交表单
+    //   // 兼容FF和IE和Opera
+    //   var theEvent = window.event || e;
+    //   var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+    //   if (code == 13) {
+    //     this.searchResult();
+    //   }
+    // };
   },
   mounted() {
     //console.log("mounted")
@@ -773,17 +781,21 @@ export default {
       var total = this.articleTotal;
       var pageSize = this.queryParams.pageSize;
       var pageAllNum = total / pageSize;
-      if (pageNum == 0) {
+      this.queryParams.pageNum = pageNum;
+      if (pageNum <= 0) {
+        //console.log("页数等于0")
         this.queryParams.pageNum = 1;
-      } else if (pageNum) {
-        this.queryParams.pageNum = pageNum;
-      } else if (pageNum > Math.ceil(total / pageSize)) {
-        this.queryParams.pageNum = Math.ceil(total / pageSize);
+      } else if (total<=pageSize) {
+        //console.log("页数小于一")
+        this.queryParams.pageNum = 1;
+      } else if(pageNum >= Math.ceil(pageAllNum)){
+        //console.log("页数等于最大页数")
+        this.queryParams.pageNum = Math.ceil(pageAllNum);
       }
       //this.queryParams.pageSize=10;
       getGpArticlesByCategory(this.queryParams)
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           this.articleList = response.rows;
           this.articleTotal = response.total;
         })

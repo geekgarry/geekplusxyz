@@ -112,6 +112,15 @@ export function getGpArticlesByCategory(param) {
   })
 }
 
+// 搜索标题分页查询的文章列表
+export function selectGpArticlesListByKeyWords(param) {
+  return request({
+    url: '/geekplusapp/selectGpArticlesListByKeyWords',
+    method: 'get',
+    params:param
+  })
+}
+
 // 博客网站查询四加一大屏显示特别推荐的文章
 export function getFourPlusOneArticles(param) {
   return request({

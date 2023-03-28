@@ -151,11 +151,11 @@
                                     </form>
                                 </div> -->
                 <div class="search_aside_bar">
-                  <form class="form-horizontal">
+                  <form class="form-horizontal" @submit.prevent="searchResult()">
                     <div class="input-group search-input-group">
                       <input type="hidden" name="scope" value="1" />
                       <input
-                        name="key"
+                        name="keywords"
                         autocomplete="off"
                         type="text"
                         v-model="keywords"
@@ -177,10 +177,17 @@
                 class="panel-heading"
                 style="background: rgba(0, 0, 0, 0.0001)"
               >
-                <span class="glyphicon glyphicon-th"></span>&nbsp;分类
+                <span class="glyphicon glyphicon-th"></span>&nbsp;标签云图
               </div>
               <div class="panel-body" id="cat-list">
-                <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
+                <div style="margin:2px;" v-for="(item, index) in allTagArticleCount"
+                      :key="index">
+                    <router-link to="#" class="label label-info" > 
+                      {{ item.tagName ? item.tagName : "Java" }}
+                      <span class="badge">{{ item.articleCount != -1 ? item.articleCount : 1 }}</span>
+                    </router-link>
+                </div>
+                <!-- <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
                   >Linux系统编程<span class="badge badge-info"></span>
                 </a>
                 <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
@@ -196,9 +203,8 @@
                   >MySql<span class="badge badge-info"></span>
                 </a>
                 <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
-                  >生活<span class="badge badge-info"></span
-                  ><!-- type="button" -->
-                </a>
+                  >生活<span class="badge badge-info"></span>
+                </a> -->
               </div>
             </div>
             <div class="panel panel-default recommendlist">
@@ -275,17 +281,28 @@
 </template>
 
 <script>
-import { getAboutMyGpWeb } from "@/api/geekplus/geekplus";
+import { getAboutMyGpWeb, getTagArticleCount} from "@/api/geekplus/geekplus";
 export default {
   data() {
     return {
       userName: "",
       keywords: "",
       aboutMeData: "",
+      allTagArticleCount: [], //查询每个标签的文章数量
     };
   },
   created() {
     this.getAboutMeAndMyWeb();
+    this.getTagAndArticleCount();
+    // document.onkeydown = function (e) {
+    //   // 回车提交表单
+    //   // 兼容FF和IE和Opera
+    //   var theEvent = window.event || e;
+    //   var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+    //   if (code == 13) {
+    //     this.searchResult();
+    //   }
+    // };
   },
   mounted() {
     //var time=this.getNowDate();
@@ -305,6 +322,20 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+        });
+    },
+    getTagAndArticleCount() {
+      getTagArticleCount()
+        .then((response) => {
+          //console.log(response.data);
+          this.allTagArticleCount = response.data;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
         });
     },
     searchResult() {

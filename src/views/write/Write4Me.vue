@@ -130,11 +130,11 @@
             </div>
             <div class="text-center">
               <div class="search_aside_bar">
-                <form class="form-horizontal">
+                <form class="form-horizontal" @submit.prevent="searchResult()">
                   <div class="input-group search-input-group">
                     <input type="hidden" name="scope" value="1" />
                     <input
-                      name="key"
+                      name="keywords"
                       autocomplete="off"
                       type="text"
                       v-model="keywords"
@@ -273,6 +273,13 @@ export default {
     // setTimeout(()=>{},1000);
     this.getCategory();
     //console.log(Object.assign({}, [...this.listCategory]));
+    // document.addEventListener("keydown", (e) => {
+    //   let key = window.event.keyCode;
+    //   if (key == 13 && !this.keywords!='') {
+    //     // 13是enter键的键盘码 如果等于13 就调用click的登录方法
+    //     this.searchResult();
+    //   }
+    // });
   },
   beforeMount() {},
   mounted() {

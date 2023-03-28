@@ -336,11 +336,11 @@
                   <div class="title">站内搜索</div>
                   <div class="content">
                     <div class="search_aside_bar">
-                      <form class="form-horizontal">
+                      <form class="form-horizontal" @submit.prevent="searchResult()">
                         <div class="input-group search-input-group">
                           <input type="hidden" name="scope" value="1" />
                           <input
-                            name="key"
+                            name="keywords"
                             autocomplete="off"
                             type="text"
                             v-model="keywords"
@@ -736,6 +736,17 @@ export default {
     return {
       keywords: "",
     };
+  },
+  created(){
+    // document.onkeydown = function (e) {
+    //   // 回车提交表单
+    //   // 兼容FF和IE和Opera
+    //   var theEvent = window.event || e;
+    //   var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+    //   if (code == 13) {
+    //     this.searchResult();
+    //   }
+    // };
   },
   methods: {
     searchResult() {

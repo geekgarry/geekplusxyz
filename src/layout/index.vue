@@ -91,13 +91,14 @@
                   </button>
                 </span>
               </form> -->
-            <form>
+            <form @submit.prevent="searchResult()">
               <input
                 type="text"
                 class="form-control"
                 placeholder="请输入您要搜索的内容..."
                 name="keywords"
                 v-model="keywords"
+                @keyup.enter="searchResult()"
               />
               <button type="button">
                 <span
@@ -460,6 +461,26 @@ export default {
     }
   },
   mounted() {
+    // document.onkeydown = function (e){
+    //     if (e.defaultPrevented) {
+    //       return;
+    //     }
+    //     const body = document.getElementsByTagName('body')[0];
+    //     var theEvent = window.event || e;
+    //     var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+    //       // match(xxxx应填写文件在浏览器中的地址，不需要包括https、http或者www)，这里是为了防止其他页面触发
+    //     if (code === 13 && e.target === body) {
+    //           console.log("按下了回车键");
+    //           this.searchResult(); //需要调用的方法
+    //     }
+    // };
+    // document.addEventListener("keydown", (e) => {
+    //   let key = window.event.keyCode;
+    //   if (key == 13 && !this.keywords!='') {
+    //     // 13是enter键的键盘码 如果等于13 就调用click的登录方法
+    //     this.searchResult();
+    //   }
+    // });
     window.onscroll = () => {
       return (() => {
         var st =
@@ -752,7 +773,7 @@ export default {
         //this.$router.push("/search?keayword="+this.keywords);
         this.$router.push({
           path: "/search",
-          query: { keyword: this.keywords },
+          query: { keyword: this.keywords,},
         });
       }
       this.keywords = "";
