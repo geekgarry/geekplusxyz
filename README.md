@@ -1,5 +1,6 @@
 # geekplusxyz
 一个分享与发现的网站
+个人博客网站，使用Vue搭建，UI是使用bootstrap3，从传统的jquery的框架继承而来，目前迁移到vue框架，之后会使用完全的vueUI框架重写。
 
 ## Project setup
 ```
