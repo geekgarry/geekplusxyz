@@ -498,6 +498,21 @@ export default {
         }else if(this.contentScrollTop >= 200 && this.windowWidth > 767){
           window.document.body.style.paddingTop = "0";
           window.document.body.style.paddingBottom="0";
+          if (scroll < 0) {
+          this.topNavBarFixed =
+            "navbar navbar-default navbar-static-top animate__animated animate__zoomOutUp";
+            //that.navBarStyle = "margin-top:75px;";
+            //window.document.body.style.paddingTop = "70px";
+            //console.log("up");
+            //添加你想要的事件
+          } else {
+            this.topNavBarFixed =
+              "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+            //that.navBarStyle = "margin-top:75px;";
+            //window.document.body.style.paddingTop = "70px";
+            //添加你想要的事件
+            //console.log("down");
+          }
         }else if(this.contentScrollTop < 200 && this.windowWidth <= 767){
           this.topNavBarFixed =
             "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__fadeInUp";
@@ -506,7 +521,6 @@ export default {
         }else if(this.contentScrollTop >= 200 && this.windowWidth <= 767){
           window.document.body.style.paddingTop = "70px";
           window.document.body.style.paddingBottom="65px";
-        }else{
           if (scroll < 0) {
           this.topNavBarFixed =
             "navbar navbar-default navbar-static-top animate__animated animate__zoomOutUp";
