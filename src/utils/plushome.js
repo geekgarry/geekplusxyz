@@ -232,6 +232,47 @@ export function getHtmlValue(value) {
     // }
 }
 
+//输入一个整数，返回他从1开始的随机数，需要加1，否则就是返回从0开始到length-1
+export function someNumberCount(length) {
+    return Math.floor(Math.random() * length) + 1;
+}
+
+export function backToTop() {
+    let top = document.documentElement.scrollTop || document.body.scrollTop
+    // 实现滚动效果
+    const timeTop = setInterval(() => {
+        document.body.scrollTop = document.documentElement.scrollTop = top -= 30
+        if (top <= 0) {
+            clearInterval(timeTop)
+        }
+    }, 10)
+}
+
+// 返回顶部动画效果
+export function goToTop() {
+    var u = navigator.userAgent
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1 //android终端
+    var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) //ios终端
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    // 实现滚动效果
+    let speed = scrollTop / 10 // 每次滚动多少 （步长值）
+    const timeTop = setInterval(() => {
+        if (isIOS) {
+            if (document.documentElement.scrollTop !== 0) {
+                document.documentElement.scrollTop -= speed // 不在顶部 每次滚动到的位置
+            } else {
+                clearInterval(timeTop) // 回到顶部清除定时器
+            }
+        }
+        if (isAndroid) {
+            if (document.body.scrollTop != 0) {
+                document.body.scrollTop -= speed
+            } else {
+                clearInterval(timeTop)
+            }
+        }
+    }, 20)
+}
 // 转换字符串，undefined,null等转化为""
 export function praseStrEmpty(str) {
     if (!str || str == "undefined" || str == "null") {

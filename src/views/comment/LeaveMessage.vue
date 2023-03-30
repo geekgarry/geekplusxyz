@@ -405,7 +405,7 @@
                   id="s_github"
                   title="GitHub"
                   target="_blank"
-                  href="https://github.com/geekcjj"
+                  href="https://github.com/geekgarry"
                   data-toggle="tooltip"
                   data-placement="bottom"
                   data-original-title="GITHUB"
@@ -507,7 +507,7 @@
                   id="s_github"
                   title="GitHub"
                   target="_blank"
-                  href="https://github.com/geekcjj"
+                  href="https://github.com/geekgarry"
                   data-toggle="tooltip"
                   data-placement="bottom"
                   data-original-title="GITHUB"
@@ -597,16 +597,16 @@
               class="panel-heading"
               style="background: rgba(0, 0, 0, 0.0001)"
             >
-              <span class="glyphicon glyphicon-th"></span>&nbs云图标签孕吐
+              <span class="glyphicon glyphicon-th"></span>&nbsp;标签云图
             </div>
             <div class="panel-body" id="cat-list">
-              <div style="margin:2px;" v-for="(item, index) in allTagArticleCount"
+              <span style="display:inline-block;margin:2px;" v-for="(item, index) in allTagArticleCount"
                       :key="index">
-                    <router-link to="#" class="label label-info" > 
+                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="label label-info" > 
                       {{ item.tagName ? item.tagName : "Java" }}
                       <span class="badge">{{ item.articleCount != -1 ? item.articleCount : 1 }}</span>
                     </router-link>
-              </div>
+              </span>
               <!-- <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
                 >Linux系统编程<span class="badge badge-info"></span>
               </a>
@@ -913,9 +913,11 @@ export default {
           console.log(error);
         })
         .finally(() => {
-          this.afterBackToTop(100);
+          
         });
       this.leaveMessagePageNum = this.queryParams.pageNum;
+      //document.getElementsByClassName("leavewords-container")[0].scrollIntoView();
+      this.afterBackToTop();
     },
     getAllUserCommentMsg() {
       //let data = { parentId: 0, topicId: null };
@@ -1054,7 +1056,7 @@ export default {
       this.keywords = "";
     },
     //动态滚动到顶部
-    afterBackToTop(num) {
+    afterBackToTop() {
       //document.documentElement.scrollTop = 0;
       let top = document.documentElement.scrollTop || document.body.scrollTop;
       // 实现滚动效果
@@ -1062,7 +1064,7 @@ export default {
         document.body.scrollTop =
           document.documentElement.scrollTop =
           top -=
-            num;
+            33;
         if (top <= 0) {
           clearInterval(timeTop);
         }

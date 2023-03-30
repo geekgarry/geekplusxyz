@@ -14,15 +14,15 @@
                   <div class="art-item">
                     <div class="left-art-img">
                       <div class="art-img">
-                        <a href="#">
+                        <router-link :to="'/article/' + item.id">
                           <img
                             v-lazy="
                               item.indexPicture
                                 ? item.indexPicture
-                                : '/imgs/IMG_0541.JPG'
+                                : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
                             "
                           />
-                        </a>
+                        </router-link>
                         <!-- class="animated hover_" data-in="swing" data-out="pulse" -->
                         <div class="overlay hidden-sm hidden-xs">
                           <h2>
@@ -308,9 +308,9 @@
                   </div>
                 </article> -->
               </div>
-              <nav aria-label="Page navigation">
+              <nav aria-label="Page navigation" v-if="articleTotal!=0">
                 <ul class="pagination">
-                  <li :class="queryParams.pageNum == 1 ? 'disabled' : ''">
+                  <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
                     <a
                       href="javascript:void(0);"
                       @click="getArticleList(queryParams.pageNum - 1)"
@@ -424,14 +424,7 @@
                   <li><a href="javascript:void(0);">3</a></li>
                   <li><a href="javascript:void(0);">4</a></li>
                   <li><a href="javascript:void(0);">5</a></li> -->
-                  <li
-                    :class="
-                      queryParams.pageNum ==
-                      Math.ceil(articleTotal / queryParams.pageSize)
-                        ? 'disabled'
-                        : ''
-                    "
-                  >
+                  <li v-if="queryParams.pageNum != Math.ceil(articleTotal / queryParams.pageSize)" :class="queryParams.pageNum == Math.ceil(articleTotal / queryParams.pageSize) ? 'disabled' : ''">
                     <a
                       href="javascript:void(0);"
                       @click="getArticleList(queryParams.pageNum + 1)"
@@ -447,24 +440,8 @@
               <div class="right-fun">
                 <div class="alert alert-info alert-dismissible fade in">
                   <a href="#" class="close" data-dismiss="alert">&times;</a>
-                  博主自建并正在使用的书单已经放到
-                  <a
-                    title=""
-                    href="https://mubu.com/doc/dlGWUevFA"
-                    target="_blank"
-                    data-original-title="个人书单"
-                    class="alert-link"
-                  >
-                    幕布</a
-                  >了，感兴趣的书友可以参考一下。另外，顺便安利一下
-                  <a
-                    title=""
-                    href="https://mubu.com/inv/44164"
-                    target="_blank"
-                    data-original-title="注册地址"
-                    class="alert-link"
-                    >幕布 </a
-                  >这个工具，它可以用来整理思维大纲，自动生成好看的思维导图，你值得拥有！
+                  <span v-if="oneNewNotice" v-html="oneNewNotice.noticeContent"></span>
+                  <span v-else >这是我的个人博客，主要是对所学知识的梳理和总结，同时也希望能够帮到其他同学。</span>
                 </div>
                 <div class="model hidden-xs">
                   <div class="title">
@@ -562,7 +539,7 @@
                         id="s_github"
                         title="GitHub"
                         target="_blank"
-                        href="https://github.com/geekcjj"
+                        href="https://github.com/geekgarry"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         data-original-title="GITHUB"
@@ -637,7 +614,7 @@
                         v-for="(item, index) in allCategoryList"
                         :key="index"
                       >
-                        <router-link :to="'/articleList/' + item.path">{{
+                        <router-link :to="'/articleCategory/' + item.path">{{
                           item.categoryName
                             ? item.categoryName
                             : "编程技术&nbsp;(13)"
@@ -679,7 +656,7 @@
                     <!-- <div class="model recommend">
                                 						                            <div class="title">热门推荐</div>
                                 						                            <div class="content"> -->
-                    <p v-for="(item, index) in sixNewArticle" :key="index">
+                    <p v-for="(item, index) in tenNewArticle" :key="index">
                       <a href="javascript:void(0);" @click="
                           $router.push({
                             name: 'article',
@@ -728,8 +705,9 @@
 import MKLogo from "@/assets/icon/mai.png";
 import {
   getGpArticlesByCategory,
-  getSixNewestArticle,
+  getTenNewestArticle,
   listSubCategory,
+  getGpNoticeNewOne,
 } from "@/api/geekplus/geekplus";
 export default {
   name: "ArticleListPage",
@@ -745,20 +723,25 @@ export default {
       articleTotal: 0,
       articleList: [],
       pageNum: 9,
-      sixNewArticle: [],
+      tenNewArticle: [],
       allCategoryList: [],
+      oneNewNotice:{},
+      categoryName:'',
     };
   },
   created() {
     this.$router.onReady(() => {
       //console.log(this.$route.path);
       this.queryParams.pathName = this.$route.params.categoryPath;
+      window.document.title=this.queryParams.pathName+"文章列表 | 极客普拉斯&梦极客园" || "极客普拉斯&梦极客园-geekplus.xyz";
     });
     // console.log(this.$route.params.categoryPath);
-    // console.log(this.queryParams.pathName);
+    //console.log(this.categoryName);
+    //console.log(this.queryParams.pathName);
     this.getArticleList(1);
-    this.getSixNewArticle();
+    this.getTenNewArticle();
     this.getAllArticleCategory();
+    this.getOneNewestNotice();
     // document.onkeydown = function (e) {
     //   // 回车提交表单
     //   // 兼容FF和IE和Opera
@@ -806,13 +789,14 @@ export default {
             theme: "bubble",
           });
         });
+      this.backToTop();
     },
-    getSixNewArticle() {
-      let data = { isDisplay: 1 };
-      getSixNewestArticle(data)
+    getTenNewArticle() {
+      let data = {};
+      getTenNewestArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.sixNewArticle = response.data;
+          this.tenNewArticle = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)
@@ -846,6 +830,14 @@ export default {
       }
       this.keywords = "";
     },
+    getOneNewestNotice(){
+      getGpNoticeNewOne().then((response) =>{
+        this.oneNewNotice=response.data;
+      });
+    },
+  },
+  destroyed(){
+
   },
 };
 </script>

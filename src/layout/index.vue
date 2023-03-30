@@ -114,6 +114,7 @@
           <ul class="nav navbar-nav navbar-left navbar_ul">
             <li :class="keyPath == '/' ? 'menuactive' : ''">
               <router-link to="/">
+                <!-- <i class="fa fa-home" /> -->
                 <a href="javascript:void(0)">首页</a>
               </router-link>
             </li>
@@ -133,7 +134,7 @@
                 <ul class="nav-pills nav-stacked">
                   <li
                     :class="
-                      keyPath == item.path + '/' + subitem.path
+                      keyPath == '/articleCategory/' + subitem.path
                         ? 'menuactive'
                         : ''
                     "
@@ -141,10 +142,7 @@
                     :key="index"
                   >
                     <router-link
-                      :to="{
-                        name: 'articleListPage',
-                        params: { categoryPath: subitem.path },
-                      }"
+                      :to="'/articleCategory/'+subitem.path"
                     >
                       <a href="javascript:void(0)">{{
                         subitem.categoryName
@@ -255,7 +253,7 @@
         </div>
       </div> -->
     <nav
-      class="navbar navbar-default navbar-fixed-bottom visible-xs visible-sm"
+      class="navbar navbar-default navbar-fixed-bottom visible-xs"
     >
       <div class="container">
         <div class="row">
@@ -458,6 +456,7 @@ export default {
       this.topNavBarFixed =
         "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
       window.document.body.style.paddingTop = "70px";
+      window.document.body.style.paddingBottom="65px"
     }
   },
   mounted() {
@@ -490,45 +489,41 @@ export default {
         // 页面滚动距顶部距离
         var scroll = st - this.contentScrollTop;
         this.contentScrollTop = st;
-        if (scroll < 0) {
-          this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top animate__animated animate__slideInDown";
-          //that.navBarStyle = "margin-top:75px;";
-          //window.document.body.style.paddingTop = "70px";
-          //console.log("up");
-          //添加你想要的事件
-        } else {
-          this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
-          //that.navBarStyle = "margin-top:75px;";
-          window.document.body.style.paddingTop = "70px";
-          //添加你想要的事件
-          //console.log("down");
-        }
-        this.contentScrollTop = st;
-        //console.log("实时页面滚动高度："+st);
-        if (this.contentScrollTop > 550 && this.windowWidth > 767) {
-          this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
-          //that.navBarStyle = "margin-top:75px;";
-          window.document.body.style.paddingTop = "70px";
-          //console.log("1111")
-        } else if (this.contentScrollTop < 450 && this.windowWidth > 767) {
+        //console.log("实时页面滚动高度："+st);this.contentScrollTop < 200 && 
+        if (this.contentScrollTop < 200 && this.windowWidth > 767) {
           this.topNavBarFixed =
             "navbar navbar-default navbar-static-top animate__animated animate__fadeInUp";
-          //that.navBarStyle = "margin-top:0px;";
           window.document.body.style.paddingTop = "0";
-          //console.log("2222")
-        } else if (
-          (this.contentScrollTop > 770 || this.contentScrollTop < 150) &&
-          this.windowWidth <= 767
-        ) {
+          window.document.body.style.paddingBottom="0";
+        }else if(this.contentScrollTop >= 200 && this.windowWidth > 767){
+          window.document.body.style.paddingTop = "0";
+          window.document.body.style.paddingBottom="0";
+        }else if(this.contentScrollTop < 200 && this.windowWidth <= 767){
           this.topNavBarFixed =
             "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__fadeInUp";
-          //that.navBarStyle = "margin-top:0px;";
           window.document.body.style.paddingTop = "70px";
-          //console.log("3333")
+          window.document.body.style.paddingBottom="65px";
+        }else if(this.contentScrollTop >= 200 && this.windowWidth <= 767){
+          window.document.body.style.paddingTop = "70px";
+          window.document.body.style.paddingBottom="65px";
+        }else{
+          if (scroll < 0) {
+          this.topNavBarFixed =
+            "navbar navbar-default navbar-static-top animate__animated animate__zoomOutUp";
+            //that.navBarStyle = "margin-top:75px;";
+            //window.document.body.style.paddingTop = "70px";
+            //console.log("up");
+            //添加你想要的事件
+          } else {
+            this.topNavBarFixed =
+              "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+            //that.navBarStyle = "margin-top:75px;";
+            //window.document.body.style.paddingTop = "70px";
+            //添加你想要的事件
+            //console.log("down");
+          }
         }
+        
         if (this.contentScrollTop > 777) {
           //判断滚动后高度超过750px,就显示
           //backToTop.fadeIn(1100);//淡入
@@ -641,7 +636,7 @@ export default {
       let queryParams = { id: 1 };
       getGpWebTitleInfo(queryParams)
         .then((response) => {
-          console.log(response);
+          console.log(response.data.gpWebName);
           this.webHeaderFooterInfo = response.data;
         })
         .catch((error) => {
@@ -693,24 +688,27 @@ export default {
     //从Vue路由配置js中拿到路由信息，并做处过滤加入顶部导航菜单，本地无需配置路由，后台管理处配置
     getRouterMneuList() {
       let that = this;
-      let tempMenuList = new Array();
       // let matched = this.$route.matched.filter(
       //   (item) => item.meta && item.meta.title
       // );
-      tempMenuList = that.$router.options.routes.filter(
-        (item) => item.type === "layout"
+      let tempMenuList = that.$router.options.routes.filter(
+        (item) => { return item.type == "layout"}
       );
+      console.log(tempMenuList);
       //that.menuList=getChildrenPath();
       //console.log(that.menuList.length)
       // deep(mmm).forEach((item) => {
       //   console.log(item)
       // });
-      tempMenuList.forEach(function (value, index, array) {
-        //code something
-        console.log(value.children.length);
-        that.menuList = value.children.filter((item) => item.type === "menu");
-      });
-      console.log(tempMenuList[0].children);
+      let menuLList = tempMenuList[0].children;
+      console.log(menuLList);
+      for(var i=0;i<menuLList.length;i++){
+        let item = menuLList[i];
+        if(item.type=='servermenu'){
+          console.log(item)
+        }
+      }
+      
       //that.menuList=store.state.menuList;
       //that.menuList=menuResult
       // that.menuList.filter(
@@ -720,6 +718,7 @@ export default {
       // this.menuList = matched.filter(
       //   (item) => item.meta && item.meta.title && item.meta.breadcrumb !== false
       // );
+      //console.log(menuLList)
     },
     //获取路径的面包屑，首页/其他页/其他页
     getBreadcrumb() {
@@ -750,6 +749,7 @@ export default {
     },
     //直接获取后台导航的菜单，并加入顶部导航栏
     getGeekplusCategory() {
+      //getChildrenPath();
       listSubParentCategory()
         .then((response) => {
           //console.log(response);
@@ -766,7 +766,7 @@ export default {
         .finally(() => {
           //console.log("获取失败");
         });
-      //getChildrenPath();
+      
     },
     searchResult() {
       if (this.keywords !== "") {

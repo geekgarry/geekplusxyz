@@ -50,7 +50,7 @@
           </div>
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h6>评论:</h6>
+              <h6>评论:(文章评论功能没有上线，请到<router-link to="/leaveMessage">给我留言</router-link>页面)</h6>
               <div class="comments_input_area">
                 <div class="row">
                   <div class="col-lg-4 col--md-4 col-sm-4">
@@ -152,11 +152,18 @@
                 标签云图
               </div>
               <div class="panel-body">
-                <router-link class="btn btn-info" type="text" to="#"
+                <!-- <router-link class="btn btn-info" type="text" to="#"
                    v-for="item,index in allTagArticleCount" :key="index" >
                    {{item.tagName?item.tagName:'Java'}}
                    <span class="badge badge-info">{{item.articleCount!=-1?item.articleCount:1}}</span>
-                </router-link>
+                </router-link> -->
+                <span style="display:inline-block;margin:2px;" v-for="(item, index) in allTagArticleCount"
+                      :key="index">
+                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="label label-info" > 
+                      {{ item.tagName ? item.tagName : "Java" }}
+                      <span class="badge">{{ item.articleCount != -1 ? item.articleCount : 1 }}</span>
+                    </router-link>
+                </span>
                 <!-- <a style="margin-bottom: 3px"
                   type="button"
                   class="btn btn-primary btn-sm" >
@@ -248,7 +255,7 @@
                 <!-- <div class="model recommend">
                             <div class="title">热门推荐</div>
                             <div class="content"> -->
-                <p v-for="(item, index) in sixNewArticle" :key="index">
+                <p v-for="(item, index) in tenNewArticle" :key="index">
                   <a href="javascript:void(0);"
                     @click="
                       $router.push({
@@ -301,7 +308,7 @@
 import {
   getArticleDetail,
   getArticleDetailIsDisplay,
-  getSixNewestArticle,
+  getTenNewestArticle,
   listSubCategory,
   getTagArticleCount,
 } from "@/api/geekplus/geekplus";
@@ -328,7 +335,7 @@ export default {
         updateTime: "2023-03-21 17:32:28",
         viewCount: null,
       },
-      sixNewArticle: [],
+      tenNewArticle: [],
       allCategoryList: [],
       allTagArticleCount:[],
     };
@@ -336,7 +343,7 @@ export default {
   created() {
     this.getArticle();
     //console.log(this.$route.params.articleId);
-    this.getSixNewArticle();
+    this.getTenNewArticle();
     this.getAllArticleCategory();
     this.getTagAndArticleCount();
     // document.onkeydown = function (e) {
@@ -350,6 +357,11 @@ export default {
     // };
   },
   mounted() {},
+  activated(){
+    window.document.title =
+            this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
+            "极客普拉斯&梦极客园-geekplus.xyz";
+  },
   methods: {
     getArticle() {
       let that=this;
@@ -360,7 +372,7 @@ export default {
           that.articleInfo = response.data;
           //console.log(this.articleInfo.articleTitle)
           window.document.title =
-            this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
+          that.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
             "极客普拉斯&梦极客园-geekplus.xyz";
         })
         .catch((error) => {
@@ -371,12 +383,12 @@ export default {
           });
         });
     },
-    getSixNewArticle() {
+    getTenNewArticle() {
       let data = { isDisplay: 1 };
-      getSixNewestArticle(data)
+      getTenNewestArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.sixNewArticle = response.data;
+          this.tenNewArticle = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)

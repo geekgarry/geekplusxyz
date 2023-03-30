@@ -28,7 +28,7 @@
       <div class="container">
         <section class="row">
           <div class="col-lg-9 col-md-9 animated slideInLeft">
-            <div class="my-blog-inform">
+            <!-- <div class="my-blog-inform">
               <div class="inform-span-head">
                 <span class="glyphicon glyphicon-bullhorn"></span>
               </div>
@@ -37,7 +37,7 @@
                   >欢迎来到梦极客园!这里有知识,有梦想,有兴趣,有心情,有生活!坚持自我,不是为了彰显自己,而是为了不被这个世界改变!!!!!!</span
                 >
               </div>
-            </div>
+            </div> -->
             <div class="my-blog-utilities">
               <div class="some-useful-tools"></div>
             </div>
@@ -52,7 +52,7 @@
                           v-lazy="
                             oneIndexArticle.indexPicture != ''
                               ? oneIndexArticle.indexPicture
-                              : '/imgs/ChMlWl0u8wCIHuEaAAdIaEpOtlQAAL4fwFRPPMAB0iA385.jpg'
+                              : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
                           "
                         />
                         <span class="entry-wrapper">
@@ -89,7 +89,7 @@
                               v-lazy="
                                 item.indexPicture
                                   ? item.indexPicture
-                                  : '/imgs/ChMlWl0u8xCIJbgPAAFwuwZ4mHUAAL4gABSWUYAAXDT092.jpg'
+                                  : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
                               "
                             />
                             <span class="entry-wrapper">
@@ -186,18 +186,18 @@
                   :key="index"
                 >
                   <div class="index-newtalk-list">
-                    <a>
+                    <router-link :to="'/article/' + item.id">
                       <i>
                         <img
                           alt=""
                           v-lazy="
                             item.indexPicture
                               ? item.indexPicture
-                              : '/imgs/ChMlWl0u8yuIA4eeAANiIvCoMFEAAL4gQBsYywAA2I6970.jpg'
+                              : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
                           "
                         />
                       </i>
-                    </a>
+                    </router-link>
                     <div>
                       <h3>
                         <router-link :to="'/article/' + item.id">
@@ -353,15 +353,15 @@
                 <div class="art-item">
                   <div class="left-art-img">
                     <div class="art-img">
-                      <a href="#">
+                      <router-link :to="'/article/' + item.id">
                         <img
                           v-lazy="
                             item.indexPicture
                               ? item.indexPicture
-                              : '/imgs/ChMkJlXVQXKIKzCsAAaeJs-t2BQAAAUwwO6VAIABp4-885.jpg'
+                              : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
                           "
                         />
-                      </a>
+                      </router-link>
                       <!-- class="animated hover_" data-in="swing" data-out="pulse" -->
                       <div class="overlay hidden-sm hidden-xs">
                         <h2>
@@ -628,9 +628,9 @@
                 </div>
               </article> -->
             </div>
-            <nav aria-label="Page navigation">
+            <nav aria-label="Page navigation" v-if="articleTotal!=0">
               <ul class="pagination">
-                <li :class="queryParams.pageNum == 1 ? 'disabled' : ''">
+                <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
                   <a
                     href="javascript:void(0);"
                     @click="getIndexAllArticleList(queryParams.pageNum - 1)"
@@ -744,7 +744,7 @@
                 <li><a href="javascript:void(0);">3</a></li>
                 <li><a href="javascript:void(0);">4</a></li>
                 <li><a href="javascript:void(0);">5</a></li> -->
-                <li
+                <li v-if="queryParams.pageNum != Math.ceil(articleTotal / queryParams.pageSize)"
                   :class="
                     queryParams.pageNum ==
                     Math.ceil(articleTotal / queryParams.pageSize)
@@ -767,9 +767,10 @@
             <div class="right-fun">
               <div class="alert alert-info alert-dismissible fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                这是我的个人博客，主要是对所学知识的梳理和总结，同时也希望能够帮到其他同学。
-                另外，本博客分享过的图书，绝大部分我这里都有适合<b>Kindle</b>阅读的电子版，
-                因为版权原因现在不再公开分享，有需要的同学可以给我发邮件私下交流，无偿分享。
+                <span v-if="oneNewNotice" v-html="oneNewNotice.noticeContent"></span>
+                <span v-else >这是我的个人博客，主要是对所学知识的梳理和总结，同时也希望能够帮到其他同学。</span>
+                <!-- 另外，本博客分享过的图书，绝大部分我这里都有适合<b>Kindle</b>阅读的电子版，
+                因为版权原因现在不再公开分享，有需要的同学可以给我发邮件私下交流，无偿分享。 -->
               </div>
               <!-- <div class="alert alert-info alert-dismissible fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -981,7 +982,7 @@
                           v-lazy="
                             item.indexPicture
                               ? item.indexPicture
-                              : 'imgs/IMG_0541.JPG'
+                              : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
                           "
                         />
                         <span>{{
@@ -995,7 +996,7 @@
                             v-lazy="
                               item.indexPicture
                                 ? item.indexPicture
-                                : 'imgs/IMG_0541.JPG'
+                                : require('@/assets/img/cover3.jpeg')
                             "
                         /></i>
                         <p>
@@ -1048,13 +1049,13 @@
                   <span class="glyphicon glyphicon-th"></span>&nbsp;标签云图
                 </div>
                 <div class="panel-body" id="cat-list">
-                  <div style="margin:2px;" v-for="(item, index) in allTagArticleCount"
+                  <span style="display:inline-block;margin:2px;" v-for="(item, index) in allTagArticleCount"
                       :key="index">
-                    <router-link to="#" class="label label-info" > 
+                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="label label-info" > 
                       {{ item.tagName ? item.tagName : "Java" }}
                       <span class="badge">{{ item.articleCount != -1 ? item.articleCount : 1 }}</span>
                     </router-link>
-                  </div>
+                  </span>
                   <!-- <a class="btn btn-info"
                     >Python<span class="badge badge-info">2</span>
                   </a>
@@ -1097,7 +1098,7 @@
                   <!-- <div class="model recommend">                                                                       <div class="title">热门推荐</div>						                            <div class="content"> -->
                   <div class="fastmenu">
                     <span v-for="(item, index) in allCategoryList" :key="index">
-                      <router-link :to="'/articleList/' + item.path">{{
+                      <router-link :to="'/articleCategory/' + item.path">{{
                         item.categoryName
                           ? item.categoryName
                           : "编程技术&nbsp;(13)"
@@ -1159,7 +1160,7 @@
                   <!-- <div class="model recommend">
                     <div class="title">热门推荐</div>
                   <div class="content"> -->
-                  <p v-for="(item, index) in sixNewArticle" :key="index">
+                  <p v-for="(item, index) in tenNewArticle" :key="index">
                     <a
                       href="javascript:void(0);"
                       @click="
@@ -1214,13 +1215,14 @@ import {
   getcCarousel,
   getcovid,
   get163coviddata,
-  getSixNewestArticle,
+  getTenNewestArticle,
   getFourPlusOneArticles,
   getIndexAllCategoryArticleList,
   getArticleCategoryListByPath,
   getArticlesByCategoryLimit,
   listSubCategory,
   getTagArticleCount,
+  getGpNoticeNewOne,
 } from "@/api/geekplus/geekplus";
 import { getcMaike } from "@/api/test";
 
@@ -1260,7 +1262,7 @@ export default {
       allCategoryList: [],
       allTagArticleCount: [], //查询每个标签的文章数量
       asideSixArticle1: [], //首页侧边六条文章面板
-      sixNewArticle: [], //侧边最热六条文章面板
+      tenNewArticle: [], //侧边最热六条文章面板
       sixRecommendArticle: [], //首页六条大屏推荐文章
       oneIndexArticle: {}, //首页4+1文章
       fourIndexArticle: [], //首页4+1文章
@@ -1270,6 +1272,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
       },
+      oneNewNotice:{},
     };
   },
   created() {
@@ -1283,13 +1286,14 @@ export default {
       dataTouch: true,
       dataInterval: 3000,
     };
-    this.getSixNewArticle();
+    this.getTenNewArticle();
     this.getSixRecommendArticle();
     this.getFourPlusOneArticles();
     this.getIndexAllArticleList(this.queryParams.pageNum);
     this.getAllArticleCategory();
     this.getSixSameCategoryArticle1();
     this.getTagAndArticleCount();
+    this.getOneNewestNotice();
     // document.onkeydown = function (e) {
     //   // 回车提交表单
     //   // 兼容FF和IE和Opera
@@ -1301,7 +1305,7 @@ export default {
     // };
   },
   mounted() {
-    this.indexTextInfo = document.getElementsByClassName("text-info")[0];
+    //this.indexTextInfo = document.getElementsByClassName("text-info")[0];
     this.carouselSlideParams = {
       dataRide: "carousel",
       dataPause: true,
@@ -1311,7 +1315,7 @@ export default {
     //console.log(this.$refs.indexTextInfo)
     //console.log(document.getElementsByClassName("text-info")[0])
     //setInterval(this.marquee(), 1000);
-    setTimeout(this.marquee(this.indexTextInfo), 1000);
+    //setTimeout(this.marquee(this.indexTextInfo), 1000);
     //document.getElementById('myESlideShow')[0].carousel({ interval: 2000})
   },
   watch: {},
@@ -1366,6 +1370,13 @@ export default {
           console.log(error);
         });
     },
+    getArticleListForTag(tagName) {
+        //this.$router.push("/search?keayword="+this.keywords);
+        this.$router.push({
+          path: "/articleList/tag",
+          query: { tagName: tagName },
+        });
+    },
     searchResult() {
       if (this.keywords !== "") {
         //this.$router.push("/search?keayword="+this.keywords);
@@ -1393,12 +1404,12 @@ export default {
           });
         });
     },
-    getSixNewArticle() {
-      let data = { isDisplay: 1 };
-      getSixNewestArticle(data)
+    getTenNewArticle() {
+      let data = {};
+      getTenNewestArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.sixNewArticle = response.data;
+          this.tenNewArticle = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)
@@ -1453,7 +1464,7 @@ export default {
       }
       getIndexAllCategoryArticleList(this.queryParams)
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           this.indexAllArticle = response.rows;
           this.articleTotal=response.total;
         })
@@ -1464,6 +1475,7 @@ export default {
             theme: "bubble",
           });
         });
+      this.backToTopIndex();
     },
     getAllArticleCategory() {
       listSubCategory()
@@ -1493,6 +1505,11 @@ export default {
           });
         });
     },
+    getOneNewestNotice(){
+      getGpNoticeNewOne().then((response) =>{
+        this.oneNewNotice=response.data;
+      });
+    },
     // test() {
     //   this.axios
     //     .get("https://maikeadmin.geekplus.xyz:8443/geekplus/getCarousel")
@@ -1504,6 +1521,16 @@ export default {
     //       console.log(error);
     //     });
     // },
+    backToTopIndex() {
+    let top = document.documentElement.scrollTop || document.body.scrollTop
+    // 实现滚动效果
+    const timeTop = setInterval(() => {
+        document.body.scrollTop = document.documentElement.scrollTop = top -= 30
+        if (top <= 650) {
+            clearInterval(timeTop)
+        }
+    }, 10)
+}
   },
   destroyed() {
     //console.log("销毁！")

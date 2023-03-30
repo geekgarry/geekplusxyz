@@ -94,7 +94,7 @@
                           <img
                             alt="我的QQ"
                             class="qq-image-code"
-                            src="../../assets/img/mysocialQRCode/QQCode.jpg"
+                            src="/imgs/mysocialQRCode/QQCode.jpg"
                           />
                         </div>
                       </div>
@@ -116,7 +116,7 @@
                           <img
                             alt="我的微信"
                             class="weixin-image-code"
-                            src="../../assets/img/mysocialQRCode/WexinCode.jpg"
+                            src="/imgs/mysocialQRCode/WexinCode.jpg"
                           />
                         </div>
                       </div>
@@ -180,13 +180,13 @@
                 <span class="glyphicon glyphicon-th"></span>&nbsp;标签云图
               </div>
               <div class="panel-body" id="cat-list">
-                <div style="margin:2px;" v-for="(item, index) in allTagArticleCount"
+                <span style="display:inline-block;margin:2px;" v-for="(item, index) in allTagArticleCount"
                       :key="index">
-                    <router-link to="#" class="label label-info" > 
+                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="label label-info" > 
                       {{ item.tagName ? item.tagName : "Java" }}
                       <span class="badge">{{ item.articleCount != -1 ? item.articleCount : 1 }}</span>
                     </router-link>
-                </div>
+                </span>
                 <!-- <a style="margin-bottom: 3px" class="btn btn-default btn-sm"
                   >Linux系统编程<span class="badge badge-info"></span>
                 </a>
@@ -217,11 +217,17 @@
               <div class="panel-body">
                 <!-- <div class="model recommend">                                                                         						                            <div class="title">热门推荐</div>						                            <div class="content"> -->
                 <div class="fastmenu">
-                  <span><a href="http://www.maikete.com">文章博客</a></span>
+                  <span v-for="(item, index) in allCategoryList"
+                    :key="index" >
+                    <router-link :to="'/articleCategory/' + item.path">
+                      {{ item.categoryName ? item.categoryName : "编程技术&nbsp;(13)" }}
+                    </router-link>
+                  </span>
+                  <!-- <span><a href="http://www.maikete.com">文章博客</a></span>
                   <span><a href="http://www.maikete.com">新闻资讯</a></span>
                   <span><a href="http://www.maikete.com">资源文件</a></span>
                   <span><a href="http://www.maikete.com">格物生活</a></span>
-                  <span><a href="http://www.maikete.com">给我留言</a></span>
+                  <span><a href="http://www.maikete.com">给我留言</a></span> -->
                 </div>
               </div>
             </div>
@@ -244,9 +250,17 @@
               </div>
               <div class="panel-body recommendlist">
                 <!-- <div class="model recommend">
-                            <div class="title">热门推荐</div>
-                            <div class="content"> -->
-                <p>
+                  <div class="title">热门推荐</div>
+                <div class="content"> -->
+                <p v-for="(item, index) in tenNewArticle" :key="index">
+                  <a href="javascript:void(0);" @click="$router.push({
+                          name: 'article',
+                          params: { articleId: item.id },
+                        }) ">
+                    {{ item.articleTitle ? item.articleTitle : "dw个人网页模板作业成品" }}
+                  </a>
+                </p>
+                <!-- <p>
                   <a href="http://www.youtiy.com/detail_317.html"
                     >dw个人网页模板作业成品</a
                   >
@@ -270,7 +284,7 @@
                   <a href="http://www.youtiy.com/detail_377.html"
                     >一个完整的html网页设计代码免费下载</a
                   >
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
@@ -281,7 +295,7 @@
 </template>
 
 <script>
-import { getAboutMyGpWeb, getTagArticleCount} from "@/api/geekplus/geekplus";
+import { getAboutMyGpWeb, getTagArticleCount,getTenNewestArticle,listSubCategory,} from "@/api/geekplus/geekplus";
 export default {
   data() {
     return {
@@ -289,10 +303,14 @@ export default {
       keywords: "",
       aboutMeData: "",
       allTagArticleCount: [], //查询每个标签的文章数量
+      tenNewArticle:[],
+      allCategoryList:[],
     };
   },
   created() {
     this.getAboutMeAndMyWeb();
+    this.getTenNewArticle();
+    this.getAllArticleCategory();
     this.getTagAndArticleCount();
     // document.onkeydown = function (e) {
     //   // 回车提交表单
@@ -306,7 +324,7 @@ export default {
   },
   mounted() {
     //var time=this.getNowDate();
-    console.log(this.getNowDate());
+    //console.log(this.getNowDate());
   },
   methods: {
     getNowDateTime() {
@@ -329,6 +347,35 @@ export default {
         .then((response) => {
           //console.log(response.data);
           this.allTagArticleCount = response.data;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
+    },
+    getTenNewArticle() {
+      let data = {};
+      getTenNewestArticle(data)
+        .then((response) => {
+          //console.log(response.data);
+          this.tenNewArticle = response.data;
+        })
+        .catch((error) => {
+          //console.log(error.msg)
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
+    },
+    getAllArticleCategory() {
+      listSubCategory()
+        .then((response) => {
+          this.allCategoryList = response.data;
         })
         .catch((error) => {
           this.$toasted.error(error.msg, {

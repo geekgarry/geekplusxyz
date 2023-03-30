@@ -3,7 +3,7 @@
     <div class="banner_bar">
       <div class="container">
         <div id="page-header ">
-          <h3 class="text-center">“ {{ $route.query.keyword }} ”</h3>
+          <h3 class="text-center">“ {{ $route.query.tagName }} ”</h3>
         </div>
       </div>
     </div>
@@ -167,7 +167,7 @@
                   <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
                     <a
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(queryParams.pageNum - 1)"
+                      @click="getArticleList(queryParams.pageNum - 1)"
                       aria-label="Previous"
                     >
                       <span aria-hidden="true">&laquo;</span>
@@ -184,7 +184,7 @@
                     <a
                       v-if="queryParams.pageNum <= 4 && pageNumber <= 9"
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -193,7 +193,7 @@
                         pageNumber == queryParams.pageNum - 4
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -202,7 +202,7 @@
                         pageNumber == queryParams.pageNum - 3
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -211,7 +211,7 @@
                         pageNumber == queryParams.pageNum - 2
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -220,7 +220,7 @@
                         pageNumber == queryParams.pageNum - 1
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -229,7 +229,7 @@
                         pageNumber == queryParams.pageNum
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -238,7 +238,7 @@
                         pageNumber == queryParams.pageNum + 1
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -247,7 +247,7 @@
                         pageNumber == queryParams.pageNum + 2
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -256,7 +256,7 @@
                         pageNumber == queryParams.pageNum + 3
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                     <a
@@ -265,13 +265,13 @@
                         pageNumber == queryParams.pageNum + 4
                       "
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(pageNumber)"
+                      @click="getArticleList(pageNumber)"
                       >{{ pageNumber }}
                     </a>
                   </li>
                   <!-- <li >
                     <a v-for="index in Math.ceil(articleTotal / queryParams.pageSize)" :key="index" 
-                     href="javascript:void(0);" @click="searchGpArticlesList(index)">{{index}}
+                     href="javascript:void(0);" @click="getArticleList(index)">{{index}}
                     </a>
                   </li> -->
                   <!-- <li><a href="javascript:void(0);">2</a></li>
@@ -288,7 +288,7 @@
                   >
                     <a
                       href="javascript:void(0);"
-                      @click="searchGpArticlesList(queryParams.pageNum + 1)"
+                      @click="getArticleList(queryParams.pageNum + 1)"
                       aria-label="Next"
                     >
                       <span aria-hidden="true">&raquo;</span>
@@ -325,7 +325,6 @@
                             v-model="keywords"
                             class="form-control"
                             placeholder="输入搜索关键字"
-                            @keyup.enter="searchResultForResult()"
                           />
                           <span class="input-group-addon">
                             <button
@@ -677,17 +676,21 @@ import {
   selectGpArticlesListByKeyWords,
   getTenNewestArticle,
   listSubCategory,
+  selectArticleListForTag,
   getTagArticleCount,
   getGpNoticeNewOne,
 } from "@/api/geekplus/geekplus";
 export default {
   data() {
     return {
-      keywords: "",
+      keywords:'',
+      tagName: '',
       queryParams: {
+        
+        tagName: '',
+        tagId:null,
         pageNum: 1,
         pageSize: 10,
-        articleTitle: "",
       },
       articleList: [],
       articleTotal: 0,
@@ -700,11 +703,11 @@ export default {
   },
   created() {
     this.$router.onReady(() => {
-      this.keywords = this.$route.query.keyword;
-      window.document.title = this.keywords + " | 搜索-极客普拉斯&梦极客园" ||
+      this.tagName = this.$route.query.tagName;
+      window.document.title = this.tagName + " | 文章标签-极客普拉斯&梦极客园" ||
             "极客普拉斯&梦极客园-geekplus.xyz";
     });
-    //console.log(this.keywords)
+    //console.log(this.tagName)
     // document.onkeydown = function (e) {
     //   // 回车提交表单
     //   // 兼容FF和IE和Opera
@@ -714,10 +717,10 @@ export default {
     //     this.searchResultForResult();
     //   }
     // };
-    this.searchGpArticlesList(1);
+    this.getArticleList(1);
     this.getTenNewArticle();
-    this.getTagAndArticleCount();
     this.getAllArticleCategory();
+    this.getTagAndArticleCount();
     this.getOneNewestNotice();
   },
   mounted(){
@@ -731,28 +734,27 @@ export default {
     // });
   },
   watch:{
-    keywords(newVal,oldVal){
-      //console.log(this.keywords);
+    tagName(newVal,oldVal){
+      //console.log(this.tagName);
       //console.log(newVal, oldVal);
-      this.searchGpArticlesList(1);
-      window.document.title = this.keywords + " | 搜索-极客普拉斯&梦极客园" ||
+      this.getArticleList(1);
+      window.document.title = this.tagName + " | 文章标签-极客普拉斯&梦极客园" ||
             "极客普拉斯&梦极客园-geekplus.xyz";
     },
     $route(to, from) {
       //console.log(to, from);
-      this.keywords = this.$route.query.keyword;
-      
+      this.tagName = this.$route.query.tagName;
     },
   },
   activated() { // 使用该生命周期方法可以解决第二次进入该页面数据不刷新问题
-    this.keywords = this.$route.query.keyword;
-    window.document.title = this.keywords + " | 搜索-极客普拉斯&梦极客园" ||
+    this.tagName = this.$route.query.tagName;
+    window.document.title = this.tagName + " | 文章标签-极客普拉斯&梦极客园" ||
             "极客普拉斯&梦极客园-geekplus.xyz";
     //console.log(this.keywords);
-    this.searchGpArticlesList(1)// 这个是获取列表数据的方法
+    this.getArticleList(1)// 这个是获取列表数据的方法
   },
   methods: {
-    searchGpArticlesList(pageNum) {
+    getArticleList(pageNum) {
       var total = this.articleTotal;
       var pageSize = this.queryParams.pageSize;
       var pageAllNum = total / pageSize;
@@ -767,9 +769,9 @@ export default {
         //console.log("页数等于最大页数");
         this.queryParams.pageNum = Math.ceil(pageAllNum);
       }
-      this.queryParams.articleTitle=this.$route.query.keyword;
+      this.queryParams.tagName=this.$route.query.tagName;
       //this.queryParams.pageSize=10;
-      selectGpArticlesListByKeyWords(this.queryParams)
+      selectArticleListForTag(this.queryParams)
         .then((response) => {
           //console.log(response);
           this.articleList = response.rows;
@@ -827,23 +829,15 @@ export default {
           });
         });
     },
-    getArticleListForTag(tagName) {
-        //this.$router.push("/search?keayword="+this.keywords);
-        this.$router.push({
-          path: "/articleList/tag",
-          query: { tagName: tagName },
-        });
-    },
     searchResultForResult() {
-      if (this.keywords !== '') {
+      if (this.keywords !== "") {
         //this.$router.push("/search?keayword="+this.keywords);
         this.$router.push({
           path: "/search",
           query: { keyword: this.keywords },
         });
       }
-      //this.searchGpArticlesList(1);
-      this.keywords = '';
+      this.keywords = "";
     },
     getOneNewestNotice(){
       getGpNoticeNewOne().then((response) =>{

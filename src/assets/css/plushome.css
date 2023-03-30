@@ -2,8 +2,8 @@
 
 * {
   font-family: 思源黑体 CN;
-  margin: 0;
-  padding: 0;
+  /* margin: 0;
+  padding: 0; */
 }
 
 body {
@@ -820,7 +820,10 @@ ol {
   -ms-border-radius: 4px;
   -webkit-border-radius: 4px;
 }
-
+.special-recommend-list ul{
+  margin: 0;
+  padding: 0;
+}
 .special-recommend-list .overlay-layer {
   width: 100%;
   height: 100%;
@@ -2995,7 +2998,6 @@ footer .footer_content p:nth-child(2) {
   .custom_footer,
   footer {
     background: #87b0c1;
-    margin-bottom: 60px;
   }
 
   .navbar-fixed-text-size {

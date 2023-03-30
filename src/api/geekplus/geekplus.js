@@ -86,9 +86,9 @@ export function getAboutMyGpWeb(id) {
 }
 
 // 博客网站查询最新六条的不同目录文章
-export function getSixNewestArticle(param) {
+export function getTenNewestArticle(param) {
   return request({
-    url: '/geekplusapp/getSixNewestArticle',
+    url: '/geekplusapp/getTenNewestArticle',
     method: 'get',
     params:param
   })
@@ -174,12 +174,12 @@ export function getTagArticleCount() {
   })
 }
 
-// 根据标签的tagId查询每个标签的所有文章列表
-export function getTagToArticle(id) {
+// 根据标签的tagId或者name查询每个标签的所有文章列表
+export function selectArticleListForTag(param) {
   return request({
-    url: '/geekplusapp/getTagToArticle',
+    url: '/geekplusapp/selectArticleListForTag',
     method: 'get',
-    params:id
+    params:param
   })
 }
 

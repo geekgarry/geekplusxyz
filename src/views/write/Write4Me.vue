@@ -89,6 +89,7 @@
                       allowexts="gif,jpeg,jpg,png,bmp,JPEG,JPG,PNG,GIF,BMP"
                       accept="image/*"
                       required
+                      multiple
                       @change="uploadFileEvent($event)"
                       id="uploadFile"
                       ref="uploadRef"
@@ -236,6 +237,9 @@ export default {
               },
             },
           },
+          clipboard: {
+              matchVisual: false
+          },
           // 调整图片大小
           imageResize: {
             displayStyles: {
@@ -283,9 +287,51 @@ export default {
   },
   beforeMount() {},
   mounted() {
+    let _this=this;
     this.$nextTick(() => {
       this.setTitleConfig();
     });
+    // window.addEventListener(
+    //   "paste",
+    //   function (e) {
+    //     let cbd = e.clipboardData;
+    //     let ua = window.navigator.userAgent; // 如果是 Safari 直接 return
+    //     if (!(e.clipboardData && e.clipboardData.items)) {
+    //       return;
+    //     } // Mac平台下Chrome49版本以下 复制Finder中的文件的Bug Hack掉
+    //     if (
+    //       cbd.items &&
+    //       cbd.items.length === 2 &&
+    //       cbd.items[0].kind === "string" &&
+    //       cbd.items[1].kind === "file" &&
+    //       cbd.types &&
+    //       cbd.types.length === 2 &&
+    //       cbd.types[0] === "text/plain" &&
+    //       cbd.types[1] === "Files" &&
+    //       ua.match(/Macintosh/i) &&
+    //       Number(ua.match(/Chrome\/(\d{2})/i)[1]) < 49
+    //     ) {
+    //       return;
+    //     }
+    //     if (cbd.items.length == 0) {
+    //       _this.$toasted.error("本地图片请使用图片上传功能！",{position:'top-center',duration:3000,theme:'bubble'});
+    //     }
+    //     for (let i = 0; i < cbd.items.length; i++) {
+    //       let item = cbd.items[i];
+    //       if (item.kind == "file") {
+    //         //循环获得kind为file的，并用getASFile转化赋值给blob
+    //         let blob = item.getAsFile();
+    //         if (blob.size === 0) {
+    //           return;
+    //         }
+    //         console.log(blob)// blob 就是从剪切板获得的文件 可以进行上传或其他操作
+    //         _this.pasteData = blob;
+    //       }
+    //     }
+    //     e.preventDefault(); //阻止默认动作
+    //   },
+    //   false
+    // );
     window.addEventListener(
       "paste",
       (evt) => {
@@ -294,6 +340,7 @@ export default {
           evt.clipboardData.files &&
           evt.clipboardData.files.length
         ) {
+          console.log(evt.clipboardData);
           evt.preventDefault();
           [].forEach.call(evt.clipboardData.files, (file) => {
             if (!file.type.match(/^image\/(gif|jpe?g|a?png|bmp|webp)/i)) {
@@ -301,37 +348,8 @@ export default {
             }
             const formData = new FormData();
             formData.append("file", file);
-            uploadImageFile(formData)
-              .then((response) => {
-                //console.log(response);
-                var serverUrl = response.url;
-                let uploadSuccess={};
-                const imageUrl =
-                  "https://www.geekplus.xyz" + this.baseApi + serverUrl;
-                // this.$message({
-                //   message: "上传" + response.msg,
-                //   type: "success",
-                // });
-                let quill = this.$refs.gpTextEditor.quill;
-                // 获取光标所在位置
-                let length = quill.getSelection().index; //光标位置
-                // 插入图片地址
-                quill.insertEmbed(length, "image", imageUrl);
-                // 光标后移一位
-                quill.setSelection(length + 1);
-                uploadSuccess={filePath:serverUrl};
-                this.allImageList.push(uploadSuccess);
-                // this.content += url
-                this.$refs.uploadRef.value = "";
-              })
-              .catch((error) => {
-                //console.log(error);
-                this.$toasted.error(error.msg, {
-                  duration: 3000,
-                  theme: "bubble",
-                  position: "top-center",
-                });
-              });
+            //console.log(file);
+            this.uploadImageFileToFile(formData);
             // this.$axios
             //   .post(`${process.env.VUE_APP_BASE_API}/file/upload`, formData)
             //   .then((res) => {
@@ -406,21 +424,23 @@ export default {
           });
       }
     },
-    removeFileList(imgs){
+    removeFileList(imgs) {
       //let filePath={filePaths:JSON.stringify(imgs)};
-      deleteFile(JSON.stringify(imgs)).then((response) =>{
-        this.$toasted.success(response.msg,{
-          position:'top-center',
-          duration:3000,
-          theme:"bubble"
+      deleteFile(JSON.stringify(imgs))
+        .then((response) => {
+          this.$toasted.success(response.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
         })
-      }).catch(error=>{
-        this.$toasted.error(error,{
-          position:'top-center',
-          duration:3000,
-          theme:"bubble"
-        })
-      })
+        .catch((error) => {
+          this.$toasted.error(error, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
     resetForm() {
       this.articleData = {};
@@ -455,7 +475,7 @@ export default {
       if (length) {
         let images = document.querySelectorAll(".ql-editor img");
         images.forEach((item) => {
-          tempImageList.push({filePath:this.getServerFilePath(item.src)});
+          tempImageList.push({ filePath: this.getServerFilePath(item.src) });
         });
       }
       deleteImages = this.allImageList.filter((item) => {
@@ -465,15 +485,15 @@ export default {
       //console.log(tempImageList);
       //console.log(this.allImageList);
       //console.log(deleteImages);
-      if(deleteImages.length>0){
+      if (deleteImages.length > 0) {
         this.removeFileList(deleteImages);
       }
-      let allTempImg=this.allImageList.filter((item)=>{
+      let allTempImg = this.allImageList.filter((item) => {
         return deleteImages.every((e) => e.filePath != item.filePath);
-      })
+      });
       //console.log(deleteImages)
       //console.log(allTempImg)
-      this.allImageList=allTempImg;
+      this.allImageList = allTempImg;
     },
     // 获得焦点触发事件
     onEditorFocus() {},
@@ -577,26 +597,49 @@ export default {
         tip.setAttribute("title", item.title);
       }
     },
+    //多文件上传测试按钮
+    uploadFileEventTest(e) {
+      console.log("多个文件");
+      console.log(e.target.files);
+    },
     uploadFileEvent(e) {
       //this.formData.append("file", file.file);
       // console.log(file.file, "sb2");
       //const imageUrl = 上传七牛云后返回来的一串在线链接
-      let file = e.target.files[0];
-      //var file=document.querySelector("#uploadFile")[0].value;
-      console.log(file);
-      let formData = new FormData();
-      formData.append("file", file);
-      //formData.append("file", new Blob(file)); //this.fileList[0].raw);//拿到存在fileList的文件存放到formData中
-      //下面数据是我自己设置的数据,可自行添加数据到formData(使用键值对方式存储)
-      // 解析上传的文件
-      //let file = this.fileList[0]
-      //console.log(file)
+      if (e.target.files.length == 1) {
+        let file = e.target.files[0];
+        //var file=document.querySelector("#uploadFile")[0].value;
+        //console.log(file);
+        let formData = new FormData();
+        formData.append("file", file);
+        //formData.append("file", new Blob(file)); //this.fileList[0].raw);//拿到存在fileList的文件存放到formData中
+        //下面数据是我自己设置的数据,可自行添加数据到formData(使用键值对方式存储)
+        // 解析上传的文件
+        //let file = this.fileList[0]
+        //console.log(file)
+        this.uploadImageFileToFile(formData);
+      } else {
+        let fileList=e.target.files;
+        for (var i=0;i< fileList.length; i++) {
+          let formData = new FormData();
+          var elFile=fileList[i];
+          formData.append("file", elFile);
+          //console.log(elFile);
+          //formData.append("file", new Blob(file)); //this.fileList[0].raw);//拿到存在fileList的文件存放到formData中
+          //下面数据是我自己设置的数据,可自行添加数据到formData(使用键值对方式存储)
+          // 解析上传的文件
+          //let file = this.fileList[0]
+          //console.log(file)
+          this.uploadImageFileToFile(formData);
+        }
+      }
+    },
+    uploadImageFileToFile(formData) {
       uploadImageFile(formData)
         .then((response) => {
           //console.log(response);
-          
           var serverUrl = response.url;
-          let uploadSuccess={};
+          let uploadSuccess = {};
           const imageUrl =
             "https://www.geekplus.xyz" + this.baseApi + serverUrl;
           // this.$message({
@@ -612,7 +655,7 @@ export default {
           quill.setSelection(length + 1);
           // this.content += url
           //this.$refs.uploadRef.clearFiles();
-          uploadSuccess={filePath:serverUrl};
+          uploadSuccess = { filePath: serverUrl };
           this.allImageList.push(uploadSuccess);
           this.$refs.uploadRef.value = "";
         })
@@ -622,6 +665,7 @@ export default {
             theme: "bubble",
             position: "top-center",
           });
+          this.$refs.uploadRef.value = "";
         });
     },
   },

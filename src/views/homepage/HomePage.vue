@@ -733,7 +733,7 @@
                         id="s_github"
                         title="GitHub"
                         target="_blank"
-                        href="https://github.com/geekcjj"
+                        href="https://github.com/geekgarry"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         data-original-title="GITHUB"

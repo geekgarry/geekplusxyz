@@ -35,12 +35,12 @@ Vue.use(VueQuillEditor);
 //import WaveItem from "@/components/effect/Wave";
 //import '@/assets/js/flower.js'
 import { getNowDate,checkHtml,getHtmlValue,randomRGB,color16,
-  someColor,getOnlyYearMonthDay,getHtmlPlainText } from '@/utils/plushome'
+  someColor,getOnlyYearMonthDay,getHtmlPlainText,someNumberCount,backToTop } from '@/utils/plushome'
 
 // Vue.use(getChildrenPath);
 Vue.prototype.axios = axios;
 Vue.use(VueLazyload, {
-  error: require('@/assets/img/error/404.jpg'),//这个是请求失败后显示的图片
+  error: require('@/assets/img/cover1.jpeg'),//这个是请求失败后显示的图片
   loading: require('@/assets/icon/loadingpoint.gif'),//这个是加载的loading过渡效果
   try: 1,// 这个是加载图片数量
   preLoad: 1.3,
@@ -64,6 +64,8 @@ Vue.prototype.randomRGB = randomRGB;
 Vue.prototype.someColor = someColor;
 Vue.prototype.getHtmlValue = getHtmlValue;
 Vue.prototype.getOnlyYearMonthDay = getOnlyYearMonthDay;
+Vue.prototype.someNumberCount = someNumberCount;
+Vue.prototype.backToTop=backToTop;
 
 //Vue.use($)
 new Vue({
