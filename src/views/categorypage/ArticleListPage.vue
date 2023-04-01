@@ -5,6 +5,14 @@
         <section class="row">
           <div class="">
             <div class="col-lg-9 col-md-9 animated slideInLeft">
+              <div class="articleList-bread-crumb">
+                <div class="plus-bread-crumb">
+                  <bread-crumb>
+                    <bread-crumb-item v-for="item,index in breadCrumbList" :key="index" :to="index+1==breadCrumbList.length?'':item.path">{{item.meta.title}}</bread-crumb-item>
+                    <!-- <bread-crumb-item>文章</bread-crumb-item> -->
+                  </bread-crumb>
+                </div>
+              </div>
               <div class="article-list">
                 <article
                   class="item"
@@ -727,6 +735,7 @@ export default {
       allCategoryList: [],
       oneNewNotice:{},
       categoryName:'',
+      breadCrumbList:[],
     };
   },
   created() {
@@ -742,6 +751,7 @@ export default {
     this.getTenNewArticle();
     this.getAllArticleCategory();
     this.getOneNewestNotice();
+    this.getBreadCrumb();
     // document.onkeydown = function (e) {
     //   // 回车提交表单
     //   // 兼容FF和IE和Opera
@@ -853,6 +863,31 @@ export default {
       getGpNoticeNewOne().then((response) =>{
         this.oneNewNotice=response.data;
       });
+    },
+    //获取路径的面包屑，首页/其他页/其他页
+    getBreadCrumb() {
+      let matched = this.$route.matched.filter(
+        (item) => item.meta && item.meta.title && item.path !== ""
+      );
+      const first = matched[0];
+      if (!this.isHome(first)) {
+        matched = [{ path: "/", name: "home", meta: { title: "首页" } }].concat(
+          matched
+        );
+      }
+      this.breadCrumbList = matched.filter(
+        (item) => item.meta && item.meta.title !== ''
+      );
+      //console.log(matched); //匹配路由地址，用来显示路径面包屑
+      //console.log(this.breadCrumbList);//匹配路由地址，用来显示路径面包屑
+    },
+    //判断当前路由是否是首页，返回两者等于的结果true
+    isHome(route) {
+      const name = route && route.name;
+      if (!name) {
+        return false;
+      }
+      return name.trim().toLocaleLowerCase() === "home".toLocaleLowerCase(); //返回true
     },
   },
   destroyed(){

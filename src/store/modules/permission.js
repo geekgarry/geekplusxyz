@@ -80,7 +80,7 @@ function setChild(item, routerList, rootName, rootPath) {
             name: routerName.replace('/', ''),
             path: rootPath,
             component: () => import('@/views/categorypage/ArticleListPage.vue'),// + item.component
-            meta: { title: rootName, icon: item.icon },
+            meta: { title: rootName, icon: item.icon, id: item.id},
             type: 'servermenu',
             children: []
         }
@@ -96,7 +96,7 @@ function setChild(item, routerList, rootName, rootPath) {
             name: routerName.replace('/', ''),
             path: rootPath,
             component: () => import('@/views/categorypage/ArticleListPage.vue'),// + item.component
-            meta: { title: rootName, icon: item.icon},
+            meta: { title: rootName, icon: item.icon, id: item.id},
             type: 'servermenu',
             children: []
         }

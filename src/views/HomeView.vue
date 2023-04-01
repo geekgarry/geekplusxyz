@@ -1238,19 +1238,19 @@ export default {
       MKLogo: require("@/assets/icon/mai.png"),
       swiperImgList: [
         {
-          carouselImg: "../../../imgs/superSlide/images/11.jpg",
+          carouselImg: require("@/assets/img/cover1.jpeg"),
           carouselInfo: "",
           carouselLink: "#",
           carouselTitle: "111",
         },
         {
-          carouselImg: "../../../imgs/superSlide/images/22.jpg",
+          carouselImg: require("@/assets/img/cover2.jpeg"),
           carouselInfo: "",
           carouselLink: "#",
           carouselTitle: "222",
         },
         {
-          carouselImg: "../../../imgs/superSlide/images/33.jpg",
+          carouselImg: require("@/assets/img/cover3.jpeg"),
           carouselInfo: "",
           carouselLink: "#",
           carouselTitle: "333",

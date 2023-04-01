@@ -6,6 +6,8 @@ import router from './router'
 import axios from "axios"
 // register the plugin on vue
 import Toasted from 'vue-toasted';
+import PlusComponent from './components'
+Vue.use(PlusComponent);
 // or you can use it with require
 //var Toasted = require('vue-toasted').default
 Vue.use(Toasted,Option);

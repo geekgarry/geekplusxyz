@@ -361,6 +361,23 @@ nav ul {
 /* .banner_bar {
   width: 100%;
 } */
+/************************自定义导航栏效果*****************************/
+
+.articleList-bread-crumb{
+  border-radius: 5px;
+  -o-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  background-color: #fdfdfd;
+  margin-bottom: 5px;
+  border: #fdfdfdfb 0.5px solid;
+}
+.plus-bread-crumb {
+  border-bottom: #F0F4F5 1px dashed;
+  line-height: 30px;
+}
+/********************************************************************/
 .gp_breadcrumb {
   margin-top: 4px;
   padding: 7px 7px;
@@ -440,7 +457,7 @@ ol {
     } */
 /******************************外部轮播图banner**********************************/
 
-/*******************自定义Bootstrap轮播图组件***********************/
+/***************************首页自定义Bootstrap轮播图组件**************************/
 #SlideSwiper {
   min-height: 200px;
   max-height: 450px;

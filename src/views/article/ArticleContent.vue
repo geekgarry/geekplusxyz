@@ -2,8 +2,14 @@
   <div class="container">
     <section class="container-content">
       <div class="row">
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
           <div class="article-content">
+            <div class="plus-bread-crumb">
+              <bread-crumb>
+                <bread-crumb-item v-for="item,index in breadCrumbList" :key="index" :to="index+1==breadCrumbList.length?'':item.path">{{item.meta.title}}</bread-crumb-item>
+                <!-- <bread-crumb-item>文章</bread-crumb-item> -->
+              </bread-crumb>
+            </div>
             <h3>
               {{
                 articleInfo.articleTitle
@@ -109,7 +115,7 @@
             </div> -->
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
           <div class="right-fun">
             <div class="model">
               <div class="title">站内搜索</div>
@@ -318,7 +324,7 @@ export default {
     return {
       keywords: "",
       articleInfo: {
-        articleCategory: "4",
+        articleCategory: '',
         articleContent: null,
         articleTitle: "",
         authorId: null,
@@ -338,6 +344,7 @@ export default {
       tenNewArticle: [],
       allCategoryList: [],
       allTagArticleCount:[],
+      breadCrumbList:[],
     };
   },
   created() {
@@ -346,6 +353,7 @@ export default {
     this.getTenNewArticle();
     this.getAllArticleCategory();
     this.getTagAndArticleCount();
+    this.getBreadCrumb();
     // document.onkeydown = function (e) {
     //   // 回车提交表单
     //   // 兼容FF和IE和Opera
@@ -364,19 +372,20 @@ export default {
   },
   methods: {
     getArticle() {
-      let that=this;
-      var id = that.$route.params.articleId;
-      let param = { id: id, isDisplay: 1 };
+      let _this=this;
+      var id = _this.$route.params.articleId;
+      let param = { id: id, isDisplay: null };
       getArticleDetail(param)
         .then((response) => {
-          that.articleInfo = response.data;
-          //console.log(this.articleInfo.articleTitle)
+          _this.articleInfo = response.data;
+          //console.log(_this.articleInfo)
+          _this.getBreadCrumb(_this.articleInfo.articleCategory);
           window.document.title =
-          that.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
+          _this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
             "极客普拉斯&梦极客园-geekplus.xyz";
         })
         .catch((error) => {
-          this.$toasted.error(error.msg, {
+          _this.$toasted.error(error.msg, {
             position: "top-center",
             duration: 3000,
             theme: "bubble",
@@ -455,6 +464,59 @@ export default {
         });
       }
       this.keywords = "";
+    },
+    //获取路径的面包屑，首页/其他页/其他页
+    getBreadCrumb(categoryId) {
+      //let categoryId=this.articleInfo.articleCategory;
+      let servermenu = this.$store.getters.addRoutes.slice(0,4);
+      let breadCrumbList=[];
+      servermenu.forEach(item => {
+        item.children.forEach(childItem => {
+          if(childItem.meta.id == categoryId){
+            // let parentMenu={
+            //   path: item.path,
+            //   meta: {
+            //     title: item.meta.title,
+            //   }
+            // }
+            let tempMenu=[{
+              path: item.path,
+              meta: {
+                title: item.meta.title,
+              }
+            },{
+              path: item.path+'/'+childItem.path,
+              meta: {
+                title: childItem.meta.title,
+              }
+            }]
+            breadCrumbList=tempMenu;
+          }
+        })
+      })
+      //console.log(breadCrumbList); //匹配路由地址，用来显示路径面包屑
+      // let matched = this.$route.matched.filter(
+      //   (item) => item.meta && item.meta.title && item.path !== ""
+      // );
+      const first = breadCrumbList[0];
+      if (!this.isHome(first)) {
+        this.breadCrumbList = [{ path: "/", name: "home", meta: { title: "首页" } }].concat(
+          breadCrumbList
+        );
+      }
+      this.breadCrumbList.push({path: '', meta: { title: "文章"}});
+      // this.breadCrumbList = matched.filter(
+      //   (item) => item.meta && item.meta.title !== ''
+      // );
+      //console.log(this.breadCrumbList);//匹配路由地址，用来显示路径面包屑
+    },
+    //判断当前路由是否是首页，返回两者等于的结果true
+    isHome(route) {
+      const name = route && route.name;
+      if (!name) {
+        return false;
+      }
+      return name.trim().toLocaleLowerCase() === "home".toLocaleLowerCase(); //返回true
     },
   },
 };

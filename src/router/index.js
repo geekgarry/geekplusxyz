@@ -340,7 +340,7 @@ export const constantRoutes = [
       {
         path: '/article/:articleId',
         name: 'article',
-        meta: { title: '文章详情页', icon: 'fa-home' },
+        meta: { title: '文章详情', icon: 'fa-home' },
         component: (resolve) => require(['@/views/article/ArticleContent.vue'], resolve),
         type: 'generalPage',
         hidden: true
@@ -348,7 +348,7 @@ export const constantRoutes = [
       {
         path: '/general',
         name: 'generalArticle',
-        meta: { title: '文章详情页', icon: 'fa-home' },
+        meta: { title: '文章详情', icon: 'fa-home' },
         component: (resolve) => require(['@/views/article/GeneralContent.vue'], resolve),
         type: 'generalPage',
         hidden: true
