@@ -124,17 +124,17 @@
               :key="index"
             >
               <router-link v-if="item.children.length == 0" :to="item.path">
-                <a href="javascript:void(0)">{{ item.categoryName }}</a>
+                <a href="javascript:void(0)">{{ item.meta.title }}</a>
               </router-link>
               <a v-if="item.children.length != 0" href="javascript:void(0)">{{
-                item.categoryName
+                item.meta.title
               }}</a>
               <!-- v-if="item.children.length===0" <a v-if="item.children.length!==0" href="javascript:void(0)">{{ item.meta.title }}</a> -->
               <div v-if="item.children.length != 0" class="itembox">
                 <ul class="nav-pills nav-stacked">
                   <li
                     :class="
-                      keyPath == '/articleCategory/' + subitem.path
+                      keyPath == item.path+'/'+ subitem.path
                         ? 'menuactive'
                         : ''
                     "
@@ -142,10 +142,10 @@
                     :key="index"
                   >
                     <router-link
-                      :to="'/articleCategory/'+subitem.path"
-                    >
+                      :to="item.path+'/'+subitem.path"
+                    > <!--:to="'/articleCategory/'+subitem.path"-->
                       <a href="javascript:void(0)">{{
-                        subitem.categoryName
+                        /**subitem.categoryName*/subitem.meta.title
                       }}</a>
                     </router-link>
                   </li>
@@ -183,6 +183,11 @@
                 <a href="javascript:void(0)">关于</a>
               </router-link>
             </li>
+            <!-- <li :class="keyPath == '/programDevelopment/java' ? 'menuactive' : ''">
+              <router-link to="/programDevelopment/java">
+                <a href="javascript:void(0)">测试</a>
+              </router-link>
+            </li> -->
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-sm">
             <li>
@@ -388,7 +393,6 @@ import {
   getGpWebTitleInfo,
   listSubParentCategory,
 } from "@/api/geekplus/geekplus";
-import { getChildrenPath } from "@/utils/dynamicrouter";
 import AppMain from "./components/AppMain";
 export default {
   name: "Layout",
@@ -444,8 +448,8 @@ export default {
     },
   },
   created() {
-    this.getGeekplusCategory();
-    //this.getRouterMneuList();
+    //this.getGeekplusCategory();//直接获取后台菜单
+    this.getRouterMneuList();//获取后台菜单动态添加后的路由信息
     this.getBreadcrumb();
     this.displayWebFriendlyLink();
     this.getWebTitleNameFooterInfo();
@@ -705,29 +709,23 @@ export default {
       // let matched = this.$route.matched.filter(
       //   (item) => item.meta && item.meta.title
       // );
-      let tempMenuList = that.$router.options.routes.filter(
-        (item) => { return item.type == "layout"}
-      );
-      console.log(tempMenuList);
+      // let tempMenuList = that.$router.options.routes.filter(
+      //   (item) => { return item.type == "servermenu"}
+      // );
+      //console.log(this.$store.getters.addRoutes.slice(0,4));
+      that.menuList=this.$store.getters.addRoutes.slice(0,4);
       //that.menuList=getChildrenPath();
       //console.log(that.menuList.length)
       // deep(mmm).forEach((item) => {
       //   console.log(item)
       // });
-      let menuLList = tempMenuList[0].children;
-      console.log(menuLList);
-      for(var i=0;i<menuLList.length;i++){
-        let item = menuLList[i];
-        if(item.type=='servermenu'){
-          console.log(item)
-        }
-      }
-      
-      //that.menuList=store.state.menuList;
-      //that.menuList=menuResult
-      // that.menuList.filter(
-      //   (item) => item.type=='menu'
-      // );
+      //console.log(this.$router.options.routes);
+      // for(var i=0;i<menuLList.length;i++){
+      //   let item = menuLList[i];
+      //   if(item.type=='servermenu'){
+      //     console.log(item)
+      //   }
+      // }
       //matched = this.menuList.concat(matched);
       // this.menuList = matched.filter(
       //   (item) => item.meta && item.meta.title && item.meta.breadcrumb !== false

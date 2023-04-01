@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
+import permission from './modules/permission'
 
 Vue.use(Vuex)
 
@@ -17,32 +18,39 @@ Vue.use(Vuex)
 // export function getToken(){
 //     return store.token;
 // }
-const state= {
-  menuList:[],
-}
+// const state= {
+//   menuList:[],
+// }
 
-const store = new Vuex.Store({
-    // modules: {
-    //   app,
-    //   settings,
-    //   tagsView,
-    //   user,
-    //   permission
-    // },
-    state,
-    getters
-  })
+// const store = new Vuex.Store({
+//     // modules: {
+//     //   app,
+//     //   settings,
+//     //   tagsView,
+//     //   user,
+//     //   permission
+//     // },
+//     state,
+//     getters
+//   })
   
-export default store
-// export default new Vuex.Store({
-//   state: {
-//   },
-//   getters: {
-//   },
-//   mutations: {
-//   },
-//   actions: {
-//   },
-//   modules: {
-//   }
-// })
+//export default store
+export default new Vuex.Store({
+  state: {
+    routes:[],
+    addRoutes:[],
+    menuRouters:[]
+  },
+    getters,
+  mutations: {
+    // addMenuRouters(state, routes){
+		// 	state.menuRouters = routes;
+    //   state.routes=routes;
+		// }
+  },
+  actions: {
+  },
+  modules: {
+    permission
+  }
+})

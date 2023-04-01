@@ -473,7 +473,116 @@ function clickEffect() {
         }
     }
 }
-clickEffect();//调用
+clickEffect();//调用点击器材绽放效果
+
+/****************************-----鼠标特效-----*******************************/
+var a_idx = 0;
+// document.ready = function(callback) {
+//     if (document.addEventListener) {
+//         document.addEventListener('DOMContentLoaded', function() {
+//             //document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+//             callback();
+//             document.body.addEventListener("click", function (e) {
+//                 var a = new Array("三民主义", "民族", "民权", "民生");
+//                 var ii = document.createElement("span").text(a[a_idx]);
+//                 a_idx = (a_idx + 1) % a.length;
+//                 var x = e.pageX,
+//                     y = e.pageY;
+//                 ii.css({
+//                     "z-index": 9999999,
+//                     "top": y - 20,
+//                     "left": x,
+//                     "position": "absolute",
+//                     "font-weight": "bold",
+//                     "color": "#ff6651"
+//                 });
+//                 document.body.innerHTML += ii;
+//                 ii.animate({
+//                     "top": y - 180,
+//                     "opacity": 0
+//                 },
+//                     1500,
+//                     function () {
+//                         ii.remove();
+//                     });
+//             });
+//         }, false);
+//     }else if (document.attachEvent) {// 兼容ie
+//         document.attachEvent('onreadytstatechange', function() {
+//             if (document.readyState == "complete") {
+//                 //document.detachEvent("onreadystatechange", arguments.callee);
+//                 callback();
+//                 document.body.addEventListener("click", function (e) {
+//                     var a = new Array("三民主义", "民族", "民权", "民生");
+//                     var ii = document.createElement("span").text(a[a_idx]);
+//                     a_idx = (a_idx + 1) % a.length;
+//                     var x = e.pageX,
+//                         y = e.pageY;
+//                     ii.css({
+//                         "z-index": 9999999,
+//                         "top": y - 20,
+//                         "left": x,
+//                         "position": "absolute",
+//                         "font-weight": "bold",
+//                         "color": "#ff6651"
+//                     });
+//                     document.body.innerHTML += ii;
+//                     ii.animate({
+//                         "top": y - 180,
+//                         "opacity": 0
+//                     },
+//                         1500,
+//                         function () {
+//                             ii.remove();
+//                         });
+//                 });
+//             }
+//         });
+//     }
+// }
+// if (window.attachEvent) {
+//     window.attachEvent("onload", clickTextEffect);//IE
+// }
+//function clickTextEffect(){
+    // window.onload = function () {
+    //     window.addEventListener("click", function (e) {
+    //         var a = new Array("三民主义", "民族", "民权", "民生");
+    //         var ii = document.createElement("span");
+    //         //console.log(ii)
+    //         ii.innerHTML=a[a_idx];
+    //         a_idx = (a_idx + 1) % a.length;
+    //         var x = e.clientX;
+    //         var y = e.clientY;
+    //         // ii.style.zIndex=9999999;
+    //         //ii.style.top=y-20+'px';
+    //         // ii.style.left=x;
+    //         // ii.style.position="absolute";
+    //         // ii.style.fontWeight="bold";
+    //         // ii.style.color="#ff6651";
+    //         ii.setAttribute("style","top:"+y-20+"px;left:"+x+"px;"+
+    //         "position:fixed;pointer-events:none;font-weight:bold;color:#ff6651;z-index:999999;");
+    //         console.log(ii)
+    //         // {
+    //         //     "z-index": 9999999,
+    //         //     "top": y - 20,
+    //         //     "left": x,
+    //         //     "position": "absolute",
+    //         //     "font-weight": "bold",
+    //         //     "color": "#ff6651"
+    //         // }
+    //         document.body.appendChild(ii);
+    //         ii.animate({
+    //             "top": y - 180,
+    //             "opacity": 0
+    //         },
+    //         1500,
+    //         function () {
+    //             ii.remove();
+    //         });
+    //     });
+    // }
+// }
+// clickTextEffect();
 
 /***********************------全局复制携带网站信息-------************************* */
 function addLink() {
@@ -517,32 +626,3 @@ document.body.oncopy = function () {
         } 
         },100); */
 }
-
-/****************************-----鼠标特效-----*******************************/
-// var a_idx = 0;
-// document.addEventListener('onreadytstatechange', function() {
-//     document.body.addEventListener("onclick",function(e) {
-//  var a = new Array("三民主义","民族","民权","民生");
-//  var ii = document.createElement("span").text(a[a_idx]);
-//  a_idx = (a_idx + 1) % a.length;
-//  var x = e.pageX,
-//  y = e.pageY;
-//  ii.css({
-//  "z-index": 9999999,
-//  "top": y - 20,
-//  "left": x,
-//  "position": "absolute",
-//  "font-weight": "bold",
-//  "color": "#ff6651"
-//  });
-//  document.body.innerHTML+=ii;
-//  ii.animate({
-//  "top": y - 180,
-//  "opacity": 0
-//  },
-//  1500,
-//  function() {
-//  ii.remove();
-//  });
-//  });
-// });

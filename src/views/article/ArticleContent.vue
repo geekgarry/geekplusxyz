@@ -222,7 +222,7 @@
                                                                                                                     						                            <div class="title">热门推荐</div>						                            <div class="content"> -->
                 <div class="fastmenu">
                   <span v-for="(item, index) in allCategoryList" :key="index" >
-                    <router-link :to="'/articleList/' + item.path">
+                    <router-link :to="item.path">
                       {{ item.categoryName ? item.categoryName : "编程技术&nbsp;(13)" }}
                     </router-link>
                   </span>
@@ -400,17 +400,36 @@ export default {
         });
     },
     getAllArticleCategory() {
-      listSubCategory()
-        .then((response) => {
-          this.allCategoryList = response.data;
+      // let tempMenuList = this.$router.options.routes.filter(
+      //   (item) => { return item.type == "servermenu"}
+      // );
+      this.allCategoryList=this.getListSubCategory(this.$store.getters.addRoutes.slice(0,4));
+      //console.log(this.allCategoryList)
+      // listSubCategory()
+      //   .then((response) => {
+      //     //console.log(response)
+      //     this.allCategoryList = response.data;
+      //   })
+      //   .catch((error) => {
+      //     this.$toasted.error(error.msg, {
+      //       position: "top-center",
+      //       duration: 3000,
+      //       theme: "bubble",
+      //     });
+      //   });
+    },
+    getListSubCategory(list){
+      let listCategory=new Array();
+      list.forEach(parent => {
+        parent.children.forEach(child => {
+          let childCategory={
+            path:parent.path+'/'+child.path,
+            categoryName:child.meta.title,
+          }
+          listCategory.push(childCategory)
         })
-        .catch((error) => {
-          this.$toasted.error(error.msg, {
-            position: "top-center",
-            duration: 3000,
-            theme: "bubble",
-          });
-        });
+      });
+      return listCategory;
     },
     getTagAndArticleCount(){
       getTagArticleCount().then((response) => {

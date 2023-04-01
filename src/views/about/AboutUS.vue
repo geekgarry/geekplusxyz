@@ -219,7 +219,7 @@
                 <div class="fastmenu">
                   <span v-for="(item, index) in allCategoryList"
                     :key="index" >
-                    <router-link :to="'/articleCategory/' + item.path">
+                    <router-link :to="item.path">
                       {{ item.categoryName ? item.categoryName : "编程技术&nbsp;(13)" }}
                     </router-link>
                   </span>
@@ -305,6 +305,7 @@ export default {
       allTagArticleCount: [], //查询每个标签的文章数量
       tenNewArticle:[],
       allCategoryList:[],
+      menuList:[],
     };
   },
   created() {
@@ -321,6 +322,7 @@ export default {
     //     this.searchResult();
     //   }
     // };
+    //this.getRouterMneuList();
   },
   mounted() {
     //var time=this.getNowDate();
@@ -329,6 +331,41 @@ export default {
   methods: {
     getNowDateTime() {
       return this.getNowDate();
+    },
+    //从Vue路由配置js中拿到路由信息，并做处过滤加入顶部导航菜单，本地无需配置路由，后台管理处配置
+    getRouterMneuList() {
+      let that = this;
+      // let matched = this.$route.matched.filter(
+      //   (item) => item.meta && item.meta.title
+      // );
+      let tempMenuList = that.$router.options.routes.filter(
+        (item) => { return item.type == "layout"}
+      );
+      console.log(tempMenuList);
+      //that.menuList=getChildrenPath();
+      //console.log(that.menuList.length)
+      // deep(mmm).forEach((item) => {
+      //   console.log(item)
+      // });
+      let menuLList = tempMenuList[0].children;
+      console.log(menuLList.length);
+      for(var i=0;i<menuLList.length;i++){
+        let item = menuLList[i];
+        if(item.type=='servermenu'){
+          console.log(item)
+        }
+      }
+      
+      //that.menuList=store.state.menuList;
+      //that.menuList=menuResult
+      // that.menuList.filter(
+      //   (item) => item.type=='menu'
+      // );
+      //matched = this.menuList.concat(matched);
+      // this.menuList = matched.filter(
+      //   (item) => item.meta && item.meta.title && item.meta.breadcrumb !== false
+      // );
+      console.log(that.$route.matched)
     },
     getAboutMeAndMyWeb() {
       //let params = { id: 1 };
@@ -373,17 +410,36 @@ export default {
         });
     },
     getAllArticleCategory() {
-      listSubCategory()
-        .then((response) => {
-          this.allCategoryList = response.data;
+      // let tempMenuList = this.$router.options.routes.filter(
+      //   (item) => { return item.type == "servermenu"}
+      // );
+      this.allCategoryList=this.getListSubCategory(this.$store.getters.addRoutes.slice(0,4));
+      //console.log(this.$store.getters.addRoutes.slice(0,4))
+      // listSubCategory()
+      //   .then((response) => {
+      //     //console.log(response)
+      //     this.allCategoryList = response.data;
+      //   })
+      //   .catch((error) => {
+      //     this.$toasted.error(error.msg, {
+      //       position: "top-center",
+      //       duration: 3000,
+      //       theme: "bubble",
+      //     });
+      //   });
+    },
+    getListSubCategory(list){
+      let listCategory=new Array();
+      list.forEach(parent => {
+        parent.children.forEach(child => {
+          let childCategory={
+            path:parent.path+'/'+child.path,
+            categoryName:child.meta.title,
+          }
+          listCategory.push(childCategory)
         })
-        .catch((error) => {
-          this.$toasted.error(error.msg, {
-            position: "top-center",
-            duration: 3000,
-            theme: "bubble",
-          });
-        });
+      });
+      return listCategory;
     },
     searchResult() {
       if(this.keywords!==''){

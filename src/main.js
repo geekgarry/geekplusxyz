@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import store from './store'
+import router from './router'
+//import './permission'
 import axios from "axios"
 // register the plugin on vue
 import Toasted from 'vue-toasted';
@@ -13,7 +14,6 @@ Vue.use(Toasted,Option);
 //Vue.use(Toasted, Options)
 //import iView from 'iview';
 //import 'iview/dist/styles/iview.css';
-// import {getChildrenPath} from './utils/dynamicrouter'
 import 'font-awesome/css/font-awesome.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap-theme.css'
