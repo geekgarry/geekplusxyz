@@ -651,8 +651,10 @@ export default {
           let length = quill.getSelection().index;
           // 插入图片
           quill.insertEmbed(length, "image", imageUrl);
+          //const num = file.filestoredname && file.filestoredname.length || 0
+          quill.insertText(length+1, "\r\n",true);
           // 调整光标到最后
-          quill.setSelection(length + 1);
+          quill.setSelection(length + this.articleContent.length, 0);
           // this.content += url
           //this.$refs.uploadRef.clearFiles();
           uploadSuccess = { filePath: serverUrl };

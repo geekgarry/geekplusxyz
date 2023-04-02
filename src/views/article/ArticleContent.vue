@@ -33,7 +33,7 @@
               |
               <label
                 >浏览：{{
-                  articleInfo.viewCount ? articleInfo.viewCount : 38909
+                  articleInfo.viewCount ? articleInfo.viewCount+1 : 38909
                 }}</label
               >
             </div>
@@ -317,6 +317,7 @@ import {
   getTenNewestArticle,
   listSubCategory,
   getTagArticleCount,
+  updateArticleViewCount,
 } from "@/api/geekplus/geekplus";
 //import { response } from "express";
 export default {
@@ -341,10 +342,16 @@ export default {
         updateTime: "2023-03-21 17:32:28",
         viewCount: null,
       },
+      articleDetail:{},
       tenNewArticle: [],
       allCategoryList: [],
       allTagArticleCount:[],
       breadCrumbList:[],
+      articleViewAndLike:{
+        likeCount:null,
+        viewCount:null,
+        id:null,
+      }
     };
   },
   created() {
@@ -353,7 +360,7 @@ export default {
     this.getTenNewArticle();
     this.getAllArticleCategory();
     this.getTagAndArticleCount();
-    this.getBreadCrumb();
+    //this.getBreadCrumb();
     // document.onkeydown = function (e) {
     //   // 回车提交表单
     //   // 兼容FF和IE和Opera
@@ -363,8 +370,29 @@ export default {
     //     this.searchResult();
     //   }
     // };
+    
   },
-  mounted() {},
+  watch: {
+    articleInfo: function (val) {
+      //console.log(val); // 有数据
+      this.$nextTick(() => {
+        window.document.title = this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
+            "极客普拉斯&梦极客园-geekplus.xyz";
+      });
+    },
+    // $route(to, from) {
+    //   console.log("数据变化")
+    // }
+  },
+  mounted() {
+    setTimeout(()=>{
+      // console.log(this.articleInfo);
+      this.modifyViewCount();
+    },1000);
+    // setInterval(()=>{
+    //   console.log("hello")
+    // },1000);
+  },
   activated(){
     window.document.title =
             this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
@@ -372,20 +400,18 @@ export default {
   },
   methods: {
     getArticle() {
-      let _this=this;
-      var id = _this.$route.params.articleId;
+      //let _this=this;
+      var id = this.$route.params.articleId;
       let param = { id: id, isDisplay: null };
       getArticleDetail(param)
         .then((response) => {
-          _this.articleInfo = response.data;
-          //console.log(_this.articleInfo)
-          _this.getBreadCrumb(_this.articleInfo.articleCategory);
-          window.document.title =
-          _this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
-            "极客普拉斯&梦极客园-geekplus.xyz";
+          this.articleInfo = response.data;
+          this.getBreadCrumb(this.articleInfo.articleCategory);
+          //this.articleDetail=JSON.parse(JSON.stringify(response.data));
+          // console.log(this.articleDetail);
         })
         .catch((error) => {
-          _this.$toasted.error(error.msg, {
+          this.$toasted.error(error.msg, {
             position: "top-center",
             duration: 3000,
             theme: "bubble",
@@ -464,6 +490,28 @@ export default {
         });
       }
       this.keywords = "";
+    },
+    //修改文章的浏览量和点赞数
+    modifyViewCount(){
+      if(this.articleInfo.viewCount==null){
+        this.articleInfo.viewCount=1;
+      }
+      this.articleViewAndLike.viewCount = this.articleInfo.viewCount;
+      this.articleViewAndLike.viewCount =this.articleViewAndLike.viewCount+1;
+      this.articleViewAndLike.id=this.$route.params.articleId;
+      updateArticleViewCount(this.articleViewAndLike).then((response) => {
+
+      }).catch((error) => {});
+    },
+    modifyLikeCount(){
+      console.log(this.articleInfo)
+      if(this.articleInfo.likeCount==null){
+        this.articleInfo.likeCount=1;
+      }
+      console.log(this.articleInfo.likeCount)
+      this.articleViewAndLike.likeCount=this.articleInfo.likeCount+1;
+      updateArticleViewCount(this.articleViewAndLike).then((response) => {
+      }).catch((error) => {});
     },
     //获取路径的面包屑，首页/其他页/其他页
     getBreadCrumb(categoryId) {

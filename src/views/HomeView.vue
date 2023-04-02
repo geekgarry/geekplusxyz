@@ -178,7 +178,7 @@
                 </ul>
               </div>
             </article>
-            <article class="latest-new-article">
+            <article class="latest-new-article hidden-sm hidden-xs">
               <div class="row no-gutter">
                 <section
                   class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
@@ -628,7 +628,7 @@
                 </div>
               </article> -->
             </div>
-            <nav aria-label="Page navigation" v-if="articleTotal!=0">
+            <!-- <nav aria-label="Page navigation" v-if="articleTotal!=0">
               <ul class="pagination">
                 <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
                   <a
@@ -639,7 +639,6 @@
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <!-- Math.ceil(articleTotal / queryParams.pageSize) -->
                 <li
                   :class="queryParams.pageNum == pageNumber ? 'active' : ''"
                   v-for="(pageNumber, index) in Math.ceil(
@@ -735,15 +734,6 @@
                     >{{ pageNumber }}
                   </a>
                 </li>
-                <!-- <li >
-                  <a v-for="index in Math.ceil(articleTotal / queryParams.pageSize)" :key="index" 
-                   href="javascript:void(0);" @click="getArticleList(index)">{{index}}
-                  </a>
-                </li> -->
-                <!-- <li><a href="javascript:void(0);">2</a></li>
-                <li><a href="javascript:void(0);">3</a></li>
-                <li><a href="javascript:void(0);">4</a></li>
-                <li><a href="javascript:void(0);">5</a></li> -->
                 <li v-if="queryParams.pageNum != Math.ceil(articleTotal / queryParams.pageSize)"
                   :class="
                     queryParams.pageNum ==
@@ -761,7 +751,10 @@
                   </a>
                 </li>
               </ul>
-            </nav>
+            </nav> -->
+            <plus-pager :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
+               :pluspagerMethod="getIndexAllArticleList">
+            </plus-pager>
           </div>
           <aside class="col-lg-3 col-md-3 right animated slideInRight">
             <div class="right-fun">
@@ -1454,15 +1447,15 @@ export default {
     //获取首页所有类型文章
     getIndexAllArticleList(pageNum) {
       this.queryParams.pageNum=pageNum;
-      if(pageNum==null ||pageNum==''){
-        this.queryParams.pageNum=1;
-      }else if(this.articleTotal <= this.queryParams.pageSize){
-        this.queryParams.pageNum=1;
-      }else if(pageNum <= 0){
-        this.queryParams.pageNum=1;
-      }else if(pageNum>=Math.ceil(this.articleTotal/this.queryParams.pageSize)){
-        this.queryParams.pageNum=Math.ceil(this.articleTotal/this.queryParams.pageSize);
-      }
+      // if(pageNum==null ||pageNum==''){
+      //   this.queryParams.pageNum=1;
+      // }else if(this.articleTotal <= this.queryParams.pageSize){
+      //   this.queryParams.pageNum=1;
+      // }else if(pageNum <= 0){
+      //   this.queryParams.pageNum=1;
+      // }else if(pageNum>=Math.ceil(this.articleTotal/this.queryParams.pageSize)){
+      //   this.queryParams.pageNum=Math.ceil(this.articleTotal/this.queryParams.pageSize);
+      // }
       getIndexAllCategoryArticleList(this.queryParams)
         .then((response) => {
           //console.log(response);

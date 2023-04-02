@@ -381,6 +381,15 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/scrollrefresh',
+    name: 'scrollrefresh',
+    meta: { title: '滚动刷新', icon: 'fa-home' },
+    component: (resolve) => require(['@/views/test/ScrollRefresh.vue'], resolve),
+    type: 'page',
+    children: [],
+    hidden: true
+  },
+  {
     path: '/chatgpt',
     name: 'ChatGPT',
     meta: { title: 'ChatGPT智能助手', icon: 'fa-home' },

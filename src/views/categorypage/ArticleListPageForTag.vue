@@ -162,7 +162,7 @@
                   </div>
                 </article> -->
               </div>
-              <nav aria-label="Page navigation" v-if="articleTotal!=0">
+              <!-- <nav aria-label="Page navigation" v-if="articleTotal!=0">
                 <ul class="pagination">
                   <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
                     <a
@@ -173,7 +173,6 @@
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <!-- Math.ceil(articleTotal / queryParams.pageSize) -->
                   <li
                     :class="queryParams.pageNum == pageNumber ? 'active' : ''"
                     v-for="(pageNumber, index) in Math.ceil(
@@ -269,15 +268,6 @@
                       >{{ pageNumber }}
                     </a>
                   </li>
-                  <!-- <li >
-                    <a v-for="index in Math.ceil(articleTotal / queryParams.pageSize)" :key="index" 
-                     href="javascript:void(0);" @click="getArticleList(index)">{{index}}
-                    </a>
-                  </li> -->
-                  <!-- <li><a href="javascript:void(0);">2</a></li>
-                  <li><a href="javascript:void(0);">3</a></li>
-                  <li><a href="javascript:void(0);">4</a></li>
-                  <li><a href="javascript:void(0);">5</a></li> -->
                   <li v-if="queryParams.pageNum != Math.ceil(articleTotal / queryParams.pageSize)"
                     :class="
                       queryParams.pageNum ==
@@ -295,7 +285,10 @@
                     </a>
                   </li>
                 </ul>
-              </nav>
+              </nav> -->
+              <plus-pager :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
+               :pluspagerMethod="getArticleList">
+              </plus-pager>
             </div>
             <aside class="col-lg-3 col-md-3 right animated slideInRight">
               <div class="right-fun">
@@ -694,7 +687,6 @@ export default {
       },
       articleList: [],
       articleTotal: 0,
-      pageNum: 9,
       tenNewArticle: [],
       allCategoryList: [],
       allTagArticleCount: [], //查询每个标签的文章数量
@@ -755,20 +747,20 @@ export default {
   },
   methods: {
     getArticleList(pageNum) {
-      var total = this.articleTotal;
-      var pageSize = this.queryParams.pageSize;
-      var pageAllNum = total / pageSize;
-      this.queryParams.pageNum = pageNum;
-      if (pageNum <= 0) {
-        //console.log("页数等于0");
-        this.queryParams.pageNum = 1;
-      } else if (total <= pageSize) {
-        //console.log("页数小于一");
-        this.queryParams.pageNum = 1;
-      } else if (pageNum >= Math.ceil(pageAllNum)) {
-        //console.log("页数等于最大页数");
-        this.queryParams.pageNum = Math.ceil(pageAllNum);
-      }
+      this.queryParams.pageNum=pageNum;
+      // var total = this.articleTotal;
+      // var pageSize = this.queryParams.pageSize;
+      // var pageAllNum = total / pageSize;
+      // if (pageNum <= 0) {
+      //   //console.log("页数等于0");
+      //   this.queryParams.pageNum = 1;
+      // } else if (total <= pageSize) {
+      //   //console.log("页数小于一");
+      //   this.queryParams.pageNum = 1;
+      // } else if (pageNum >= Math.ceil(pageAllNum)) {
+      //   //console.log("页数等于最大页数");
+      //   this.queryParams.pageNum = Math.ceil(pageAllNum);
+      // }
       this.queryParams.tagName=this.$route.query.tagName;
       //this.queryParams.pageSize=10;
       selectArticleListForTag(this.queryParams)

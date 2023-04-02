@@ -4,6 +4,7 @@
       <div class="container">
         <div id="page-header ">
           <h3 class="text-center">“ {{ $route.query.keyword }} ”</h3>
+          <div class="text-center">{{ articleTotal }}条搜索结果</div>
         </div>
       </div>
     </div>
@@ -162,7 +163,7 @@
                   </div>
                 </article> -->
               </div>
-              <nav aria-label="Page navigation" v-if="articleTotal!=0">
+              <!-- <nav aria-label="Page navigation" v-if="articleTotal!=0">
                 <ul class="pagination">
                   <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
                     <a
@@ -173,7 +174,6 @@
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <!-- Math.ceil(articleTotal / queryParams.pageSize) -->
                   <li
                     :class="queryParams.pageNum == pageNumber ? 'active' : ''"
                     v-for="(pageNumber, index) in Math.ceil(
@@ -269,15 +269,6 @@
                       >{{ pageNumber }}
                     </a>
                   </li>
-                  <!-- <li >
-                    <a v-for="index in Math.ceil(articleTotal / queryParams.pageSize)" :key="index" 
-                     href="javascript:void(0);" @click="searchGpArticlesList(index)">{{index}}
-                    </a>
-                  </li> -->
-                  <!-- <li><a href="javascript:void(0);">2</a></li>
-                  <li><a href="javascript:void(0);">3</a></li>
-                  <li><a href="javascript:void(0);">4</a></li>
-                  <li><a href="javascript:void(0);">5</a></li> -->
                   <li v-if="queryParams.pageNum != Math.ceil(articleTotal / queryParams.pageSize)"
                     :class="
                       queryParams.pageNum ==
@@ -295,7 +286,10 @@
                     </a>
                   </li>
                 </ul>
-              </nav>
+              </nav> -->
+              <plus-pager :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
+               :pluspagerMethod="searchGpArticlesList">
+              </plus-pager>
             </div>
             <aside class="col-lg-3 col-md-3 right animated slideInRight">
               <div class="right-fun">
@@ -691,7 +685,6 @@ export default {
       },
       articleList: [],
       articleTotal: 0,
-      pageNum: 9,
       tenNewArticle: [],
       allCategoryList: [],
       allTagArticleCount: [], //查询每个标签的文章数量
@@ -734,14 +727,13 @@ export default {
     keywords(newVal,oldVal){
       //console.log(this.keywords);
       //console.log(newVal, oldVal);
-      this.searchGpArticlesList(1);
-      window.document.title = this.keywords + " | 搜索-极客普拉斯&梦极客园" ||
-            "极客普拉斯&梦极客园-geekplus.xyz";
     },
     $route(to, from) {
       //console.log(to, from);
       this.keywords = this.$route.query.keyword;
-      
+      this.searchGpArticlesList(1);
+      window.document.title = this.keywords + " | 搜索-极客普拉斯&梦极客园" ||
+            "极客普拉斯&梦极客园-geekplus.xyz";
     },
   },
   activated() { // 使用该生命周期方法可以解决第二次进入该页面数据不刷新问题
@@ -753,20 +745,21 @@ export default {
   },
   methods: {
     searchGpArticlesList(pageNum) {
-      var total = this.articleTotal;
-      var pageSize = this.queryParams.pageSize;
-      var pageAllNum = total / pageSize;
-      this.queryParams.pageNum = pageNum;
-      if (pageNum <= 0) {
-        //console.log("页数等于0");
-        this.queryParams.pageNum = 1;
-      } else if (total <= pageSize) {
-        //console.log("页数小于一");
-        this.queryParams.pageNum = 1;
-      } else if (pageNum >= Math.ceil(pageAllNum)) {
-        //console.log("页数等于最大页数");
-        this.queryParams.pageNum = Math.ceil(pageAllNum);
-      }
+      this.queryParams.pageNum=pageNum;
+      // var total = this.articleTotal;
+      // var pageSize = this.queryParams.pageSize;
+      // var pageAllNum = total / pageSize;
+      // if (pageNum <= 0) {
+      //   //console.log("页数等于0");
+      //   this.queryParams.pageNum = 1;
+      // } else if (total <= pageSize) {
+      //   //console.log("页数小于一");
+      //   this.queryParams.pageNum = 1;
+      // } else if (pageNum >= Math.ceil(pageAllNum)) {
+      //   //console.log("页数等于最大页数");
+      //   this.queryParams.pageNum = Math.ceil(pageAllNum);
+      // }
+      
       this.queryParams.articleTitle=this.$route.query.keyword;
       //this.queryParams.pageSize=10;
       selectGpArticlesListByKeyWords(this.queryParams)

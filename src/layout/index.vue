@@ -334,7 +334,7 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center hidden-sm hidden-xs"
+            class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center hidden-xs"
           >
             <div class="row">
               <div
@@ -364,7 +364,7 @@
               >提供技术支持
             </p>
             <p>
-              © 2018－2019 geekplus.xyz, all rights reserved &nbsp;<a
+              © 2019－2023 geekplus.xyz, all rights reserved &nbsp;<a
                 href="http://beian.miit.gov.cn"
                 target="_blank"
                 >苏ICP备19023267号</a
@@ -372,8 +372,8 @@
             </p>
             <p>
               <a href="http://beian.miit.gov.cn" target="_blank"
-                >苏ICP备19023267号-4 &amp;</a
-              >
+                >苏ICP备19023267号-4 &amp;
+              </a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
             </p>
           </div>
         </div>

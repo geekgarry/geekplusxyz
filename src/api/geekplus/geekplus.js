@@ -280,12 +280,21 @@ export function getImageList(filePath) {
   })
 }
 
-// 获取某个文件夹下的图片list
+// 删除某文件路径下的文件
 export function deleteFile(filePath) {
   return request({
     url: '/geekplusapp/deleteFile',
     method: 'post',
     data:filePath
+  })
+}
+
+// 删除某文件路径下的文件
+export function updateArticleViewCount(queryParams) {
+  return request({
+    url: '/geekplusapp/updateArticleViewCount',
+    method: 'get',
+    params:queryParams
   })
 }
 
