@@ -345,7 +345,7 @@
                   </div>
                   <div class="">
                     <div class="my-social-list">
-                      <a
+                      <!-- <a
                         id="S_ins"
                         title="Instagram"
                         target="_blank"
@@ -377,8 +377,8 @@
                         data-original-title="豆瓣"
                       >
                         <i class="fa fa-dashcube"></i>
-                      </a>
-                      <a
+                      </a> -->
+                      <!-- <a
                         id="s_qq_music"
                         title="qq音乐"
                         target="_blank"
@@ -388,7 +388,7 @@
                         data-original-title="qq音乐"
                       >
                         <i class="fa fa-music"></i>
-                      </a>
+                      </a> -->
                       <a
                         id="s_email"
                         title="邮箱"
@@ -411,7 +411,7 @@
                       >
                         <i class="fa fa-github"></i>
                       </a>
-                      <a
+                      <!-- <a
                         id="s_gitee"
                         title="Gitee码云"
                         target="_blank"
@@ -421,12 +421,12 @@
                         data-original-title="码云"
                       >
                         <i class="fa fa-git"></i>
-                      </a>
+                      </a> -->
                       <a
                         id="s_rss"
                         title="RSS订阅"
                         target="_blank"
-                        href="http://www.zifangsky.cn/feed/"
+                        href="https://www.geekplus.xyz"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         data-original-title="RSS"
