@@ -3,7 +3,7 @@
     <section class="container-content">
       <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-          <div class="article-content">
+          <div class="article-content" v-viewer>
             <div class="plus-bread-crumb">
               <bread-crumb>
                 <bread-crumb-item v-for="item,index in breadCrumbList" :key="index" :to="index+1==breadCrumbList.length?'':item.path">{{item.meta.title}}</bread-crumb-item>
@@ -52,6 +52,14 @@
               <p>
                 说了这么多，无非就是论证并无双全法之说，唯一的办法是以自己的诉求为出发点，偏向和放大一方，以最小的代价舍弃另一方。以上纯属个人无稽之谈，愉悦而已，喜则取之，厌则弃之。
               </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <button class="label label-success" v-for="item,index in articleInfo.tags" :key="index"
+               style="display:inline-block; margin:3px;" aria-hidden="true" @click="$router.push({path:'/articleListForTag',query:{tagName:item.tagName}})">
+                <span class="glyphicon glyphicon-tags"></span>&nbsp;{{item.tagName}}
+              </button>
             </div>
           </div>
           <div class="row">
@@ -319,8 +327,13 @@ import {
   getTagArticleCount,
   updateArticleViewCount,
 } from "@/api/geekplus/geekplus";
-//import { response } from "express";
+// 引入插件
+// import 'viewerjs/dist/viewer.css'
+// import Viewer from 'v-viewer'
 export default {
+  // components: {
+  //   Viewer
+  // },
   data() {
     return {
       keywords: "",
@@ -341,6 +354,7 @@ export default {
         updateBy: null,
         updateTime: "2023-03-21 17:32:28",
         viewCount: null,
+        tags:{}
       },
       articleDetail:{},
       tenNewArticle: [],

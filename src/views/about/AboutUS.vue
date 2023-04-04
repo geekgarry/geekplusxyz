@@ -30,7 +30,7 @@
     <div class="container-content">
       <section class="row">
         <div class="col-lg-9 col-md-9 animated slideInLeft">
-          <div class="article-content">
+          <div class="article-content" v-viewer>
             <div class="article-title">
               <h2>
                 {{

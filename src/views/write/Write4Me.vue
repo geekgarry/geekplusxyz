@@ -417,6 +417,7 @@ export default {
               duration: "2000",
             });
             this.resetForm();
+            this.allImageList=[];
           })
           .catch((error) => {
             //console.log(error);
