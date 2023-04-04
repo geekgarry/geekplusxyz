@@ -190,6 +190,29 @@ export function getYearMonth(date) {
     result.push(RegExp.$3);
     return result;
 }
+export function formatNumber(num) {
+    return num >= 1e3 && num < 1e4 ? (num / 1e3).toFixed(1) + 'k' : num >= 1e4 ? (num / 1e4).toFixed(1) + 'w' : num
+}
+export function numFormatKWM(num, digits) {
+    var si = [
+        { value: 1, symbol: "" },
+        { value: 1E3, symbol: "k" },
+        { value: 1E4, symbol: "W" },
+        { value: 1E6, symbol: "M" },
+        { value: 1E9, symbol: "G" },
+        { value: 1E12, symbol: "T" },
+        { value: 1E15, symbol: "P" },
+        { value: 1E18, symbol: "E" }
+    ];
+    var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    var i;
+    for (i = si.length - 1; i > 0; i--) {
+        if (num >= si[i].value) {
+            break;
+        }
+    }
+    return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
+}
 
 //只截取时间的年月日
 export function getOnlyYearMonthDay(val) {
@@ -544,43 +567,43 @@ var a_idx = 0;
 //     window.attachEvent("onload", clickTextEffect);//IE
 // }
 //function clickTextEffect(){
-    // window.onload = function () {
-    //     window.addEventListener("click", function (e) {
-    //         var a = new Array("三民主义", "民族", "民权", "民生");
-    //         var ii = document.createElement("span");
-    //         //console.log(ii)
-    //         ii.innerHTML=a[a_idx];
-    //         a_idx = (a_idx + 1) % a.length;
-    //         var x = e.clientX;
-    //         var y = e.clientY;
-    //         // ii.style.zIndex=9999999;
-    //         //ii.style.top=y-20+'px';
-    //         // ii.style.left=x;
-    //         // ii.style.position="absolute";
-    //         // ii.style.fontWeight="bold";
-    //         // ii.style.color="#ff6651";
-    //         ii.setAttribute("style","top:"+y-20+"px;left:"+x+"px;"+
-    //         "position:fixed;pointer-events:none;font-weight:bold;color:#ff6651;z-index:999999;");
-    //         console.log(ii)
-    //         // {
-    //         //     "z-index": 9999999,
-    //         //     "top": y - 20,
-    //         //     "left": x,
-    //         //     "position": "absolute",
-    //         //     "font-weight": "bold",
-    //         //     "color": "#ff6651"
-    //         // }
-    //         document.body.appendChild(ii);
-    //         ii.animate({
-    //             "top": y - 180,
-    //             "opacity": 0
-    //         },
-    //         1500,
-    //         function () {
-    //             ii.remove();
-    //         });
-    //     });
-    // }
+// window.onload = function () {
+//     window.addEventListener("click", function (e) {
+//         var a = new Array("三民主义", "民族", "民权", "民生");
+//         var ii = document.createElement("span");
+//         //console.log(ii)
+//         ii.innerHTML=a[a_idx];
+//         a_idx = (a_idx + 1) % a.length;
+//         var x = e.clientX;
+//         var y = e.clientY;
+//         // ii.style.zIndex=9999999;
+//         //ii.style.top=y-20+'px';
+//         // ii.style.left=x;
+//         // ii.style.position="absolute";
+//         // ii.style.fontWeight="bold";
+//         // ii.style.color="#ff6651";
+//         ii.setAttribute("style","top:"+y-20+"px;left:"+x+"px;"+
+//         "position:fixed;pointer-events:none;font-weight:bold;color:#ff6651;z-index:999999;");
+//         console.log(ii)
+//         // {
+//         //     "z-index": 9999999,
+//         //     "top": y - 20,
+//         //     "left": x,
+//         //     "position": "absolute",
+//         //     "font-weight": "bold",
+//         //     "color": "#ff6651"
+//         // }
+//         document.body.appendChild(ii);
+//         ii.animate({
+//             "top": y - 180,
+//             "opacity": 0
+//         },
+//         1500,
+//         function () {
+//             ii.remove();
+//         });
+//     });
+// }
 // }
 // clickTextEffect();
 

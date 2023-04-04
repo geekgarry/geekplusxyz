@@ -1519,7 +1519,7 @@ ol {
 
 .container-article .article-list .item .base-info ul li {
   list-style-type: none;
-  flex: content;
+  flex: inherit;
   /* 向左漂移，将竖排变为横排 */
   height: 50px;
   text-align: left;
@@ -3353,7 +3353,7 @@ footer .footer_content p:nth-child(2) {
 
   .container-article .article-list .item .base-info ul li {
     list-style-type: none;
-    flex: content;
+    flex: inherit;
     /* 向左漂移，将竖排变为横排 */
     height: 20px;
     text-align: left;

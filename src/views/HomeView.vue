@@ -63,7 +63,11 @@
                                 : "我是谁?我该如何去认识自己?"
                             }}
                           </p>
-                          <div class="entry-meta"><img v-lazy="MKLogo" /></div>
+                          <div class="entry-meta">
+                            <span><img v-lazy="MKLogo" /></span>&nbsp;
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.viewCount? numFormatKWM(oneIndexArticle.viewCount) : 999 }}
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.createTime ? getOnlyYearMonthDay(oneIndexArticle.createTime) : "2015-04-04" }}
+                          </div>
                         </span>
                       </router-link>
                       <!-- <div class="overlay-layer hidden-sm hidden-xs">
@@ -101,7 +105,9 @@
                                 }}
                               </p>
                               <div class="entry-meta">
-                                <img v-lazy="MKLogo" />
+                                <span><img v-lazy="MKLogo" /></span>&nbsp;
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 999 }}
+                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }}
                               </div>
                             </span>
                           </router-link>
@@ -209,7 +215,8 @@
                         </router-link>
                       </h3>
                       <p class="publish-time">
-                        {{ item.createTime ? item.createTime : "2019-10-24" }}
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 999 }}
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2019-10-24" }}
                       </p>
                       <p
                         v-if="item.abstractText && item.abstractText != ''"
@@ -396,12 +403,14 @@
                             }}</a>
                           </li>
                           <li>
-                            {{
-                              item.createTime
-                                ? getOnlyYearMonthDay(item.createTime)
-                                : "2015-04-04"
-                            }}
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? item.viewCount : 999 }}
                           </li>
+                          <li>
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }}
+                          </li>
+                          <!-- <li>
+                            {{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }}
+                          </li> -->
                         </ul>
                       </div>
                       <div
