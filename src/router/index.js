@@ -258,7 +258,7 @@ const routes = [
   }
 ]
 
-// 公共路由
+// 公共静态路由
 export const constantRoutes = [
   {
     path: '',
@@ -436,7 +436,9 @@ const router = new VueRouter({
   // linkExactActiveClass: 'active',
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
-  //base: process.env.VUE_APP_BASE_API,
+  //代表着是基本的路由请求的路径。参考 ：如：base: ‘/app/’，那么所有的请求都会在url之后加上/app/，应用的基路径。
+  //例如，如果整个单页应用服务在 /app/ 下，然后 base 就应该设为 “/app/”
+  //base: process.env.VUE_APP_BASE_URL,//和代理服务器的API前缀是不一样的概念
   routes:constantRoutes
 })
 
@@ -457,9 +459,8 @@ router.beforeEach(async(to, from, next) => {
   if (store.getters.routes.length==0 || store.getters.addRoutes==0) {
       //拿到浏览器缓存中动态路由的数据 重新添加
       //const data = JSON.parse( localStorage.getItem('userRouter'))
-      if (store.getters.addRoutes.length == 0) {
+    if (store.getters.addRoutes.length == 0) {
       //store.dispatch('permission/getChildrenPath').then(accessRoutes => {
-      // 测试 默认静态页面
       await store.dispatch('permission/generateRoutes').then(accessRoutes => {
         let asyncRouter = accessRoutes
         // 根据roles权限生成可访问的路由表
@@ -479,17 +480,14 @@ router.beforeEach(async(to, from, next) => {
         // });
       //})
       })
-      //不接受next
+      //接受next
       //next(to.path)  //添加完成后再次进入
-      }else{
+    }else{
         next({ ...to, replace: true })  //添加完成后再次进入
     }
   } else {
-    //不接受next
+    //接受next
     next() //如果登录页或首页 或 vuex中有动态路由数据 直接通过
   }
-  //不接受next
-  //document.title = to.meta.title + " - 极客普拉斯&梦极客园" || "极客普拉斯&梦极客园 - geekplus.xyz";
-  //next()
 });
 export default router

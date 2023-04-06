@@ -190,8 +190,8 @@
           </div>
         </aside>
         <div class="col-lg-9 col-md-9 animated slideInRight">
-          <div class="article-content">
-            <h3 class="_1RuRku">
+          <div class="article-container">
+            <h3 class="article-title">
               {{
                 articleInfo.articleTitle
                   ? articleInfo.articleTitle
@@ -199,7 +199,7 @@
               }}
             </h3>
             <!-- <h3>query传值{{ $route.query.articleId }}</h3> -->
-            <div class="tt">
+            <div class="article-meta">
               <label
                 >作者：{{
                   articleInfo.authorName ? articleInfo.authorName : "承诺"
@@ -249,11 +249,11 @@
             </div>
           </div> -->
             <article
-              class="content"
+              class="article-content"
               v-if="articleInfo.articleContent"
               v-html="articleInfo.articleContent"
             ></article>
-            <article class="" v-else>
+            <article class="article-content" v-else>
               <p>
                 1、（先进入项目文件夹）通过命令 git init
                 把这个目录变成git可以管理的仓库

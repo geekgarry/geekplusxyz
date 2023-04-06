@@ -362,6 +362,37 @@ export function getNowDate() {
     return year + "-" + month + "-" + day + " " + hour + sign2 + minutes + sign2 + seconds;
 }
 
+/***********************------全局复制携带网站信息-------************************* */
+export function addLink() {
+    var body_element = document.body;
+    var selection;
+    var copytext;
+    var pagelink;
+    let range = new Array();
+    selection = window.getSelection();
+    for (let i = 0; i < selection.rangCount; i++) {
+        range[i] = selection.getRangeAt(i)
+    }
+    if (window.clipboardData) { // Internet Explorer
+        pagelink = "\r\n\r\n\r\n 本文为[梦极客园]的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明 原文链接: " + document.location.href + "";
+        copytext = selection + pagelink;
+        window.clipboardData.setData("Text", copytext);
+        return false;
+    } else {
+        pagelink = "\r\n\r\n\r\n 本文为[梦极客园]的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明 原文链接: " + document.location.href + "";
+        copytext = selection + pagelink;
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        body_element.appendChild(newdiv);
+        newdiv.innerText = copytext;
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {
+            body_element.removeChild(newdiv);
+        }, 0);
+    }
+}
+
 /***********************------全局鼠标点击七彩效果-------************************* */
 function clickEffect() {
     let balls = [];
@@ -608,38 +639,18 @@ var a_idx = 0;
 // clickTextEffect();
 
 /***********************------全局复制携带网站信息-------************************* */
-function addLink() {
-    var body_element = document.body;
-    var selection;
-    var copytext;
-    var pagelink;
-    let range = new Array();
-    selection = window.getSelection();
-    for (let i = 0; i < selection.rangCount; i++) {
-        range[i] = selection.getRangeAt(i)
-    }
-    if (window.clipboardData) { // Internet Explorer
-        pagelink = "\r\n\r\n\r\n 本文为[梦极客园]的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明 原文链接: " + document.location.href + "";
-        copytext = selection + pagelink;
-        window.clipboardData.setData("Text", copytext);
-        return false;
-    } else {
-        pagelink = "\r\n\r\n\r\n 本文为[梦极客园]的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明 原文链接: " + document.location.href + "";
-        copytext = selection + pagelink;
-        var newdiv = document.createElement('div');
-        newdiv.style.position = 'absolute';
-        newdiv.style.left = '-99999px';
-        body_element.appendChild(newdiv);
-        newdiv.innerText = copytext;
-        selection.selectAllChildren(newdiv);
-        window.setTimeout(function () {
-            body_element.removeChild(newdiv);
-        }, 0);
-    }
-}
-document.body.oncopy = function () {
+// document.body.oncopy = function(e) {
+//     // 全局监听
+// };
+// $('.articl-content').oncopy = function(e) {
+//     // 部分监听
+// };
+// window.addEventListener('copy', e => {
+//     // 全局监听
+// })
+// window.addEventListener('copy',() => {
     //swal("复制成功！", "若要转载请务必保留原文链接，申明来源，谢谢合作！By:梦极客园","success");
-    addLink();
+    // addLink();
     /* setTimeout( function () {
         //window.event.returnValue = false;
         var text = window.clipboardData.getData("text"); 
@@ -648,4 +659,4 @@ document.body.oncopy = function () {
         clipboardData.setData("text", text); 
         } 
         },100); */
-}
+// });

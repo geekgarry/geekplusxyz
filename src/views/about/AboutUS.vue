@@ -30,7 +30,7 @@
     <div class="container-content">
       <section class="row">
         <div class="col-lg-9 col-md-9 animated slideInLeft">
-          <div class="article-content" v-viewer>
+          <div class="article-container" v-viewer>
             <div class="article-title">
               <h2>
                 {{
@@ -38,26 +38,25 @@
                 }}
               </h2>
             </div>
-            <div class="tt">
+            <div class="article-meta">
               <label
                 >作者：{{
                   aboutMeData.gpName ? aboutMeData.gpName : "geekplus"
-                }}</label
-              >
-              |
+                }}
+              </label>|
               <label
                 >发布：{{
                   aboutMeData.createTime ? aboutMeData.createTime : "2019-12-12"
-                }}</label
-              >
+                }}
+              </label>
             </div>
             <article>
               <div
-                class="content"
+                class="article-content"
                 v-if="aboutMeData.gpContent"
                 v-html="aboutMeData.gpContent"
               ></div>
-              <div class="content" v-else>
+              <div class="article-content" v-else>
                 <p>欢迎来到梦极客园!!!</p>
                 <div class="alert alert-info alert-no-margin" role="alert">
                   <p>做政治试卷，是我这辈子，说谎最多的时候。</p>

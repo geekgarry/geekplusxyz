@@ -959,6 +959,7 @@ ol {
 
 .special-recommend-list .special-recommend-first .entry-wrapper>.entry-meta {
   line-height: 25px;
+  font-size: 0.9em;
   padding: 5px 0;
   height: 35px;
   flex-grow: 0;
@@ -1135,7 +1136,7 @@ ol {
   margin: 0;
   height: 40px;
   line-height: 20px;
-  font-size: 12px;
+  font-size: 0.9em;
   white-space: normal;
   word-wrap: normal;
   word-break: normal;
@@ -1149,6 +1150,7 @@ ol {
 
 .special-recommend-list .square-art-list .square-art-item .entry-wrapper>.entry-meta {
   line-height: 25px;
+  font-size: 0.8em;
   padding: 5px 0;
   height: 35px;
   flex-grow: 0;
@@ -1264,6 +1266,7 @@ ol {
 
 .latest-new-article .index-newtalk-list div p.publish-time {
   padding-left: 5px;
+  font-size: 0.8em;
   flex: 1 1 auto;
   height: 20px;
   line-height: 20px;
@@ -1606,20 +1609,43 @@ ol {
 
 
 /*****************************标签部分的样式*****************************/
-#tag-list a {
+/******单个文章标签样式******/
+.plus-tag{
+  display: inline-block;
+  margin: 2px;
+  line-height: 22px;
+}
+.plus-tag-label{
+  background-color: rgb(84, 180, 78);
+  font-size: 0.9em;
+  padding: 3px 7px 3px 7px;
+  border-radius: 22px;
+  -webkit-border-radius: 22px;
+  -moz-border-radius: 22px;
+  -ms-border-radius: 22px;
+  -o-border-radius: 22px;
+}
+.plus-tag a{
+  color: #f3f4f2;
+}
+/*****************************/
+.tag-list a {
   text-decoration: none;
   white-space: nowrap;
   /* text-overflow:ellipsis; */
   display: block;
   width: auto;
-  padding-left: 9px;
-  padding-right: 9px;
-  height: 35px;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 30px;
   background: #f2f2f2;
   float: left;
-  margin: 5px;
-  line-height: 35px;
+  margin: 2px;
+  line-height: 30px;
   -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
   border-radius: 10px;
   color: #ff6a6a;
   text-align: center;
@@ -1629,7 +1655,7 @@ ol {
   -ms-transition: -ms-transform 0.4s ease-out;
 }
 
-#tag-list a:hover {
+.tag-list a:hover {
   -webkit-transform: rotateZ(360deg);
   -moz-transform: rotateZ(360deg);
   -o-transform: rotateZ(360deg);
@@ -1637,9 +1663,9 @@ ol {
   transform: rotateZ(360deg);
 }
 
-#tag-list a,
-#tag-list a:visited,
-#tag-list a:link {
+.tag-list a,
+.tag-list a:visited,
+.tag-list a:link {
   /* color: #89b3c9; */
 }
 
@@ -2866,16 +2892,16 @@ footer .footer_content p:nth-child(2) {
   text-align: right;
 }
 
-/*******************文章详情界面的样式(博客文章页面)-------article-content************/
+/*******************文章详情界面的样式(博客文章页面)-------article-container************/
 
-.article-content {
+.article-container {
   width: 100%;
   height: auto;
   /* float: left; */
   /* margin-bottom: 20px;*/
   /* text-align: center; */
   margin: 0 auto;
-  background: #ffffff;
+  background: #FFFFFF;
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -2888,24 +2914,24 @@ footer .footer_content p:nth-child(2) {
 }
 
 .article-title {
-  text-align: center;
+  text-transform:inherit;
 }
 
-.article-content h3 {
+.article-container h3 {
   margin-top: 5px;
 }
 
-.article-content .tt {
+.article-container .article-meta {
   margin-top: 2px;
   color: #1f5d6cd9;
   text-align: center;
 }
 
-.article-content .content {
+.article-container .article-content {
   margin-top: 5px;
 }
 
-.article-content .content p {
+.article-container .article-content p {
   margin: 1px auto 5px !important;
   text-align: left;
   padding: 1px;
@@ -2913,15 +2939,33 @@ footer .footer_content p:nth-child(2) {
   line-height: 30px;
   font-size: 1.1em;
 }
-
-.article-content img {
+.article-container .article-content p.ql-align-center {
+  margin: 1px auto 4px !important;
+  text-align: center;
+  text-indent: unset;
+  padding: 1px;
+  font-size: 1.1em;
+}
+.article-container img {
   /* width: auto; */
   height: auto;
-  max-width: 83%;
-  max-height: 83%;
-  margin: 2px 5px auto;
+  max-width: 84%;
+  max-height: 84%;
+  margin: 2px auto;
 }
 
+.article-container .plus-article-toolbar{
+  border-top: #bbbcbc 1px dashed;
+  text-align: right;
+}
+.toolbar-button{
+  margin: 5px 6px 5px 0;
+  height: 30px;
+  line-height: 30px;
+  font-size: 0.8rem;
+  border: none;
+  background-color: #f2f4f4;
+}
 /****************%%%%%%%%%%%##############¥¥¥¥¥¥¥¥¥¥¥¥¥#####****首页响应式样式*****@@@@@@@@@@@@@@@@@@@@@@####¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥*********/
 /* .container-article .article-list .item .art-img {
     float: left;

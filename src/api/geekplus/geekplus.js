@@ -289,8 +289,8 @@ export function deleteFile(filePath) {
   })
 }
 
-// 删除某文件路径下的文件
-export function updateArticleViewCount(queryParams) {
+// 更新文章浏览量和文章点赞量
+export function updateViewCountAndLikeCount(queryParams) {
   return request({
     url: '/geekplusapp/updateArticleViewCount',
     method: 'get',

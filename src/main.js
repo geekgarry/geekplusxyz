@@ -75,7 +75,7 @@ Vue.use(VueQuillEditor);
 //import WaveItem from "@/components/effect/Wave";
 //import '@/assets/js/flower.js'
 import {
-  getNowDate, checkHtml, getHtmlValue, randomRGB, color16,numFormatKWM,
+  getNowDate, checkHtml, getHtmlValue, randomRGB, color16,numFormatKWM,addLink,
   someColor, getOnlyYearMonthDay, getHtmlPlainText, someNumberCount, backToTop
 } from '@/utils/plushome'
 
@@ -103,6 +103,7 @@ Vue.prototype.getNowDate = getNowDate;
 Vue.prototype.checkHtml = checkHtml;
 Vue.prototype.color16 = color16;
 Vue.prototype.numFormatKWM=numFormatKWM;
+Vue.prototype.addLink=addLink;
 Vue.prototype.randomRGB = randomRGB;
 Vue.prototype.someColor = someColor;
 Vue.prototype.getHtmlValue = getHtmlValue;

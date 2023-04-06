@@ -41,7 +41,7 @@ export default new Vuex.Store({
     addRoutes:[],
     menuRouters:[]
   },
-    getters,
+  getters,
   mutations: {
     // addMenuRouters(state, routes){
 		// 	state.menuRouters = routes;
