@@ -79,14 +79,14 @@
                             </h6>
                             <p class="date-author">
                               <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }} 
-                              <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 999 }}
+                              <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 0 }}
                               <!-- <span class="author">{{item.authorName}}</span> -->
                             </p>
                             <p class="card-text">
                               <!-- 一个长期存在的事实是，当一个读者看到一个页面的布局时，它就会成为它的读者。 -->
                               <span v-for="tags,index in item.tags" :key="index">
                                 <router-link
-                                  :to="{ path: '/articleListForTag', query: { tagName: item.tagName } }">
+                                  :to="{ path: '/articleListForTag', query: { tagName: tags.tagName } }">
                                   #{{ tags.tagName }}
                                 </router-link>
                               </span>
@@ -488,7 +488,7 @@ export default {
       //   console.log(item.path.indexOf(pathName));//search
       //   return item.path.includes(pathName)==true;
       // })
-      console.log(pathName);
+      // console.log(pathName);
       // if(str.match(reg)){// 包含 }
       categoryPathList.forEach((item) => {
         item.children.forEach((childItem) => {
@@ -501,7 +501,7 @@ export default {
           }
         })
       })
-      console.log(this.allCategoryList);
+      // console.log(this.allCategoryList);
       //console.log(this.allCategoryList)
       //console.log(this.allCategoryList)
       // listSubCategory()
@@ -794,7 +794,7 @@ export default {
   margin: 3px auto;
 }
 .card-body .date-author{
-  font-size: 0.9em;
+  font-size: 0.9rem;
 }
 .card-body .date-author span{
   color: #71aa84;
@@ -810,6 +810,10 @@ export default {
   .col .card-header img{
     height:130px;
   }
+  .card:hover{
+    transform: translateY(-6px);
+    transition: transform 0.3s ease;
+  }
 }
 @media(max-width: 576px){
   .col{
@@ -818,6 +822,10 @@ export default {
   }
   .col .card-header img{
     height:100px;
+  }
+  .card:hover{
+    transform: translateY(-4px);
+    transition: transform 0.3s ease;
   }
 }
 </style>

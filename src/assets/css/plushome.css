@@ -264,6 +264,7 @@ a:active {
   line-height: 50px;
   text-align: center;
   background-color: #f8f8f892;
+  list-style: none;
   /* padding: 10px; */
   box-sizing: border-box;
   /*设置盒模型的类型*/
