@@ -2,6 +2,7 @@
 import BreadCrumbItem  from './breadcrumb/BreadCrumbItem'
 import BreadCrumb  from './breadcrumb/BreadCrumb'
 import PlusPager from './pager/PlusPager'
+import WaterFall from './waterfall/WaterFall'
 //入口文件注册插件（main.js）
 export default {
   install (app) {
@@ -11,5 +12,6 @@ export default {
     app.component(BreadCrumb.name,BreadCrumb)
     app.component(BreadCrumbItem.name, BreadCrumbItem)
     app.component(PlusPager.name,PlusPager)
+    app.component(WaterFall.name,WaterFall)
   }
 }

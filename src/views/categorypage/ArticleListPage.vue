@@ -4,7 +4,7 @@
       <div class="container">
         <section class="row">
           <div class="">
-            <div class="col-lg-9 col-md-9 animated slideInLeft">
+            <div class="col-lg-9 col-md-9 animate_animated animate_slideInLeft">
               <div class="articleList-bread-crumb">
                 <div class="plus-bread-crumb">
                   <bread-crumb>
@@ -24,12 +24,8 @@
                       <div class="art-img">
                         <router-link :to="'/article/' + item.id">
                           <img
-                            v-lazy="
-                              item.indexPicture
-                                ? item.indexPicture
-                                : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
-                            "
-                          />
+                            v-lazy="item.indexPicture ? item.indexPicture : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')"
+                            :alt="item.articleTitle"/>
                         </router-link>
                         <!-- class="animated hover_" data-in="swing" data-out="pulse" -->
                         <div class="overlay hidden-sm hidden-xs">
@@ -733,7 +729,8 @@ export default {
   },
   created() {
     this.$router.onReady(() => {
-      //console.log(this.$route.path);
+      //console.log(this.$route.path.split('/'));
+      var pathArr=this.$route.path.split('/');
       this.queryParams.pathName = this.$route.path.split('/')[2] || this.$route.params.categoryPath;
       window.document.title=(this.$route.meta.title||this.queryParams.pathName)+"文章列表 | 极客普拉斯&梦极客园" || "极客普拉斯&梦极客园-geekplus.xyz";
     });

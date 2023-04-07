@@ -123,6 +123,8 @@
 </template>
 
 <script>
+// 引入插件
+import $ from 'jquery';
 export default {
   name: "SlideSwiper",
   props: {
@@ -179,6 +181,9 @@ export default {
     // document.getElementsByClassName('carousel')[0].carousel({
     //     interval: 2000
     // })
+    $('#SlideSwiper').carousel({
+      interval: 3000
+    })
   },
   methods: {},
 };

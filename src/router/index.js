@@ -302,14 +302,6 @@ export const constantRoutes = [
         children: []
       },
       {
-        path: '/resourceList',
-        name: 'resourceTest',
-        meta: { title: '福利资源', icon: 'fa-home' },
-        component: () => import(/* webpackChunkName: "about" */'@/views/categorypage/GeneralListPage.vue'),
-        type: 'menu',
-        children: []
-      },
-      {
         path: '/lifeArticleList',
         name: 'myLifeTest',
         meta: { title: '生活随笔', icon: 'fa-home' },
@@ -339,7 +331,7 @@ export const constantRoutes = [
       },
       {
         path: '/article/:articleId',
-        name: 'article',
+        name: 'articlePage',
         meta: { title: '文章详情', icon: 'fa-home' },
         component: (resolve) => require(['@/views/article/ArticleContent.vue'], resolve),
         type: 'generalPage',
@@ -399,10 +391,10 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/honeyComb',
+    path: '/test',
     name: 'honeyComb',
     meta: { title: '蜂窝结构', icon: 'fa-home' },
-    component: (resolve) => require(['../components/HoneyComb.vue'], resolve),
+    component: (resolve) => require(['@/views/categorypage/TestPage.vue'], resolve),
     type: 'page',
     hidden: true
   },

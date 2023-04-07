@@ -52,6 +52,15 @@
         <div class="navbar-header">
           <button
             class="navbar-toggle pull-right"
+            data-toggle="collapse"
+            data-target="#navbar_collapse_div"
+          >
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <button
+            class="navbar-toggle pull-right"
             @click="$router.push('/chatgpt')"
           >
             <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
@@ -63,20 +72,13 @@
           >
             <span class="glyphicon glyphicon-search"></span>
           </button>
-          <button
-            class="navbar-toggle pull-right"
-            data-toggle="collapse"
-            data-target="#navbar_collapse_div"
-          >
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <router-link class="navbar-brand visible-xs" to="/">
-            <!-- <img v-lazy="GCLogo" class="logo_img" @onmouseover="mouseOverIt"
-                @onmouseout="mouseOutIt" style="width:20px;height:20px;" /> -->
-            <span ref="brandText">极客普拉斯</span>
-          </router-link>
+          <!-- <div class="navbar-brand-container"> -->
+            <router-link class="navbar-brand visible-xs" to="/">
+              <!-- <img v-lazy="GCLogo" class="logo_img" @onmouseover="mouseOverIt"
+                  @onmouseout="mouseOutIt" style="width:20px;height:20px;" /> -->
+              <span class="navbar-brand-logo-text" ref="brandText">极客普拉斯</span>
+            </router-link>
+          <!-- </div> -->
           <!-- <router-link class="navbar-left visible-xs" href="https://www.geekplus.xyz/">
               <img alt="极客普拉斯" id="navbar-brand-img" v-lazy="GCLogo" >极客普拉斯
             </router-link> -->

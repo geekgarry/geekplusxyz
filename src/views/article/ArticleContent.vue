@@ -295,10 +295,7 @@
               </div>
             </div>
             <div class="panel panel-default recommendlist">
-              <div
-                class="panel-heading"
-                style="background: rgba(0, 0, 0, 0.0001)"
-              >
+              <div class="panel-heading" style="background: rgba(0, 0, 0, 0.0001)">
                 快捷菜单
               </div>
               <div class="panel-body">

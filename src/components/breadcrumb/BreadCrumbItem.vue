@@ -18,3 +18,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.bread-item span{
+  color: #559ec2;
+}
+</style>

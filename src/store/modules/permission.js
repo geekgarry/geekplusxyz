@@ -79,7 +79,8 @@ function setChild(item, routerList, rootName, rootPath) {
         let router = {
             name: routerName.replace('/', ''),
             path: rootPath,
-            component: () => import('@/views/categorypage/ArticleListPage.vue'),// + item.component
+            //component: () => import('@/views/categorypage/ArticleListPage'),
+            component: loadView(item.component),
             meta: { title: rootName, icon: item.icon, id: item.id},
             type: 'servermenu',
             children: []
@@ -95,7 +96,8 @@ function setChild(item, routerList, rootName, rootPath) {
         let router = {
             name: routerName.replace('/', ''),
             path: rootPath,
-            component: () => import('@/views/categorypage/ArticleListPage.vue'),// + item.component
+            //component: () => import('@/views/categorypage/ArticleListPage'),
+            component: loadView(item.component),
             meta: { title: rootName, icon: item.icon, id: item.id},
             type: 'servermenu',
             children: []
