@@ -63,7 +63,7 @@
                   <honey-comb :imageList="articleList"></honey-comb>
                 </div> -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 article-list">
-                  <div class="row-list">
+                  <div class="row-list mt-5">
                     <div class="col" v-for="(item, index) in articleList"
                       :key="index">
                         <div class="card">
@@ -458,8 +458,9 @@ export default {
             duration: 3000,
             theme: "bubble",
           });
-        });
-      this.backToTop();
+        }).finally(() => {});
+      setTimeout(() => this.backToTop(),
+        700);
     },
     getTenNewArticle() {
       let data = {};
@@ -726,7 +727,7 @@ export default {
 }
 .col .card{
   width: 100%;
-  box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 12px rgba(0,0,0,0.2);
   transition: transform 0.3s ease;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -819,6 +820,10 @@ export default {
   .col{
       width: 50%;
       padding: 4px;
+  }
+  .col .card{
+    width: 100%;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.2);
   }
   .col .card-header img{
     height:100px;

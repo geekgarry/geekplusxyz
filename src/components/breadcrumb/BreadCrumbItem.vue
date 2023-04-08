@@ -19,7 +19,10 @@ export default {
 };
 </script>
 <style scoped>
+.bread-item a{
+  color: #139F95;
+}
 .bread-item span{
-  color: #559ec2;
+  color: #6d7d86;
 }
 </style>

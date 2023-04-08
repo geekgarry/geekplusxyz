@@ -83,7 +83,7 @@
               <img alt="极客普拉斯" id="navbar-brand-img" v-lazy="GCLogo" >极客普拉斯
             </router-link> -->
         </div>
-        <div class="collapse animated fadeInDown" id="collapse_searche_div">
+        <div class="collapse animate__animated animate__fadeInDown" id="collapse_searche_div">
           <div class="search_bar_top">
             <!-- <form action="/searchResult" class="input-group input-group-lg">
                 <input type="text" class="form-control" placeholder="请输入您要搜索的内容...">
@@ -112,7 +112,7 @@
             </form>
           </div>
         </div>
-        <div class="navbar-collapse collapse" id="navbar_collapse_div">
+        <div class="navbar-collapse collapse animate__animated animate__fadeInLeftBig" id="navbar_collapse_div">
           <ul class="nav navbar-nav navbar-left navbar_ul">
             <li :class="keyPath == '/' ? 'menuactive' : ''">
               <router-link to="/">
@@ -339,9 +339,11 @@
             class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center hidden-xs"
           >
             <div class="row">
-              <div
-                class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center"
-              ></div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+                <h6>
+                  <a href="https://wallpaper.geekplus.xyz/" target="_blank">格子壁纸</a>
+                </h6>
+              </div>
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                 <h6>
                   <router-link to="/chatgpt">ChatGPT智能助手</router-link>

@@ -45,7 +45,7 @@
                 <img src="../../../public/imgs/superSlide/images/11.jpg" />
                 <span>11</span>
             </a> -->
-        <a target="_blank" href="#">
+        <a target="_blank" :href="item.carouselLink">
           <!-- <img
               :src="item.carouselImg"
               :alt="item.carouselTitle"

@@ -788,8 +788,9 @@ export default {
             duration: 3000,
             theme: "bubble",
           });
-        });
-      this.backToTop();
+        }).finally(() => {});
+      setTimeout(() => this.backToTop(),
+        700);
     },
     getTenNewArticle() {
       let data = {};

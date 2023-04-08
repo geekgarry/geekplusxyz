@@ -1478,7 +1478,8 @@ export default {
             theme: "bubble",
           });
         });
-      this.backToTopIndex();
+      setTimeout(() => this.backToTopIndex(),
+        700);
     },
     getAllArticleCategory() {
       // let tempMenuList = this.$router.options.routes.filter(

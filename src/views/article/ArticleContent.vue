@@ -40,7 +40,7 @@
               |
               <label
                 >浏览：{{
-                  articleInfo.viewCount ? articleInfo.viewCount + 1 : 38909
+                  articleInfo.viewCount ? articleInfo.viewCount + 1 : 0
                 }}</label
               >
             </div>
@@ -117,9 +117,7 @@
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <h6>
-                评论:(文章评论功能没有上线，请到<router-link to="/leaveMessage"
-                  >给我留言</router-link
-                >页面)
+                评论:(文章评论功能上线正在测试中，可以留言评论！)
               </h6>
               <div class="comments_input_area">
                 <div class="row">
@@ -127,6 +125,7 @@
                     <div class="form-group">
                       <input
                         type="text"
+                        v-model="userMessage.name"
                         class="form-control"
                         id="inputnickname"
                         name="nickname"
@@ -139,6 +138,7 @@
                     <div class="form-group">
                       <input
                         type="email"
+                        v-model="userMessage.email"
                         class="form-control"
                         id="inputemail"
                         name="email"
@@ -151,6 +151,7 @@
                     <div class="form-group">
                       <input
                         type="text"
+                        v-model="userMessage.website"
                         class="form-control"
                         id="inputwebsite"
                         name="websiteurl"
@@ -160,16 +161,141 @@
                   </div>
                 </div>
                 <div class="Input_Box">
-                  <div contenteditable="true" class="Input_text"></div>
+                  <textarea placeholder="请输入内容*" hidden id="textarea-content" name="editordata-web"
+                    v-model="userMessage.content"></textarea>
+                  <div contenteditable="true" class="Input_text" v-on:keyup="putTextAreaValue" id="div_msg_content"></div>
                   <div class="Input_Foot">
                     <a class="imgBtn" href="javascript:void(0);">'◡'</a
                     ><a class="imgBtn" href="javascript:void(0);">&lt;/&gt;</a
-                    ><a class="postBtn">确定</a>
+                    ><a class="postBtn" @click="userLeaveMessage">确定</a>
                   </div>
                 </div>
                 <div class="faceDiv">
                   <section class="emoji_container"></section>
                   <section class="emoji_tab"></section>
+                </div>
+              </div>
+              <div class="leavewords-container" v-if="leaveMessageTotal>0">
+                <div class="articleComment">
+                  <div
+                    class="comment-lw"
+                    v-for="(item, index) in leaveMessage"
+                    :key="index"
+                  >
+                    <div class="comment-main">
+                      <a class="user-logo"><img v-lazy="UserLogo" /></a>
+                      <div class="comment-content">
+                        <div class="comment-info">
+                          <a>{{ item.name }}</a>
+                          <span class="comment_info_time">{{ item.createTime }}</span>
+                        </div>
+                        <div
+                          class="comment-text"
+                          :style="'color:' + someColor() + ';'"
+                          v-if="checkHtml(item.content)"
+                          v-html="item.content"
+                        ></div>
+                        <div
+                          class="comment-text"
+                          :style="'color:' + someColor() + ';'"
+                          v-else
+                          v-text="item.content"
+                        ></div>
+                        <div class="comment-action">
+                          <a href="javascript:void(0)" @click="openReplyBox(item.id)"
+                            >回复</a
+                          >
+                          &nbsp;
+                          <a
+                            v-if="item.id === replyBoxIndex"
+                            href="javascript:void(0)"
+                            @click="closeReplyBox"
+                            >关闭</a
+                          >
+                        </div>
+                        <!-- <div v-if="isDisplayMsgBox"> -->
+                        <reply-message-box
+                          :messageReplyInfo="{
+                            id: item.id,
+                            repId: item.id,
+                            name: item.name,
+                          }"
+                          v-if="item.id === replyBoxIndex"
+                          v-on:getReplyMsg="getReplyMessage"
+                          ref="replyMsgRef"
+                        ></reply-message-box>
+                        <!-- </div> -->
+                      </div>
+                    </div>
+                    <div v-if="item.children" class="sub-comment-lw">
+                      <div
+                        class="comment-main"
+                        v-for="(subitem, index) in item.children"
+                        :key="index"
+                      >
+                        <a class="user-logo"
+                          ><img
+                            v-lazy="
+                              subitem.userId == 'sysUser:1' ? GPLogo : UserLogo
+                            "
+                        /></a>
+                        <div class="comment-content">
+                          <div class="comment-info">
+                            <a>{{ subitem.name }}</a>
+                            <span
+                              >&nbsp;回复：<a
+                                ><strong class="">{{ subitem.replyName }}</strong></a
+                              ></span
+                            >
+                            <span class="comment_info_time"
+                              >&nbsp;{{ subitem.createTime }}</span
+                            >
+                          </div>
+                          <div
+                            class="comment-text"
+                            :style="'color:' + someColor() + ';'"
+                            v-if="checkHtml(subitem.content)"
+                            v-html="subitem.content"
+                          ></div>
+                          <div
+                            class="comment-text"
+                            :style="'color:' + someColor() + ';'"
+                            v-else
+                            v-text="subitem.content"
+                          ></div>
+                          <div class="comment-action">
+                            <a
+                              href="javascript:void(0)"
+                              @click="openReplyBox(subitem.id)"
+                              >回复</a
+                            >
+                            &nbsp;
+                            <a
+                              v-if="subitem.id === replyBoxIndex"
+                              href="javascript:void(0)"
+                              @click="closeReplyBox"
+                              >关闭</a
+                            >
+                          </div>
+                          <!-- <div v-if="isDisplayMsgBox"> -->
+                          <reply-message-box
+                            :messageReplyInfo="{
+                              id: item.id,
+                              repId: subitem.id,
+                              name: subitem.name,
+                            }"
+                            v-if="subitem.id === replyBoxIndex"
+                            v-on:getReplyMsg="getReplyMessage"
+                            ref="replyMsgRef"
+                          ></reply-message-box>
+                          <!-- </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="leaveMessageTotal>queryParams.pageSize" class="load-more-data">
+                  <a href="javascript:void(0);" @click="loadMoreData">{{ loadMoreBtn }}</a>
                 </div>
               </div>
             </div>
@@ -399,15 +525,21 @@ import {
   listSubCategory,
   getTagArticleCount,
   updateViewCountAndLikeCount,
+  sendUserComment,
+  getAllUserComment,
+  getUserCommentCount,
+  getWebHotUserComment,
+  getArticleLatestUserComment,
 } from "@/api/geekplus/geekplus";
+import ReplyMessageBox from "@/components/comment/ReplyMessageBox.vue";
 // 引入插件
 import $ from 'jquery';
 // import 'viewerjs/dist/viewer.css'
 // import Viewer from 'v-viewer'
 export default {
-  // components: {
-  //   Viewer
-  // },
+  components: {
+    ReplyMessageBox
+  },
   data() {
     return {
       windowUrl: "",
@@ -441,6 +573,80 @@ export default {
         viewCount: null,
         id: null,
       },
+      GPLogo: require("@/assets/logo.png"),
+      UserLogo: require("@/assets/icon/mai.png"),
+      isDisplayMsgBox: false,
+      replyBoxIndex: -1,
+      //网站直接留言
+      userMessage: {
+        name:null,
+        email:null,
+        website:null,
+        content:null,
+        topicId:null,
+      },
+      leaveMessageTotal: 2,
+      // 查询参数
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        replyId: null,
+        name: null,
+        email: null,
+        website: null,
+        content: null,
+        topicId: null,
+        topicType: null,
+        userId: null,
+        parentId: 0,
+      },
+      leaveMessage: [
+        // {
+        //   id: "1",
+        //   name: "普通用户",
+        //   email: "",
+        //   website: "",
+        //   content: "你好",
+        //   createTime: "2023-03-03",
+        //   children: [
+        //     {
+        //       id: "11",
+        //       name: "geekplus",
+        //       email: "",
+        //       website: "",
+        //       content: "嗯！你好！",
+        //       createTime: "2023-03-11",
+        //     },
+        //     {
+        //       id: "12",
+        //       name: "geekplus",
+        //       email: "",
+        //       website: "",
+        //       content: "what？你在说什么？我不知道！",
+        //       createTime: "2023-03-09",
+        //     },
+        //   ],
+        // },
+        // {
+        //   id: "111",
+        //   name: "普通用户",
+        //   email: "",
+        //   website: "",
+        //   content: "你是做什么的，你为什么要建这个网站？",
+        //   createTime: "2023-03-13",
+        //   children: [
+        //     {
+        //       id: "121",
+        //       name: "普通用户",
+        //       email: "",
+        //       website: "",
+        //       content: "我是一个孤独的人，一个没有朋友的人？",
+        //       createTime: "2023-03-17",
+        //     },
+        //   ],
+        // },
+      ],
+      loadMoreBtn:"加载更多留言"
     };
   },
   created() {
@@ -450,6 +656,7 @@ export default {
     this.getAllArticleCategory();
     this.getTagAndArticleCount();
     this.windowUrl = window.location.href;
+    this.getUserCommentMessage(1);
     // document.onkeydown = function (e) {
     //   // 回车提交表单
     //   // 兼容FF和IE和Opera
@@ -468,7 +675,9 @@ export default {
           this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
           "极客普拉斯&梦极客园-geekplus.xyz";
       });
+      this.articleViewAndLike.viewCount=this.articleInfo.viewCount;
       this.articleViewAndLike.likeCount=this.articleInfo.likeCount;
+      this.modifyViewCount();
     },
     // $route(to, from) {
     //   console.log("数据变化")
@@ -484,10 +693,9 @@ export default {
           content: "<div class='popover-container' ><img src='/imgs/earnmoney/alipay.jpg' width='100px' height='100px'>&nbsp;<img src='/imgs/earnmoney/wxpay.jpg' width='100px' height='100px'></div>"
       });
     })
-    setTimeout(() => {
+    //setTimeout(() => {
       // console.log(this.articleInfo);
-      this.modifyViewCount();
-    }, 1000);
+    //}, 1000);
     // setInterval(()=>{
     //   console.log("hello")
     // },1000);
@@ -600,7 +808,7 @@ export default {
       if (this.articleInfo.viewCount == null) {
         this.articleInfo.viewCount = 0;
       }
-      this.articleViewAndLike.viewCount = this.articleInfo.viewCount;
+      //this.articleViewAndLike.viewCount = this.articleInfo.viewCount;
       this.articleViewAndLike.viewCount = this.articleViewAndLike.viewCount + 1;
       this.articleViewAndLike.id = this.$route.params.articleId;
       updateViewCountAndLikeCount(this.articleViewAndLike)
@@ -613,6 +821,7 @@ export default {
       }
       //this.articleViewAndLike.likeCount = this.articleInfo.likeCount;
       this.articleViewAndLike.likeCount = this.articleInfo.likeCount + 1;
+      this.articleViewAndLike.id = this.$route.params.articleId;
       updateViewCountAndLikeCount(this.articleViewAndLike)
         .then((response) => {})
         .catch((error) => {});
@@ -748,17 +957,180 @@ export default {
       // }).catch(() => {
       // });
     },
-    // giftForMe(){
-    //   $("#giftForMe").popover({
-    //   container:'body',
-    //   html:true,
-    //   placement:'top',
-    //   template:"<div ><img src='/imgs/mysocialQRCode/WexinCode.jpg'></div>"
-    //   });
+    // 表单重置
+    reset() {
+      this.userMessage = {
+        id: null,
+        replyId: null,
+        name: null,
+        email: null,
+        website: null,
+        content: null,
+        topicId: null,
+        topicType: null,
+        createTime: null,
+        userId: null,
+        parent: 0,
+      };
+      document.getElementById("div_msg_content").innerHTML='';
+      //this.resetForm("userCommentForm");
+    },
+    getUserCommentMessage(number) {
+      //let data = { parentId: 0, topicId: null };
+      //this.queryParams.parentId=0;
+      if (number == 0||number==null||number=='') {
+        this.queryParams.pageNum = 1;
+      } else {
+        this.queryParams.pageNum = number;
+      }
+      this.queryParams.topicId=this.$route.params.articleId;
+      getAllUserComment(this.queryParams)
+        .then((response) => {
+          //console.log(response);
+          this.leaveMessage =this.leaveMessage.concat(response.rows);
+          this.leaveMessageTotal = response.total;
+          this.loadMoreBtn="加载数据。。。";
+        })
+        .catch((error) => {
+          //console.log(error);
+          this.loadMoreBtn="数据加载失败";
+        })
+        .finally(() => {
+          //this.loadMoreBtn="数据加载完成";
+        });
+      //document.getElementsByClassName("leavewords-container")[0].scrollIntoView();
+      //this.afterBackToTop();
+      setTimeout(async () => {
+        this.loadMoreBtn="数据加载完了";
+      },1000);
+    },
+    // getAllUserCommentMsg() {
+    //   //let data = { parentId: 0, topicId: null };
+    //   //this.queryParams.parentId=0;
+    //   getAllUserComment(this.queryParams)
+    //     .then((response) => {
+    //       //console.log(response);
+    //       this.leaveMessage = response.rows;
+    //       this.leaveMessageTotal = response.total;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
     // },
+    //用户留言
+    userLeaveMessage() {
+      //this.userMessage.dateTime=this.getNowDate()
+      //this.userMessage.parentId=0;
+      this.userMessage.topicId=this.$route.params.articleId;
+      let data = this.userMessage;
+      //console.log(this.userMessage)
+      if (
+        data.name == null ||
+        data.content == null ||
+        data.content == "" ||
+        data.name == ""
+      ) {
+        //console.log("不为空！")
+        this.$toasted.error("*必填项不能为空！", {
+          position: "top-center",
+          duration: 3000,
+        });
+      } else {
+        sendUserComment(this.userMessage)
+          .then((response) => {
+            //console.log(response);
+            this.closeReplyBox();
+            this.getUserCommentMessage();
+            this.$toasted.success("留言成功！", {
+              position: "top-center",
+              duration: 2000,
+            });
+          })
+          .catch((error) => {
+            //console.log(error);
+            this.$toasted.error(error.msg, {
+              position: "top-center",
+              duration: 3000,
+            });
+          });
+        this.reset();
+      }
+    },
+    getReplyMessage(data) {
+      let replyMsg = {
+        name: data.name,
+        email: data.email,
+        website: data.website,
+        content: data.content,
+        //dateTime: this.getNowDate(),
+        parentId:data.parentId,
+        replyId:data.replyId,
+        replyName:data.replyName,
+        topicId:this.$route.params.articleId,
+      };
+      //this.isDisplayMsgBox=false;
+      //this.leaveMessage.filter(item => item.id===this.replyBoxIndex)[0].children.push(replyMsg);
+      //console.log(this.leaveMessage.filter(item => item.id===this.replyBoxIndex))
+      //console.log(data)
+      if (
+        data.name == null ||
+        data.content == null ||
+        data.content == "" ||
+        data.name == ""
+      ) {
+        //console.log("不为空！")
+        this.$toasted.error("*必填项不能为空！", {
+          position: "top-center",
+          duration: 3000,
+        });
+      } else {
+        sendUserComment(replyMsg)
+          .then((response) => {
+            //console.log(response);
+            this.closeReplyBox();
+            this.getUserCommentMessage();
+            this.$toasted.success("回复留言成功", {
+              position: "top-center",
+              duration: 2000,
+            });
+          })
+          .catch((error) => {
+            this.$toasted.error(error.msg, {
+              position: "top-center",
+              duration: 3000,
+            });
+          });
+      }
+    },
+    openReplyBox(index) {
+      //this.isDisplayMsgBox=true;
+      this.replyBoxIndex = index;
+      //console.log(this.replyBoxIndex)
+    },
+    closeReplyBox() {
+      //this.isDisplayMsgBox=false;
+      this.replyBoxIndex = -1;
+    },
+    putTextAreaValue(e){
+      //console.log(e.target)
+      // $(document).on("keyup","#div_content",function(){
+      //   $("#textarea_content").html($(this).html());
+      // });
+      document.getElementById("textarea-content").value=e.target.innerHTML;
+      this.userMessage.content=e.target.innerHTML;
+    },
+    loadMoreData(){
+      this.queryParams.pageNum+=1;
+      if(this.this.queryParams.pageNum<=Math.ceil(this.leaveMessageTotal/this.queryParams.pageSize)){
+        this.getUserCommentMessage(this.queryParams.pageNum+1);
+      }else{
+        this.loadMoreBtn="数据加载完了";
+      }
+    },
   },
   destroyed(){
     //this.modifyLikeCount();
+    this.articleViewAndLike.viewCount=null;
   },
 };
 </script>

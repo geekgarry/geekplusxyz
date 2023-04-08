@@ -910,7 +910,10 @@ export default {
           this.leaveMessageTotal = response.total;
         })
         .catch((error) => {
-          console.log(error);
+          this.$toasted.error(error.msg, {
+              position: "top-center",
+              duration: 3000,
+          });
         })
         .finally(() => {
           
@@ -929,7 +932,10 @@ export default {
           this.leaveMessageTotal = response.total;
         })
         .catch((error) => {
-          console.log(error);
+          this.$toasted.error(error.msg, {
+              position: "top-center",
+              duration: 3000,
+          });
         });
     },
     //用户留言
@@ -952,7 +958,7 @@ export default {
       } else {
         sendUserComment(this.userMessage)
           .then((response) => {
-            console.log(response);
+            //console.log(response);
             this.closeReplyBox();
             this.getAllUserCommentMsg();
             this.$toasted.success("留言成功！", {
@@ -961,7 +967,10 @@ export default {
             });
           })
           .catch((error) => {
-            console.log(error);
+            this.$toasted.error(error.msg, {
+              position: "top-center",
+              duration: 3000,
+            });
           });
         this.reset();
       }
@@ -993,7 +1002,7 @@ export default {
       } else {
         sendUserComment(data)
           .then((response) => {
-            console.log(response);
+            //console.log(response);
             this.closeReplyBox();
             this.getAllUserCommentMsg();
             this.$toasted.success("回复留言成功", {
@@ -1002,7 +1011,10 @@ export default {
             });
           })
           .catch((error) => {
-            console.log(error);
+            this.$toasted.error(error.msg, {
+              position: "top-center",
+              duration: 3000,
+            });
           });
       }
     },
@@ -1028,7 +1040,10 @@ export default {
           this.hotUserLeaveWord = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          this.$toasted.error(error.msg, {
+              position: "top-center",
+              duration: 3000,
+          });
         });
     },
     getTagAndArticleCount() {

@@ -262,7 +262,6 @@ a:active {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  text-align: center;
   background-color: #f8f8f892;
   list-style: none;
   /* padding: 10px; */
@@ -328,6 +327,10 @@ nav ul {
   color: #282929f8 !important;
 }
 
+#navigator_bar .itembox>ul{
+  width: 100%;
+}
+
 /* .navbar_ul li:visited {
     border-radius: 44px 44px 44px 44px;
       background: #d4d4d4;
@@ -352,7 +355,6 @@ nav ul {
   font-weight: bold !important;
   font-family: KaiTi !important;
 }
-
 /************************移动端品牌logo***************************/
 .navbar-brand-container{
   width: 100%;
@@ -1520,8 +1522,8 @@ ol {
   line-height: 50px;
   align-items: center;
   overflow: hidden;
-  color: #000000;
-  font-size: 1em;
+  color: #898989;
+  font-size: 1.3rem;
 }
 
 .container-article .article-list .item .base-info ul {
@@ -1543,9 +1545,11 @@ ol {
   line-height: 50px;
   text-indent: 2px;
   font-size: 1em;
-  color: #000000;
+  color: #859083;
 }
-
+.container-article .article-list .item .base-info ul li>a{
+  color: #969d95;
+}
 .container-article .article-list .item .desc {
   width: 100%;
   flex: 0 0 50px;
@@ -1943,7 +1947,7 @@ ol {
 
 /************************搜索框-移动端按钮下拉搜索框***************************/
 .search_bar_top {
-  background: #c7c8caae;
+  background: #4b4c4ed0;
   padding: 0;
 }
 
@@ -1962,6 +1966,20 @@ ol {
 .search_bar_top input {
   height: 42px;
   width: 100%;
+  color: #f5f5f5;
+  border-radius: unset;
+}
+
+.search_bar_top input::placeholder {
+  border-color: #311c24;
+  box-shadow: #afafaf;
+  color: #fefefe;
+}
+
+.search_bar_top input::focus {
+  border-color: #311c24;
+  box-shadow: #afafaf;
+  color: #fefefe;
 }
 
 .search_bar_top button {
@@ -1984,17 +2002,20 @@ ol {
   color: #b2d9f9;
 } */
 
-/* .search_bar5 input:focus {
-   border-color: #311c24
-  } */
-
 /******************************搜索框7-大屏在侧边搜索框******************************/
 .search_aside_bar {
   padding: 10px 5px;
 }
 
 .search-input-group .input-group-addon {
-  background: white !important;
+  background: rgb(244, 247, 247) !important;
+  padding: 0px 3px;
+}
+
+.search-input-group .input-group-addon button {
+  color: rgb(121, 197, 202) !important;
+  height: 32px;
+  width: 44px;
 }
 
 .search-input-group .form-control {
@@ -2282,7 +2303,7 @@ footer .footer_content p:nth-child(2) {
 
 .Input_text {
   width: 100%;
-  min-height: 40px;
+  min-height: 50px;
   padding: 5px;
   outline: none;
   border: 0px solid #fff;
@@ -2439,13 +2460,16 @@ footer .footer_content p:nth-child(2) {
   width: 100%;
   height: auto;
   /* float: left; */
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   /* text-align: center; */
   background: #ffffff;
-  -webkit-border-radius: 8px;
-  border-radius: 4px;
+  -webkit-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
   border: 1px solid #dddedd;
-  padding: 0 10px 20px 10px;
+  padding: 5px 10px 5px 10px;
   /* 顺势针安排上右下左 css里都是这样的*/
 }
 
@@ -2632,7 +2656,14 @@ footer .footer_content p:nth-child(2) {
   background-color: #FDFCFF;
   /* margin-left: 1em; */
 }
-
+/******底部加载更多样式******/
+.load-more-data{
+  width: 100%;
+  text-align: center;
+}
+.load-more-data a{
+  color: #12394a;
+}
 /**************侧边热门留言显示**************/
 .hotUserComment {
   font-size: 1em;
@@ -2952,6 +2983,8 @@ footer .footer_content p:nth-child(2) {
   text-indent: 30px;
   line-height: 30px;
   font-size: 1.1em;
+  white-space: break-spaces;
+  word-break: break-all;
 }
 .article-container .article-content p.ql-align-center {
   margin: 1px auto 4px !important;
@@ -3083,7 +3116,11 @@ footer .footer_content p:nth-child(2) {
 /*************************响应式样式这是当屏幕宽度小于767px的时候***********************/
 @media screen and (max-width: 767px) {
   /*@media only screen and (max-width: 767px) {*/
-
+  /* 控制下拉菜单栏的整体宽度 */
+  #navbar_collapse_div ul{
+    width: 60%;
+    background-color: #ebebebe8;
+  }
   /*********************************Bootstrap自定义首页轮播图********************************/
   #SlideSwiper {
     height: 300px;
@@ -3277,8 +3314,8 @@ footer .footer_content p:nth-child(2) {
 
   .navbar_ul li>.itembox>ul li {
     width: 100%;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     background: #f8f8f892;
     /* padding: 10px; */
     box-sizing: border-box;
