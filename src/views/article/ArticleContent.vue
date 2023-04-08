@@ -121,58 +121,64 @@
               </h6>
               <div class="comments_input_area">
                 <div class="row">
-                  <div class="col-lg-4 col--md-4 col-sm-4">
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        v-model="userMessage.name"
-                        class="form-control"
-                        id="inputnickname"
-                        name="nickname"
-                        required=""
-                        placeholder="昵称*"
-                      />
+                  <div class="col-lg-6 col--md-6 col-sm-6 col-xs-12" id="comment-left">
+                    <div class="row row-no-gutters">
+                      <div class="col-lg-12 col--md-12 col-sm-12">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            v-model="userMessage.name"
+                            class="form-control"
+                            id="inputnickname"
+                            name="nickname"
+                            required=""
+                            placeholder="昵称*"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col--md-12 col-sm-12">
+                        <div class="form-group">
+                          <input
+                            type="email"
+                            v-model="userMessage.email"
+                            class="form-control"
+                            id="inputemail"
+                            name="email"
+                            required=""
+                            placeholder="邮箱"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col--md-12 col-sm-12">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            v-model="userMessage.website"
+                            class="form-control"
+                            id="inputwebsite"
+                            name="websiteurl"
+                            placeholder="网址"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-lg-4 col--md-4 col-sm-4">
-                    <div class="form-group">
-                      <input
-                        type="email"
-                        v-model="userMessage.email"
-                        class="form-control"
-                        id="inputemail"
-                        name="email"
-                        required=""
-                        placeholder="邮箱"
-                      />
+                  <div class="col-lg-6 col--md-6 col-sm-6 col-xs-12">
+                    <div class="Input_Box">
+                      <textarea placeholder="请输入内容*" hidden id="textarea-content" name="editordata-web"
+                        v-model="userMessage.content"></textarea>
+                      <div contenteditable="true" class="Input_text" v-on:keyup="putTextAreaValue" id="div_msg_content"></div>
+                      <div class="Input_Foot">
+                        <a class="imgBtn" href="javascript:void(0);">'◡'</a
+                        ><a class="imgBtn" href="javascript:void(0);">&lt;/&gt;</a
+                        ><a class="postBtn" @click="userLeaveMessage">确定</a>
+                      </div>
+                    </div>
+                    <div class="faceDiv">
+                      <section class="emoji_container"></section>
+                      <section class="emoji_tab"></section>
                     </div>
                   </div>
-                  <div class="col-lg-4 col--md-6 col-sm-4">
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        v-model="userMessage.website"
-                        class="form-control"
-                        id="inputwebsite"
-                        name="websiteurl"
-                        placeholder="网址"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="Input_Box">
-                  <textarea placeholder="请输入内容*" hidden id="textarea-content" name="editordata-web"
-                    v-model="userMessage.content"></textarea>
-                  <div contenteditable="true" class="Input_text" v-on:keyup="putTextAreaValue" id="div_msg_content"></div>
-                  <div class="Input_Foot">
-                    <a class="imgBtn" href="javascript:void(0);">'◡'</a
-                    ><a class="imgBtn" href="javascript:void(0);">&lt;/&gt;</a
-                    ><a class="postBtn" @click="userLeaveMessage">确定</a>
-                  </div>
-                </div>
-                <div class="faceDiv">
-                  <section class="emoji_container"></section>
-                  <section class="emoji_tab"></section>
                 </div>
               </div>
               <div class="leavewords-container" v-if="leaveMessageTotal>0">
@@ -646,7 +652,7 @@ export default {
         //   ],
         // },
       ],
-      loadMoreBtn:"加载更多留言"
+      loadMoreBtn:"加载更多留言",
     };
   },
   created() {
@@ -705,6 +711,13 @@ export default {
         _this.addLink();
       }
     };
+    // console.log(document.getElementById('comment-left').offsetHeight)
+    var height = document.getElementById('comment-left').offsetHeight - 52;
+    document.getElementsByClassName('Input_text')[0].style.height = height + 'px';
+    window.onresize=()=>{
+      var height = document.getElementById('comment-left').offsetHeight - 52;
+      document.getElementsByClassName('Input_text')[0].style.height = height + 'px';
+    }
   },
   activated() {
     window.document.title =
@@ -1123,7 +1136,7 @@ export default {
     },
     loadMoreData(){
       this.queryParams.pageNum+=1;
-      if(this.this.queryParams.pageNum<=Math.ceil(this.leaveMessageTotal/this.queryParams.pageSize)){
+      if(this.queryParams.pageNum<=Math.ceil(this.leaveMessageTotal/this.queryParams.pageSize)){
         this.getUserCommentMessage(this.queryParams.pageNum+1);
       }else{
         this.loadMoreBtn="数据加载完了";

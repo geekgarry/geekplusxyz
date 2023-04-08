@@ -197,6 +197,9 @@
                   </div>
                 </article>-->
               </div>
+              <div v-if="articleTotal>queryParams.pageSize" class="load-more-data visible-xs">
+                <a href="javascript:void(0);" @click="loadMoreData">{{ loadMoreBtn }}</a>
+              </div>
               <!-- <nav aria-label="Page navigation" v-if="articleTotal!=0">
                 <ul class="pagination">
                   <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
@@ -314,7 +317,7 @@
                   </li>
                 </ul>
               </nav> -->
-              <plus-pager
+              <plus-pager class="hidden-xs"
                 :total="articleTotal"
                 :pageNum="queryParams.pageNum"
                 :pageSize="queryParams.pageSize"
@@ -363,6 +366,7 @@ export default {
       categoryName:'',
       breadCrumbList:[],
       array: [], //定义空数组存储元素高度
+      loadMoreBtn:"加载更多",
     };
   },
   beforeCreate(){
@@ -414,6 +418,9 @@ export default {
   computed:{
 	},
   watch:{
+    $route(to, from) {
+
+    }
   },
   methods: {
     scroll(scrollData){
@@ -430,6 +437,7 @@ export default {
     getCurrentNumber(number) {
       this.pageNum = number;
     },
+    //正常分页加载
     getArticleList(pageNum) {
       this.queryParams.pageNum=pageNum;
       // var total = this.articleTotal;
@@ -451,6 +459,7 @@ export default {
           //console.log(response);
           this.articleList = response.rows;
           this.articleTotal = response.total;
+          this.loadMoreBtn="加载数据";
         })
         .catch((error) => {
           this.$toasted.error(error.msg, {
@@ -458,9 +467,32 @@ export default {
             duration: 3000,
             theme: "bubble",
           });
+          this.loadMoreBtn="数据加载失败";
         }).finally(() => {});
-      setTimeout(() => this.backToTop(),
-        700);
+      setTimeout(async() => {this.backToTop();},1000);
+    },
+    //懒加载方法
+    loadMoreArticleList(pageNum){
+      this.queryParams.pageNum=pageNum;
+      this.loadMoreBtn="加载数据。。。";
+      getGpArticlesByCategory(this.queryParams)
+        .then((response) => {
+          //console.log(response);
+          //this.articleList = response.rows;
+          this.articleList = this.articleList.concat(response.rows);
+          this.articleTotal = response.total;
+          setTimeout(async() => {this.loadMoreBtn="加载更多";},1000);
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+          this.loadMoreBtn="数据加载失败";
+        }).finally(() => {
+        });
+        //this.backToTop()
     },
     getTenNewArticle() {
       let data = {};
@@ -570,6 +602,14 @@ export default {
         return false;
       }
       return name.trim().toLocaleLowerCase() === "home".toLocaleLowerCase(); //返回true
+    },
+    loadMoreData(){
+      this.queryParams.pageNum+=1;
+      if(this.queryParams.pageNum<=Math.ceil(this.articleTotal/this.queryParams.pageSize)){
+        this.loadMoreArticleList(this.queryParams.pageNum);
+      }else{
+        this.loadMoreBtn="数据加载完了";
+      }
     },
     //加载瀑布流函数//思路来自Amy老师
     loadWaterFall(boxID,thumbnailClass){

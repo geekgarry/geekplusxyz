@@ -165,6 +165,9 @@
                   </div>
                 </article> -->
               </div>
+              <div v-if="articleTotal>queryParams.pageSize" class="load-more-data visible-xs">
+                <a href="javascript:void(0);" @click="loadMoreData">{{ loadMoreBtn }}</a>
+              </div>
               <!-- <nav aria-label="Page navigation" v-if="articleTotal!=0">
                 <ul class="pagination">
                   <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
@@ -289,7 +292,7 @@
                   </li>
                 </ul>
               </nav> -->
-              <plus-pager :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
+              <plus-pager class="hidden-xs" :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
                :pluspagerMethod="searchGpArticlesList">
               </plus-pager>
             </div>
@@ -690,12 +693,14 @@ export default {
       tenNewArticle: [],
       allCategoryList: [],
       allTagArticleCount: [], //查询每个标签的文章数量
-      oneNewNotice:{},
+      oneNewNotice:{},//一个最新网站通知
+      loadMoreBtn:"加载更多",
     };
   },
   created() {
     this.$router.onReady(() => {
       this.keywords = this.$route.query.keyword;
+      this.queryParams.articleTitle=this.$route.query.keyword;
       window.document.title = this.keywords + " | 搜索-极客普拉斯&梦极客园" ||
             "极客普拉斯&梦极客园-geekplus.xyz";
     });
@@ -733,6 +738,7 @@ export default {
     $route(to, from) {
       //console.log(to, from);
       this.keywords = this.$route.query.keyword;
+      this.queryParams.articleTitle=this.$route.query.keyword;
       this.searchGpArticlesList(1);
       window.document.title = this.keywords + " | 搜索-极客普拉斯&梦极客园" ||
             "极客普拉斯&梦极客园-geekplus.xyz";
@@ -746,6 +752,7 @@ export default {
     this.searchGpArticlesList(1)// 这个是获取列表数据的方法
   },
   methods: {
+    //正常分页加载
     searchGpArticlesList(pageNum) {
       this.queryParams.pageNum=pageNum;
       // var total = this.articleTotal;
@@ -761,8 +768,7 @@ export default {
       //   //console.log("页数等于最大页数");
       //   this.queryParams.pageNum = Math.ceil(pageAllNum);
       // }
-      
-      this.queryParams.articleTitle=this.$route.query.keyword;
+      // this.queryParams.articleTitle=this.$route.query.keyword;
       //this.queryParams.pageSize=10;
       selectGpArticlesListByKeyWords(this.queryParams)
         .then((response) => {
@@ -778,6 +784,30 @@ export default {
           });
         });
       this.backToTop();
+    },
+    //懒加载方法
+    loadMoreArticleList(pageNum){
+      this.queryParams.pageNum=pageNum;
+      // this.queryParams.articleTitle=this.$route.query.keyword;
+      this.loadMoreBtn="加载数据。。。";
+      selectGpArticlesListByKeyWords(this.queryParams)
+        .then((response) => {
+          //console.log(response);
+          //this.articleList = response.rows;
+          this.articleList = this.articleList.concat(response.rows);
+          this.articleTotal = response.total;
+          setTimeout(async() => {this.loadMoreBtn="加载更多";},1000);
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+          this.loadMoreBtn="数据加载失败";
+        }).finally(() => {
+        });
+        //this.backToTop()
     },
     getTenNewArticle() {
       let data = {};
@@ -863,6 +893,14 @@ export default {
       getGpNoticeNewOne().then((response) =>{
         this.oneNewNotice=response.data;
       });
+    },
+    loadMoreData(){
+      this.queryParams.pageNum+=1;
+      if(this.queryParams.pageNum<=Math.ceil(this.articleTotal/this.queryParams.pageSize)){
+        this.loadMoreArticleList(this.queryParams.pageNum);
+      }else{
+        this.loadMoreBtn="数据加载完了";
+      }
     },
   },
 };

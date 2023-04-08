@@ -311,6 +311,9 @@
                   </div>
                 </article> -->
               </div>
+              <div v-if="articleTotal>queryParams.pageSize" class="load-more-data visible-xs">
+                <a href="javascript:void(0);" @click="loadMoreData">{{ loadMoreBtn }}</a>
+              </div>
               <!-- <nav aria-label="Page navigation" v-if="articleTotal!=0">
                 <ul class="pagination">
                   <li v-if="queryParams.pageNum != 1" :class="queryParams.pageNum == 1 ? 'disabled' : ''">
@@ -428,7 +431,7 @@
                   </li>
                 </ul>
               </nav> -->
-              <plus-pager :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
+              <plus-pager class="hidden-xs" :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
                :pluspagerMethod="getArticleList">
               </plus-pager>
             </div>
@@ -725,6 +728,7 @@ export default {
       oneNewNotice:{},
       categoryName:'',
       breadCrumbList:[],
+      loadMoreBtn:"加载更多",
     };
   },
   created() {
@@ -755,11 +759,17 @@ export default {
   mounted() {
     //console.log("mounted")
   },
+  watch:{
+    $route(to, from) {
+
+    }
+  },
   methods: {
     //分页测试
     getCurrentNumber(number) {
       this.pageNum = number;
     },
+    //正常分页加载
     getArticleList(pageNum) {
       this.queryParams.pageNum=pageNum;
       // var total = this.articleTotal;
@@ -790,7 +800,30 @@ export default {
           });
         }).finally(() => {});
       setTimeout(() => this.backToTop(),
-        700);
+        1000);
+    },
+    //懒加载方法
+    loadMoreArticleList(pageNum){
+      this.queryParams.pageNum=pageNum;
+      this.loadMoreBtn="加载数据。。。";
+      getGpArticlesByCategory(this.queryParams)
+        .then((response) => {
+          //console.log(response);
+          //this.articleList = response.rows;
+          this.articleList = this.articleList.concat(response.rows);
+          this.articleTotal = response.total;
+          setTimeout(async() => {this.loadMoreBtn="加载更多";},1000);
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+          this.loadMoreBtn="数据加载失败";
+        }).finally(() => {
+        });
+        //this.backToTop()
     },
     getTenNewArticle() {
       let data = {};
@@ -879,6 +912,14 @@ export default {
         return false;
       }
       return name.trim().toLocaleLowerCase() === "home".toLocaleLowerCase(); //返回true
+    },
+    loadMoreData(){
+      this.queryParams.pageNum+=1;
+      if(this.queryParams.pageNum<=Math.ceil(this.articleTotal/this.queryParams.pageSize)){
+        this.loadMoreArticleList(this.queryParams.pageNum);
+      }else{
+        this.loadMoreBtn="数据加载完了";
+      }
     },
   },
   destroyed(){

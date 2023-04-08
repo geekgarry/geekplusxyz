@@ -331,7 +331,7 @@ export const constantRoutes = [
       },
       {
         path: '/article/:articleId',
-        name: 'articlePage',
+        name: 'article',
         meta: { title: '文章详情', icon: 'fa-home' },
         component: (resolve) => require(['@/views/article/ArticleContent.vue'], resolve),
         type: 'generalPage',
@@ -379,6 +379,14 @@ export const constantRoutes = [
     component: (resolve) => require(['@/views/test/ScrollRefresh.vue'], resolve),
     type: 'page',
     children: [],
+    hidden: true
+  },
+  {
+    path: '/login',
+    name: 'login',
+    meta: { title: '极客普拉斯登录', icon: 'fa-home' },
+    component: (resolve) => require(['@/views/login/LoginPage.vue'], resolve),
+    type: 'page',
     hidden: true
   },
   {

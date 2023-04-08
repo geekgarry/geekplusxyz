@@ -7,7 +7,8 @@
 }
 
 body {
-  background-image: url("../bg.png");
+  background-color: #F0F4F5;
+  /*background-image: url("../bg.png");*/
   background-attachment: fixed;
   background-position: center;
   background-repeat: repeat;
@@ -1328,7 +1329,7 @@ ol {
   -webkit-border-radius: 6px;
   -o-border-radius: 6px;
   border-radius: 6px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border: 1px solid #dadada;
   overflow: hidden;
 }
@@ -1585,8 +1586,8 @@ ol {
 /***********侧边搜索框*********/
 .right-fun .model {
   width: 100%;
-  border: 2px solid #f4f4f4;
-  /* margin-top: 20px; */
+  border: 1px solid #98bf94;
+  /* margin-top: 20px; #a7c5a4*/
   background-color: #fffffff0;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -2660,6 +2661,7 @@ footer .footer_content p:nth-child(2) {
 .load-more-data{
   width: 100%;
   text-align: center;
+  margin: 0 auto 10px;
 }
 .load-more-data a{
   color: #12394a;
