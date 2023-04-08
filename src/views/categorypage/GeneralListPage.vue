@@ -62,7 +62,7 @@
                 <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <honey-comb :imageList="articleList"></honey-comb>
                 </div> -->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 article-list">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="row-list mt-5">
                     <div class="col" v-for="(item, index) in articleList"
                       :key="index">

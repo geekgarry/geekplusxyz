@@ -700,8 +700,10 @@ export default {
     //   console.log("hello")
     // },1000);
     document.getElementsByClassName("article-content")[0].oncopy = function(e) {
-        // 部分监听
+      // 部分监听
+      if(e.target.textContent.length>100){
         _this.addLink();
+      }
     };
   },
   activated() {

@@ -374,12 +374,12 @@ export function addLink() {
         range[i] = selection.getRangeAt(i)
     }
     if (window.clipboardData) { // Internet Explorer
-        pagelink = "\r\n\r\n\r\n 本文为[梦极客园]的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明 原文链接: " + document.location.href + "";
+        pagelink = "\r\n\r\n\r\n 本文为[梦极客园]的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明 原文链接: \r\n" + document.location.href + "";
         copytext = selection + pagelink;
         window.clipboardData.setData("Text", copytext);
         return false;
     } else {
-        pagelink = "\r\n\r\n\r\n 本文为[梦极客园]的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明 原文链接: " + document.location.href + "";
+        pagelink = "\r\n\r\n\r\n 本文为[梦极客园]的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明 原文链接: \r\n" + document.location.href + "";
         copytext = selection + pagelink;
         var newdiv = document.createElement('div');
         newdiv.style.position = 'absolute';
