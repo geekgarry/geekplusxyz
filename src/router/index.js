@@ -1,13 +1,12 @@
 import Vue from 'vue'
-import { ref } from 'vue'
-import Vuex from 'vuex'
+// import { ref } from 'vue'
+// import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Error404 from '../views/errorpage/ErrorPage404.vue'
 import LeaveMessage from '../views/comment/LeaveMessage.vue'
 import Write4Me from "@/views/write/Write4Me.vue"
-// import { getChildrenPath } from "@/utils/dynamicRouter"
-import { listSubParentCategory } from "@/api/geekplus/geekplus";
+// import { listSubParentCategory } from "@/api/geekplus/geekplus";
 import store from "../store";
 
 Vue.use(VueRouter)
@@ -472,6 +471,7 @@ router.beforeEach(async(to, from, next) => {
         // })
         router.addRoute(accessRoutes) // 动态添加可访问路由表
         router.options.routes=store.getters.routes;
+        // Vue.AppPage.$emit("loading",true);
         //console.log(router.options.routes)
         next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
         // next({
@@ -483,9 +483,11 @@ router.beforeEach(async(to, from, next) => {
       //接受next
       //next(to.path)  //添加完成后再次进入
     }else{
-        next({ ...to, replace: true })  //添加完成后再次进入
+      // Vue.AppPage.$emit("loading",true);
+      next({ ...to, replace: true })  //添加完成后再次进入
     }
   } else {
+    // Vue.AppPage.$emit("loading",false);
     //接受next
     next() //如果登录页或首页 或 vuex中有动态路由数据 直接通过
   }

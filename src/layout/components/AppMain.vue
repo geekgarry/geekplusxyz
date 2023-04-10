@@ -29,8 +29,11 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
+  /*background-color: #f4f3f3;*/
+  color: var(--color-text);
+  background: var(--color-background,#f1f1f1);
+  transition: color 0.5s, background-color 0.5s;
 }
-
 .fixed-header + .app-main {
   padding-top: 50px;
 }

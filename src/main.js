@@ -109,7 +109,7 @@ Vue.prototype.getHtmlValue = getHtmlValue;
 Vue.prototype.getOnlyYearMonthDay = getOnlyYearMonthDay;
 Vue.prototype.someNumberCount = someNumberCount;
 Vue.prototype.backToTop = backToTop;
-
+Vue.prototype.AppPage = new Vue();
 //Vue.use($)
 new Vue({
   router,

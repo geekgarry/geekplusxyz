@@ -550,12 +550,12 @@
                   >
                     <span class="glyphicon glyphicon-th"></span>&nbsp;标签云图
                   </div>
-                  <div class="panel-body" id="cat-list">
+                  <div class="panel-body tag-list">
                     <span style="display:inline-block;margin:2px;" v-for="(item, index) in allTagArticleCount"
                       :key="index">
-                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="label label-info" > 
+                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="" > 
                       {{ item.tagName ? item.tagName : "Java" }}
-                      <span class="badge">{{ item.articleCount != -1 ? item.articleCount : 1 }}</span>
+                      <span>{{ item.articleCount != -1 ? numFormatKWM(item.articleCount) : 1 }}</span>
                     </router-link>
                     </span>
                     <!-- <a style="margin-bottom: 3px" class="label label-info"

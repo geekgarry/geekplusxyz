@@ -40,6 +40,16 @@
         </div>
       </div>
     </header>
+    <div :class="topNavBarFixed">
+      <nav-bar
+      :menuList="menuList"
+      ></nav-bar>
+    </div>
+    <!-- <div :class="topNavBarFixed">
+      <b-t-nav-bar
+      :menuList="menuList"
+      ></b-t-nav-bar>
+    </div> -->
     <!-- <div class="gc-slide">
         <div class="gc_hand_top" id="backToTop">
           <a href="javascript:void(0);" class="gc_hand_top_btn"
@@ -47,180 +57,9 @@
           >
         </div>
       </div> -->
-    <nav :class="topNavBarFixed" id="navigator_bar">
-      <div class="container">
-        <div class="navbar-header">
-          <button
-            class="navbar-toggle pull-right"
-            data-toggle="collapse"
-            data-target="#navbar_collapse_div"
-          >
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <button
-            class="navbar-toggle pull-right"
-            @click="$router.push('/chatgpt')"
-          >
-            <span class="glyphicon glyphicon-road" aria-hidden="true"></span>
-          </button>
-          <button
-            class="navbar-toggle pull-right"
-            data-toggle="collapse"
-            data-target="#collapse_searche_div"
-          >
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-          <!-- <div class="navbar-brand-container"> -->
-            <router-link class="navbar-brand visible-xs" to="/">
-              <!-- <img v-lazy="GCLogo" class="logo_img" @onmouseover="mouseOverIt"
-                  @onmouseout="mouseOutIt" style="width:20px;height:20px;" /> -->
-              <span class="navbar-brand-logo-text" ref="brandText">极客普拉斯</span>
-            </router-link>
-          <!-- </div> -->
-          <!-- <router-link class="navbar-left visible-xs" href="https://www.geekplus.xyz/">
-              <img alt="极客普拉斯" id="navbar-brand-img" v-lazy="GCLogo" >极客普拉斯
-            </router-link> -->
-        </div>
-        <div class="collapse animate__animated animate__fadeInDown" id="collapse_searche_div">
-          <div class="search_bar_top">
-            <!-- <form action="/searchResult" class="input-group input-group-lg">
-                <input type="text" class="form-control" placeholder="请输入您要搜索的内容...">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="submit">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                  </button>
-                </span>
-              </form> -->
-            <form @submit.prevent="searchResult()">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="请输入您要搜索的内容..."
-                name="keywords"
-                v-model="keywords"
-                @keyup.enter="searchResult()"
-              />
-              <button type="button">
-                <span
-                  class="glyphicon glyphicon-search"
-                  @click="searchResult()"
-                  aria-hidden="true"
-                ></span>
-              </button>
-            </form>
-          </div>
-        </div>
-        <div class="navbar-collapse collapse animate__animated animate__fadeInLeftBig" id="navbar_collapse_div">
-          <ul class="nav navbar-nav navbar-left navbar_ul">
-            <li :class="keyPath == '/' ? 'menuactive' : ''">
-              <router-link to="/">
-                <!-- <i class="fa fa-home" /> -->
-                <a href="javascript:void(0)">首页</a>
-              </router-link>
-            </li>
-            <li
-              :class="keyPath == item.path ? 'menuactive' : ''"
-              v-for="(item, index) in menuList"
-              :key="index"
-            >
-              <router-link v-if="item.children.length == 0" :to="item.path">
-                <a href="javascript:void(0)">{{ item.meta.title }}</a>
-              </router-link>
-              <a v-if="item.children.length != 0" href="javascript:void(0)">{{
-                item.meta.title
-              }}</a>
-              <!-- v-if="item.children.length===0" <a v-if="item.children.length!==0" href="javascript:void(0)">{{ item.meta.title }}</a> -->
-              <div v-if="item.children.length != 0" class="itembox">
-                <ul class="nav-pills nav-stacked">
-                  <li
-                    :class="
-                      keyPath == item.path+'/'+ subitem.path
-                        ? 'menuactive'
-                        : ''
-                    "
-                    v-for="(subitem, index) in item.children"
-                    :key="index"
-                  >
-                    <router-link
-                      :to="item.path+'/'+subitem.path"
-                    > <!--:to="'/articleCategory/'+subitem.path"-->
-                      <a href="javascript:void(0)">{{
-                        /**subitem.categoryName*/subitem.meta.title
-                      }}</a>
-                    </router-link>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <!-- <li>
-                <a href="/blogArtices">编程技术</a>
-              </li>
-              <li>
-                <a href="/newTalkList">新闻杂谈</a>
-              </li>
-  
-              <li>
-                <a href="/resourceDownload">资源文件</a>
-              </li>
-  
-              <li>
-                <a href="javascript:0;">生活随笔</a>
-                <div class="itembox">
-                  <ul>
-                    <li><a href="/thinkingLife">格物生活</a></li>
-                    <li><a href="/personalEssay">个人随笔</a></li>
-                  </ul>
-                </div>
-              </li> -->
-
-            <li :class="keyPath == '/leaveMessage' ? 'menuactive' : ''">
-              <router-link to="/leaveMessage">
-                <a href="javascript:void(0)">给我留言</a>
-              </router-link>
-            </li>
-            <li :class="keyPath == '/about' ? 'menuactive' : ''">
-              <router-link to="/about">
-                <a href="javascript:void(0)">关于</a>
-              </router-link>
-            </li>
-            <!-- <li :class="keyPath == '/programDevelopment/java' ? 'menuactive' : ''">
-              <router-link to="/programDevelopment/java">
-                <a href="javascript:void(0)">测试</a>
-              </router-link>
-            </li> -->
-          </ul>
-          <ul class="nav navbar-nav navbar-right hidden-sm">
-            <li>
-              <a href="https://maikeadmin.geekplus.xyz/chat"
-                >ChatGPT智能助手<span class="badge"></span
-              ></a>
-            </li>
-            <!-- <li class="dropdown">
-                <a
-                  href="#"
-                  class="dropdown-toggle"
-                  data-toggle="dropdown"
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  >梦极客<span class="caret"></span
-                ></a>
-                <ul class="dropdown dropdown-menu navbar_ul">
-                  <li><a href="#">个人中心</a></li>
-                  <li><a href="#">我的收藏</a></li>
-                  <li><a href="#">账号设置</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">退出</a></li>
-                </ul>
-              </li> -->
-          </ul>
-        </div>
-      </div>
-    </nav>
+    
     <back-to-top
-      class="hidden-xs hidden-sm"
+      class="hidden-xs"
       :transitionName="transName"
       :customStyle="myBackToTopStyle"
       :visibilityHeight="600"
@@ -259,9 +98,7 @@
           </a>
         </div>
       </div> -->
-    <nav
-      class="navbar navbar-default navbar-fixed-bottom visible-xs"
-    >
+    <nav class="navbar navbar-default navbar-fixed-bottom visible-xs">
       <div class="container">
         <div class="row">
           <div class="col-xs-3 col-sm-3 text-center">
@@ -341,7 +178,9 @@
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
                 <h6>
-                  <a href="https://wallpaper.geekplus.xyz/" target="_blank">格子壁纸</a>
+                  <a href="https://wallpaper.geekplus.xyz/" target="_blank"
+                    >格子壁纸</a
+                  >
                 </h6>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
@@ -376,8 +215,10 @@
             </p>
             <p>
               <a href="http://beian.miit.gov.cn" target="_blank"
-                >苏ICP备19023267号-4 &amp;
-              </a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                >苏ICP备19023267号-4 &amp; </a
+              ><span id="busuanzi_container_site_pv"
+                >本站总访问量<span id="busuanzi_value_site_pv"></span>次</span
+              >
             </p>
           </div>
         </div>
@@ -386,8 +227,8 @@
   </div>
 </template>
   
-  <script>
-import store from "@/store/index";
+<script>
+import $ from "jquery";
 import BackToTop from "@/components/BackToTop";
 // import WaveItem from "@/components/effect/Wave";
 // import GpPlayer from '@/components/music/GpPlayer.vue'
@@ -398,11 +239,15 @@ import {
   listSubParentCategory,
 } from "@/api/geekplus/geekplus";
 import AppMain from "./components/AppMain";
+import NavBar from "./components/NavBar";
+// import BTNavBar from "./components/BTNavBar";
 export default {
   name: "Layout",
   components: {
     BackToTop,
     AppMain,
+    NavBar,
+    // BTNavBar,
     // GpPlayer,
     //WaveItem,
   },
@@ -431,7 +276,7 @@ export default {
       },
       GCLogo: require("@/assets/logo.png"),
       MKLogo: maiLogo,
-      topNavBarFixed: "navbar navbar-default navbar-static-top",
+      topNavBarFixed: "",//"navbar navbar-default navbar-static-top",
       //navBarStyle: "",//导航栏固定顶部，导致内容被遮挡的问题，设置margin或padding
       keywords: "", //搜索关键词
       subParentCategoryList: [],
@@ -453,7 +298,7 @@ export default {
   },
   created() {
     //this.getGeekplusCategory();//直接获取后台菜单
-    this.getRouterMneuList();//获取后台菜单动态添加后的路由信息
+    this.getRouterMneuList(); //获取后台菜单动态添加后的路由信息
     this.getBreadcrumb();
     this.displayWebFriendlyLink();
     this.getWebTitleNameFooterInfo();
@@ -462,9 +307,9 @@ export default {
     this.windowWidth = wwidth;
     if (this.windowWidth <= 767) {
       this.topNavBarFixed =
-        "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+        "navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
       window.document.body.style.paddingTop = "70px";
-      window.document.body.style.paddingBottom="65px"
+      window.document.body.style.paddingBottom = "65px";
     }
   },
   mounted() {
@@ -497,57 +342,57 @@ export default {
         // 页面滚动距顶部距离
         var scroll = st - this.contentScrollTop;
         this.contentScrollTop = st;
-        //console.log("实时页面滚动高度："+st);this.contentScrollTop < 200 && 
+        //console.log("实时页面滚动高度："+st);this.contentScrollTop < 200 &&
         if (this.contentScrollTop < 200 && this.windowWidth > 767) {
           this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top animate__animated animate__fadeInUp";
+            "navbar-static-top";
           window.document.body.style.paddingTop = "0";
-          window.document.body.style.paddingBottom="0";
-        }else if(this.contentScrollTop >= 200 && this.windowWidth > 767){
+          window.document.body.style.paddingBottom = "0";
+        } else if (this.contentScrollTop >= 200 && this.windowWidth > 767) {
           window.document.body.style.paddingTop = "0";
-          window.document.body.style.paddingBottom="0";
+          window.document.body.style.paddingBottom = "0";
           if (scroll < 0) {
-          this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top animate__animated animate__zoomOutUp";
+            this.topNavBarFixed =
+              "navbar-static-top";
             //that.navBarStyle = "margin-top:75px;";
             window.document.body.style.paddingTop = "0";
             //console.log("up");
             //添加你想要的事件
           } else {
             this.topNavBarFixed =
-              "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+              "navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
             //that.navBarStyle = "margin-top:75px;";
             window.document.body.style.paddingTop = "70px";
             //添加你想要的事件
             //console.log("down");
           }
-        }else if(this.contentScrollTop < 200 && this.windowWidth <= 767){
+        } else if (this.contentScrollTop < 200 && this.windowWidth <= 767) {
           this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__fadeInUp";
+            "navbar-static-top navbar-fixed-top";
           window.document.body.style.paddingTop = "70px";
-          window.document.body.style.paddingBottom="65px";
-        }else if(this.contentScrollTop >= 200 && this.windowWidth <= 767){
+          window.document.body.style.paddingBottom = "65px";
+        } else if (this.contentScrollTop >= 200 && this.windowWidth <= 767) {
           window.document.body.style.paddingTop = "70px";
-          window.document.body.style.paddingBottom="65px";
+          window.document.body.style.paddingBottom = "65px";
           if (scroll < 0) {
-          this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top animate__animated animate__zoomOutUp";
+            this.topNavBarFixed =
+              "navbar-static-top";
             //that.navBarStyle = "margin-top:75px;";
             window.document.body.style.paddingTop = "0";
-            window.document.body.style.paddingBottom="65px";
+            window.document.body.style.paddingBottom = "65px";
             //console.log("up");
             //添加你想要的事件
           } else {
             this.topNavBarFixed =
-              "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+              "navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
             //that.navBarStyle = "margin-top:75px;";
             window.document.body.style.paddingTop = "70px";
-            window.document.body.style.paddingBottom="65px";
+            window.document.body.style.paddingBottom = "65px";
             //添加你想要的事件
             //console.log("down");
           }
         }
-        
+
         if (this.contentScrollTop > 777) {
           //判断滚动后高度超过750px,就显示
           //backToTop.fadeIn(1100);//淡入
@@ -570,11 +415,11 @@ export default {
         // 页面宽度小于750px时，操作
         if (this.windowWidth <= 767) {
           this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+            "navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
           window.document.body.style.paddingTop = "70px";
         } else {
           this.topNavBarFixed =
-            "navbar navbar-default navbar-static-top animate__animated animate__slideInDown";
+            "navbar-static-top";
           window.document.body.style.paddingTop = "0";
         }
         //console.log("实时窗口宽度："+this.windowWidth)
@@ -660,7 +505,7 @@ export default {
       let queryParams = { id: 1 };
       getGpWebTitleInfo(queryParams)
         .then((response) => {
-          console.log(response.data.gpWebName);
+          console.log("%c"+response.data.gpWebName," text-shadow: 0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);font-size:5em");
           this.webHeaderFooterInfo = response.data;
         })
         .catch((error) => {
@@ -719,7 +564,7 @@ export default {
       //   (item) => { return item.type == "servermenu"}
       // );
       //console.log(this.$store.getters.addRoutes.slice(0,4));
-      that.menuList=this.$store.getters.addRoutes.slice(0,4);
+      that.menuList = this.$store.getters.addRoutes.slice(0, 4);
       //that.menuList=getChildrenPath();
       //console.log(that.menuList.length)
       // deep(mmm).forEach((item) => {
@@ -765,6 +610,18 @@ export default {
       }
       return name.trim().toLocaleLowerCase() === "home".toLocaleLowerCase(); //返回true
     },
+    showMobileMenu() {
+      var mobileMenu = $("#navbar_mobile_div");
+      if (mobileMenu.hasClass("show-nav")) {
+        setTimeout(function () {
+          mobileMenu.addClass("hide-nav").removeClass("show-nav");
+        }, 100);
+      } else {
+        setTimeout(function () {
+          mobileMenu.addClass("show-nav").removeClass("hide-nav");
+        }, 100);
+      }
+    },
     //直接获取后台导航的菜单，并加入顶部导航栏
     getGeekplusCategory() {
       //getChildrenPath();
@@ -784,14 +641,13 @@ export default {
         .finally(() => {
           //console.log("获取失败");
         });
-      
     },
     searchResult() {
       if (this.keywords !== "") {
         //this.$router.push("/search?keayword="+this.keywords);
         this.$router.push({
           path: "/search",
-          query: { keyword: this.keywords,},
+          query: { keyword: this.keywords },
         });
       }
       this.keywords = "";
@@ -807,11 +663,21 @@ export default {
   
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /**font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  //text-align: center;
+  text-align: center;**/
   color: #2c3e50;
+  .fade-transform-enter-active,
+  .fade-transform-leave-avtive {
+    /**transition: opacity 2s;**/
+    transition: all 0.6s ease;
+  }
+  .fade-transform-enter,
+  .fade-transform-leave-to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
 }
 nav {
   padding: 10px;

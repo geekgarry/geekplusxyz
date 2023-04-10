@@ -353,10 +353,9 @@
               <div
                 class="panel-heading"
                 style="background: rgba(0, 0, 0, 0.0001)"
-              >
-                标签云图
+              >&nbsp;标签云图
               </div>
-              <div class="panel-body">
+              <div class="panel-body tag-list">
                 <!-- <router-link class="btn btn-info" type="text" to="#"
                    v-for="item,index in allTagArticleCount" :key="index" >
                    {{item.tagName?item.tagName:'Java'}}
@@ -372,12 +371,9 @@
                       path: '/articleListForTag',
                       query: { tagName: item.tagName },
                     }"
-                    class="label label-info"
-                  >
-                    {{ item.tagName ? item.tagName : "Java" }}
-                    <span class="badge">{{
-                      item.articleCount != -1 ? item.articleCount : 1
-                    }}</span>
+                    class=""
+                  >{{ item.tagName ? item.tagName : "Java" }}
+                    <span>{{item.articleCount != -1 ? numFormatKWM(item.articleCount) : 1}}</span>
                   </router-link>
                 </span>
                 <!-- <a style="margin-bottom: 3px"

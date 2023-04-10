@@ -962,54 +962,32 @@
                 </div>
               </div>
               <div class="panel panel-default">
-                <div
-                  class="panel-heading"
-                  style="background: rgba(0, 0, 0, 0.0001)"
-                >
-                  <span class="glyphicon glyphicon-list"></span>&nbsp;最新文章
+                <div class="panel-heading"
+                  style="background: rgba(0, 0, 0, 0.0001)" >
+                  <span class="glyphicon glyphicon-list"></span>&nbsp;{{ allCategoryList[0].categoryName }}-专题
                 </div>
                 <div class="panel-body">
                   <!-- <div class="model recommend">                                    						                            <div class="title">热门推荐</div>						                            <div class="content"> -->
                   <div class="latest-hot-article">
-                    <div
-                      :class="
-                        index == 0 ? 'articlelist-first-life' : 'articlelist'
-                      "
-                      v-for="(item, index) in asideSixArticle1"
-                      :key="index"
-                    >
-                      <router-link
-                        v-if="index == 0"
-                        :to="'/article/' + item.id"
-                      >
-                        <img
-                          :alt="item.articleTitle"
-                          v-lazy="
-                            item.indexPicture
-                              ? item.indexPicture
-                              : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
-                          "
-                        />
-                        <span>{{
-                          item.articleTitle ? item.articleTitle : "我是谁"
-                        }}</span>
+                    <div :class=" index == 0 ? 'articlelist-first-life' : 'articlelist' "
+                      v-for="(item, index) in asideSixArticle0"
+                      :key="index" >
+                      <router-link v-if="index == 0"
+                        :to="'/article/' + item.id" >
+                        <img :alt="item.articleTitle"
+                          v-lazy=" item.indexPicture ? item.indexPicture
+                          : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg') " />
+                        <span>{{ item.articleTitle ? item.articleTitle : "我是谁" }}</span>
                       </router-link>
                       <router-link v-else :to="'/article/' + item.id">
-                        <i
-                          ><img
-                            :alt="item.articleTitle"
-                            v-lazy="
-                              item.indexPicture
-                                ? item.indexPicture
-                                : require('@/assets/img/cover3.jpeg')
-                            "
-                        /></i>
+                        <i>
+                          <img :alt="item.articleTitle" v-lazy=" item.indexPicture 
+                            ? item.indexPicture
+                            : require('@/assets/img/cover3.jpeg') " />
+                        </i>
                         <p>
-                          {{
-                            item.articleTitle
-                              ? item.articleTitle
-                              : "那个老师那个看来是看到那个上课了"
-                          }}
+                          {{ item.articleTitle ? item.articleTitle
+                              : "那个老师那个看来是看到那个上课了" }}
                         </p>
                       </router-link>
                     </div>
@@ -1018,32 +996,49 @@
                         <i><img alt="" src="imgs/IMG_0541.JPG" /></i>
                         <p>收到给你说的那个老师那个看来是看到那个上课了</p>
                       </a>
-                    </div>
-                    <div class="articlelist">
-                      <a href="#">
-                        <i><img alt="" src="imgs/IMG_0541.JPG" /></i>
-                        <p>收到给你说的那个老师那个看来是看到那个上课了</p>
-                      </a>
-                    </div>
-                    <div class="articlelist">
-                      <a href="#">
-                        <i><img alt="" src="imgs/IMG_0541.JPG" /></i>
-                        <p>收到给你说的那个老师那个看来是看到那个上课了</p>
-                      </a>
-                    </div>
-                    <div class="articlelist">
-                      <a href="#">
-                        <i><img alt="" src="imgs/IMG_0541.JPG" /></i>
-                        <p>收到给你说的那个老师那个看来是看到那个上课了</p>
-                      </a>
-                    </div>
-                    <div class="articlelist">
-                      <a href="#">
-                        <i><img alt="" src="imgs/IMG_0541.JPG" /></i>
-                        <p>收到给你说的那个老师那个看来是看到那个上课了</p>
-                      </a>
                     </div> -->
                   </div>
+                  <div class="special-topic"><router-link :to="allCategoryList[0].path">进入专题</router-link></div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading"
+                  style="background: rgba(0, 0, 0, 0.0001)" >
+                  <span class="glyphicon glyphicon-list"></span>&nbsp;{{ allCategoryList[6].categoryName }}-专题
+                </div>
+                <div class="panel-body">
+                  <!-- <div class="model recommend">                                    						                            <div class="title">热门推荐</div>						                            <div class="content"> -->
+                  <div class="latest-hot-article">
+                    <div
+                      :class=" index == 0 ? 'articlelist-first-life' : 'articlelist' "
+                      v-for="(item, index) in asideSixArticle6"
+                      :key="index" >
+                      <router-link v-if="index == 0" :to="'/article/' + item.id" >
+                        <img :alt="item.articleTitle"
+                          v-lazy=" item.indexPicture ? item.indexPicture 
+                          : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg') "
+                        />
+                        <span>{{ item.articleTitle ? item.articleTitle : "我是谁" }}</span>
+                      </router-link>
+                      <router-link v-else :to="'/article/' + item.id">
+                        <i><img :alt="item.articleTitle"
+                            v-lazy=" item.indexPicture ? item.indexPicture
+                                : require('@/assets/img/cover3.jpeg') " />
+                        </i>
+                        <p>
+                          {{ item.articleTitle ? item.articleTitle
+                              : "那个老师那个看来是看到那个上课了" }}
+                        </p>
+                      </router-link>
+                    </div>
+                    <!-- <div class="articlelist">
+                      <a href="#">
+                        <i><img alt="" src="imgs/IMG_0541.JPG" /></i>
+                        <p>收到给你说的那个老师那个看来是看到那个上课了</p>
+                      </a>
+                    </div>-->
+                  </div>
+                  <div class="special-topic"><router-link :to="allCategoryList[6].path">进入专题</router-link></div>
                 </div>
               </div>
               <div class="panel panel-default">
@@ -1053,12 +1048,12 @@
                 >
                   <span class="glyphicon glyphicon-th"></span>&nbsp;标签云图
                 </div>
-                <div class="panel-body" id="cat-list">
+                <div class="panel-body tag-list">
                   <span style="display:inline-block;margin:2px;" v-for="(item, index) in allTagArticleCount"
                       :key="index">
-                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="label label-info" > 
+                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="" > 
                       {{ item.tagName ? item.tagName : "Java" }}
-                      <span class="badge">{{ item.articleCount != -1 ? item.articleCount : 1 }}</span>
+                      <span>{{ item.articleCount != -1 ? numFormatKWM(item.articleCount) : 1 }}</span>
                     </router-link>
                   </span>
                   <!-- <a class="btn btn-info"
@@ -1265,9 +1260,10 @@ export default {
       indexTextInfo: null,
       carouselSlideParams: {},
       articleId: 1,
-      allCategoryList: [],
+      allCategoryList: [],//目录路径path数组
       allTagArticleCount: [], //查询每个标签的文章数量
-      asideSixArticle1: [], //首页侧边六条文章面板
+      asideSixArticle0: [], //首页侧边六条文章面板
+      asideSixArticle6: [], //首页侧边六条文章面板
       tenNewArticle: [], //侧边最热六条文章面板
       sixRecommendArticle: [], //首页六条大屏推荐文章
       oneIndexArticle: {}, //首页4+1文章
@@ -1298,7 +1294,8 @@ export default {
     this.getFourPlusOneArticles();
     this.getIndexAllArticleList(this.queryParams.pageNum);
     this.getAllArticleCategory();
-    this.getSixSameCategoryArticle1();
+    this.getSixSameCategoryArticle0();
+    this.getSixSameCategoryArticle6();
     this.getTagAndArticleCount();
     this.getOneNewestNotice();
     // document.onkeydown = function (e) {
@@ -1427,12 +1424,27 @@ export default {
           });
         });
     },
-    getSixSameCategoryArticle1() {
-      var params = { pathName: "beautyPicture", limitCount: 6 };
+    getSixSameCategoryArticle0() {
+      var params = { pathName: this.allCategoryList[0].pathName, limitCount: 6 };
       getArticlesByCategoryLimit(params)
         .then((response) => {
           //console.log(response.data);
-          this.asideSixArticle1 = response.data;
+          this.asideSixArticle0 = response.data;
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
+    },
+    getSixSameCategoryArticle6() {
+      var params = { pathName: this.allCategoryList[6].pathName, limitCount: 6 };
+      getArticlesByCategoryLimit(params)
+        .then((response) => {
+          //console.log(response.data);
+          this.asideSixArticle6 = response.data;
         })
         .catch((error) => {
           this.$toasted.error(error.msg, {
@@ -1513,7 +1525,7 @@ export default {
       //   (item) => { return item.type == "servermenu"}
       // );
       this.allCategoryList=this.getListSubCategory(this.$store.getters.addRoutes.slice(0,4));
-      //console.log(this.allCategoryList)
+      // console.log(this.categoryPathList)
       // listSubCategory()
       //   .then((response) => {
       //     //console.log(response)
@@ -1533,6 +1545,7 @@ export default {
         parent.children.forEach(child => {
           let childCategory={
             path:parent.path+'/'+child.path,
+            pathName:child.path,
             categoryName:child.meta.title,
           }
           listCategory.push(childCategory)
