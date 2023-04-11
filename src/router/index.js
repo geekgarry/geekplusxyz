@@ -8,6 +8,7 @@ import LeaveMessage from '../views/comment/LeaveMessage.vue'
 import Write4Me from "@/views/write/Write4Me.vue"
 // import { listSubParentCategory } from "@/api/geekplus/geekplus";
 import store from "../store";
+import { _getLocalStore } from '@/utils/storage'
 
 Vue.use(VueRouter)
 

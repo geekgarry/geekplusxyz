@@ -976,7 +976,7 @@ ol {
   height: 80px;
   width: 100%;
   background: linear-gradient(#8d8d8e2d 0%, #616161a6 20%, #1e1e1ea7 100%);
-  color: #fefefe;
+  color: #eee;
   text-align: left;
   padding: 0 4px 0 4px;
   display: flex;
@@ -1170,7 +1170,7 @@ ol {
   height: 80px;
   width: 100%;
   background: linear-gradient(#8d8d8e2d 0%, #616161a6 20%, #1e1e1ea7 100%);
-  color: #fefefe;
+  color: #eee;
   text-align: left;
   padding: 0 4px 0 4px;
 }
@@ -1531,7 +1531,7 @@ ol {
   text-overflow: ellipsis;
   word-wrap: break-word;
   word-spacing: normal;
-  word-break: break-word;
+  word-break: break-all;
 }
 
 .container-article .article-list .item .title a {

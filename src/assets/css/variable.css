@@ -12,15 +12,16 @@
   --pl-article-list-text-white-2:#e6e6e6;
   --pl-article-list-text-black-2:#3b3b3b;
   --pl-con-primary: rgb(109, 170, 144);
+  --pl-general-text-white:#D1D1D1;
   
-  --pl-link-color-white:#fff;
-  --pl-link-color-black:black;
+  --pl-link-color-white:#D1D1D1;
+  --pl-link-color-black:#1f1f1f;
   --pl-header-primary:#499bb2;
   --pl-header-text-white-1:#151918;
   --pl-c-text-white-1: #333;
   --pl-c-text-white-2: #666;
-  --pl-header-text-black-1:#fefefe;
-  --pl-c-text-black-1: var(--pl-con-white);
+  --pl-header-text-black-1:#dddddd;
+  --pl-c-text-black-1: var(--pl-general-text-white);
   --pl-c-text-black-2: rgba(235, 235, 235, 0.64);
 }
 /* Light 默认主题色*/
@@ -45,7 +46,7 @@
   --color-article-breadcrumb-border:#fdfdfdfb;
   --color-article-pre:#2c2d2e;
   --color-article-pre-text:#b3b8c1;
-  --color-article-container-content-text:#212222;
+  --color-article-container-content-text:#3d3e3f;
   --color-article-topic:#2b2925;
   --color-article-container-text-1:#333333;
   --color-article-container-text-2:#424242;
