@@ -259,6 +259,45 @@ export function getHtmlValue(value) {
 export function someNumberCount(length) {
     return Math.floor(Math.random() * length) + 1;
 }
+//js判断
+export function getTimeState(){
+    // 获取当前时间
+    let timeNow = new Date();
+    // 获取当前小时
+    let hours = timeNow.getHours();
+    // 设置默认文字
+    let state= ``;
+    // 判断当前时间段
+    if (hours >= 8 && hours <= 10) {
+        state = `早上好!`;
+    } else if (hours > 11 && hours <= 13) {
+        state= `中午好!`;
+    } else if (hours > 13 && hours <= 18) {
+        state= `下午好!`;
+    } else if (hours > 18 && hours <= 24||hours>=0&&hours<=8) {
+        state= `晚上好!`;
+    }
+    return state;
+}
+
+//白天或晚上
+export function isLightDay(){
+    // 获取当前时间
+    let timeNow = new Date();
+    // 获取当前小时
+    let hours = timeNow.getHours();
+    // 设置默认文字
+    var state= true;
+    // 判断当前时间段,白天或黑夜
+    if (hours >= 6 && hours <= 18) {
+        state = true;
+    } else if (hours > 0 && hours < 6) {
+        state= false;
+    } else if (hours > 18 && hours <= 24) {
+        state= false;
+    } 
+    return state;
+}
 
 export function backToTop() {
     let top = document.documentElement.scrollTop || document.body.scrollTop
@@ -651,12 +690,12 @@ var a_idx = 0;
 // window.addEventListener('copy',() => {
     //swal("复制成功！", "若要转载请务必保留原文链接，申明来源，谢谢合作！By:梦极客园","success");
     // addLink();
-    /* setTimeout( function () {
-        //window.event.returnValue = false;
-        var text = window.clipboardData.getData("text"); 
-        if (text) {
-        text = text + "\r\n本篇文章来源于google( www.google.com) 原文链接："+location.href;
-        clipboardData.setData("text", text); 
-        } 
-        },100); */
+/* setTimeout( function () {
+    //window.event.returnValue = false;
+    var text = window.clipboardData.getData("text");
+    if (text) {
+    text = text + "\r\n本篇文章来源于google( www.google.com) 原文链接："+location.href;
+    clipboardData.setData("text", text);
+    }
+    },100); */
 // });

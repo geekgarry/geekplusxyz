@@ -801,7 +801,7 @@ export default {
 }
 .col .card-body{
   padding: 0 5px 5px 5px;
-  background-color: #fff;
+  background-color: var(--color-article-list,#f5f6f7);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }

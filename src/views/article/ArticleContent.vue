@@ -1149,6 +1149,6 @@ export default {
 <style>
 .popover{
   text-align:center;
-  background-color: #65afd5;
+  background-color: var(--color-container,#242323e2);
 }
 </style>

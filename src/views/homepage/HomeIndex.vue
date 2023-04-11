@@ -908,10 +908,10 @@
                     </div>
                   </div>
                 </div>
-                <div id="my-social" class="panel panel-info hidden-xs">
+                <div id="my-social" class="panel hidden-xs">
                   <div class="panel-heading">
                     <span class="glyphicon glyphicon-hand-right"></span
-                    >&nbsp;我的社交
+                    >&nbsp;我在这儿
                   </div>
                   <div class="">
                     <div class="my-social-list">
@@ -968,7 +968,8 @@
                         data-placement="bottom"
                         data-original-title="EMAIL"
                       >
-                        <i class="fa fa-envelope-o"></i>
+                        <!-- <i class="fa fa-envelope"></i> -->
+                        <font-awesome-icon :icon="['fas', 'envelope']" />
                       </a>
                       <a
                         id="s_github"
@@ -979,7 +980,8 @@
                         data-placement="bottom"
                         data-original-title="GITHUB"
                       >
-                        <i class="fa fa-github"></i>
+                        <!-- <i class="fa fa-github"></i> -->
+                        <font-awesome-icon :icon="['fab', 'github']" />
                       </a>
                       <a
                         id="s_gitee"
@@ -1001,12 +1003,13 @@
                         data-placement="bottom"
                         data-original-title="RSS"
                       >
-                        <i class="fa fa-rss-square"></i>
+                        <!-- <i class="fa fa-rss-square"></i> -->
+                        <font-awesome-icon :icon="['fas', 'rss-square']" />
                       </a>
                     </div>
                   </div>
                 </div>
-                <div id="geekcjj-tool" class="panel panel-info hidden-xs">
+                <div id="geekcjj-tool" class="panel hidden-xs">
                   <div class="panel-heading">
                     <span class="glyphicon glyphicon-bell"></span>&nbsp;小贴士
                   </div>

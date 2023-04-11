@@ -727,7 +727,7 @@
                         data-placement="bottom"
                         data-original-title="EMAIL"
                       >
-                        <i class="fa fa-envelope-o"></i>
+                        <i class="fa fa-envelope"></i>
                       </a>
                       <a
                         id="s_github"

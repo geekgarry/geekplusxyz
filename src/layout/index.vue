@@ -98,7 +98,8 @@
           </a>
         </div>
       </div> -->
-    <nav class="navbar navbar-default navbar-fixed-bottom visible-xs">
+    <nav class="navbar navbar-default navbar-fixed-bottom visible-xs"
+      style="background:var(--color-main-container-bg-2,#eff0f0);color:var(--color-main-container-text-1,#333535);">
       <div class="container">
         <div class="row">
           <div class="col-xs-3 col-sm-3 text-center">

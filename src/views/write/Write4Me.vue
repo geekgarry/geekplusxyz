@@ -3,17 +3,17 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-          <div class="panel panel-warning">
+          <div class="panel">
             <div class="panel-heading">
               <h4 class="text-center">用户投稿</h4>
             </div>
             <div class="panel-body">
               <form ref="aeticleData" class="form-horizontal">
                 <div class="form-group">
-                  <label for="articleTitle" class="col-sm-2 control-label"
+                  <!-- <label for="articleTitle" class="col-sm-2 control-label"
                     >标题</label
-                  >
-                  <div class="col-sm-10">
+                  > -->
+                  <div class="col-sm-12">
                     <input
                       type="text"
                       class="form-control"
@@ -25,10 +25,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="articleAuthor" class="col-sm-2 control-label"
+                  <!-- <label for="articleAuthor" class="col-sm-2 control-label"
                     >作者</label
-                  >
-                  <div class="col-sm-10">
+                  > -->
+                  <div class="col-sm-12">
                     <input
                       type="text"
                       class="form-control"
@@ -40,10 +40,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="articleCategory" class="col-sm-2 control-label"
-                    >投稿文类</label
-                  >
-                  <div class="col-sm-10">
+                  <!-- <label for="articleCategory" class="col-sm-2 control-label"
+                    >文类</label
+                  > -->
+                  <div class="col-sm-12">
                     <select
                       class="selectpicker form-control"
                       title="请选择投稿文类"
@@ -53,6 +53,11 @@
                       placeholder="请选择投稿文类"
                       @change="getSelect(articleData.articleCategory)"
                     >
+                      <optgroup label="投稿文类">
+                        <option value="">
+                          请选择投稿文类
+                        </option>
+                      </optgroup>
                       <optgroup
                         :label="item.categoryName"
                         v-for="(item, index) in listCategory"
@@ -81,7 +86,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
+                  <div class="col-sm-12">
                     <!-- <plus-quill-editor></plus-quill-editor> -->
                     <input
                       v-show="false"
@@ -124,7 +129,7 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-          <div id="geekcjj-tool" class="panel panel-success hidden-xs">
+          <div id="geekcjj-tool" class="panel hidden-xs">
             <div class="panel-heading">
               <span class="glyphicon glyphicon-search" aria-hidden="true"></span
               >&nbsp;站内搜索
@@ -153,7 +158,7 @@
             </div>
           </div>
 
-          <div id="geekcjj-tool" class="panel panel-info hidden-xs">
+          <div id="geekcjj-tool" class="panel hidden-xs">
             <div class="panel-heading">
               <span class="glyphicon glyphicon-bell"></span>&nbsp;小贴士
             </div>
@@ -340,7 +345,7 @@ export default {
           evt.clipboardData.files &&
           evt.clipboardData.files.length
         ) {
-          console.log(evt.clipboardData);
+          //console.log(evt.clipboardData);
           evt.preventDefault();
           [].forEach.call(evt.clipboardData.files, (file) => {
             if (!file.type.match(/^image\/(gif|jpe?g|a?png|bmp|webp)/i)) {
@@ -388,7 +393,14 @@ export default {
           //console.log(that.listCategory);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
+          this.$toasted
+          .error(error.msg, {
+            position: "top-center",
+            fitToScreen: true,
+            theme: "bubble",
+          })
+          .goAway(2000);
         });
     },
     userWriteArticles() {
@@ -465,7 +477,7 @@ export default {
       this.keywords = "";
     },
     getSelect(th) {
-      console.log(th);
+      //console.log(th);
     },
     // 失去焦点触发事件
     onEditorBlur() {

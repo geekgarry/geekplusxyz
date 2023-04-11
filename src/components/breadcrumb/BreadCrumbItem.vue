@@ -2,7 +2,9 @@
   <div class="bread-item">
     <RouterLink v-if="to!=''" :to="to"><slot /></RouterLink>
     <span v-else><slot /></span>
-    <i v-if="to!=''" class="fa fa-angle-right"></i>
+    <!-- <i class="fa fa-angle-right"></i> -->
+    <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
+    <font-awesome-icon v-if="to!=''" :icon="['fas', 'angle-right']" style="margin:0 1px;" />
   </div>
 </template>
 <!-- 使用时 -->

@@ -53,13 +53,20 @@ Vue.use(PlusComponent);
 Vue.use(Toasted, Option);
 //Vue.prototype.Toasted=Toasted;
 // you can also pass options, check options reference below
-//Vue.use(Toasted, Options)
-import 'font-awesome/css/font-awesome.css'
+// import 'font-awesome/css/font-awesome.min.css'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faHatWizard, faSun,faMoon,faEnvelope,faRssSquare,faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faGithub} from '@fortawesome/free-brands-svg-icons';
+import { faLightbulb} from '@fortawesome/free-regular-svg-icons';
+library.add(faHatWizard,faSun,faMoon,faEnvelope,faRssSquare,faGithub,faLightbulb,faAngleRight);
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+import '@/assets/css/plushome.css';
+import "@/assets/css/variable.css";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap-theme.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import 'animate.css'
-import '@/assets/css/plushome.css'
 import VueLazyload from 'vue-lazyload'
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
@@ -75,9 +82,9 @@ Vue.use(VueQuillEditor);
 //import '@/assets/js/flower.js'
 import {
   getNowDate, checkHtml, getHtmlValue, randomRGB, color16,numFormatKWM,addLink,
-  someColor, getOnlyYearMonthDay, getHtmlPlainText, someNumberCount, backToTop
+  someColor, getOnlyYearMonthDay, getHtmlPlainText, someNumberCount, backToTop, isLightDay
 } from '@/utils/plushome'
-
+import { dispatchSetLocalStore,_setLocalStore,_getLocalStore} from './utils/storage'
 // Vue.use(getChildrenPath);
 Vue.prototype.axios = axios;
 Vue.use(VueLazyload, {
@@ -109,6 +116,10 @@ Vue.prototype.getHtmlValue = getHtmlValue;
 Vue.prototype.getOnlyYearMonthDay = getOnlyYearMonthDay;
 Vue.prototype.someNumberCount = someNumberCount;
 Vue.prototype.backToTop = backToTop;
+Vue.prototype.isLightDay=isLightDay;
+Vue.prototype.dispatchSetLocalStore=dispatchSetLocalStore;
+Vue.prototype.setLocalStore = _setLocalStore;
+Vue.prototype.getLocalStore = _getLocalStore;
 Vue.prototype.AppPage = new Vue();
 //Vue.use($)
 new Vue({
