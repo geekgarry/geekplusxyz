@@ -78,7 +78,7 @@
                               <router-link :to="'/article/' + item.id">{{ item.articleTitle ? item.articleTitle : "title" }}</router-link>
                             </h6>
                             <p class="date-author">
-                              <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }} 
+                              <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? dateTimeAgo(item.createTime) : "2015-04-04" }} 
                               <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 0 }}
                               <!-- <span class="author">{{item.authorName}}</span> -->
                             </p>

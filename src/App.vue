@@ -31,7 +31,7 @@ export default  {
     if(themeMode){
       document.body.setAttribute(localKey, themeMode);
     }else{
-      // console.log(this.isLightDay());
+      //console.log(this.isLightDay());
       if(this.isLightDay()){
         document.body.setAttribute(localKey, "light")
       }else{

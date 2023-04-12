@@ -1,6 +1,6 @@
 <template>
     <!-- mkplus HEADER -->
-    <header class="mkplus-header mkplus-header-aligned-left" role="banner">
+    <header :class="'mkplus-header mkplus-header-aligned-left '+navBarStyle" role="banner">
         <div class="mkplus-container mkplus-flex mkplus-align-middle mkplus-align-justify">
 
             <!-- MOBILE MENU TOGGLE -->
@@ -184,8 +184,11 @@ import $ from "jquery"
 export default {
     name:'NavBar',
     props:{
+        navBarStyle:{
+          type:String,
+        },
         menuList:{
-            type:Array,
+          type:Array,
         }
     },
     data(){
@@ -355,13 +358,19 @@ export default {
 </script>
 
 <style scoped>
-body {
+/*body {
   color: var(--color-black, #151918);
   background-color: var(--color-white, #FFFFFF);
   font-family: Helvetica, "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
   font-weight: normal;
   font-style: normal;
   line-height: 1.45; 
+}*/
+.navbar-fixed-top{
+  background-attachment:fixed;
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+  top:-1px
 }
 /*-------------------------------*/
 /*       Hamburger-Cross         */
@@ -1066,9 +1075,9 @@ body {
   .mkplus-header.mkplus-header-aligned-left .mkplus-logo {
     margin-right: 0;
   }
-  .mkplus-header.mkplus-header-aligned-left .mkplus-menu {
-    /*margin: 0 auto;*/
-  }
+  /*.mkplus-header.mkplus-header-aligned-left .mkplus-menu {
+    margin: 0 auto;
+  }*/
   .mkplus-header.mkplus-header-aligned-left .mkplus-menu-right-section {
     margin-left: auto;
   }

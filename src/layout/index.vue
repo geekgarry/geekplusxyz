@@ -42,7 +42,8 @@
     </header>
     <div :class="topNavBarFixed">
       <nav-bar
-      :menuList="menuList"
+        :navBarStyle="navBarStyle"
+        :menuList="menuList"
       ></nav-bar>
     </div>
     <!-- <div :class="topNavBarFixed">
@@ -98,55 +99,6 @@
           </a>
         </div>
       </div> -->
-    <nav class="navbar navbar-default navbar-fixed-bottom visible-xs"
-      style="background:var(--color-main-container-bg-2,#eff0f0);color:var(--color-main-container-text-1,#333535);">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-3 col-sm-3 text-center">
-            <!-- 行内跳转方式(同样可以传参)： -->
-            <div class="bg-secondary" @click="$router.push('/')">
-              <div class="">
-                <span class="glyphicon glyphicon-home"></span>
-              </div>
-              <div class="navbar-fixed-text-size">
-                <small>主页</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-3 col-sm-3 text-center">
-            <div class="bg-secondary" @click="$router.push('/write4me')">
-              <div class="">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </div>
-              <div class="navbar-fixed-text-size">
-                <small>投稿</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-3 col-sm-3 text-center">
-            <!-- @click="$router.push('/leaveMessage')" -->
-            <div class="bg-secondary" @click="$router.push('/leaveMessage')">
-              <div class="">
-                <span class="glyphicon glyphicon-comment"></span>
-              </div>
-              <div class="navbar-fixed-text-size">
-                <small>留言</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-3 col-sm-3 text-center">
-            <div class="bg-secondary" @click="backToTopBtn">
-              <div class="">
-                <span class="glyphicon glyphicon-menu-up"></span>
-              </div>
-              <div class="navbar-fixed-text-size">
-                <small>顶部</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
     <div class="friendlink_container">
       <div class="container">
         <div class="row">
@@ -225,6 +177,56 @@
         </div>
       </div>
     </div>
+    <nav :class="'navbar navbar-default '+bottomNavBarFixed+' visible-xs'"
+        style="background:var(--color-main-container-bg-2,#eff0f0);color:var(--color-main-container-text-1,#333535);
+        border-radius:0;">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-3 col-sm-3 text-center">
+            <!-- 行内跳转方式(同样可以传参)： -->
+            <div class="bg-secondary" @click="$router.push('/')">
+              <div class="">
+                <span class="glyphicon glyphicon-home"></span>
+              </div>
+              <div class="navbar-fixed-text-size">
+                <small>主页</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-3 col-sm-3 text-center">
+            <div class="bg-secondary" @click="$router.push('/write4me')">
+              <div class="">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </div>
+              <div class="navbar-fixed-text-size">
+                <small>投稿</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-3 col-sm-3 text-center">
+            <!-- @click="$router.push('/leaveMessage')" -->
+            <div class="bg-secondary" @click="$router.push('/leaveMessage')">
+              <div class="">
+                <span class="glyphicon glyphicon-comment"></span>
+              </div>
+              <div class="navbar-fixed-text-size">
+                <small>留言</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-3 col-sm-3 text-center">
+            <div class="bg-secondary" @click="backToTopBtn">
+              <div class="">
+                <span class="glyphicon glyphicon-menu-up"></span>
+              </div>
+              <div class="navbar-fixed-text-size">
+                <small>顶部</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
   </div>
 </template>
   
@@ -278,7 +280,8 @@ export default {
       GCLogo: require("@/assets/logo.png"),
       MKLogo: maiLogo,
       topNavBarFixed: "",//"navbar navbar-default navbar-static-top",
-      //navBarStyle: "",//导航栏固定顶部，导致内容被遮挡的问题，设置margin或padding
+      bottomNavBarFixed:"navbar-fixed-bottom",
+      navBarStyle: "",//导航栏固定顶部，导致内容被遮挡的问题，设置margin或padding
       keywords: "", //搜索关键词
       subParentCategoryList: [],
       webHeaderFooterInfo: {},
@@ -308,7 +311,8 @@ export default {
     this.windowWidth = wwidth;
     if (this.windowWidth <= 767) {
       this.topNavBarFixed =
-        "navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+        "navbar-fixed-top animate__animated animate__slideInDown";
+      this.bottomNavBarFixed ="navbar-fixed-bottom animate__animated animate__slideInUp";
       window.document.body.style.paddingTop = "70px";
       window.document.body.style.paddingBottom = "65px";
     }
@@ -342,6 +346,8 @@ export default {
           document.body.scrollTop;
         // 页面滚动距顶部距离
         var scroll = st - this.contentScrollTop;
+        var scrollHeight=document.documentElement.scrollHeight || document.body.scrollHeight;
+        var bodyClientHeight=document.documentElement.clientHeight || document.body.clientHeight;
         this.contentScrollTop = st;
         //console.log("实时页面滚动高度："+st);this.contentScrollTop < 200 &&
         if (this.contentScrollTop < 200 && this.windowWidth > 767) {
@@ -352,7 +358,7 @@ export default {
         } else if (this.contentScrollTop >= 200 && this.windowWidth > 767) {
           window.document.body.style.paddingTop = "0";
           window.document.body.style.paddingBottom = "0";
-          if (scroll < 0) {
+          if (scroll > 0) {
             this.topNavBarFixed =
               "navbar-static-top";
             //that.navBarStyle = "margin-top:75px;";
@@ -361,7 +367,7 @@ export default {
             //添加你想要的事件
           } else {
             this.topNavBarFixed =
-              "navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+              "navbar-fixed-top animate__animated animate__slideInDown";
             //that.navBarStyle = "margin-top:75px;";
             window.document.body.style.paddingTop = "70px";
             //添加你想要的事件
@@ -369,28 +375,35 @@ export default {
           }
         } else if (this.contentScrollTop < 200 && this.windowWidth <= 767) {
           this.topNavBarFixed =
-            "navbar-static-top navbar-fixed-top";
+            "navbar-fixed-top";
           window.document.body.style.paddingTop = "70px";
           window.document.body.style.paddingBottom = "65px";
         } else if (this.contentScrollTop >= 200 && this.windowWidth <= 767) {
           window.document.body.style.paddingTop = "70px";
           window.document.body.style.paddingBottom = "65px";
-          if (scroll < 0) {
-            this.topNavBarFixed =
-              "navbar-static-top";
-            //that.navBarStyle = "margin-top:75px;";
+          if (scroll > 0) {
+            this.topNavBarFixed = "navbar-static-top";
+            this.bottomNavBarFixed ="navbar-fixed-bottom animate__animated animate__slideInUp";
+            //this.navBarStyle = "mkplus-header-overlay-dark-bg";
             window.document.body.style.paddingTop = "0";
             window.document.body.style.paddingBottom = "65px";
             //console.log("up");
             //添加你想要的事件
+            if (bodyClientHeight + this.contentScrollTop === scrollHeight){
+              window.document.body.style.paddingBottom = "0";
+              this.bottomNavBarFixed ="navbar-static-bottom animate__animated animate__slideInUp";
+            }
           } else {
-            this.topNavBarFixed =
-              "navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
-            //that.navBarStyle = "margin-top:75px;";
+            this.topNavBarFixed = "navbar-fixed-top animate__animated animate__slideInDown";
+            this.bottomNavBarFixed ="navbar-static-bottom";
+            // this.navBarStyle = "mkplus-header-overlay-light-bg";
             window.document.body.style.paddingTop = "70px";
             window.document.body.style.paddingBottom = "65px";
             //添加你想要的事件
-            //console.log("down");
+            if (bodyClientHeight + this.contentScrollTop === scrollHeight){
+              window.document.body.style.paddingBottom = "0";
+              this.bottomNavBarFixed ="navbar-static-bottom animate__animated animate__slideInUp";
+            }
           }
         }
 
@@ -416,7 +429,7 @@ export default {
         // 页面宽度小于750px时，操作
         if (this.windowWidth <= 767) {
           this.topNavBarFixed =
-            "navbar-static-top navbar-fixed-top animate__animated animate__slideInDown";
+            "navbar-fixed-top animate__animated animate__slideInDown";
           window.document.body.style.paddingTop = "70px";
         } else {
           this.topNavBarFixed =

@@ -28,7 +28,9 @@ export default {
   min-height: calc(100vh - 50px);
   width: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scroll:touch;
   /*background-color: #f4f3f3;*/
   color: var(--color-text);
   background-color: var(--color-container,#f1f1f1);

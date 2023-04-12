@@ -81,9 +81,9 @@ Vue.use(VueQuillEditor);
 //import WaveItem from "@/components/effect/Wave";
 //import '@/assets/js/flower.js'
 import {
-  getNowDate, checkHtml, getHtmlValue, randomRGB, color16,numFormatKWM,addLink,
-  someColor, getOnlyYearMonthDay, getHtmlPlainText, someNumberCount, backToTop, isLightDay
-} from '@/utils/plushome'
+  getNowDate, checkHtml, getHtmlValue, randomRGB, color16, numFormatKWM, addLink, someColor, 
+  getOnlyYearMonthDay, getHtmlPlainText, someNumberCount, backToTop, isLightDay,
+  getDateTimeStamp, dateTimeAgo} from '@/utils/plushome'
 import { dispatchSetLocalStore,_setLocalStore,_getLocalStore} from './utils/storage'
 // Vue.use(getChildrenPath);
 Vue.prototype.axios = axios;
@@ -114,6 +114,8 @@ Vue.prototype.randomRGB = randomRGB;
 Vue.prototype.someColor = someColor;
 Vue.prototype.getHtmlValue = getHtmlValue;
 Vue.prototype.getOnlyYearMonthDay = getOnlyYearMonthDay;
+Vue.prototype.getDateTimeStamp=getDateTimeStamp;
+Vue.prototype.dateTimeAgo=dateTimeAgo;
 Vue.prototype.someNumberCount = someNumberCount;
 Vue.prototype.backToTop = backToTop;
 Vue.prototype.isLightDay=isLightDay;

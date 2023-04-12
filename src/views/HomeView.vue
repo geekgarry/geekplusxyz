@@ -66,7 +66,7 @@
                           <div class="entry-meta">
                             <span><img v-lazy="MKLogo" /></span>&nbsp;
                             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.viewCount? numFormatKWM(oneIndexArticle.viewCount) : 0 }}
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.createTime ? getOnlyYearMonthDay(oneIndexArticle.createTime) : "2015-04-04" }}
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.createTime ? dateTimeAgo(oneIndexArticle.createTime) : "2015-04-04" }}
                           </div>
                         </span>
                       </router-link>
@@ -107,7 +107,7 @@
                               <div class="entry-meta">
                                 <span><img v-lazy="MKLogo" /></span>&nbsp;
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 0 }}
-                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }}
+                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? dateTimeAgo(item.createTime) : "2015-04-04" }}
                               </div>
                             </span>
                           </router-link>
@@ -406,7 +406,7 @@
                             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? item.viewCount : 0 }}
                           </li>
                           <li>
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }}
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? dateTimeAgo(item.createTime) : "2015-04-04" }}
                           </li>
                           <!-- <li>
                             {{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }}
