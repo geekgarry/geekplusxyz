@@ -330,14 +330,16 @@ export function getTimeState(){
     // 设置默认文字
     let state= ``;
     // 判断当前时间段
-    if (hours >= 8 && hours <= 10) {
+    if (hours >= 7 && hours < 11) {
         state = `早上好!`;
-    } else if (hours > 11 && hours <= 13) {
+    } else if (hours >= 11 && hours < 14) {
         state= `中午好!`;
-    } else if (hours > 13 && hours <= 18) {
+    } else if (hours >= 14 && hours < 18) {
         state= `下午好!`;
-    } else if (hours > 18 && hours <= 24||hours>=0&&hours<=8) {
+    } else if (hours >= 18 && hours < 24) {
         state= `晚上好!`;
+    } else if (hours >= 0 && hours < 7) {
+        state= `凌晨好!`;
     }
     return state;
 }
@@ -351,11 +353,11 @@ export function isLightDay(){
     // 设置默认文字
     var state= true;
     // 判断当前时间段,白天或黑夜
-    if (hours >= 6 && hours <= 18) {
+    if (hours >= 6 && hours < 18) {
         state = true;
-    } else if (hours > 0 && hours < 6) {
+    } else if (hours >= 18 && hours < 24) {
         state= false;
-    } else if (hours > 18 && hours <= 24) {
+    } else if (hours >= 0 && hours < 6) {
         state= false;
     } 
     return state;
