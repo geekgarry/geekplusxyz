@@ -793,7 +793,7 @@ export default {
     loadMoreArticleList(pageNum){
       this.queryParams.pageNum=pageNum;
       // this.queryParams.tagName=this.$route.query.tagName;
-      this.loadMoreBtn="加载数据。。。";
+      this.loadMoreBtn="加载数据...";
       selectArticleListForTag(this.queryParams)
         .then((response) => {
           //console.log(response);

@@ -113,6 +113,7 @@
                 v-for="(item, index) in friendlyLinkList"
                 :key="index"
                 :href="item.linkUrl"
+                target="_blank"
                 >{{ item.linkName }}</a
               >
               <!-- <a class="friendlink_a" href="https://www.maikete.xyz">麦科特</a> -->

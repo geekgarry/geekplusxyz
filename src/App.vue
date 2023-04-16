@@ -57,6 +57,12 @@ export default  {
   },
   mounted(){
     this.AppPage.$emit("loading",false);
+    let script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://ads-union.jd.com/static/js/union.js";
+    document.body.appendChild(script);
+    var jd_union_pid="458011681489295956";
+    var jd_union_euid="";
     //this.isLoading=false;
     // let loading=document.getElementsByClassName("loading-container")[0];
     // document.body.removeChild(loading);

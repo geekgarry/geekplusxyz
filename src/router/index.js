@@ -454,7 +454,7 @@ VueRouter.prototype.push = function push(to) {
 }
 // 全局后置钩子-常用于结束动画等,beforeEach每次进行路由跳转时都会执行
 router.beforeEach(async(to, from, next) => {
-  document.title = to.meta.title + " - 极客普拉斯&梦极客园" || "极客普拉斯&梦极客园 - geekplus.xyz";
+  document.title = to.meta.title + " - 极客普拉斯,梦极客园,极客普拉斯&梦极客园" || "极客普拉斯,梦极客园,极客普拉斯&梦极客园 - geekplus.xyz";
   //console.log(store.getters.routes);//重新复制给store
   if (store.getters.routes.length==0 || store.getters.addRoutes==0) {
       //拿到浏览器缓存中动态路由的数据 重新添加

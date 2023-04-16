@@ -792,7 +792,7 @@ export default {
     loadMoreArticleList(pageNum){
       this.queryParams.pageNum=pageNum;
       // this.queryParams.articleTitle=this.$route.query.keyword;
-      this.loadMoreBtn="加载数据。。。";
+      this.loadMoreBtn="加载数据...";
       selectGpArticlesListByKeyWords(this.queryParams)
         .then((response) => {
           //console.log(response);

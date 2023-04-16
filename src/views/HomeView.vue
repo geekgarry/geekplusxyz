@@ -1502,7 +1502,7 @@ export default {
     //懒加载方法
     loadMoreArticleList(pageNum){
       this.queryParams.pageNum=pageNum;
-      this.loadMoreBtn="加载数据。。。";
+      this.loadMoreBtn="加载数据...";
       getIndexAllCategoryArticleList(this.queryParams)
         .then((response) => {
           //console.log(response);

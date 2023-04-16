@@ -26,6 +26,7 @@
 }
 /* Light 默认主题色*/
 :root body[theme-mode="light"]{
+  --color-primary:#2786de;
   --color-background: var(--pl-con-white);
   --color-header: var(--pl-con-white);
   --color-header-text: var(--pl-header-text-white-1);
@@ -69,6 +70,7 @@
 }
 /* Dark主题颜色*/
 :root body[theme-mode="dark"]{
+  --color-primary:#139F95;
   --color-background: var(--pl-con-black);
   --color-header: var(--pl-con-black);
   --color-header-text: var(--pl-header-text-black-1);
