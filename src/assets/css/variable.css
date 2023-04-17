@@ -1,10 +1,10 @@
 /* 定义全局的css变量 */
 /* 定义基础色值，方便 UI 后期替换*/
 :root {
-  --pl-con-white: #ffffff;
-  --pl-con-black: #0e0e0e;
-  --pl-main-white: #f4f3f3;
-  --pl-main-black: #242323e2;
+  --pl-con-white: #fffefd;
+  --pl-con-black: #202020;
+  --pl-main-white: #F2F4F6;
+  --pl-main-black: #252627;
   --pl-article-list-white:#fefefe;
   --pl-article-list-black:#343434;
   --pl-article-list-text-white-1:#c5c5c5;
@@ -108,7 +108,7 @@
   --color-border-4:#515151;
   --color-border-bg:#111110;/**评论样式**/
   --color-comment-bg:#2a2929;
-  --color-hot-comment:#202023fa;/**热门留言**/
+  --color-hot-comment:#303032fd;/**热门留言**/
   --color-main-footer:#383a3a;/****网站底部样式*****/
   --color-main-footer-text:#a4a7a7;
   /********只在黑暗模式有改变*********/
@@ -116,6 +116,6 @@
   --color-alert-info-2:#798292;
   --color-alert-info-text:#ced6e3;
   --color-alert-info-border:#435471;
-  --color-aside-panel:#232222;/*******网站侧边文章面板**********/
+  --color-aside-panel:#343434;/*******网站侧边文章面板**********/
   --color-aside-panel-text:#f7f4f4;
 }

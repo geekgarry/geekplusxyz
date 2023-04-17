@@ -694,6 +694,16 @@
                     </p> -->
                   </div>
                 </div>
+                <div class="ads-container">
+                  <iframe
+                    @load="sendIframeAdsWinpMessage"
+                    id="frameAds"
+                    ref="iframeAds"
+                    src="/general/jdunion/ads1.html"
+                    scrolling="false"
+                    style="width: 100%; min-height:250px; border: 0px; margin: 0;"
+                    ></iframe>
+                </div>
               </div>
             </aside>
           </div>
@@ -732,6 +742,7 @@ export default {
       categoryName:'',
       breadCrumbList:[],
       loadMoreBtn:"加载更多",
+      iframeAdsWin: null,
     };
   },
   created() {
@@ -760,6 +771,7 @@ export default {
     // };
   },
   mounted() {
+    this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
     //console.log("mounted")
   },
   watch:{
@@ -768,6 +780,15 @@ export default {
     }
   },
   methods: {
+    sendIframeAdsWinpMessage() {
+      // this.JDIframeUrl="/general/jdunion/jd1.html";
+      // this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
+      var jd_union_pid="368131681760484418";
+      //var jd_union_pid="368131681753068697"
+      this.iframeAdsWin.postMessage({
+        params: jd_union_pid /*在iframe页面中接收通过key也就是param接收，因此传输的数据可以是对象，包含多个key以及对应的数据*/
+      }, "*");
+    },
     //分页测试
     getCurrentNumber(number) {
       this.pageNum = number;

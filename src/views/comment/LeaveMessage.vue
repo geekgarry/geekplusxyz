@@ -102,7 +102,7 @@
                 <div class="comment-content">
                   <div class="comment-info">
                     <a>{{ item.name }}</a>
-                    <span class="comment_info_time">{{ item.createTime }}</span>
+                    <span class="comment_info_time">{{ dateTimeAgo(item.createTime) }}</span>
                   </div>
                   <div
                     class="comment-text"
@@ -164,7 +164,7 @@
                         ></span
                       >
                       <span class="comment_info_time"
-                        >&nbsp;{{ subitem.createTime }}</span
+                        >&nbsp;{{ dateTimeAgo(subitem.createTime) }}</span
                       >
                     </div>
                     <div
@@ -566,7 +566,7 @@
                     >{{ item.replyCount * 999 }}
                     <span class="glyphicon glyphicon-fire"></span>
                   </strong>
-                  <div>{{ item.createTime }}</div>
+                  <div>{{ dateTimeAgo(item.createTime) }}</div>
                 </div>
                 <div class="userCommentContent">
                   <p

@@ -286,6 +286,16 @@
                 </p> -->
               </div>
             </div>
+            <div class="ads-container">
+              <iframe
+                @load="sendIframeAdsWinpMessage"
+                id="frameAds"
+                ref="iframeAds"
+                src="/general/jdunion/ads1.html"
+                scrolling="false"
+                style="width: 100%; min-height:250px; border: 0px; margin: 0;"
+                ></iframe>
+            </div>
           </div>
         </aside>
       </section>
@@ -305,6 +315,7 @@ export default {
       tenNewArticle:[],
       allCategoryList:[],
       menuList:[],
+      iframeAdsWin: null,
     };
   },
   created() {
@@ -324,10 +335,20 @@ export default {
     //this.getRouterMneuList();
   },
   mounted() {
+    this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
     //var time=this.getNowDate();
     //console.log(this.getNowDate());
   },
   methods: {
+    sendIframeAdsWinpMessage() {
+      // this.JDIframeUrl="/general/jdunion/jd1.html";
+      // this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
+      var jd_union_pid="368131681760272824";
+      //var jd_union_pid="368131681753068697"
+      this.iframeAdsWin.postMessage({
+        params: jd_union_pid /*在iframe页面中接收通过key也就是param接收，因此传输的数据可以是对象，包含多个key以及对应的数据*/
+      }, "*");
+    },
     getNowDateTime() {
       return this.getNowDate();
     },

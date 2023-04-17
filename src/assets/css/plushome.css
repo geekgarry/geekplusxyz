@@ -1747,9 +1747,11 @@ ol {
 
 /*****************我的GEEKCJJ工具板块********************/
 /* 天气工具 */
-.my-blog-tool {
+.my-blog-tool{
   display: flex;
-  color: var(--color-main-container-text,#2f3030);
+}
+.my-blog-tool iframe {
+  color: var(--color-main-container-text,#2f3030) !important;
 }
 
 /*****************热门推荐文章**********************/
@@ -2747,7 +2749,7 @@ footer .footer_content p:nth-child(2) {
 /**************侧边热门留言显示**************/
 .hotUserComment {
   font-size: 1em;
-  background-color: var(--color-hot-comment,#fbf9f9fe);
+  /*background-color: var(--color-hot-comment,#fbf9f9fe);*/
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -3067,6 +3069,9 @@ footer .footer_content p:nth-child(2) {
   background-color: var(--color-article-pre,#2c2d2e);
   color: var(--color-article-pre-text,#b3b8c1);
   font-size: 1.4rem;
+}
+.article-container .article-content pre code{
+  white-space: inherit;
 }
 .article-container .article-content p {
   margin: 1px auto 5px !important;

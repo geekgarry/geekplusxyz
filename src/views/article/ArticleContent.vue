@@ -48,6 +48,7 @@
               class="article-content"
               v-if="articleInfo.articleContent"
               v-html="articleInfo.articleContent"
+              v-highlight
             ></div>
             <div class="article-content" v-else>
               <p>
@@ -62,8 +63,12 @@
             </div>
             <div class="plus-article-toolbar">
               <button
-                class="toolbar-button"  data-container="body" data-trigger="hover" data-toggle="popover" 
-                title="觉得有帮助，可以给我赞赏!">
+                class="toolbar-button"
+                data-container="body"
+                data-trigger="hover"
+                data-toggle="popover"
+                title="觉得有帮助，可以给我赞赏!"
+              >
                 <span class="glyphicon glyphicon-gift"></span>
                 赞助
               </button>
@@ -116,12 +121,13 @@
           </div>
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h6>
-                评论:(文章评论功能上线正在测试中，可以留言评论！)
-              </h6>
+              <h6>评论:(文章评论功能上线正在测试中，可以留言评论！)</h6>
               <div class="comments_input_area">
                 <div class="row">
-                  <div class="col-lg-6 col--md-6 col-sm-6 col-xs-12" id="comment-left">
+                  <div
+                    class="col-lg-6 col--md-6 col-sm-6 col-xs-12"
+                    id="comment-left"
+                  >
                     <div class="row row-no-gutters">
                       <div class="col-lg-12 col--md-12 col-sm-12">
                         <div class="form-group">
@@ -165,12 +171,23 @@
                   </div>
                   <div class="col-lg-6 col--md-6 col-sm-6 col-xs-12">
                     <div class="Input_Box">
-                      <textarea placeholder="请输入内容*" hidden id="textarea-content" name="editordata-web"
-                        v-model="userMessage.content"></textarea>
-                      <div contenteditable="true" class="Input_text" v-on:keyup="putTextAreaValue" id="div_msg_content"></div>
+                      <textarea
+                        placeholder="请输入内容*"
+                        hidden
+                        id="textarea-content"
+                        name="editordata-web"
+                        v-model="userMessage.content"
+                      ></textarea>
+                      <div
+                        contenteditable="true"
+                        class="Input_text"
+                        v-on:keyup="putTextAreaValue"
+                        id="div_msg_content"
+                      ></div>
                       <div class="Input_Foot">
                         <a class="imgBtn" href="javascript:void(0);">'◡'</a
-                        ><a class="imgBtn" href="javascript:void(0);">&lt;/&gt;</a
+                        ><a class="imgBtn" href="javascript:void(0);"
+                          >&lt;/&gt;</a
                         ><a class="postBtn" @click="userLeaveMessage">确定</a>
                       </div>
                     </div>
@@ -181,7 +198,7 @@
                   </div>
                 </div>
               </div>
-              <div class="leavewords-container" v-if="leaveMessageTotal>0">
+              <div class="leavewords-container" v-if="leaveMessageTotal > 0">
                 <div class="articleComment">
                   <div
                     class="comment-lw"
@@ -193,7 +210,9 @@
                       <div class="comment-content">
                         <div class="comment-info">
                           <a>{{ item.name }}</a>
-                          <span class="comment_info_time">{{ item.createTime }}</span>
+                          <span class="comment_info_time">{{
+                            dateTimeAgo(item.createTime)
+                          }}</span>
                         </div>
                         <div
                           class="comment-text"
@@ -208,7 +227,9 @@
                           v-text="item.content"
                         ></div>
                         <div class="comment-action">
-                          <a href="javascript:void(0)" @click="openReplyBox(item.id)"
+                          <a
+                            href="javascript:void(0)"
+                            @click="openReplyBox(item.id)"
                             >回复</a
                           >
                           &nbsp;
@@ -250,11 +271,13 @@
                             <a>{{ subitem.name }}</a>
                             <span
                               >&nbsp;回复：<a
-                                ><strong class="">{{ subitem.replyName }}</strong></a
+                                ><strong class="">{{
+                                  subitem.replyName
+                                }}</strong></a
                               ></span
                             >
                             <span class="comment_info_time"
-                              >&nbsp;{{ subitem.createTime }}</span
+                              >&nbsp;{{ dateTimeAgo(subitem.createTime) }}</span
                             >
                           </div>
                           <div
@@ -300,8 +323,13 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="leaveMessageTotal>queryParams.pageSize" class="load-more-data">
-                  <a href="javascript:void(0);" @click="loadMoreData">{{ loadMoreBtn }}</a>
+                <div
+                  v-if="leaveMessageTotal > queryParams.pageSize"
+                  class="load-more-data"
+                >
+                  <a href="javascript:void(0);" @click="loadMoreData">{{
+                    loadMoreBtn
+                  }}</a>
                 </div>
               </div>
             </div>
@@ -353,7 +381,8 @@
               <div
                 class="panel-heading"
                 style="background: rgba(0, 0, 0, 0.0001)"
-              >&nbsp;标签云图
+              >
+                &nbsp;标签云图
               </div>
               <div class="panel-body tag-list">
                 <!-- <router-link class="btn btn-info" type="text" to="#"
@@ -372,8 +401,12 @@
                       query: { tagName: item.tagName },
                     }"
                     class=""
-                  >{{ item.tagName ? item.tagName : "Java" }}
-                    <span>{{item.articleCount != -1 ? numFormatKWM(item.articleCount) : 1}}</span>
+                    >{{ item.tagName ? item.tagName : "Java" }}
+                    <span>{{
+                      item.articleCount != -1
+                        ? numFormatKWM(item.articleCount)
+                        : 1
+                    }}</span>
                   </router-link>
                 </span>
                 <!-- <a style="margin-bottom: 3px"
@@ -423,7 +456,10 @@
               </div>
             </div>
             <div class="panel panel-default recommendlist">
-              <div class="panel-heading" style="background: rgba(0, 0, 0, 0.0001)">
+              <div
+                class="panel-heading"
+                style="background: rgba(0, 0, 0, 0.0001)"
+              >
                 快捷菜单
               </div>
               <div class="panel-body">
@@ -512,13 +548,22 @@
                 </p> -->
               </div>
             </div>
+            <div class="ads-container">
+              <iframe
+                @load="sendIframeAdsWinpMessage"
+                id="frameAds"
+                ref="iframeAds"
+                src="/general/jdunion/ads1.html"
+                scrolling="false"
+                style="width: 100%; min-height:200px; border: 0px; margin: 0;"
+                ></iframe>
+            </div>
           </div>
         </div>
       </div>
     </section>
   </div>
 </template>
-
 <script>
 import {
   getArticleDetail,
@@ -535,12 +580,12 @@ import {
 } from "@/api/geekplus/geekplus";
 import ReplyMessageBox from "@/components/comment/ReplyMessageBox.vue";
 // 引入插件
-import $ from 'jquery';
+import $ from "jquery";
 // import 'viewerjs/dist/viewer.css'
 // import Viewer from 'v-viewer'
 export default {
   components: {
-    ReplyMessageBox
+    ReplyMessageBox,
   },
   data() {
     return {
@@ -581,11 +626,11 @@ export default {
       replyBoxIndex: -1,
       //网站直接留言
       userMessage: {
-        name:null,
-        email:null,
-        website:null,
-        content:null,
-        topicId:null,
+        name: null,
+        email: null,
+        website: null,
+        content: null,
+        topicId: null,
       },
       leaveMessageTotal: 2,
       // 查询参数
@@ -648,7 +693,8 @@ export default {
         //   ],
         // },
       ],
-      loadMoreBtn:"加载更多留言",
+      loadMoreBtn: "加载更多留言",
+      iframeAdsWin: null,
     };
   },
   created() {
@@ -677,8 +723,8 @@ export default {
           this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
           "极客普拉斯&梦极客园-geekplus.xyz";
       });
-      this.articleViewAndLike.viewCount=this.articleInfo.viewCount;
-      this.articleViewAndLike.likeCount=this.articleInfo.likeCount;
+      this.articleViewAndLike.viewCount = this.articleInfo.viewCount;
+      this.articleViewAndLike.likeCount = this.articleInfo.likeCount;
       this.modifyViewCount();
     },
     // $route(to, from) {
@@ -686,34 +732,43 @@ export default {
     // }
   },
   mounted() {
-    let _this=this;
-    // $('[data-toggle="popover"]').popover();
-    $(function(){
+    // let script = document.createElement("script");
+    // script.type = "text/javascript";
+    // script.src = "https://ads-union.jd.com/static/js/union.js";
+    // document.body.appendChild(script);
+    let _this = this;
+    this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
+    $(function () {
       $('[data-toggle="popover"]').popover({
-          html: true,
-          placement: "top",
-          content: "<div class='popover-container' ><img src='/imgs/earnmoney/alipay.jpg' width='100px' height='100px'>&nbsp;<img src='/imgs/earnmoney/wxpay.jpg' width='100px' height='100px'></div>"
+        html: true,
+        placement: "top",
+        content:
+          "<div class='popover-container' ><img src='/imgs/earnmoney/alipay.jpg' width='100px' height='100px'>&nbsp;<img src='/imgs/earnmoney/wxpay.jpg' width='100px' height='100px'></div>",
       });
-    })
+    });
     //setTimeout(() => {
-      // console.log(this.articleInfo);
+    // console.log(this.articleInfo);
     //}, 1000);
     // setInterval(()=>{
     //   console.log("hello")
     // },1000);
-    document.getElementsByClassName("article-content")[0].oncopy = function(e) {
+    document.getElementsByClassName("article-content")[0].oncopy = function (
+      e
+    ) {
       // 部分监听
-      if(e.target.textContent.length>100){
+      if (e.target.textContent.length > 100) {
         _this.addLink();
       }
     };
     // console.log(document.getElementById('comment-left').offsetHeight)
-    var height = document.getElementById('comment-left').offsetHeight - 52;
-    document.getElementsByClassName('Input_text')[0].style.height = height + 'px';
-    window.onresize=()=>{
-      var height = document.getElementById('comment-left').offsetHeight - 52;
-      document.getElementsByClassName('Input_text')[0].style.height = height + 'px';
-    }
+    var height = document.getElementById("comment-left").offsetHeight - 52;
+    document.getElementsByClassName("Input_text")[0].style.height =
+      height + "px";
+    window.onresize = () => {
+      var height = document.getElementById("comment-left").offsetHeight - 52;
+      document.getElementsByClassName("Input_text")[0].style.height =
+        height + "px";
+    };
   },
   activated() {
     window.document.title =
@@ -721,6 +776,27 @@ export default {
       "极客普拉斯&梦极客园-geekplus.xyz";
   },
   methods: {
+    sendIframeAdsWinpMessage() {
+      // this.JDIframeUrl="/general/jdunion/jd1.html";
+      this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
+      // var jd_union_pid="368131681750707715";
+      var jd_union_pid="368131681753068697"
+      this.iframeAdsWin.postMessage({
+        params: jd_union_pid /*在iframe页面中接收通过key也就是param接收，因此传输的数据可以是对象，包含多个key以及对应的数据*/
+      }, "*");
+    },
+    setHeight(obj) {
+      var w = obj;
+      if (document.getElementById) {
+        if (w && !window.opera) {
+          if (w.contentDocument && w.contentDocument.body.offsetHeight) {
+            w.height = w.contentDocument.body.offsetHeight + 40;
+          } else if (w.Document && window.document.body.scrollHeight) {
+            w.height = window.document.body.scrollHeight + 40;
+          }
+        }
+      }
+    },
     getArticle() {
       //let _this=this;
       var id = this.$route.params.articleId;
@@ -903,36 +979,35 @@ export default {
     //   let creatDom = document.getElementById("creatDom");
     //   creatDom.parentNode.removeChild(creatDom);
     // },
-    onThumbsUpButtonTap(){
-      this.articleViewAndLike.likeCount +=1;
+    onThumbsUpButtonTap() {
+      this.articleViewAndLike.likeCount += 1;
       this.modifyLikeCount();
     },
     onLinkButtonTap(e) {
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard
-          .writeText('【'+this.articleInfo.articleTitle+'】  \r\n'+this.windowUrl)
+          .writeText(
+            "【" + this.articleInfo.articleTitle + "】  \r\n" + this.windowUrl
+          )
           .then(() => {
-            this.$toasted.info(
-            "复制成功",
-            {
-              position:'top-center',
-              duration:3000,
-              theme:'bubble'
+            this.$toasted.info("复制成功", {
+              position: "top-center",
+              duration: 3000,
+              theme: "bubble",
             });
           })
           .catch(() => {
-            this.$toasted.error(
-            "复制失败",
-            {
-              position:'top-center',
-              duration:3000,
-              theme:'bubble'
+            this.$toasted.error("复制失败", {
+              position: "top-center",
+              duration: 3000,
+              theme: "bubble",
             });
           });
       } else {
         // 创建text area
         const textArea = document.createElement("textarea");
-        textArea.value = '【'+this.articleInfo.articleTitle+'】  \r\n'+this.windowUrl;
+        textArea.value =
+          "【" + this.articleInfo.articleTitle + "】  \r\n" + this.windowUrl;
         // 使text area不在viewport，同时设置不可见
         document.body.appendChild(textArea);
         textArea.focus();
@@ -945,21 +1020,17 @@ export default {
           textArea.remove();
         }).then(
           () => {
-            this.$toasted.info(
-            "复制成功",
-            {
-              position:'top-center',
-              duration:3000,
-              theme:'bubble'
+            this.$toasted.info("复制成功", {
+              position: "top-center",
+              duration: 3000,
+              theme: "bubble",
             });
           },
           () => {
-            this.$toasted.error(
-            "复制失败",
-            {
-              position:'top-center',
-              duration:3000,
-              theme:'bubble'
+            this.$toasted.error("复制失败", {
+              position: "top-center",
+              duration: 3000,
+              theme: "bubble",
             });
           }
         );
@@ -983,28 +1054,28 @@ export default {
         userId: null,
         parent: 0,
       };
-      document.getElementById("div_msg_content").innerHTML='';
+      document.getElementById("div_msg_content").innerHTML = "";
       //this.resetForm("userCommentForm");
     },
     getUserCommentMessage(number) {
       //let data = { parentId: 0, topicId: null };
       //this.queryParams.parentId=0;
-      if (number == 0||number==null||number=='') {
+      if (number == 0 || number == null || number == "") {
         this.queryParams.pageNum = 1;
       } else {
         this.queryParams.pageNum = number;
       }
-      this.queryParams.topicId=this.$route.params.articleId;
+      this.queryParams.topicId = this.$route.params.articleId;
       getAllUserComment(this.queryParams)
         .then((response) => {
           //console.log(response);
-          this.leaveMessage =this.leaveMessage.concat(response.rows);
+          this.leaveMessage = this.leaveMessage.concat(response.rows);
           this.leaveMessageTotal = response.total;
-          this.loadMoreBtn="加载数据。。。";
+          this.loadMoreBtn = "加载数据。。。";
         })
         .catch((error) => {
           //console.log(error);
-          this.loadMoreBtn="数据加载失败";
+          this.loadMoreBtn = "数据加载失败";
         })
         .finally(() => {
           //this.loadMoreBtn="数据加载完成";
@@ -1012,8 +1083,8 @@ export default {
       //document.getElementsByClassName("leavewords-container")[0].scrollIntoView();
       //this.afterBackToTop();
       setTimeout(async () => {
-        this.loadMoreBtn="数据加载完了";
-      },1000);
+        this.loadMoreBtn = "数据加载完了";
+      }, 1000);
     },
     // getAllUserCommentMsg() {
     //   //let data = { parentId: 0, topicId: null };
@@ -1032,7 +1103,7 @@ export default {
     userLeaveMessage() {
       //this.userMessage.dateTime=this.getNowDate()
       //this.userMessage.parentId=0;
-      this.userMessage.topicId=this.$route.params.articleId;
+      this.userMessage.topicId = this.$route.params.articleId;
       let data = this.userMessage;
       //console.log(this.userMessage)
       if (
@@ -1074,10 +1145,10 @@ export default {
         website: data.website,
         content: data.content,
         //dateTime: this.getNowDate(),
-        parentId:data.parentId,
-        replyId:data.replyId,
-        replyName:data.replyName,
-        topicId:this.$route.params.articleId,
+        parentId: data.parentId,
+        replyId: data.replyId,
+        replyName: data.replyName,
+        topicId: this.$route.params.articleId,
       };
       //this.isDisplayMsgBox=false;
       //this.leaveMessage.filter(item => item.id===this.replyBoxIndex)[0].children.push(replyMsg);
@@ -1122,33 +1193,36 @@ export default {
       //this.isDisplayMsgBox=false;
       this.replyBoxIndex = -1;
     },
-    putTextAreaValue(e){
+    putTextAreaValue(e) {
       //console.log(e.target)
       // $(document).on("keyup","#div_content",function(){
       //   $("#textarea_content").html($(this).html());
       // });
-      document.getElementById("textarea-content").value=e.target.innerHTML;
-      this.userMessage.content=e.target.innerHTML;
+      document.getElementById("textarea-content").value = e.target.innerHTML;
+      this.userMessage.content = e.target.innerHTML;
     },
-    loadMoreData(){
-      this.queryParams.pageNum+=1;
-      if(this.queryParams.pageNum<=Math.ceil(this.leaveMessageTotal/this.queryParams.pageSize)){
-        this.getUserCommentMessage(this.queryParams.pageNum+1);
-      }else{
-        this.loadMoreBtn="数据加载完了";
+    loadMoreData() {
+      this.queryParams.pageNum += 1;
+      if (
+        this.queryParams.pageNum <=
+        Math.ceil(this.leaveMessageTotal / this.queryParams.pageSize)
+      ) {
+        this.getUserCommentMessage(this.queryParams.pageNum + 1);
+      } else {
+        this.loadMoreBtn = "数据加载完了";
       }
     },
   },
-  destroyed(){
+  destroyed() {
     //this.modifyLikeCount();
-    this.articleViewAndLike.viewCount=null;
+    this.articleViewAndLike.viewCount = null;
   },
 };
 </script>
 
 <style>
-.popover{
-  text-align:center;
-  background-color: var(--color-container,#242323e2);
+.popover {
+  text-align: center;
+  background-color: var(--color-container, #242323e2);
 }
 </style>

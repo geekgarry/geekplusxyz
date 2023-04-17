@@ -20,16 +20,16 @@ Vue.use(VueViewer, {
     toolbar: {
       zoomIn: 0,
       zoomOut: 0,
-      oneToOne: 0,
-      reset: 0,
+      oneToOne: 1,
+      reset: 1,
       prev: {
-        show: 4,
-        size: 'large',
+        show: 1,
+        //size: 'large',
       },
-      play: 0,
+      play: 1,
       next: {
-        show: 4,
-        size: 'large',
+        show: 1,
+        //size: 'large',
       },
       rotateLeft: 0,
       rotateRight: 0,
@@ -63,6 +63,27 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 import '@/assets/css/plushome.css';
 import "@/assets/css/variable.css";
+import 'highlight.js/styles/vs2015.css'
+// import 'highlight.js/styles/monokai-sublime.css'
+import hljs from 'highlight.js'
+Vue.directive("highlight", function(el) {
+  let blocks = el.querySelectorAll("pre code");
+  let blocks2 = el.querySelectorAll("pre");
+  // blocks.forEach(block => {
+  //   hljs.highlightBlock(block);
+  //   // 从这开始是设置行号
+  //   block.innerHTML = `<ol><li>${block.innerHTML.replace(
+  //     /\n/g,
+  //     `</li><li class="line">`
+  //   )}</li></ol>`;
+  // });
+  blocks2.forEach(block => {
+    hljs.highlightBlock(block);
+    //从这开始是设置行号
+    // block.innerHTML = `<ol><li>${block.innerHTML.replace(/\n/g,`</li><li class="line">`)}</li></ol>`;
+  });
+});
+Vue.prototype.hljs = hljs;
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap-theme.css'
 import 'bootstrap/dist/js/bootstrap.js'
@@ -116,7 +137,7 @@ Vue.prototype.getHtmlValue = getHtmlValue;
 Vue.prototype.getOnlyYearMonthDay = getOnlyYearMonthDay;
 Vue.prototype.getDateTimeStamp=getDateTimeStamp;
 Vue.prototype.dateTimeAgo=dateTimeAgo;
-Vue.prototype.someNumberCount = someNumberCount;
+Vue.prototype.someNumberCount = someNumberCount;//返回一个整数的随机数
 Vue.prototype.backToTop = backToTop;
 Vue.prototype.isLightDay=isLightDay;
 Vue.prototype.dispatchSetLocalStore=dispatchSetLocalStore;

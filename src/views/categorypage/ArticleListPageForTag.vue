@@ -663,6 +663,16 @@
                     </p> -->
                   </div>
                 </div>
+                <div class="ads-container">
+                  <iframe
+                    @load="sendIframeAdsWinpMessage"
+                    id="frameAds"
+                    ref="iframeAds"
+                    src="/general/jdunion/ads1.html"
+                    scrolling="false"
+                    style="width: 100%; min-height:250px; border: 0px; margin: 0;"
+                    ></iframe>
+                </div>
               </div>
             </aside>
           </div>
@@ -699,6 +709,7 @@ export default {
       allTagArticleCount: [], //查询每个标签的文章数量
       oneNewNotice:{},
       loadMoreBtn:"加载更多",
+      iframeAdsWin: null,
     };
   },
   created() {
@@ -725,6 +736,7 @@ export default {
     this.getOneNewestNotice();
   },
   mounted(){
+    this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
     //console.log("mounted");
     // document.addEventListener("keydown", (e) => {
     //   let key = window.event.keyCode;
@@ -756,6 +768,15 @@ export default {
     this.getArticleList(1)// 这个是获取列表数据的方法
   },
   methods: {
+    sendIframeAdsWinpMessage() {
+      // this.JDIframeUrl="/general/jdunion/jd1.html";
+      // this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
+      var jd_union_pid="368131681759285396";
+      //var jd_union_pid="368131681753068697"
+      this.iframeAdsWin.postMessage({
+        params: jd_union_pid /*在iframe页面中接收通过key也就是param接收，因此传输的数据可以是对象，包含多个key以及对应的数据*/
+      }, "*");
+    },
     //正常分页加载
     getArticleList(pageNum) {
       this.queryParams.pageNum=pageNum;

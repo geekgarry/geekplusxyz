@@ -184,7 +184,13 @@
 
 <script>
 import PlusQuillEditor from "@/components/editor/PlusQuillEditor";
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 import Quill from "quill";
+let fontList = ['SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong']
+Quill.import('formats/font').whitelist = fontList; //将字体加入到白名单
+
 // 调整上传图片大小
 import ImageResize from "quill-image-resize-module";
 Quill.register("modules/imageResize", ImageResize);
@@ -226,7 +232,7 @@ export default {
               [{ size: ["small", false, "large", "huge"] }], // 字体大小
               [{ header: [1, 2, 3, 4, 5, 6, false] }], //几级标题
               [{ color: [] }, { background: [] }], // 字体颜色，字体背景颜色
-              [{ font: [] }], //字体
+              [{ font: fontList }], //字体
               [{ align: [] }], //对齐方式
               ["clean"], //清除字体样式
               ["link", "image", "video"], //上传图片、上传视频
@@ -253,6 +259,11 @@ export default {
               color: "white",
             },
             modules: ["Resize", "DisplaySize", "Toolbar"],
+          },
+          syntax: {
+            highlight: text => {
+              return this.hljs.highlightAuto(text).value; // 这里就是代码高亮需要配置的地方
+            }
           },
         },
         placeholder: "输入内容...",
