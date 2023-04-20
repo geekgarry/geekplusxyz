@@ -36,7 +36,7 @@
             ? 'item active animate__animated animate__fadeInLeft animate__fadeInRight'
             : 'item animate__animated animate__fadeInLeft animate__fadeInRight'
         "
-        :style="{ backgroundImage: 'url(https://'+ baseHost+baseApi+ item.carouselImg + ')' }"
+        :style="{ backgroundImage: 'url('+ item.carouselImg + ')' }"
       >
         <!-- :style="{backgroundImage:'url('+item.carouselImg+')'}" v-lazy:background-image="item.carouselImg"-->
         <!-- 以背景展示轮播图 -->

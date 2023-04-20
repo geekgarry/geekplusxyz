@@ -119,6 +119,34 @@
               </span>
             </div>
           </div>
+          <div class="navigation-article-container">
+            <!-- 使用三目运算符判断 按钮是否可以点击 -->
+            <div class="left-navigation">
+              <router-link v-if="prevArticle" :to="'/article/'+prevArticle.id" :class="prevArticle ? 'btnClick' : 'noClick'">
+                <font-awesome-icon :icon="['fa', 'angle-double-left']" />
+                <div class="navigation-info">
+                  <span>上一篇</span>
+                  <span class=" hidden-sm hidden-xs">{{ prevArticle.articleTitle }}</span>
+                </div>
+              </router-link>
+              <span v-else>
+                <span class="glyphicon glyphicon-hand-left" aria-hidden="true"></span>没有了
+              </span>
+            </div>
+            <!-- 使用三目运算符判断 按钮是否可以点击 -->
+            <div class="right-navigation">
+              <router-link v-if="nextArticle" :to="'/article/'+nextArticle.id" :class="nextArticle ? 'btnClick' : 'noClick'">
+                <div class="navigation-info">
+                  <span class=" hidden-sm hidden-xs">{{ nextArticle.articleTitle }}</span>
+                  <span>下一篇</span>
+                </div>
+                <font-awesome-icon :icon="['fa', 'angle-double-right']" />
+              </router-link>
+              <span v-else>
+                没有了<span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span>
+              </span>
+            </div>
+          </div>
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <h6>评论:(文章评论功能上线正在测试中，可以留言评论！)</h6>
@@ -577,6 +605,8 @@ import {
   getUserCommentCount,
   getWebHotUserComment,
   getArticleLatestUserComment,
+  getCurrentPrevArticle,
+  getCurrentNextArticle,
 } from "@/api/geekplus/geekplus";
 import ReplyMessageBox from "@/components/comment/ReplyMessageBox.vue";
 // 引入插件
@@ -610,6 +640,8 @@ export default {
         viewCount: null,
         tags: {},
       },
+      prevArticle:{},
+      nextArticle:{},
       articleDetail: {},
       tenNewArticle: [],
       allCategoryList: [],
@@ -804,6 +836,8 @@ export default {
       getArticleDetail(param)
         .then((response) => {
           this.articleInfo = response.data;
+          this.prevArticle = response.prevRow;
+          this.nextArticle = response.nextRow;
           this.getBreadCrumb(this.articleInfo.articleCategory);
           //this.articleDetail=JSON.parse(JSON.stringify(response.data));
           // console.log(this.articleDetail);
@@ -1211,6 +1245,28 @@ export default {
       } else {
         this.loadMoreBtn = "数据加载完了";
       }
+    },
+    getPrevArticle(){
+      let params={ pathName:'',articleId: this.$route.params.articleId}
+      getCurrentPrevArticle().then((response) => {
+
+      }).catch((error) => {
+        this.$toasted.error(error.msg, {
+          position: "top-center",
+          duration: 3000,
+        });
+      });
+    },
+    getNextArticle(){
+      let params={ pathName:'',articleId: this.$route.params.articleId}
+      getCurrentNextArticle().then((response) => {
+
+      }).catch((error) => {
+        this.$toasted.error(error.msg, {
+          position: "top-center",
+          duration: 3000,
+        });
+      });
     },
   },
   destroyed() {

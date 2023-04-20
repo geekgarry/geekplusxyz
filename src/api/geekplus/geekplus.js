@@ -298,6 +298,24 @@ export function updateViewCountAndLikeCount(queryParams) {
   })
 }
 
+// 查询当前文章的前一条
+export function getCurrentPrevArticle(queryParams) {
+  return request({
+    url: '/geekplusapp/getCurrentPrevArticle',
+    method: 'get',
+    params:queryParams
+  })
+}
+
+// 查询当前文章的后一条
+export function getCurrentNextArticle(queryParams) {
+  return request({
+    url: '/geekplusapp/getCurrentNextArticle',
+    method: 'get',
+    params:queryParams
+  })
+}
+
 //获取疫情数据
 export function getcovid() {
     return request({

@@ -783,7 +783,7 @@ export default {
     sendIframeAdsWinpMessage() {
       // this.JDIframeUrl="/general/jdunion/jd1.html";
       // this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
-      var jd_union_pid="368131681760484418";
+      var jd_union_pid="619641681928506429";
       //var jd_union_pid="368131681753068697"
       this.iframeAdsWin.postMessage({
         params: jd_union_pid /*在iframe页面中接收通过key也就是param接收，因此传输的数据可以是对象，包含多个key以及对应的数据*/
