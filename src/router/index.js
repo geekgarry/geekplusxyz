@@ -464,7 +464,7 @@ router.beforeEach(async(to, from, next) => {
       await store.dispatch('permission/generateRoutes').then(accessRoutes => {
         let asyncRouter = accessRoutes
         // 根据roles权限生成可访问的路由表
-        //console.log(accessRoutes);
+        // console.log(accessRoutes);
         // accessRoutes.forEach(v => {
         //   //console.log(v);
         //   router.addRoute('layout',v) // 动态添加可访问路由表,循环添加路由

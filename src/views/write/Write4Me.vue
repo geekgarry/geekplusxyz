@@ -188,8 +188,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import Quill from "quill";
-let fontList = ['SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong']
-Quill.import('formats/font').whitelist = fontList; //将字体加入到白名单
+let fontList = ['SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong'].concat(Quill.import('formats/font').whitelist); //将字体加入到白名单
 
 // 调整上传图片大小
 import ImageResize from "quill-image-resize-module";

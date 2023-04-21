@@ -29,10 +29,10 @@ const actions = {
             let routerList = new Array();
             listSubParentCategory().then(response => { //调用后端接口获取路由列表
                 let menus = response.data;
+                // console.log(menus)
                 menus.forEach(item => {
                     setChild(item, routerList, '', '')
                 })
-                //console.log(routerList)
                 // var tempRouterList=new Array()
                 // let tempRouter=router.options.routes.filter(
                 //     (item) => {
@@ -79,8 +79,9 @@ function setChild(item, routerList, rootName, rootPath) {
         let router = {
             name: routerName.replace('/', ''),
             path: rootPath,
-            //component: () => import('@/views/categorypage/ArticleListPage'),
+            //component: () => import('@/views/categorypage/GeneralListPage'),
             component: loadView(item.component),
+            // componentStr: item.component,
             meta: { title: rootName, icon: item.icon, id: item.id},
             type: 'servermenu',
             children: []
@@ -98,6 +99,7 @@ function setChild(item, routerList, rootName, rootPath) {
             path: rootPath,
             //component: () => import('@/views/categorypage/ArticleListPage'),
             component: loadView(item.component),
+            // componentStr: item.component,
             meta: { title: rootName, icon: item.icon, id: item.id},
             type: 'servermenu',
             children: []
