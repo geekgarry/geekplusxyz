@@ -1,24 +1,39 @@
 <template>
   <div class="form-structor">
+    <!-- <div class="cancel-div">
+      <font-awesome-icon :icon="['fas', 'times']" />
+    </div> -->
     <div class="login">
-        <div class="center">
-          <h2 class="form-title" id="login"><span>或</span>登录</h2>
-          <div class="form-holder">
-            <form>
-                <input type="email" class="input" placeholder="邮箱" />
-                <input type="password" autocomplete="true" class="input" placeholder="密码" />
-            </form>
-          </div>
-          <button class="submit-btn">登录</button>
+      <div class="center">
+        <h2 class="form-title" id="login"><span>或</span>登录</h2>
+        <div class="form-holder">
+          <form>
+            <input type="email" v-model="loginForm.email" class="input" placeholder="邮箱" />
+            <input
+              type="password"
+              v-model="loginForm.password"
+              autocomplete="true"
+              class="input"
+              placeholder="密码"
+            />
+          </form>
         </div>
+        <button class="submit-btn">登录</button>
+      </div>
     </div>
     <div class="signup slide-up">
       <h2 class="form-title" id="signup"><span>或</span>注册</h2>
       <div class="form-holder">
         <form>
-            <input type="text" class="input" placeholder="用户名" />
-            <input type="email" class="input" placeholder="邮箱" />
-            <input type="password" autocomplete="true" class="input" placeholder="密码" />
+          <input type="text" class="input" v-model="signupForm.username" placeholder="用户名" />
+          <input type="email" class="input" v-model="signupForm.email" placeholder="邮箱" />
+          <input
+            type="password"
+            v-model="signupForm.password"
+            autocomplete="true"
+            class="input"
+            placeholder="密码"
+          />
         </form>
       </div>
       <button class="submit-btn">注册</button>
@@ -30,7 +45,10 @@
 export default {
   name: "LoginPage",
   data() {
-    return {};
+    return {
+      loginForm:{},
+      signupForm:{},
+    };
   },
   created() {
     //console.clear();
@@ -43,7 +61,9 @@ export default {
       let parent = e.target.parentNode.parentNode;
       Array.from(e.target.parentNode.parentNode.classList).find((element) => {
         if (element !== "slide-up") {
+          // console.log(e.target.parentNode.parentNode.classList);
           parent.classList.add("slide-up");
+          signupBtn.parentNode.classList.remove("slide-up");
         } else {
           signupBtn.parentNode.classList.add("slide-up");
           parent.classList.remove("slide-up");
@@ -56,6 +76,7 @@ export default {
       Array.from(e.target.parentNode.classList).find((element) => {
         if (element !== "slide-up") {
           parent.classList.add("slide-up");
+          loginBtn.parentNode.parentNode.classList.remove("slide-up");
         } else {
           loginBtn.parentNode.parentNode.classList.add("slide-up");
           parent.classList.remove("slide-up");
@@ -81,7 +102,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }**/
-
+.cancel-div {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--color-header-text, #fff);
+}
 .form-structor {
   background-color: #222;
   border-radius: 15px;
@@ -89,7 +121,7 @@ body {
   width: 350px;
   position: relative;
   overflow: hidden;
-  margin: 30px auto;
+  margin: 0 auto;
 }
 .form-structor::after {
   content: "";
@@ -123,6 +155,7 @@ body {
 .form-structor .signup.slide-up .form-holder,
 .form-structor .signup.slide-up .submit-btn {
   opacity: 0;
+  display: none;
   visibility: hidden;
 }
 .form-structor .signup.slide-up .form-title {
@@ -132,6 +165,7 @@ body {
 .form-structor .signup.slide-up .form-title span {
   margin-right: 5px;
   opacity: 1;
+  display: contents;
   visibility: visible;
   -webkit-transition: all 0.3s ease;
 }
@@ -143,6 +177,7 @@ body {
 .form-structor .signup .form-title span {
   color: rgba(0, 0, 0, 0.4);
   opacity: 0;
+  display: none;
   visibility: hidden;
   -webkit-transition: all 0.3s ease;
 }
@@ -160,9 +195,9 @@ body {
   outline: none;
   box-shadow: none;
   display: block;
-  height: 30px;
+  height: 36px;
   line-height: 30px;
-  padding: 8px 15px;
+  padding: 3px 8px;
   border-bottom: 1px solid #eee;
   width: 100%;
   font-size: 12px;
@@ -199,7 +234,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #fff;
+  background-color: var(--color-background, #fff);
   z-index: 5;
   -webkit-transition: all 0.3s ease;
 }
@@ -209,7 +244,7 @@ body {
   left: 50%;
   top: -20px;
   -webkit-transform: translate(-50%, 0);
-  background-color: #fff;
+  background-color: var(--color-background, #fff);
   width: 200%;
   height: 250px;
   border-radius: 50%;
@@ -226,19 +261,20 @@ body {
   -webkit-transition: all 0.3s ease;
 }
 .form-structor .login .center .form-title {
-  color: #000;
+  color: var(--color-header-text, #000);
   font-size: 1.7em;
   text-align: center;
 }
 .form-structor .login .center .form-title span {
   color: rgba(0, 0, 0, 0.4);
   opacity: 0;
+  display: none;
   visibility: hidden;
   -webkit-transition: all 0.3s ease;
 }
 .form-structor .login .center .form-holder {
   border-radius: 15px;
-  background-color: #fff;
+  background-color: var(--color-background,#ffffff);
   border: 1px solid #eee;
   overflow: hidden;
   margin-top: 50px;
@@ -251,9 +287,9 @@ body {
   outline: none;
   box-shadow: none;
   display: block;
-  height: 30px;
+  height: 36px;
   line-height: 30px;
-  padding: 8px 15px;
+  padding: 3px 8px;
   border-bottom: 1px solid #eee;
   width: 100%;
   font-size: 12px;
@@ -309,7 +345,30 @@ body {
 .form-structor .login.slide-up .form-title span {
   margin-right: 5px;
   opacity: 1;
+  display: contents;
   visibility: visible;
   -webkit-transition: all 0.3s ease;
+}
+@media screen and (max-width:798px) {
+  .form-structor {
+    background-color: #222;
+    border-radius: 15px;
+    height: 410px;
+    width: 230px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+}
+@media screen and (max-width:400px) {
+  .form-structor {
+    background-color: #222;
+    border-radius: 15px;
+    height: 390px;
+    width: 88%;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+  }
 }
 </style>

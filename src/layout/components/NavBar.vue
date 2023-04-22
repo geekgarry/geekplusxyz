@@ -131,10 +131,14 @@
                             </router-link>
                         </li>
                     </ul>
-
                 </nav>
                 <!-- mkplus MENU END -->
                 <div class="mkplus-menu-right-section" @submit.prevent="searchResult()">
+                  <div class="header-toolbar">
+                    <button class="toolbar-button" data-toggle="modal" data-target="#myModal">
+                      <font-awesome-icon :icon="['fas', 'user']" />
+                    </button>
+                  </div>
                   <div class="header-toolbar">
                     <button class="toolbar-button" @click="setUpTheme">
                       <font-awesome-icon v-if="lightTheme" :icon="['fas', 'moon']" />
@@ -171,7 +175,6 @@
                         </div>
                     </form>
                     <!-- mkplus MENU SEARCH END -->
-
                 </div>
             </div>
         </div>

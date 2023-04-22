@@ -149,7 +149,7 @@
           </div>
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h6>评论:(文章评论功能上线正在测试中，可以留言评论！)</h6>
+              <h6>评论:</h6>
               <div class="comments_input_area">
                 <div class="row">
                   <div

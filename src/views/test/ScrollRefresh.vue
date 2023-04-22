@@ -35,7 +35,7 @@
                         this.page.counter++
                         this.$refs.myScroll.setState(5)
                         for(let i=0;i<10;i++){
-                            this.listdata.push({})
+                            this.list.push({})
                         }
                     },500)
                 }else{
@@ -54,7 +54,7 @@
 
         },
         mounted(){
-            for(let i=0;i<1*50;i++){
+            for(let i=0;i<1*20;i++){
                 this.list.push({})
             }
 

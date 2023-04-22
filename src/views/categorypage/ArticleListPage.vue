@@ -730,7 +730,7 @@ export default {
       keywords: "",
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 15,
         pathName: "",
       },
       articleTotal: 0,

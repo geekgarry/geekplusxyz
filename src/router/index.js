@@ -385,7 +385,7 @@ export const constantRoutes = [
     path: '/login',
     name: 'login',
     meta: { title: '极客普拉斯登录', icon: 'fa-home' },
-    component: (resolve) => require(['@/views/login/LoginPage.vue'], resolve),
+    component: (resolve) => require(['@/components/login/SignIn.vue'], resolve),
     type: 'page',
     hidden: true
   },
@@ -399,8 +399,8 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/test',
-    name: 'honeyComb',
+    path: '/waterFall',
+    name: 'waterFall',
     meta: { title: '蜂窝结构', icon: 'fa-home' },
     component: (resolve) => require(['@/views/categorypage/TestPage.vue'], resolve),
     type: 'page',

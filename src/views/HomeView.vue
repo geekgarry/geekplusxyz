@@ -1006,7 +1006,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading"
                   style="background: rgba(0, 0, 0, 0.0001)" >
-                  <span class="glyphicon glyphicon-list"></span>&nbsp;{{ allCategoryList[6].categoryName }}-专题
+                  <span class="glyphicon glyphicon-list"></span>&nbsp;{{ allCategoryList[9].categoryName }}-专题
                 </div>
                 <div class="panel-body">
                   <!-- <div class="model recommend">                                    						                            <div class="title">热门推荐</div>						                            <div class="content"> -->
@@ -1040,7 +1040,7 @@
                       </a>
                     </div>-->
                   </div>
-                  <div class="special-topic"><router-link :to="allCategoryList[6].path">进入专题</router-link></div>
+                  <div class="special-topic"><router-link :to="allCategoryList[9].path">进入专题</router-link></div>
                 </div>
               </div>
               <div class="panel panel-default">
@@ -1442,7 +1442,7 @@ export default {
         });
     },
     getSixSameCategoryArticle6() {
-      var params = { pathName: this.allCategoryList[6].pathName, limitCount: 6 };
+      var params = { pathName: this.allCategoryList[9].pathName, limitCount: 6 };
       getArticlesByCategoryLimit(params)
         .then((response) => {
           //console.log(response.data);

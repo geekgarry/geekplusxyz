@@ -79,6 +79,30 @@
         </ol>
       </div> -->
     <!-- <router-view :key="key" /> -->
+    <!-- Modal 模态框，弹出层 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div role="document" class="plus-dialog">
+        <div style="">
+          <span class="close" style="color:white;font-size:3rem;" data-dismiss="modal" aria-label="Close">
+            <!-- <span  aria-hidden="true">&times;</span> -->
+            <font-awesome-icon :icon="['fas', 'times']" />
+          </span>
+        </div>
+        <login-page></login-page>
+        <!-- <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <!---网站主页面组件app-main--->
     <app-main />
     <!-- </div> -->
     <!-- <div class="gc-slide" v-if="isBackTop">
@@ -178,6 +202,7 @@
         </div>
       </div>
     </div>
+    <gp-player></gp-player>
     <nav :class="'navbar navbar-default '+bottomNavBarFixed+' visible-xs'"
         style="background:var(--color-main-container-bg-2,#eff0f0);color:var(--color-main-container-text-1,#333535);
         border-radius:0;">
@@ -235,7 +260,7 @@
 import $ from "jquery";
 import BackToTop from "@/components/BackToTop";
 // import WaveItem from "@/components/effect/Wave";
-// import GpPlayer from '@/components/music/GpPlayer.vue'
+import GpPlayer from '@/components/music/GpPlayer.vue'
 import maiLogo from "@/assets/icon/mai.png";
 import {
   displayFriendlyLink,
@@ -245,14 +270,16 @@ import {
 import AppMain from "./components/AppMain";
 import NavBar from "./components/NavBar";
 // import BTNavBar from "./components/BTNavBar";
+import LoginPage from "@/views/login/LoginPage.vue"
 export default {
   name: "Layout",
   components: {
     BackToTop,
     AppMain,
     NavBar,
+    LoginPage,
     // BTNavBar,
-    // GpPlayer,
+    GpPlayer,
     //WaveItem,
   },
   data() {

@@ -887,7 +887,19 @@ ol {
   white-space: nowrap;
   color: #1b2726;
 }
-
+/***********************************自定义弹出对话框******************************************/
+.plus-dialog{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  width:fit-content;
+  height:fit-content;
+  margin:10px auto;
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
 /**********************************特别推荐的文章排布样式*******************************/
 .special-recommend-list {
   width: 100%;
@@ -1829,7 +1841,7 @@ ol {
   margin: 0 auto;
   background: #22222288;
   text-align: center;
-  z-index: 123;
+  z-index: 0;
 }
 
 .latest-hot-article .articlelist-first-life a:hover img {
@@ -2738,7 +2750,7 @@ footer .footer_content p:nth-child(2) {
 .comment-content .comment-action a {
   text-decoration: none;
   color: #bdbdbd;
-  font-size: 1em;
+  font-size: 1.6rem;
 }
 
 .sub-comment-lw {

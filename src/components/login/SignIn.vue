@@ -18,7 +18,7 @@
               type="password"
               class="form-control"
               id="inputPassword3"
-              placeholder="密　码"
+              placeholder="请输入密码"
             />
             <i class="fa fa-lock"></i>
             <a href="#" class="fa fa-question-circle"></a>
