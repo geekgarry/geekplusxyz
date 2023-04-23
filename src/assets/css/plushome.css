@@ -889,16 +889,17 @@ ol {
 }
 /***********************************自定义弹出对话框******************************************/
 .plus-dialog{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  width:fit-content;
-  height:fit-content;
-  margin:10px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: 10px auto;
   position: relative;
-  width: auto;
-  margin: 10px;
+  top: 5%;
 }
 /**********************************特别推荐的文章排布样式*******************************/
 .special-recommend-list {

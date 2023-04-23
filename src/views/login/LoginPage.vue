@@ -353,7 +353,7 @@ body {
   .form-structor {
     background-color: #222;
     border-radius: 15px;
-    height: 410px;
+    height: 420px;
     width: 230px;
     position: relative;
     overflow: hidden;
@@ -364,7 +364,7 @@ body {
   .form-structor {
     background-color: #222;
     border-radius: 15px;
-    height: 390px;
+    height: 410px;
     width: 88%;
     position: relative;
     overflow: hidden;
