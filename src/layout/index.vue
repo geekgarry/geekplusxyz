@@ -374,7 +374,9 @@ export default {
           document.body.scrollTop;
         // 页面滚动距顶部距离
         var scroll = st - this.contentScrollTop;
+        //获取文档实际高度
         var scrollHeight=document.documentElement.scrollHeight || document.body.scrollHeight;
+        //获取视口实际高度
         var bodyClientHeight=document.documentElement.clientHeight || document.body.clientHeight;
         this.contentScrollTop = st;
         //console.log("实时页面滚动高度："+st);this.contentScrollTop < 200 &&

@@ -45,19 +45,25 @@ service.interceptors.response.use(
             if(res.code == 20000 ||res.code== 10000 || res.code==200 || res.data || res.ErrorCode == 20000) {
                 return res;
             }else {
-                let message = (res.error && res.error.message) || res.message || res.msg || '未知错误';
+                let message = (res.error && res.error.message) || res.message || res.msg || res || '未知错误';
                 
-                Vue.toasted.error(message,{
-                    position: "top-center",
-                    duration: 4000,
-                    theme:'bubble'
-                });
+                // Vue.toasted.error(message,{
+                //     position: "top-center",
+                //     duration: 3000,
+                //     theme: 'bubble'
+                // });
 
                 console.log('拦截器打印错误:', response.data);
-                // 这里可以设置后台返回状态码是500或者是其他,然后重定向跳转
-                // if(res.ErrorCode == 500) {
-                //     router.push('/login')
-                // }
+                
+                //这里可以设置后台返回状态码是500或者是其他,然后重定向跳转
+                if(res.code == 500) {
+                    // router.push('/login')
+                    Vue.toasted.error(res.msg,{
+                        position: "top-center",
+                        duration: 3000,
+                        theme: 'bubble'
+                    });
+                }
                 return Promise.reject(
                     new Error(res.message || (res.error &&res.error.message) || '未知错误')
                 );
@@ -67,7 +73,7 @@ service.interceptors.response.use(
             
             Vue.toasted.error(message,{
                 position: "top-center",
-                duration: 4000,
+                duration: 3000,
                 theme:'bubble'
             });
 

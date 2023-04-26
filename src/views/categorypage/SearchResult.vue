@@ -10,6 +10,14 @@
     </div>
     <div class="container-article">
       <div class="container">
+        <div class="row mx-4">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <Adsense
+              data-ad-client="ca-pub-7291512442295477"
+              data-ad-slot="3158275447">
+            </Adsense>
+          </div>
+        </div>
         <section class="row">
           <div class="">
             <div class="col-lg-9 col-md-9 animated slideInLeft">
@@ -89,7 +97,6 @@
                     </div>
                   </div>
                 </article>
-
                 <!-- <article class="item">
                   <div class="art-item">
                     <div class="left-art-img">
@@ -664,6 +671,12 @@
                       >
                     </p> -->
                   </div>
+                </div>
+                <div class="ads-container">
+                  <Adsense
+                    data-ad-client="ca-pub-7291512442295477"
+                    data-ad-slot="3776635819">
+                  </Adsense>
                 </div>
                 <div class="ads-container">
                   <iframe

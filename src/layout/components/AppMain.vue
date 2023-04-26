@@ -5,6 +5,16 @@
         <router-view :key="key" />
       </keep-alive>
     </transition>
+    <div class="my-blog-advertise">
+      <div>
+        <Adsense
+          data-ad-format="auto"
+          data-full-width-responsive="yes"
+          data-ad-client="ca-pub-7291512442295477"
+          data-ad-slot="3158275447">
+        </Adsense>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -28,10 +38,10 @@ export default {
   min-height: calc(100vh - 50px);
   width: 100%;
   position: relative;
-  overflow: auto;
-  overflow-y: scroll;
+  overflow: hidden;
+  /* overflow-y: scroll; */
   -webkit-overflow-scroll:touch;
-  /*background-color: #f4f3f3;*/
+  /* background-color: #f4f3f3; */
   color: var(--color-text);
   background-color: var(--color-container,#f1f1f1);
   transition: color 0.5s, background-color 0.5s;

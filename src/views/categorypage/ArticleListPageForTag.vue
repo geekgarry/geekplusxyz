@@ -291,6 +291,14 @@
                   </li>
                 </ul>
               </nav> -->
+              <div class="row mx-4">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <Adsense
+                    data-ad-client="ca-pub-7291512442295477"
+                    data-ad-slot="3158275447">
+                  </Adsense>
+                </div>
+              </div>
               <plus-pager class="hidden-xs" :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
                :pluspagerMethod="getArticleList">
               </plus-pager>
@@ -662,6 +670,12 @@
                       >
                     </p> -->
                   </div>
+                </div>
+                <div class="ads-container">
+                  <Adsense
+                    data-ad-client="ca-pub-7291512442295477"
+                    data-ad-slot="3776635819">
+                  </Adsense>
                 </div>
                 <div class="ads-container">
                   <iframe

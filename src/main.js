@@ -3,6 +3,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import axios from "axios"
+
 // register the plugin on vue
 import Toasted from 'vue-toasted';
 import VueViewer, { directive as viewerDirective } from 'v-viewer';
@@ -52,6 +53,11 @@ Vue.use(PlusComponent);
 //var Toasted = require('vue-toasted').default
 Vue.use(Toasted, Option);
 //Vue.prototype.Toasted=Toasted;
+Vue.use(require('vue-script2'))
+import Ads from 'vue-google-adsense'
+Vue.use(Ads.Adsense)
+Vue.use(Ads.InArticleAdsense)
+Vue.use(Ads.InFeedAdsense)
 // you can also pass options, check options reference below
 // import 'font-awesome/css/font-awesome.min.css'
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -149,7 +155,7 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  // mounted () {
-  //   document.dispatchEvent(new Event('render-event'))
-  // }
+  mounted () {
+    document.dispatchEvent(new Event('render-event'))
+  }
 }).$mount('#app')

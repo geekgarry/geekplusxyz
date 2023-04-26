@@ -434,6 +434,14 @@
               <plus-pager class="hidden-xs" :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
                :pluspagerMethod="getArticleList">
               </plus-pager>
+              <div class="row mx-4">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <Adsense
+                    data-ad-client="ca-pub-7291512442295477"
+                    data-ad-slot="6482220433">
+                  </Adsense>
+                </div>
+              </div>
             </div>
             <aside class="col-lg-3 col-md-3 right animated slideInRight">
               <div class="right-fun">
@@ -695,14 +703,18 @@
                   </div>
                 </div>
                 <div class="ads-container">
-                  <iframe
+                  <Adsense
+                    data-ad-client="ca-pub-7291512442295477"
+                    data-ad-slot="3776635819">
+                  </Adsense>
+                  <!-- <iframe
                     @load="sendIframeAdsWinpMessage"
                     id="frameAds"
                     ref="iframeAds"
                     src="/general/jdunion/ads1.html"
                     scrolling="false"
                     style="width: 100%; min-height:250px; border: 0px; margin: 0;"
-                    ></iframe>
+                    ></iframe> -->
                 </div>
               </div>
             </aside>
@@ -730,7 +742,7 @@ export default {
       keywords: "",
       queryParams: {
         pageNum: 1,
-        pageSize: 15,
+        pageSize: 12,
         pathName: "",
       },
       articleTotal: 0,
@@ -771,6 +783,13 @@ export default {
     // };
   },
   mounted() {
+    // let script = document.createElement("script");
+    // script.type = "text/javascript";
+    // script.async = true;
+    // script.crossOrigin = "anonymous";
+    // script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7291512442295477";
+    // document.body.appendChild(script);
+    //(adsbygoogle = window.adsbygoogle || []).push({});
     this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
     //console.log("mounted")
   },

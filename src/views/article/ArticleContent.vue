@@ -92,9 +92,12 @@
                 </div>
               </button>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+            <div class="mx-4">
+              <Adsense
+                data-ad-client="ca-pub-7291512442295477"
+                data-ad-slot="2615721094">
+              </Adsense>
+            </div>
           </div>
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -126,7 +129,7 @@
                 <font-awesome-icon :icon="['fa', 'angle-double-left']" />
                 <div class="navigation-info">
                   <span>上一篇</span>
-                  <span class=" hidden-sm hidden-xs">{{ prevArticle.articleTitle }}</span>
+                  <span class="">{{ prevArticle.articleTitle }}</span>
                 </div>
               </router-link>
               <span v-else>
@@ -137,7 +140,7 @@
             <div class="right-navigation">
               <router-link v-if="nextArticle" :to="'/article/'+nextArticle.id" :class="nextArticle ? 'btnClick' : 'noClick'">
                 <div class="navigation-info">
-                  <span class=" hidden-sm hidden-xs">{{ nextArticle.articleTitle }}</span>
+                  <span class="">{{ nextArticle.articleTitle }}</span>
                   <span>下一篇</span>
                 </div>
                 <font-awesome-icon :icon="['fa', 'angle-double-right']" />
@@ -368,7 +371,7 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-          <div class="right-fun">
+          <div class="right-fun" id="container-aside">
             <div class="model">
               <div class="title">站内搜索</div>
               <div class="content">
@@ -576,7 +579,15 @@
                 </p> -->
               </div>
             </div>
-            <div class="ads-container">
+            <div class="ads-container" id="ads-container-aside" v-if="asideAdsDisplay">
+              <Adsense
+                  data-ad-format="rectangle, vertical, horizontal"
+                  data-full-width-responsive="yes"
+                  data-ad-client="ca-pub-7291512442295477"
+                  data-ad-slot="1460930833">
+              </Adsense>
+            </div>
+            <!-- <div class="ads-container">
               <iframe
                 @load="sendIframeAdsWinpMessage"
                 id="frameAds"
@@ -585,11 +596,19 @@
                 scrolling="false"
                 style="width: 100%; min-height:200px; border: 0px; margin: 0;"
                 ></iframe>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </section>
+    <!-- <div class="row mx-4">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <InArticleAdsense
+          data-ad-client="ca-pub-7291512442295477"
+          data-ad-slot="3158275447">
+        </InArticleAdsense>
+      </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -727,6 +746,10 @@ export default {
       ],
       loadMoreBtn: "加载更多留言",
       iframeAdsWin: null,
+      contentScrollTop: 0,
+      windowWidth: 0,
+      windowHeight: 0,
+      asideAdsDisplay: true,
     };
   },
   created() {
@@ -746,30 +769,96 @@ export default {
     //     this.searchResult();
     //   }
     // };
-  },
-  watch: {
-    articleInfo: function (val) {
-      //console.log(val); // 有数据
-      this.$nextTick(() => {
-        window.document.title =
-          this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
-          "极客普拉斯&梦极客园-geekplus.xyz";
-      });
-      this.articleViewAndLike.viewCount = this.articleInfo.viewCount;
-      this.articleViewAndLike.likeCount = this.articleInfo.likeCount;
-      this.modifyViewCount();
-    },
-    // $route(to, from) {
-    //   console.log("数据变化")
-    // }
+    var wwidth = window.fullWidth || document.documentElement.clientWidth;
+    // console.log(wwidth);
+    this.windowWidth = wwidth;
+    if(wwidth<=991){
+      this.asideAdsDisplay=false;
+    }
   },
   mounted() {
     // let script = document.createElement("script");
     // script.type = "text/javascript";
-    // script.src = "https://ads-union.jd.com/static/js/union.js";
+    // script.async = true;
+    // script.crossOrigin = "anonymous";
+    // script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7291512442295477";
     // document.body.appendChild(script);
-    let _this = this;
-    this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
+    // window.onscroll = function() {
+    //   console.log("scroll")
+    // }
+    // this.$nextTick(()=>{
+    // });
+    var height = document.getElementById("comment-left").offsetHeight - 52;
+      document.getElementsByClassName("Input_text")[0].style.height = height + "px";
+    //监听页面滚动return (() => {});
+    window.addEventListener("scroll", ()=> {
+        var st =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop;
+        // 页面滚动距顶部距离
+        // console.log(asideTopHeight2);
+        // console.log(asideTopHeight1);
+        // console.log(adsDiv.offsetHeight+"=="+adsObj.offsetHeight);
+        // var scroll = st - this.contentScrollTop;
+        // var scrollHeight=document.documentElement.scrollHeight || document.body.scrollHeight;
+        // var bodyClientHeight=document.documentElement.clientHeight || document.body.clientHeight;
+        this.contentScrollTop = st;
+        // console.log("实时页面滚动高度："+st);//this.contentScrollTop < 200 &&
+        if(this.windowWidth > 991){
+          this.asideAdsDisplay = true;
+          var adsDiv = document.getElementById("container-aside");
+          var adsObj = document.getElementById("ads-container-aside");
+          var asideTopHeight2 = (adsObj.offsetTop+250);
+          var asideTopHeight1 = (adsDiv.offsetHeight+250);
+          if (this.contentScrollTop < asideTopHeight1){
+            // if(adsObj.classList.contains("fixed-ads")){
+            adsObj.classList.remove("fixed-ads");
+            adsObj.classList.remove("ads-container");
+            adsObj.classList.add("ads-container");
+            // }
+          } else if(this.contentScrollTop > asideTopHeight2){
+              // if(!adsObj.classList.contains("ads-container")){
+                adsObj.classList.remove("ads-container");
+                adsObj.classList.remove("fixed-ads");
+                adsObj.classList.add("fixed-ads");
+              // }
+          }
+          // var cscrollTop=this.contentScrollTop
+          // switch (cscrollTop) {
+          //   case (cscrollTop < asideTopHeight1):
+          //       console.log('小于');
+          //       adsObj.classList.remove("ads-container");
+          //       adsObj.classList.remove("fixed-ads");
+          //       adsObj.classList.add("fixed-ads");
+          //       break;
+        
+          //   case (cscrollTop > asideTopHeight2):
+          //       console.log('大于');
+          //       adsObj.classList.remove("fixed-ads");
+          //       adsObj.classList.remove("ads-container");
+          //       adsObj.classList.add("ads-container");
+          //       break;
+          // }
+        } else {
+          this.asideAdsDisplay = false;
+        }
+    });
+    // <!--把window.onresize事件挂在到mounted函数上-->
+    window.addEventListener("resize", ()=> {
+      // console.log("onresize")
+      var hheight = window.fullHeight || document.documentElement.clientHeight;
+      var wwidth = window.fullWidth || document.documentElement.clientWidth;
+      this.windowHeight = hheight; // 高
+      this.windowWidth = wwidth; // 宽
+      var height = document.getElementById("comment-left").offsetHeight - 52;
+      document.getElementsByClassName("Input_text")[0].style.height =
+        height + "px";
+    });
+    // <!--把window.onresize事件挂在到mounted函数上-->
+    // window.onresize = () => {};
+    // let _this = this;
+    // this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
     $(function () {
       $('[data-toggle="popover"]').popover({
         html: true,
@@ -792,15 +881,37 @@ export default {
         _this.addLink();
       }
     };
-    // console.log(document.getElementById('comment-left').offsetHeight)
-    var height = document.getElementById("comment-left").offsetHeight - 52;
-    document.getElementsByClassName("Input_text")[0].style.height =
-      height + "px";
-    window.onresize = () => {
-      var height = document.getElementById("comment-left").offsetHeight - 52;
-      document.getElementsByClassName("Input_text")[0].style.height =
-        height + "px";
-    };
+  },
+  watch: {
+    articleInfo: function (val) {
+      //console.log(val); // 有数据
+      this.$nextTick(() => {
+        window.document.title =
+          this.articleInfo.articleTitle + " | 极客普拉斯&梦极客园" ||
+          "极客普拉斯&梦极客园-geekplus.xyz";
+      });
+      this.articleViewAndLike.viewCount = this.articleInfo.viewCount;
+      this.articleViewAndLike.likeCount = this.articleInfo.likeCount;
+      this.modifyViewCount();
+    },
+    // $route(to, from) {
+    //   console.log("数据变化")
+    // }
+    contentScrollTop(val) {
+      let that = this;
+      // console.log("实时屏幕滚动高度：", val, that.contentScrollTop);
+      //chatHeight=that.windowHeight
+      //var backToTop = document.getElementById("backToTop");
+    },
+    windowHeight(val) {
+      let that = this;
+      // console.log("实时屏幕高度：", val, that.windowHeight);
+      //chatHeight=that.windowHeight
+    },
+    windowWidth(val) {
+      let that = this;
+      // console.log("实时屏幕宽度：", val, that.windowHeight);
+    },
   },
   activated() {
     window.document.title =
@@ -1272,6 +1383,8 @@ export default {
   destroyed() {
     //this.modifyLikeCount();
     this.articleViewAndLike.viewCount = null;
+    window.removeEventListener('scroll', true);
+    window.removeEventListener('resize', true);
   },
 };
 </script>

@@ -93,7 +93,18 @@
                             </p>
                           </div>
                         </div>
-                      </div>
+                        <!-- <div class="card" v-else-if="item.articleTitle=='ads'">
+                          <div class="card-body">
+                            <InFeedAdsense
+                              ins-style="display:block"
+                              data-ad-format="fluid"
+                              data-ad-layout-key="+1m+rx+1+2-3"
+                              data-ad-client="ca-pub-7291512442295477"
+                              data-ad-slot="1214638382">
+                            </InFeedAdsense>
+                          </div>
+                        </div> -->
+                    </div>
                   </div>
                   <!-- <article
                   class="item" >
@@ -324,6 +335,14 @@
                 :pluspagerMethod="getArticleList"
               >
               </plus-pager>
+              <div class="row mx-4">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <Adsense
+                    data-ad-client="ca-pub-7291512442295477"
+                    data-ad-slot="5487504434">
+                  </Adsense>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -405,6 +424,7 @@ export default {
     setTimeout(() => { // 防止图片高度没有加载出来
       //this.loadWaterFall("waterfall-container", "thumbnail");
       //this.waterfall();
+      // this.articleList.push({ id: -1,articleTitle: "ads"});
     },100);
     // this.waterFall("#tabContainer", ".tab-item"); //实现瀑布流
     // 窗口变化自适应布局
@@ -456,9 +476,10 @@ export default {
       //this.queryParams.pageSize=10;
       getGpArticlesByCategory(this.queryParams)
         .then((response) => {
-          //console.log(response);
           this.articleList = response.rows;
           this.articleTotal = response.total;
+          // this.articleList.push({ id: -1,articleTitle: "ads"});
+          // console.log(this.articleList);
         })
         .catch((error) => {
           this.$toasted.error(error.msg, {
@@ -602,6 +623,7 @@ export default {
       }
       return name.trim().toLocaleLowerCase() === "home".toLocaleLowerCase(); //返回true
     },
+    //加载更多组件按钮
     loadMoreData(){
       this.queryParams.pageNum+=1;
       if(this.queryParams.pageNum<=Math.ceil(this.articleTotal/this.queryParams.pageSize)){

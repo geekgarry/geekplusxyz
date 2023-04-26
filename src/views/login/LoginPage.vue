@@ -365,7 +365,7 @@ body {
     background-color: #222;
     border-radius: 15px;
     height: 410px;
-    width: 88%;
+    width: 250px;
     position: relative;
     overflow: hidden;
     margin: 0 auto;

@@ -22,7 +22,12 @@
       </div>
     </div>
     <div class="my-blog-advertise">
-      <div></div>
+      <div>
+        <Adsense
+          data-ad-client="ca-pub-7291512442295477"
+          data-ad-slot="6482220433">
+        </Adsense>
+      </div>
     </div>
     <div class="container-article">
       <div class="container">
@@ -351,6 +356,14 @@
                 </section> -->
               </div>
             </article>
+            <div class="row mx-4">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <Adsense
+                  data-ad-client="ca-pub-7291512442295477"
+                  data-ad-slot="5487504434">
+                </Adsense>
+              </div>
+            </div>
             <div class="article-list">
               <article
                 class="item"
@@ -1204,6 +1217,10 @@
           </aside>
         </section>
       </div>
+      <!-- <div class="row mx-4">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        </div>
+      </div> -->
     </div>
   </div>
 </template>

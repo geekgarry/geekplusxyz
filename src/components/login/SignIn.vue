@@ -41,7 +41,7 @@
 export default {};
 </script>
 
-<style>
+<style lang="scss" scoped>
 body {
   background: #678989;
   color: #5b5b5d;

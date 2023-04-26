@@ -236,17 +236,14 @@
                     v-if="leaveMessageTotal / queryParams.pageSize > 5"
                     >...</span
                   >
-                  <a
-                    class="pagenum-num"
+                  <a class="pagenum-num"
                     v-else-if="leaveMessageTotal / queryParams.pageSize <= 5"
                     v-for="index in Math.ceil(
                       leaveMessageTotal / queryParams.pageSize
                     )"
                     :key="index"
                     @click="goToLeaveMessagePage(index)"
-                  >
-                    {{ index }}
-                  </a>
+                  > {{ index }} </a>
                   <a
                     class="pagenum-next"
                     @click="goToLeaveMessagePage(leaveMessagePageNum + 1)"
@@ -272,6 +269,14 @@
                 </span>
               </nav>
             </div>
+          </div>
+        </div>
+        <div class="row mx-4">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <Adsense
+              data-ad-client="ca-pub-7291512442295477"
+              data-ad-slot="6482220433">
+            </Adsense>
           </div>
         </div>
       </div>
@@ -630,6 +635,12 @@
               </a> -->
             </div>
           </div>
+        </div>
+        <div class="ads-container">
+          <Adsense
+            data-ad-client="ca-pub-7291512442295477"
+            data-ad-slot="3776635819">
+          </Adsense>
         </div>
       </aside>
     </section>

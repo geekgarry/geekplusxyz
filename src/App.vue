@@ -1,5 +1,8 @@
 <template>
   <div id="app" >
+    <!-- <googleads-js
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7291512442295477"
+    /> -->
     <router-view />
     <loading-page :loading-st="isLoading"></loading-page>
   </div>
@@ -9,6 +12,8 @@
 //import { localKey } from '@/settings';
 const localKey="theme-mode";
 import LoadingPage from './components/refresh/LoadingPage.vue';
+
+// var WebApp = null;
 export default  {
   components: { LoadingPage },
   name:  'App',
@@ -22,7 +27,8 @@ export default  {
   // },
   data(){
     return{
-      isLoading:true,
+      isLoading: true,
+      viewer: null
     }
   },
   created(){
@@ -59,11 +65,22 @@ export default  {
     this.AppPage.$emit("loading",false);
     // let script = document.createElement("script");
     // script.type = "text/javascript";
-    // script.src = "https://ads-union.jd.com/static/js/union.js";
+    // // script.async = true;
+    // script.crossOrigin = "anonymous";
+    // script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7291512442295477";
     // document.body.appendChild(script);
     //this.isLoading=false;
     // let loading=document.getElementsByClassName("loading-container")[0];
     // document.body.removeChild(loading);
+  },
+  methods:{
+    jsLoaded () {
+      WebApp = window.WebApp
+      this.viewer = new WebApp.Viewer('cesiumContainer')
+    },
+    jsLoadError () {
+    // 加载失败时的操作
+    }
   }
 }
 </script>

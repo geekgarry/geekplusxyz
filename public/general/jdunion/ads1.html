@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>京东联盟广告</title>
 </head>
 <body style="text-align: center; margin:0 auto; display:flex; justify-content:center; align-items:center;">
     <script type="text/javascript">
-        var jd_union_pid='';//"368131681753068697";
-        var jd_union_euid="";
+        var jd_union_pid= "368131681753068697";
+        var jd_union_euid= "";
         window.onmessage = function(event){
             var result = event.data;
             //console.log("从vue中获得的数据: ", result.params);

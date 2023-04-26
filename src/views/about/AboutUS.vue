@@ -132,6 +132,14 @@
                 </div>
               </div>
             </article>
+            <div class="row mx-4">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <Adsense
+                  data-ad-client="ca-pub-7291512442295477"
+                  data-ad-slot="5487504434">
+                </Adsense>
+              </div>
+            </div>
           </div>
         </div>
         <aside class="col-lg-3 col-md-3 animated slideInRight">
@@ -343,7 +351,7 @@ export default {
     sendIframeAdsWinpMessage() {
       // this.JDIframeUrl="/general/jdunion/jd1.html";
       // this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
-      var jd_union_pid="368131681760272824";
+      var jd_union_pid= "368131681753068697";//"368131681760272824";
       //var jd_union_pid="368131681753068697"
       this.iframeAdsWin.postMessage({
         params: jd_union_pid /*在iframe页面中接收通过key也就是param接收，因此传输的数据可以是对象，包含多个key以及对应的数据*/
