@@ -53,6 +53,7 @@
                           <ul>
                             <li class="hidden-xs">
                               <img
+                                alt="geekplus,极客普拉斯"
                                 v-lazy="require('@/assets/icon/mai.png')"
                                 class="article_user_pic"
                               />

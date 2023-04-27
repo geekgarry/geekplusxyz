@@ -53,7 +53,7 @@
                     <div class="special-recommend-first">
                       <router-link :to="'/article/' + oneIndexArticle.id">
                         <img
-                          alt=""
+                          :alt="oneIndexArticle.articleTitle"
                           v-lazy="
                             oneIndexArticle.indexPicture != ''
                               ? oneIndexArticle.indexPicture
@@ -69,7 +69,7 @@
                             }}
                           </p>
                           <div class="entry-meta">
-                            <span><img v-lazy="MKLogo" /></span>&nbsp;
+                            <span><img v-lazy="MKLogo" alt="geekplus,极客普拉斯" /></span>&nbsp;
                             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.viewCount? numFormatKWM(oneIndexArticle.viewCount) : 0 }}
                             <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.createTime ? dateTimeAgo(oneIndexArticle.createTime) : "2015-04-04" }}
                           </div>
@@ -93,7 +93,7 @@
                           <router-link :to="'/article/' + item.id">
                             <!-- :to="{path:'/general',query:{articleId}}" -->
                             <img
-                              alt=""
+                              :alt="item.articleTitle"
                               class="img-responsive"
                               v-lazy="
                                 item.indexPicture
@@ -110,7 +110,7 @@
                                 }}
                               </p>
                               <div class="entry-meta">
-                                <span><img v-lazy="MKLogo" /></span>&nbsp;
+                                <span><img v-lazy="MKLogo" alt="geekplus,极客普拉斯" /></span>&nbsp;
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 0 }}
                                 <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? dateTimeAgo(item.createTime) : "2015-04-04" }}
                               </div>
@@ -200,7 +200,7 @@
                     <router-link :to="'/article/' + item.id">
                       <i>
                         <img
-                          alt=""
+                          :alt="item.articleTitle"
                           v-lazy="
                             item.indexPicture
                               ? item.indexPicture
@@ -375,6 +375,7 @@
                     <div class="art-img">
                       <router-link :to="'/article/' + item.id">
                         <img
+                          :alt="item.articleTitle"
                           v-lazy="
                             item.indexPicture
                               ? item.indexPicture
@@ -406,6 +407,7 @@
                         <ul>
                           <li class="hidden-xs">
                             <img
+                              alt="geekplus,极客普拉斯"
                               v-lazy="require('@/assets/icon/mai.png')"
                               class="article_user_pic"
                             />

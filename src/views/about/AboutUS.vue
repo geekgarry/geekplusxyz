@@ -91,7 +91,7 @@
                         </div>
                         <div class="content">
                           <img
-                            alt="我的QQ"
+                            alt="geekplus,极客普拉斯,我的QQ"
                             class="qq-image-code"
                             src="/imgs/mysocialQRCode/QQCode.jpg"
                           />
@@ -113,7 +113,7 @@
                         </div>
                         <div class="content">
                           <img
-                            alt="我的微信"
+                            alt="geekplus,极客普拉斯,我的微信"
                             class="weixin-image-code"
                             src="/imgs/mysocialQRCode/WexinCode.jpg"
                           />

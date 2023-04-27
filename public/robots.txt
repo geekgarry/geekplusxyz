@@ -1,0 +1,5 @@
+User-agent: Googlebot
+Disallow: https://maikeadmin.geekplus.xyz/
+
+User-agent: *
+Allow: /

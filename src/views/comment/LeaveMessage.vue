@@ -98,7 +98,7 @@
               :key="index"
             >
               <div class="comment-main">
-                <a class="user-logo"><img v-lazy="UserLogo" /></a>
+                <a class="user-logo"><img alt="geekplus,极客普拉斯" v-lazy="UserLogo" /></a>
                 <div class="comment-content">
                   <div class="comment-info">
                     <a>{{ item.name }}</a>
@@ -151,6 +151,7 @@
                 >
                   <a class="user-logo"
                     ><img
+                      alt="geekplus,极客普拉斯"
                       v-lazy="
                         subitem.userId == 'sysUser:1' ? GPLogo : UserLogo
                       "
@@ -217,11 +218,18 @@
             <div class="row">
               <nav class="pagenum" id="pagenum1">
                 <span class="pagenum-btns">
-                  <a
+                  <a v-if="queryParams.pageNum > 1"
                     class="pagenum-prev"
                     @click="goToLeaveMessagePage(leaveMessagePageNum - 1)"
                     >&laquo;</a
                   >
+                  <a v-else
+                    class="pagenum-prev"
+                    href="javascript:void(0);"
+                    >&laquo;</a
+                  >
+                </span>
+                <span class="pagenum-btns" v-if="Math.ceil(leaveMessageTotal / queryParams.pageSize) < 6">
                   <!-- <a class="pagenum-num">1</a>
                   <span class="pagenum-break">...</span>
                   <a class="pagenum-num">7</a>
@@ -231,22 +239,89 @@
                   <a class="pagenum-num">11</a>
                   <span class="pagenum-break">...</span>
                   <a class="pagenum-num">98</a> -->
-                  <span
+                  <!-- <span
                     class="pagenum-break"
                     v-if="leaveMessageTotal / queryParams.pageSize > 5"
-                    >...</span
-                  >
-                  <a class="pagenum-num"
-                    v-else-if="leaveMessageTotal / queryParams.pageSize <= 5"
-                    v-for="index in Math.ceil(
-                      leaveMessageTotal / queryParams.pageSize
-                    )"
-                    :key="index"
-                    @click="goToLeaveMessagePage(index)"
-                  > {{ index }} </a>
-                  <a
+                    >...
+                  </span> v-else-if="leaveMessageTotal / queryParams.pageSize <= 5" -->
+                  <a href="javascript:void(0);" class="pagenum-num" v-for="(pageNum,index) in Math.ceil( 
+                      leaveMessageTotal / queryParams.pageSize )" :key="index"
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                </span>
+                <span class="pagenum-btns" v-else>
+                  <span v-for="(pageNum,index) in Math.ceil( 
+                    leaveMessageTotal / queryParams.pageSize )" :key="index">
+                    <!-- <a href="javascript:void(0);" 
+                      :class="queryParams.pageNum< 6 && pageNum==1?'pagenum-num':''" @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a href="javascript:void(0);" 
+                      :class="queryParams.pageNum< 6 && pageNum==1?'pagenum-num':''" @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a href="javascript:void(0);"
+                      :class="6<=queryParams.pageNum< (leaveMessageTotal / queryParams.pageSize)-1?'pagenum-num':''" @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a> -->
+                    <a href="javascript:void(0);" class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==1"
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==2"
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <span class="pagenum-break" 
+                      v-if="queryParams.pageNum>=6 && 2<pageNum<queryParams.pageNum-2"
+                    >...</span>
+                    <a class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==queryParams.pageNum-2" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==queryParams.pageNum-1" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==queryParams.pageNum" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==queryParams.pageNum+1" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==queryParams.pageNum+2" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==queryParams.pageNum+3 && 9<=Math.ceil(leaveMessageTotal / queryParams.pageSize)<11" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a class="pagenum-num" 
+                      v-if="queryParams.pageNum>=6 && pageNum==queryParams.pageNum+4 && 9<=Math.ceil(leaveMessageTotal / queryParams.pageSize)<11" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <span class="pagenum-break" 
+                      v-if="Math.ceil(leaveMessageTotal / queryParams.pageSize)>=11 && queryParams.pageNum+2<pageNum<Math.ceil(leaveMessageTotal / queryParams.pageSize)-1"
+                    >...</span>
+                    <a class="pagenum-num" 
+                      v-if="Math.ceil(leaveMessageTotal / queryParams.pageSize)>=11 && queryParams.pageNum+2<Math.ceil(leaveMessageTotal / queryParams.pageSize)-1 && pageNum==Math.ceil(leaveMessageTotal / queryParams.pageSize)-1" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                    <a class="pagenum-num" 
+                      v-if="Math.ceil(leaveMessageTotal / queryParams.pageSize)>=11 && queryParams.pageNum+2<Math.ceil(leaveMessageTotal / queryParams.pageSize) && pageNum==Math.ceil(leaveMessageTotal / queryParams.pageSize)" 
+                      @click="goToLeaveMessagePage(pageNum)"
+                    > {{ pageNum }} </a>
+                  </span>
+                </span>
+                <span class="pagenum-btns" >
+                  <a v-if="queryParams.pageNum < Math.ceil(leaveMessageTotal / queryParams.pageSize)"
                     class="pagenum-next"
                     @click="goToLeaveMessagePage(leaveMessagePageNum + 1)"
+                    >&raquo;</a
+                  >
+                  <a v-else
+                    class="pagenum-next"
+                    href="javascript:void(0);"
                     >&raquo;</a
                   >
                 </span>

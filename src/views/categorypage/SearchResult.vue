@@ -8,16 +8,16 @@
         </div>
       </div>
     </div>
+    <div class="my-blog-advertise">
+      <Adsense
+        data-ad-format="auto"
+        data-full-width-responsive="yes"
+        data-ad-client="ca-pub-7291512442295477"
+        data-ad-slot="3158275447">
+      </Adsense>
+    </div>
     <div class="container-article">
       <div class="container">
-        <div class="row mx-4">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <Adsense
-              data-ad-client="ca-pub-7291512442295477"
-              data-ad-slot="3158275447">
-            </Adsense>
-          </div>
-        </div>
         <section class="row">
           <div class="">
             <div class="col-lg-9 col-md-9 animated slideInLeft">
@@ -696,8 +696,7 @@
     </div>
   </div>
 </template>
-<script type="text/javascript">var jd_union_pid="368131681753068697";var jd_union_euid="";</script>
-<script type="text/javascript" src="https://ads-union.jd.com/static/js/union.js"></script>
+
 <script>
 import {
   selectGpArticlesListByKeyWords,

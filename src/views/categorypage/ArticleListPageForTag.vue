@@ -677,7 +677,7 @@
                     data-ad-slot="3776635819">
                   </Adsense>
                 </div>
-                <div class="ads-container">
+                <!-- <div class="ads-container">
                   <iframe
                     @load="sendIframeAdsWinpMessage"
                     id="frameAds"
@@ -686,7 +686,7 @@
                     scrolling="false"
                     style="width: 100%; min-height:250px; border: 0px; margin: 0;"
                     ></iframe>
-                </div>
+                </div> -->
               </div>
             </aside>
           </div>

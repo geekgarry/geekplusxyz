@@ -11,6 +11,7 @@
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="logo">
               <img
+                alt="极客普拉斯,梦极客园,geekplus,geekplus.xyz"
                 v-lazy="GCLogo"
                 class="top_banner_logo"
                 @mouseover="mouseOverIt"
