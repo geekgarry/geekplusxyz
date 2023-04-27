@@ -55,6 +55,7 @@ Vue.use(Toasted, Option);
 //Vue.prototype.Toasted=Toasted;
 Vue.use(require('vue-script2'))
 import Ads from 'vue-google-adsense'
+// Vue.use(Ads.AutoAdsense, { adClient: 'ca-pub-7291512442295477', isNewAdsCode: true })
 Vue.use(Ads.Adsense)
 Vue.use(Ads.InArticleAdsense)
 Vue.use(Ads.InFeedAdsense)

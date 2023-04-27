@@ -56,7 +56,7 @@ a:active {
 }
 
 a:focus {
-  color: unset !important;
+  color: var(--color-link-text, black) !important;
 }
 
 /*a::selection{
@@ -869,7 +869,7 @@ ol {
   margin: 4px auto;
   text-align: center;
   position: fixed;
-  top: 10px;
+  top: 90px;
 }
 
 /*****上下间距4px*****/

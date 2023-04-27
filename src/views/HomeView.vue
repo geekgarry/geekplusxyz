@@ -1343,7 +1343,11 @@ export default {
     //setTimeout(this.marquee(this.indexTextInfo), 1000);
     //document.getElementById('myESlideShow')[0].carousel({ interval: 2000})
   },
-  watch: {},
+  watch: {
+    $route(to, from) {
+      window.document.title=this.$route.meta.title + " | 极客普拉斯&梦极客园" || "极客普拉斯&梦极客园-geekplus.xyz";
+    }
+  },
   methods: {
     /***********************------首页（跑马灯）滚动字幕实现-------************************* */
     marquee(indexTextInfo) {

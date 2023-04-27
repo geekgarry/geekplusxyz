@@ -796,7 +796,9 @@ export default {
   },
   watch:{
     $route(to, from) {
-
+      var pathArr=this.$route.path.split('/');
+      this.queryParams.pathName = this.$route.path.split('/')[2] || this.$route.params.categoryPath;
+      window.document.title=(this.$route.meta.title||this.queryParams.pathName)+"文章列表 | 极客普拉斯&梦极客园" || "极客普拉斯&梦极客园-geekplus.xyz";
     }
   },
   methods: {

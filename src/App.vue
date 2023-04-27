@@ -4,6 +4,10 @@
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7291512442295477"
     /> -->
     <router-view />
+    <!-- <Adsense 
+      is-new-ads-code="yes"
+      data-ad-client="ca-pub-7291512442295477">
+    </Adsense> -->
     <loading-page :loading-st="isLoading"></loading-page>
   </div>
 </template>
