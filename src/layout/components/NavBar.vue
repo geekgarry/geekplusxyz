@@ -10,14 +10,15 @@
                         <path d="M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z"></path>
                         <path fill="none" d="M0 0h24v24H0V0z"></path>
                     </svg> -->
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1109 1024" version="1.1">
+                    <!-- <font-awesome-icon :icon="['fa', 'bars']" /> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1109 1024" version="1.1">
                       <path d="M938.666667 725.333333v85.333334H85.333333v-85.333334h853.333334z m0-256v85.333334H85.333333v-85.333334h853.333334z m0-256v85.333334H85.333333V213.333333h853.333334z"></path>
-                    </svg> -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
+                    </svg>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
                       <path d="M65.012178 128.544655 65.012178 230.875275 959.381795 230.875275 959.381795 128.544655 65.012178 128.544655Z"></path>
                       <path d="M64.729745 563.201126 959.269231 563.201126 959.269231 460.870506 64.729745 460.870506 64.729745 563.201126Z"></path>
                       <path d="M64.729745 895.525953 959.269231 895.525953 959.269231 793.195334 64.729745 793.195334 64.729745 895.525953Z"></path>
-                    </svg>
+                    </svg> -->
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024" version="1.1" >
                       <path d="M128 469.333333m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533334l0 4.266666q0 40.533333-40.533333 40.533334l-686.933334 0q-40.533333 0-40.533333-40.533334l0-4.266666q0-40.533333 40.533333-40.533334Z" ></path>
                       <path d="M128 682.666667m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533333l0 4.266667q0 40.533333-40.533333 40.533333l-686.933334 0q-40.533333 0-40.533333-40.533333l0-4.266667q0-40.533333 40.533333-40.533333Z" ></path>
@@ -241,9 +242,12 @@ export default {
             if (menu_monitor) {
                 menu_monitor.onchange = function (event) {
                     if (event.target.checked) {
-                        document.documentElement.classList.add("mkplus-no-scroll");
+                      console.log(document.body.c)
+                      document.body.style.overflowY="hidden";
+                      // document.documentElement.classList.add("mkplus-no-scroll");
                     } else {
-                        document.documentElement.classList.remove("mkplus-no-scroll");
+                      document.body.style.overflowY="scroll";
+                      // document.documentElement.classList.remove("mkplus-no-scroll");
                     }
                 };
             }
@@ -382,6 +386,26 @@ export default {
   font-style: normal;
   line-height: 1.45; 
 }*/
+
+element.style {
+}
+body, input, textarea, button, select {
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+body {
+    color: #151918;
+    color: var(--color-black, #151918);
+    background-color: #FFFFFF;
+    background-color: var(--color-white, #FFFFFF);
+    font-family: Helvetica, "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1.45;
+}
 .navbar-fixed-top{
   background-attachment:fixed;
   transform:translateZ(0);
@@ -659,7 +683,7 @@ body {
 
 @media (max-width: 1023px) {
   .mkplus-no-scroll {
-    overflow: hidden;
+    overflow: hidden !important;
   }
 }
 

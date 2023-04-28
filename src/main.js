@@ -62,10 +62,10 @@ Vue.use(Ads.InFeedAdsense)
 // you can also pass options, check options reference below
 // import 'font-awesome/css/font-awesome.min.css'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faHatWizard, faSun,faMoon,faEnvelope,faRssSquare,faAngleRight,faAngleDoubleLeft,faAngleDoubleRight,faUser,faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHatWizard, faSun,faMoon,faEnvelope,faRssSquare,faAngleRight,faAngleDoubleLeft,faAngleDoubleRight,faUser,faTimes,faBars } from '@fortawesome/free-solid-svg-icons';
 import { faGithub} from '@fortawesome/free-brands-svg-icons';
 import { faLightbulb} from '@fortawesome/free-regular-svg-icons';
-library.add(faHatWizard,faSun,faMoon,faEnvelope,faRssSquare,faGithub,faLightbulb,faAngleRight,faAngleDoubleLeft,faAngleDoubleRight,faUser,faTimes);
+library.add(faHatWizard,faSun,faMoon,faEnvelope,faRssSquare,faGithub,faLightbulb,faAngleRight,faAngleDoubleLeft,faAngleDoubleRight,faUser,faTimes,faBars);
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 import '@/assets/css/plushome.css';

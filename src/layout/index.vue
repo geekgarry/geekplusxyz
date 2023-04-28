@@ -340,7 +340,7 @@ export default {
     this.windowWidth = wwidth;
     if (this.windowWidth <= 767) {
       this.topNavBarFixed =
-        "navbar-fixed-top animate__animated animate__slideInDown";
+        "navbar-fixed-top animate__animated animate__slideInDown";//mkplus-header-not-on-top
       this.bottomNavBarFixed ="navbar-fixed-bottom animate__animated animate__slideInUp";
       window.document.body.style.paddingTop = "70px";
       window.document.body.style.paddingBottom = "65px";

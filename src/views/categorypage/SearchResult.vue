@@ -10,8 +10,6 @@
     </div>
     <div class="my-blog-advertise">
       <Adsense
-        data-ad-format="auto"
-        data-full-width-responsive="yes"
         data-ad-client="ca-pub-7291512442295477"
         data-ad-slot="3158275447">
       </Adsense>
