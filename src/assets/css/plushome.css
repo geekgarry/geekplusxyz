@@ -69,7 +69,7 @@ a::-webkit-selection{
   background-color: unset;
   color: unset;
 }*/
-/************自定义Bootstrap的列框*******************/
+/************自定义覆盖Bootstrap的样式，自定义BootStrap Style，包括面板panel，警告alert，布局列框等*************/
 .row.no-gutter {
   margin-left: 0;
   margin-right: 0;
@@ -79,7 +79,34 @@ a::-webkit-selection{
   padding-right: 0;
   padding-left: 0;
 }
-
+.panel {
+  background-color: var(--color-aside-panel,#fff) !important;
+  border: 0px solid var(--color-border-1,#ddd) !important;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important; */
+  -webkit-box-shadow: 0 0 7px var(--color-main-container-shadow, #ccc) !important;
+  box-shadow: 0 0 7px var(--color-main-container-shadow, #ccc) !important;
+}
+.panel .panel-default,.panel .panel-info{
+  border: var(--color-border-1);
+}
+.panel-heading{
+  color: var(--color-aside-panel-text) !important;
+  border-color: var(--color-border-1,#ddd) !important;
+  /*border-bottom: 1px solid #D9DCDD !important;*/
+}
+.panel-default > .panel-body,.panel-default > .panel-body > a{
+  color: var(--color-aside-panel-text) !important;
+}
+.navbar-default {
+  border-color: var(--color-border-3,#e7e7e7) !important;
+}
+.alert-info {
+  background-image: linear-gradient(to bottom, var(--color-alert-info-2,#d9edf7) 0%, var(--color-alert-info-1,#89b8d0) 100%) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9edf7', endColorstr='#ffb9def0', GradientType=0);
+  background-repeat: repeat-x;
+  border-color: var(--color-alert-info-border,#9acfea) !important;
+  color: var(--color-alert-info-text,#31708f) !important;
+}
 /***********自定义样式覆盖bootstrap的container样式*****************/
 
 /*媒体查询*/
@@ -1419,10 +1446,10 @@ ol {
   -o-border-radius: 6px;
   border-radius: 6px;
   margin-bottom: 10px;
-  border: 1px solid var(--color-border-1, #dadada);
+  /* border: 1px solid var(--color-border-1, #dadada); */
   overflow: hidden;
-  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 0 1px hsla(0, 0%, 35%, 0.02);
-  box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 0 1px hsla(0, 0%, 35%, 0.02);
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 7px var(--color-main-container-shadow, #ccc);
+  box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 7px var(--color-main-container-shadow, #ccc);
 }
 
 /*下面是不用col-md-*显示的文章列表展示,用于其他文章类型显示*/
@@ -1680,7 +1707,7 @@ ol {
 /***********侧边搜索框*********/
 .right-fun .model {
   width: 100%;
-  border: 1px solid #98bf94;
+  /* border: 1px solid #98bf94; */
   /* margin-top: 20px; #a7c5a4*/
   background-color: var(--color-background, #fffffff0);
   -moz-border-radius: 5px;
@@ -1689,6 +1716,7 @@ ol {
   -o-border-radius: 5px;
   border-radius: 5px;
   margin-bottom: 20px;
+  box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 0 1px hsla(0, 0%, 35%, 0.02);
 }
 
 .right-fun .model .title {
@@ -2439,7 +2467,7 @@ footer .footer_content p:nth-child(2) {
 .Input_Box {
   width: 100%;
   min-height: 60px;
-  border: 1px solid var(--color-input-border, #ccc);
+  /* border: 1px solid var(--color-input-border, #ccc); */
   transition: border linear 0.2s, box-shadow linear 0.5s;
   -moz-transition: border linear 0.2s, -moz-box-shadow linear 0.5s;
   -webkit-transition: border linear 0.2s, -webkit-box-shadow linear 0.5s;
@@ -2625,7 +2653,8 @@ footer .footer_content p:nth-child(2) {
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
-  border: 1px solid var(--color-border-1, #dddedd);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* border: 1px solid var(--color-border-1, #dddedd); */
   padding: 5px 10px 5px 10px;
   /* 顺势针安排上右下左 css里都是这样的*/
 }
@@ -3114,7 +3143,9 @@ footer .footer_content p:nth-child(2) {
   -ms-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  border: 1px solid var(--color-article-container-bg-1, #dddedd);
+  box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 2px 2px 4px hsla(0, 0%, 35%, 0.02);
+  /* box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc); */
+  /* border: 1px solid var(--color-article-container-bg-1, #dddedd); */
   padding: 10px;
   line-height: 26px;
   color: var(--color-article-container-text-1);
@@ -3213,6 +3244,7 @@ footer .footer_content p:nth-child(2) {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   -moz-border-radius: 4px;
+  box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc);
 }
 
 .navigation-article-container a:hover,
@@ -3457,6 +3489,11 @@ footer .footer_content p:nth-child(2) {
     margin: 10px auto;
     position: relative;
     overflow: hidden;
+    /* border-radius: 4px;
+    -webkit-border-radius:4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px; */
   }
 
   #SlideSwiper .item {

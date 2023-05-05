@@ -788,7 +788,7 @@ export default {
     // }
     // this.$nextTick(()=>{
     // });
-    var height = document.getElementById("comment-left").offsetHeight - 52;
+    var height = document.getElementById("comment-left").offsetHeight - 50;
       document.getElementsByClassName("Input_text")[0].style.height = height + "px";
     //监听页面滚动return (() => {});
     window.addEventListener("scroll", ()=> {
@@ -851,7 +851,7 @@ export default {
       var wwidth = window.fullWidth || document.documentElement.clientWidth;
       this.windowHeight = hheight; // 高
       this.windowWidth = wwidth; // 宽
-      var height = document.getElementById("comment-left").offsetHeight - 52;
+      var height = document.getElementById("comment-left").offsetHeight - 50;//无边框减50，有边框减52
       document.getElementsByClassName("Input_text")[0].style.height =
         height + "px";
     });
@@ -1389,9 +1389,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .popover {
   text-align: center;
   background-color: var(--color-container, #242323e2);
+}
+input.form-control{
+  box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc) !important;
+}
+.form-control {
+  box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc) !important;
+  border: 0px solid #ccc;
 }
 </style>

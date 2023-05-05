@@ -97,31 +97,6 @@ export default  {
   transition: color 0.5s, background-color 0.5s;
 }*/
 
-.panel {
-  background-color: var(--color-aside-panel,#fff) !important;
-  border:1px solid var(--color-border-1,#ddd) !important;
-}
-.panel .panel-default,.panel .panel-info{
-  border: var(--color-border-1);
-}
-.panel-heading{
-  color: var(--color-aside-panel-text) !important;
-  border-color: var(--color-border-1,#ddd) !important;
-  /*border-bottom: 1px solid #D9DCDD !important;*/
-}
-.panel-default > .panel-body,.panel-default > .panel-body > a{
-  color: var(--color-aside-panel-text) !important;
-}
-.navbar-default {
-  border-color: var(--color-border-3,#e7e7e7) !important;
-}
-.alert-info {
-  background-image: linear-gradient(to bottom, var(--color-alert-info-2,#d9edf7) 0%, var(--color-alert-info-1,#89b8d0) 100%) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9edf7', endColorstr='#ffb9def0', GradientType=0);
-  background-repeat: repeat-x;
-  border-color: var(--color-alert-info-border,#9acfea) !important;
-  color: var(--color-alert-info-text,#31708f) !important;
-}
 .loading-container{
   width: 100%;
   height: 100%;
