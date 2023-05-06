@@ -35,10 +35,28 @@ export function sendUserComment(data) {
   })
 }
 
+// 网站用户文章评论留言
+export function sendArticleComment(data) {
+  return request({
+    url: '/geekplusapp/articleCommentMessage',
+    method: 'post',
+    data: data
+  })
+}
+
 // 获取用户的留言信息
 export function getAllUserComment(query) {
   return request({
     url: '/geekplusapp/getAllUserComment',
+    method: 'get',
+    params: query
+  })
+}
+
+// 获取用户的文章留言信息
+export function getAllArticleComment(query) {
+  return request({
+    url: '/geekplusapp/getAllArticleComment',
     method: 'get',
     params: query
   })

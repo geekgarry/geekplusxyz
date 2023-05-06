@@ -5,6 +5,8 @@ import router from './router'
 import axios from "axios"
 
 // register the plugin on vue
+import MetaInfo from 'vue-meta-info'
+Vue.use(MetaInfo)
 import Toasted from 'vue-toasted';
 import VueViewer, { directive as viewerDirective } from 'v-viewer';
 import 'viewerjs/dist/viewer.css'; // 图片预览器的样式

@@ -620,7 +620,9 @@ import {
   getTagArticleCount,
   updateViewCountAndLikeCount,
   sendUserComment,
+  sendArticleComment,
   getAllUserComment,
+  getAllArticleComment,
   getUserCommentCount,
   getWebHotUserComment,
   getArticleLatestUserComment,
@@ -1211,7 +1213,7 @@ export default {
         this.queryParams.pageNum = number;
       }
       this.queryParams.topicId = this.$route.params.articleId;
-      getAllUserComment(this.queryParams)
+      getAllArticleComment(this.queryParams)
         .then((response) => {
           //console.log(response);
           this.leaveMessage = this.leaveMessage.concat(response.rows);
@@ -1263,7 +1265,7 @@ export default {
           duration: 3000,
         });
       } else {
-        sendUserComment(this.userMessage)
+        sendArticleComment(this.userMessage)
           .then((response) => {
             //console.log(response);
             this.closeReplyBox();
@@ -1311,7 +1313,7 @@ export default {
           duration: 3000,
         });
       } else {
-        sendUserComment(replyMsg)
+        sendArticleComment(replyMsg)
           .then((response) => {
             //console.log(response);
             this.closeReplyBox();

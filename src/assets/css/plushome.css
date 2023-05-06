@@ -69,7 +69,7 @@ a::-webkit-selection{
   background-color: unset;
   color: unset;
 }*/
-/************自定义覆盖Bootstrap的样式，自定义BootStrap Style，包括面板panel，警告alert，布局列框等*************/
+/************自定义覆盖Bootstrap的样式，自定义BootStrap Style，包括面板panel，警告alert，分页，布局列框等*************/
 .row.no-gutter {
   margin-left: 0;
   margin-right: 0;
@@ -78,6 +78,24 @@ a::-webkit-selection{
 .row.no-gutter>[class*="col-"] {
   padding-right: 0;
   padding-left: 0;
+}
+.pagination>li>a, .pagination>li>span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: var(--color-primary,#337ab7) !important;
+  text-decoration: none;
+  background-color: var(--color-container,#fff) !important;
+  border: 1px solid var(--color-main-container-border,#ddd) !important;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+  z-index: 3;
+  color: #fff !important;
+  cursor: default;
+  background-color: var(--color-primary,#337ab7) !important;
+  border-color: var(--color-primary,#337ab7) !important;
 }
 .panel {
   background-color: var(--color-aside-panel,#fff) !important;
