@@ -62,7 +62,7 @@
               </p>
             </div>
             <div class="plus-article-toolbar">
-              <button
+              <!-- <button
                 class="toolbar-button"
                 data-container="body"
                 data-trigger="hover"
@@ -71,7 +71,21 @@
               >
                 <span class="glyphicon glyphicon-gift"></span>
                 赞助
+              </button> -->
+              <plus-tool-tip :maxWidth="240">
+              <template #title>
+                <div class='popover-container' >
+                  <img src='/imgs/earnmoney/alipay.jpg' width='100px' height='100px'>&nbsp;
+                  <img src='/imgs/earnmoney/wxpay.jpg' width='100px' height='100px'>
+                </div>
+              </template>
+              <button
+                class="toolbar-button"
+              >
+                <span class="glyphicon glyphicon-gift"></span>
+                赞助
               </button>
+              </plus-tool-tip>
               <button
                 class="toolbar-button"
                 type="button"
@@ -628,15 +642,19 @@ import {
   getArticleLatestUserComment,
   getCurrentPrevArticle,
   getCurrentNextArticle,
-} from "@/api/geekplus/geekplus";
-import ReplyMessageBox from "@/components/comment/ReplyMessageBox.vue";
+} from "@/api/geekplus/geekplus"
+import ReplyMessageBox from "@/components/comment/ReplyMessageBox.vue"
+import PlusToolTip from '@/components/tooltip/PlusToolTip.vue';
+
 // 引入插件
 import $ from "jquery";
+
 // import 'viewerjs/dist/viewer.css'
 // import Viewer from 'v-viewer'
 export default {
   components: {
     ReplyMessageBox,
+    PlusToolTip
   },
   data() {
     return {
@@ -880,7 +898,7 @@ export default {
     ) {
       // 部分监听
       if (e.target.textContent.length > 100) {
-        _this.addLink();
+        this.addLink();
       }
     };
   },

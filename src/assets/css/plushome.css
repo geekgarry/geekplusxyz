@@ -101,8 +101,8 @@ a::-webkit-selection{
   background-color: var(--color-aside-panel,#fff) !important;
   border: 0px solid var(--color-border-1,#ddd) !important;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important; */
-  -webkit-box-shadow: 0 0 7px var(--color-main-container-shadow, #ccc) !important;
-  box-shadow: 0 0 7px var(--color-main-container-shadow, #ccc) !important;
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc) !important;
+  box-shadow: 0 0.5em 1em -0.125em hsla(180, 3%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc) !important;
 }
 .panel .panel-default,.panel .panel-info{
   border: var(--color-border-1);
@@ -985,6 +985,8 @@ ol {
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -webkit-border-radius: 4px;
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  box-shadow: 0 0.5em 1em -0.125em hsla(180, 3%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
 }
 
 .special-recommend-list ul {
@@ -1324,11 +1326,13 @@ ol {
 /***************************最新科技资讯新闻杂谈************************/
 .latest-new-article {
   margin-bottom: 5px;
-  /* border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -o-border-radius: 4px; */
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  box-shadow: 0 0.5em 1em -0.125em hsla(180, 3%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
   /* border:#c5c5c5 1px solid; */
 }
 
@@ -1466,8 +1470,8 @@ ol {
   margin-bottom: 10px;
   /* border: 1px solid var(--color-border-1, #dadada); */
   overflow: hidden;
-  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 7px var(--color-main-container-shadow, #ccc);
-  box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 7px var(--color-main-container-shadow, #ccc);
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  box-shadow: 0 0.5em 1em -0.125em hsla(180, 3%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
 }
 
 /*下面是不用col-md-*显示的文章列表展示,用于其他文章类型显示*/
@@ -1734,7 +1738,9 @@ ol {
   -o-border-radius: 5px;
   border-radius: 5px;
   margin-bottom: 20px;
-  box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 0 1px hsla(0, 0%, 35%, 0.02);
+  /* box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 0 0 1px hsla(0, 0%, 35%, 0.02); */
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  box-shadow: 0 0.5em 1em -0.125em hsla(180, 3%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
 }
 
 .right-fun .model .title {
@@ -2494,11 +2500,11 @@ footer .footer_content p:nth-child(2) {
   border-radius: 5px;
   background-color: var(--color-input, #fff);
   overflow: hidden;
-  -moz-box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc);
-  -o-box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc);
-  -ms-box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc);
-  -webkit-box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc);
-  box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc);
+  -moz-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  -o-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  -ms-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
 }
 
 .Input_text {
@@ -2671,18 +2677,18 @@ footer .footer_content p:nth-child(2) {
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   /* border: 1px solid var(--color-border-1, #dddedd); */
   padding: 5px 10px 5px 10px;
   /* 顺势针安排上右下左 css里都是这样的*/
 }
 
 .contact-box {
-  -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding: 5px 5px 5px;
   background-color: var(--color-background, #fff);
   border-radius: 6px;
@@ -3161,8 +3167,8 @@ footer .footer_content p:nth-child(2) {
   -ms-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 35%, 0.1), 0 2px 2px 4px hsla(0, 0%, 35%, 0.02);
-  /* box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc); */
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  box-shadow: 0 0.5em 1em -0.125em hsla(180, 3%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
   /* border: 1px solid var(--color-article-container-bg-1, #dddedd); */
   padding: 10px;
   line-height: 26px;
@@ -3200,6 +3206,8 @@ footer .footer_content p:nth-child(2) {
   background-color: var(--color-article-pre, #2c2d2e);
   color: var(--color-article-pre-text, #b3b8c1);
   font-size: 1.4rem;
+  position: relative;
+  margin: 0;
 }
 
 .article-container .article-content pre code {
@@ -3248,6 +3256,37 @@ footer .footer_content p:nth-child(2) {
   background-color: var(--color-article-container-bg-1, #f2f4f4);
 }
 
+/******************************代码高亮及行数显示样式************************************/
+.hljs {
+  border: 0;
+  display: block;
+  padding: 1px;
+  margin: 0;
+  width: 100%;
+  font-family: Menlo, Monaco, Consolas, Courier, monospace;
+  /* font-size: 12px;
+  font-weight: 200;
+  color: #333; */
+  white-space: pre-wrap;
+}
+.hljs ol {
+  list-style: decimal;
+  margin: 0px 0px 0 40px !important;
+  padding: 0px;
+  color: #999999;
+}
+.hljs ol li::marker {
+  position: absolute;
+}
+.hljs ol li {
+  list-style: decimal;
+  list-style-position: outside;
+  border-left: 1px solid #aaa !important;
+  padding: 3px!important;
+  margin: 0 !important;
+  white-space: pre;
+}
+
 /*****************************导航文章区域，上一篇和下一篇********************************/
 .navigation-article-container {
   display: flex;
@@ -3262,7 +3301,8 @@ footer .footer_content p:nth-child(2) {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   -moz-border-radius: 4px;
-  box-shadow: 0 0 5px var(--color-main-container-shadow, #ccc);
+  -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
+  box-shadow: 0 0.5em 1em -0.125em hsla(180, 3%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc);
 }
 
 .navigation-article-container a:hover,

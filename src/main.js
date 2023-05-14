@@ -75,23 +75,41 @@ import "@/assets/css/variable.css";
 import 'highlight.js/styles/vs2015.css'
 // import 'highlight.js/styles/monokai-sublime.css'
 import hljs from 'highlight.js'
-Vue.directive("highlight", function(el) {
-  let blocks = el.querySelectorAll("pre code");
-  let blocks2 = el.querySelectorAll("pre");
-  // blocks.forEach(block => {
-  //   hljs.highlightBlock(block);
-  //   // 从这开始是设置行号
-  //   block.innerHTML = `<ol><li>${block.innerHTML.replace(
-  //     /\n/g,
-  //     `</li><li class="line">`
-  //   )}</li></ol>`;
-  // });
-  blocks2.forEach(block => {
-    hljs.highlightBlock(block);
-    //从这开始是设置行号
-    // block.innerHTML = `<ol><li>${block.innerHTML.replace(/\n/g,`</li><li class="line">`)}</li></ol>`;
-  });
+Vue.directive("highlight", {
+  deep: true,
+  bind: function(el,binding) {
+    let blocks = el.querySelectorAll("pre code");
+    let blocks2 = el.querySelectorAll("pre");
+    // blocks.forEach(block => {
+    //   hljs.highlightBlock(block);
+    //   // 从这开始是设置行号
+    //   block.innerHTML = `<ol><li>${block.innerHTML.replace(
+    //     /\n/g,
+    //     `</li><li class="line">`
+    //   )}</li></ol>`;
+    // });
+    blocks2.forEach(block => {
+      if (binding.value) {
+        block.textContent = binding.value;
+      }
+      hljs.highlightBlock(block);
+      //从这开始是设置行号
+      block.innerHTML = `<ol><li>${block.innerHTML.replace(/\n/g,`</li><li class="line">`)}</li></ol>`;
+    });
+  },
+  componentUpdated: function(el,binding) {
+    let blocks2 = el.querySelectorAll("pre");
+    blocks2.forEach(block => {
+      if (binding.value) {
+        block.textContent = binding.value;
+        hljs.highlightBlock(block);
+        //从这开始是设置行号
+        block.innerHTML = `<ol><li>${block.innerHTML.replace(/\n/g,`</li><li class="line">`)}</li></ol>`;
+      }
+    });
+  }
 });
+Vue.use(hljs.vuePlugin)
 Vue.prototype.hljs = hljs;
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap-theme.css'

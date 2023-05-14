@@ -17,7 +17,7 @@
 const localKey="theme-mode";
 import LoadingPage from './components/refresh/LoadingPage.vue';
 
-// var WebApp = null;
+var WebApp = null;
 export default  {
   components: { LoadingPage },
   name:  'App',
@@ -79,8 +79,8 @@ export default  {
   },
   methods:{
     jsLoaded () {
-      WebApp = window.WebApp
-      this.viewer = new WebApp.Viewer('cesiumContainer')
+      // WebApp = window.WebApp
+      // this.viewer = new WebApp.Viewer('cesiumContainer')
     },
     jsLoadError () {
     // 加载失败时的操作
