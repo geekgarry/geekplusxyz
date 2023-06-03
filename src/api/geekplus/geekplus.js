@@ -280,7 +280,7 @@ export function insertArticleMapTag(dataM) {
 }
 
 //上传图片文件
-export function uploadImageFile(formData) {
+export function uploadAllFile(formData) {
   return request({
     url: '/geekplusapp/uploadFile',
     method: 'post',

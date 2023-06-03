@@ -109,7 +109,7 @@
             <div class="mx-4">
               <Adsense
                 data-ad-client="ca-pub-7291512442295477"
-                data-ad-slot="2615721094">
+                data-ad-slot="3776635819">
               </Adsense>
             </div>
           </div>
@@ -618,7 +618,7 @@
     <!-- <div class="row mx-4">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <InArticleAdsense
-          data-ad-client="ca-pub-7291512442295477"
+          data-ad-client="ca-pub-2001011943432555"
           data-ad-slot="3158275447">
         </InArticleAdsense>
       </div>

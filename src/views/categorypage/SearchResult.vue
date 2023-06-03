@@ -11,7 +11,7 @@
     <div class="my-blog-advertise">
       <Adsense
         data-ad-client="ca-pub-7291512442295477"
-        data-ad-slot="3158275447">
+        data-ad-slot="3776635819">
       </Adsense>
     </div>
     <div class="container-article">
@@ -673,7 +673,7 @@
                 <div class="ads-container">
                   <Adsense
                     data-ad-client="ca-pub-7291512442295477"
-                    data-ad-slot="3776635819">
+                    data-ad-slot="1460930833">
                   </Adsense>
                 </div>
                 <div class="ads-container">

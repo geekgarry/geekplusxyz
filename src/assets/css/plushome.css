@@ -2510,7 +2510,7 @@ footer .footer_content p:nth-child(2) {
 .Input_text {
   width: 100%;
   min-height: 50px;
-  overflow: scroll;
+  overflow-y: auto;
   padding: 5px;
   outline: none;
   border: 0px solid var(--color-main-container-border, #ccc);

@@ -95,9 +95,20 @@
                       accept="image/*"
                       required
                       multiple
+                      @change="uploadImageFileEvent($event)"
+                      id="uploadImageFile"
+                      ref="uploadImageFileRef"
+                    />
+                    <input
+                      v-show="false"
+                      type="file"
+                      allowexts="pdf,PDF,doc,DOC,docx,DOCX"
+                      accept="*"
+                      required
+                      multiple
                       @change="uploadFileEvent($event)"
                       id="uploadFile"
-                      ref="uploadRef"
+                      ref="uploadFileRef"
                     />
                     <quill-editor
                       class="gpeditor"
@@ -193,11 +204,32 @@ let fontList = ['SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong'].conc
 // 调整上传图片大小
 import ImageResize from "quill-image-resize-module";
 Quill.register("modules/imageResize", ImageResize);
+let Link = Quill.import('formats/link')
+class FileBlot extends Link {
+  // 继承Link Blot
+  static create(value) {
+    let node = undefined
+    if (value && !value.href) {
+      // 适应原本的Link Blot
+      node = super.create(value)
+    } else {
+      // 自定义Link Blot
+      node = super.create(value.href)
+      // node.setAttribute('download', value.innerText);  // 左键点击即下载
+      node.innerText = value.innerText
+      node.download = value.innerText
+    }
+    return node
+  }
+}
+FileBlot.blotName = 'link'
+FileBlot.tagName = 'A'
+Quill.register(FileBlot)
 import {
   listSubParentCategory,
   listSubCategory,
   userWriteGpArticles,
-  uploadImageFile,
+  uploadAllFile,
   deleteFile,
 } from "@/api/geekplus/geekplus";
 export default {
@@ -234,17 +266,23 @@ export default {
               [{ font: fontList }], //字体
               [{ align: [] }], //对齐方式
               ["clean"], //清除字体样式
-              ["link", "image", "video"], //上传图片、上传视频
+              ["link", "image", "video","upload"], //上传图片、上传视频
             ],
             handlers: {
               image: function (value) {
                 if (value) {
                   // value === true
-                  document.querySelector("#uploadFile").click();
+                  document.querySelector("#uploadImageFile").click();
                 } else {
                   this.quill.format("image", false);
                 }
               },
+              upload: function (value) {
+                if (value) {
+                  // value === true
+                  document.querySelector("#uploadFile").click();
+                }
+              }
             },
           },
           clipboard: {
@@ -625,7 +663,7 @@ export default {
       console.log("多个文件");
       console.log(e.target.files);
     },
-    uploadFileEvent(e) {
+    uploadImageFileEvent(e) {
       //this.formData.append("file", file.file);
       // console.log(file.file, "sb2");
       //const imageUrl = 上传七牛云后返回来的一串在线链接
@@ -657,8 +695,40 @@ export default {
         }
       }
     },
+    uploadFileEvent(e) {
+      //this.formData.append("file", file.file);
+      // console.log(file.file, "sb2");
+      //const imageUrl = 上传七牛云后返回来的一串在线链接
+      if (e.target.files.length == 1) {
+        let file = e.target.files[0];
+        //var file=document.querySelector("#uploadFile")[0].value;
+        //console.log(file);
+        let formData = new FormData();
+        formData.append("file", file);
+        //formData.append("file", new Blob(file)); //this.fileList[0].raw);//拿到存在fileList的文件存放到formData中
+        //下面数据是我自己设置的数据,可自行添加数据到formData(使用键值对方式存储)
+        // 解析上传的文件
+        //let file = this.fileList[0]
+        //console.log(file)
+        this.uploadFileToFile(formData);
+      } else {
+        let fileList=e.target.files;
+        for (var i=0;i< fileList.length; i++) {
+          let formData = new FormData();
+          var elFile=fileList[i];
+          formData.append("file", elFile);
+          //console.log(elFile);
+          //formData.append("file", new Blob(file)); //this.fileList[0].raw);//拿到存在fileList的文件存放到formData中
+          //下面数据是我自己设置的数据,可自行添加数据到formData(使用键值对方式存储)
+          // 解析上传的文件
+          //let file = this.fileList[0]
+          //console.log(file)
+          this.uploadFileToFile(formData);
+        }
+      }
+    },
     uploadImageFileToFile(formData) {
-      uploadImageFile(formData)
+      uploadAllFile(formData)
         .then((response) => {
           //console.log(response);
           var serverUrl = response.url;
@@ -679,10 +749,10 @@ export default {
           // 调整光标到最后
           quill.setSelection(length + this.articleContent.length, 0);
           // this.content += url
-          //this.$refs.uploadRef.clearFiles();
+          //this.$refs.uploadFileRef.clearFiles();
           uploadSuccess = { filePath: serverUrl };
           this.allImageList.push(uploadSuccess);
-          this.$refs.uploadRef.value = "";
+          this.$refs.uploadImageFileRef.value = "";
         })
         .catch((error) => {
           this.$toasted.error(error.msg, {
@@ -690,9 +760,53 @@ export default {
             theme: "bubble",
             position: "top-center",
           });
-          this.$refs.uploadRef.value = "";
+          this.$refs.uploadImageFileRef.value = "";
         });
     },
+    uploadFileToFile(formData) {
+      uploadAllFile(formData)
+        .then((response) => {
+          //console.log(response);
+          var serverUrl = response.url;
+          let uploadSuccess = {};
+          const imageUrl =
+            "https://www.geekplus.xyz" + this.baseApi + serverUrl;
+          // this.$message({
+          //   message: "上传" + response.msg,
+          //   type: "success",
+          // });
+          // 获取光标所在位置
+          let quill = this.$refs.gpTextEditor.quill;
+          let length = quill.getSelection().index;
+          // 插入a标签
+          //quill.insertEmbed(length, "image", imageUrl);
+          quill.insertEmbed(length, 'link', {href: res.data, innerText: file.name})
+        // quill.setSelection(length + fileNameLength)
+          //const num = file.filestoredname && file.filestoredname.length || 0
+          quill.insertText(length+1, "\r\n",true);
+          // 调整光标到最后
+          quill.setSelection(length + this.articleContent.length, 0);
+          // this.content += url
+          //this.$refs.uploadFileRef.clearFiles();
+          uploadSuccess = { filePath: serverUrl };
+          this.allImageList.push(uploadSuccess);
+          this.$refs.uploadImageFileRef.value = "";
+        })
+        .catch((error) => {
+          this.$toasted.error(error.msg, {
+            duration: 3000,
+            theme: "bubble",
+            position: "top-center",
+          });
+          this.$refs.uploadImageFileRef.value = "";
+        });
+        //let fileNameLength = file.name.length
+        // // 插入链接
+        // let length = quill.getSelection().index;
+        // // quill.insertEmbed(length, 'link', {href:res.data, innerText:file.name}, "api")
+        // quill.insertEmbed(length, 'link', {href: res.data, innerText: file.name})
+        // quill.setSelection(length + fileNameLength)
+    }
   },
 };
 </script>

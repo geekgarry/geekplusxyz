@@ -295,7 +295,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Adsense
                     data-ad-client="ca-pub-7291512442295477"
-                    data-ad-slot="3158275447">
+                    data-ad-slot="5487504434">
                   </Adsense>
                 </div>
               </div>
@@ -674,7 +674,7 @@
                 <div class="ads-container">
                   <Adsense
                     data-ad-client="ca-pub-7291512442295477"
-                    data-ad-slot="3776635819">
+                    data-ad-slot="1460930833">
                   </Adsense>
                 </div>
                 <!-- <div class="ads-container">

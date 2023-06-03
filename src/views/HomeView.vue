@@ -25,7 +25,7 @@
       <div>
         <Adsense
           data-ad-client="ca-pub-7291512442295477"
-          data-ad-slot="6482220433">
+          data-ad-slot="3158275447">
         </Adsense>
       </div>
     </div>
