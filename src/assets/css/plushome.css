@@ -3311,7 +3311,23 @@ footer .footer_content p:nth-child(2) {
 }
 
 .left-navigation,
-.left-navigation a,
+.left-navigation a {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex: 1 0 50%;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-direction: row;
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: inherit;
+  -webkit-user-select: none;
+  -moz-user-focus: none;
+  -moz-user-focus: none;
+}
+
 .right-navigation,
 .right-navigation a {
   flex-grow: 1;
@@ -3320,6 +3336,7 @@ footer .footer_content p:nth-child(2) {
   padding: 4px;
   display: flex;
   align-items: center;
+  justify-content: right;
   flex-direction: row;
   text-decoration: none;
   color: inherit;
