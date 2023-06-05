@@ -266,7 +266,7 @@ export default {
               [{ font: fontList }], //字体
               [{ align: [] }], //对齐方式
               ["clean"], //清除字体样式
-              ["link", "image", "video","upload"], //上传图片、上传视频
+              ["link", "image", "video", "upload"], //上传图片、上传视频
             ],
             handlers: {
               image: function (value) {

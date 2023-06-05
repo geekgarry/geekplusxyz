@@ -23,55 +23,61 @@
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum - 4"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum - 4"
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum - 3"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum - 3"
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum - 2"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum - 2"
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum - 1"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum - 1"
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum"
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum + 1"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum + 1"
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum + 2"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum + 2"
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum + 3"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum + 3"
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > 4 && pageNumber == pageNum + 4"
+          v-if="pageNum > 4 && pageNum <= Math.ceil(total / pageSize)-4 && pageNumber == pageNum + 4"
+          href="javascript:void(0);"
+          @click="getList(pageNumber)"
+          >{{ pageNumber }}
+        </a>
+        <a
+          v-if="pageNum > Math.ceil(total / pageSize)-4 && pageNumber > Math.ceil(total / pageSize)-9 "
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
