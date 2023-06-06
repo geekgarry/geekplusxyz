@@ -769,8 +769,9 @@ export default {
           //console.log(response);
           var serverUrl = response.url;
           let uploadSuccess = {};
-          const imageUrl =
+          const fileUrl =
             "https://www.geekplus.xyz" + this.baseApi + serverUrl;
+          const originalFileName = response.originalFileName;
           // this.$message({
           //   message: "上传" + response.msg,
           //   type: "success",
@@ -780,7 +781,7 @@ export default {
           let length = quill.getSelection().index;
           // 插入a标签
           //quill.insertEmbed(length, "image", imageUrl);
-          quill.insertEmbed(length, 'link', {href: res.data, innerText: file.name})
+          quill.insertEmbed(length, 'link', {href: fileUrl, innerText: originalFileName})
         // quill.setSelection(length + fileNameLength)
           //const num = file.filestoredname && file.filestoredname.length || 0
           quill.insertText(length+1, "\r\n",true);

@@ -77,7 +77,7 @@
           >{{ pageNumber }}
         </a>
         <a
-          v-if="pageNum > Math.ceil(total / pageSize)-4 && pageNumber > Math.ceil(total / pageSize)-9 "
+          v-if="Math.ceil(total / pageSize) > 9 && pageNum > Math.ceil(total / pageSize)-4 && pageNumber > Math.ceil(total / pageSize)-9 "
           href="javascript:void(0);"
           @click="getList(pageNumber)"
           >{{ pageNumber }}
