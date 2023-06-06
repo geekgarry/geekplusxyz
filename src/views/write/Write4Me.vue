@@ -768,7 +768,7 @@ export default {
         .then((response) => {
           //console.log(response);
           var serverUrl = response.url;
-          let uploadSuccess = {};
+          //let uploadSuccess = {};
           const fileUrl =
             "https://www.geekplus.xyz" + this.baseApi + serverUrl;
           const originalFileName = response.originalFileName;
@@ -789,8 +789,8 @@ export default {
           quill.setSelection(length + this.articleContent.length, 0);
           // this.content += url
           //this.$refs.uploadFileRef.clearFiles();
-          uploadSuccess = { filePath: serverUrl };
-          this.allImageList.push(uploadSuccess);
+          //uploadSuccess = { filePath: serverUrl };
+          //this.allImageList.push(uploadSuccess);
           this.$refs.uploadImageFileRef.value = "";
         })
         .catch((error) => {
@@ -814,6 +814,12 @@ export default {
 
 <style lang="scss">
 /** ::v-deep  */
+.ql-snow.ql-toolbar button.ql-upload{
+  background: url("./../../assets/icon/svg/upload.svg") !important;
+  background-size: 18px 18px !important;
+  background-position: center center !important;
+  background-repeat:no-repeat !important;
+}
 .quill-editor {
   .ql-container.ql-snow {
     line-height: normal !important;
@@ -825,7 +831,7 @@ export default {
     border-color: #ccc;
     height: 125px;
     overflow: auto;
-  } */
+  } */ 
   .ql-snow .ql-tooltip[data-mode="link"]::before {
     content: "请输入链接地址:";
   }
