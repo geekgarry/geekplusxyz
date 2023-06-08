@@ -784,7 +784,7 @@ export default {
           quill.insertEmbed(length, 'link', {href: fileUrl, innerText: originalFileName})
         // quill.setSelection(length + fileNameLength)
           //const num = file.filestoredname && file.filestoredname.length || 0
-          quill.insertText(length, "\r\n",true);
+          // quill.insertText(length, "\r\n",true);
           // 调整光标到最后
           quill.setSelection(length + this.articleContent.length, 0);
           // this.content += url

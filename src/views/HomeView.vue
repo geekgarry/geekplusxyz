@@ -1171,7 +1171,7 @@
                   style="background: rgba(0, 0, 0, 0.0001)"
                 >
                   <span class="glyphicon glyphicon-th-list"></span
-                  >&nbsp;最新文章
+                  >&nbsp;热门文章
                 </div>
                 <div class="panel-body recommendlist">
                   <!-- <div class="model recommend">
