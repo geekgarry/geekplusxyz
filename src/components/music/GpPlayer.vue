@@ -158,6 +158,22 @@
             theme: "#baf",
           },
           {
+            name: 'Go West',
+            artist: 'Go West',
+            url: 'https://www.geekplus.xyz/prod-api/profile/music/go-west.mp3',
+            cover: 'https://p2.music.126.net/60ZI2bn3TKEKpfWZFBxcAQ==/2108863302102320.jpg?param=70y70', // prettier-ignore
+            lrc: '',
+            theme: "#bcd",
+          },
+          {
+            name: 'Ymca',
+            artist: 'Y.M.C.A',
+            url: 'https://www.geekplus.xyz/prod-api/profile/music/ymca.mp3',
+            cover: 'https://i.biliimg.com/bfs/im/511e21cfa1377dbbfd966e65cfd92c62b31754ad.jpg@70w_70h_1c.webp', // prettier-ignore
+            lrc: '',
+            theme: "#abe",
+          },
+          {
             name: 'With an Orchid',
             artist: 'If I Could Tell You-Yanni',
             url: 'https://www.geekplus.xyz/prod-api/profile/music/With%20An%20Orchid.mp3',
