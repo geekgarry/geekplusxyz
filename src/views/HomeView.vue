@@ -25,7 +25,8 @@
       <div>
         <Adsense
           data-ad-client="ca-pub-7291512442295477"
-          data-ad-slot="3158275447">
+          data-ad-slot="3158275447"
+        >
         </Adsense>
       </div>
     </div>
@@ -57,7 +58,9 @@
                           v-lazy="
                             oneIndexArticle.indexPicture != ''
                               ? oneIndexArticle.indexPicture
-                              : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
+                              : require('@/assets/img/cover' +
+                                  someNumberCount(4) +
+                                  '.jpeg')
                           "
                         />
                         <span class="entry-wrapper">
@@ -69,9 +72,29 @@
                             }}
                           </p>
                           <div class="entry-meta">
-                            <span><img v-lazy="MKLogo" alt="geekplus,极客普拉斯" /></span>&nbsp;
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.viewCount? numFormatKWM(oneIndexArticle.viewCount) : 0 }}
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ oneIndexArticle.createTime ? dateTimeAgo(oneIndexArticle.createTime) : "2015-04-04" }}
+                            <span
+                              ><img
+                                v-lazy="MKLogo"
+                                alt="geekplus,极客普拉斯" /></span
+                            >&nbsp;
+                            <span
+                              class="glyphicon glyphicon-eye-open"
+                              aria-hidden="true"
+                            ></span
+                            >&nbsp;{{
+                              oneIndexArticle.viewCount
+                                ? numFormatKWM(oneIndexArticle.viewCount)
+                                : 0
+                            }}
+                            <span
+                              class="glyphicon glyphicon-time"
+                              aria-hidden="true"
+                            ></span
+                            >&nbsp;{{
+                              oneIndexArticle.createTime
+                                ? dateTimeAgo(oneIndexArticle.createTime)
+                                : "2015-04-04"
+                            }}
                           </div>
                         </span>
                       </router-link>
@@ -98,7 +121,9 @@
                               v-lazy="
                                 item.indexPicture
                                   ? item.indexPicture
-                                  : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
+                                  : require('@/assets/img/cover' +
+                                      someNumberCount(4) +
+                                      '.jpeg')
                               "
                             />
                             <span class="entry-wrapper">
@@ -110,9 +135,29 @@
                                 }}
                               </p>
                               <div class="entry-meta">
-                                <span><img v-lazy="MKLogo" alt="geekplus,极客普拉斯" /></span>&nbsp;
-                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 0 }}
-                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? dateTimeAgo(item.createTime) : "2015-04-04" }}
+                                <span
+                                  ><img
+                                    v-lazy="MKLogo"
+                                    alt="geekplus,极客普拉斯" /></span
+                                >&nbsp;
+                                <span
+                                  class="glyphicon glyphicon-eye-open"
+                                  aria-hidden="true"
+                                ></span
+                                >&nbsp;{{
+                                  item.viewCount
+                                    ? numFormatKWM(item.viewCount)
+                                    : 0
+                                }}
+                                <span
+                                  class="glyphicon glyphicon-time"
+                                  aria-hidden="true"
+                                ></span
+                                >&nbsp;{{
+                                  item.createTime
+                                    ? dateTimeAgo(item.createTime)
+                                    : "2015-04-04"
+                                }}
                               </div>
                             </span>
                           </router-link>
@@ -204,7 +249,9 @@
                           v-lazy="
                             item.indexPicture
                               ? item.indexPicture
-                              : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
+                              : require('@/assets/img/cover' +
+                                  someNumberCount(4) +
+                                  '.jpeg')
                           "
                         />
                       </i>
@@ -220,8 +267,22 @@
                         </router-link>
                       </h3>
                       <p class="publish-time">
-                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? numFormatKWM(item.viewCount) : 0 }}
-                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2019-10-24" }}
+                        <span
+                          class="glyphicon glyphicon-eye-open"
+                          aria-hidden="true"
+                        ></span
+                        >&nbsp;{{
+                          item.viewCount ? numFormatKWM(item.viewCount) : 0
+                        }}
+                        <span
+                          class="glyphicon glyphicon-time"
+                          aria-hidden="true"
+                        ></span
+                        >&nbsp;{{
+                          item.createTime
+                            ? getOnlyYearMonthDay(item.createTime)
+                            : "2019-10-24"
+                        }}
                       </p>
                       <p
                         v-if="item.abstractText && item.abstractText != ''"
@@ -360,7 +421,8 @@
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Adsense
                   data-ad-client="ca-pub-7291512442295477"
-                  data-ad-slot="5487504434">
+                  data-ad-slot="5487504434"
+                >
                 </Adsense>
               </div>
             </div>
@@ -379,7 +441,9 @@
                           v-lazy="
                             item.indexPicture
                               ? item.indexPicture
-                              : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg')
+                              : require('@/assets/img/cover' +
+                                  someNumberCount(4) +
+                                  '.jpeg')
                           "
                         />
                       </router-link>
@@ -418,10 +482,22 @@
                             }}</a>
                           </li>
                           <li>
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ item.viewCount? item.viewCount : 0 }}
+                            <span
+                              class="glyphicon glyphicon-eye-open"
+                              aria-hidden="true"
+                            ></span
+                            >&nbsp;{{ item.viewCount ? item.viewCount : 0 }}
                           </li>
                           <li>
-                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;{{ item.createTime ? dateTimeAgo(item.createTime) : "2015-04-04" }}
+                            <span
+                              class="glyphicon glyphicon-time"
+                              aria-hidden="true"
+                            ></span
+                            >&nbsp;{{
+                              item.createTime
+                                ? dateTimeAgo(item.createTime)
+                                : "2015-04-04"
+                            }}
                           </li>
                           <!-- <li>
                             {{ item.createTime ? getOnlyYearMonthDay(item.createTime) : "2015-04-04" }}
@@ -652,8 +728,13 @@
                 </div>
               </article> -->
             </div>
-            <div v-if="articleTotal>queryParams.pageSize" class="load-more-data visible-xs">
-              <a href="javascript:void(0);" @click="loadMoreData">{{ loadMoreBtn }}</a>
+            <div
+              v-if="articleTotal > queryParams.pageSize"
+              class="load-more-data visible-xs"
+            >
+              <a href="javascript:void(0);" @click="loadMoreData">{{
+                loadMoreBtn
+              }}</a>
             </div>
             <!-- <nav aria-label="Page navigation" v-if="articleTotal!=0">
               <ul class="pagination">
@@ -779,16 +860,26 @@
                 </li>
               </ul>
             </nav> -->
-            <plus-pager class="hidden-xs" :total="articleTotal" :pageNum="queryParams.pageNum" :pageSize="queryParams.pageSize"
-               :pluspagerMethod="getIndexAllArticleList">
+            <plus-pager
+              class="hidden-xs"
+              :total="articleTotal"
+              :pageNum="queryParams.pageNum"
+              :pageSize="queryParams.pageSize"
+              :pluspagerMethod="getIndexAllArticleList"
+            >
             </plus-pager>
           </div>
           <aside class="col-lg-3 col-md-3 right animated slideInRight">
             <div class="right-fun">
               <div class="alert alert-info alert-dismissible fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <span v-if="oneNewNotice" v-html="oneNewNotice.noticeContent"></span>
-                <span v-else >这是我的个人博客，主要是对所学知识的梳理和总结，同时也希望能够帮到其他同学。</span>
+                <span
+                  v-if="oneNewNotice"
+                  v-html="oneNewNotice.noticeContent"
+                ></span>
+                <span v-else
+                  >这是我的个人博客，主要是对所学知识的梳理和总结，同时也希望能够帮到其他同学。</span
+                >
                 <!-- 另外，本博客分享过的图书，绝大部分我这里都有适合<b>Kindle</b>阅读的电子版，
                 因为版权原因现在不再公开分享，有需要的同学可以给我发邮件私下交流，无偿分享。 -->
               </div>
@@ -920,7 +1011,7 @@
                       data-placement="bottom"
                       data-original-title="EMAIL"
                     >
-                    <font-awesome-icon :icon="['fas', 'envelope']" />
+                      <font-awesome-icon :icon="['fas', 'envelope']" />
                     </a>
                     <a
                       id="s_github"
@@ -979,32 +1070,59 @@
                 </div>
               </div>
               <div class="panel panel-default">
-                <div class="panel-heading"
-                  style="background: rgba(0, 0, 0, 0.0001)" >
-                  <span class="glyphicon glyphicon-list"></span>&nbsp;{{ allCategoryList[0].categoryName }}-专题
+                <div
+                  class="panel-heading"
+                  style="background: rgba(0, 0, 0, 0.0001)"
+                >
+                  <span class="glyphicon glyphicon-list"></span>&nbsp;{{
+                    allCategoryList[0].categoryName
+                  }}-专题
                 </div>
                 <div class="panel-body">
                   <!-- <div class="model recommend">                                    						                            <div class="title">热门推荐</div>						                            <div class="content"> -->
                   <div class="latest-hot-article">
-                    <div :class=" index == 0 ? 'articlelist-first-life' : 'articlelist' "
+                    <div
+                      :class="
+                        index == 0 ? 'articlelist-first-life' : 'articlelist'
+                      "
                       v-for="(item, index) in asideSixArticle0"
-                      :key="index" >
-                      <router-link v-if="index == 0"
-                        :to="'/article/' + item.id" >
-                        <img :alt="item.articleTitle"
-                          v-lazy=" item.indexPicture ? item.indexPicture
-                          : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg') " />
-                        <span>{{ item.articleTitle ? item.articleTitle : "我是谁" }}</span>
+                      :key="index"
+                    >
+                      <router-link
+                        v-if="index == 0"
+                        :to="'/article/' + item.id"
+                      >
+                        <img
+                          :alt="item.articleTitle"
+                          v-lazy="
+                            item.indexPicture
+                              ? item.indexPicture
+                              : require('@/assets/img/cover' +
+                                  someNumberCount(4) +
+                                  '.jpeg')
+                          "
+                        />
+                        <span>{{
+                          item.articleTitle ? item.articleTitle : "我是谁"
+                        }}</span>
                       </router-link>
                       <router-link v-else :to="'/article/' + item.id">
                         <i>
-                          <img :alt="item.articleTitle" v-lazy=" item.indexPicture 
-                            ? item.indexPicture
-                            : require('@/assets/img/cover3.jpeg') " />
+                          <img
+                            :alt="item.articleTitle"
+                            v-lazy="
+                              item.indexPicture
+                                ? item.indexPicture
+                                : require('@/assets/img/cover3.jpeg')
+                            "
+                          />
                         </i>
                         <p>
-                          {{ item.articleTitle ? item.articleTitle
-                              : "那个老师那个看来是看到那个上课了" }}
+                          {{
+                            item.articleTitle
+                              ? item.articleTitle
+                              : "那个老师那个看来是看到那个上课了"
+                          }}
                         </p>
                       </router-link>
                     </div>
@@ -1015,36 +1133,67 @@
                       </a>
                     </div> -->
                   </div>
-                  <div class="special-topic"><router-link :to="allCategoryList[0].path">进入专题</router-link></div>
+                  <div class="special-topic">
+                    <router-link :to="allCategoryList[0].path"
+                      >进入专题</router-link
+                    >
+                  </div>
                 </div>
               </div>
               <div class="panel panel-default">
-                <div class="panel-heading"
-                  style="background: rgba(0, 0, 0, 0.0001)" >
-                  <span class="glyphicon glyphicon-list"></span>&nbsp;{{ allCategoryList[9].categoryName }}-专题
+                <div
+                  class="panel-heading"
+                  style="background: rgba(0, 0, 0, 0.0001)"
+                >
+                  <span class="glyphicon glyphicon-list"></span>&nbsp;{{
+                    allCategoryList[9].categoryName
+                  }}-专题
                 </div>
                 <div class="panel-body">
                   <!-- <div class="model recommend">                                    						                            <div class="title">热门推荐</div>						                            <div class="content"> -->
                   <div class="latest-hot-article">
                     <div
-                      :class=" index == 0 ? 'articlelist-first-life' : 'articlelist' "
+                      :class="
+                        index == 0 ? 'articlelist-first-life' : 'articlelist'
+                      "
                       v-for="(item, index) in asideSixArticle6"
-                      :key="index" >
-                      <router-link v-if="index == 0" :to="'/article/' + item.id" >
-                        <img :alt="item.articleTitle"
-                          v-lazy=" item.indexPicture ? item.indexPicture 
-                          : require('@/assets/img/cover'+someNumberCount(4)+'.jpeg') "
+                      :key="index"
+                    >
+                      <router-link
+                        v-if="index == 0"
+                        :to="'/article/' + item.id"
+                      >
+                        <img
+                          :alt="item.articleTitle"
+                          v-lazy="
+                            item.indexPicture
+                              ? item.indexPicture
+                              : require('@/assets/img/cover' +
+                                  someNumberCount(4) +
+                                  '.jpeg')
+                          "
                         />
-                        <span>{{ item.articleTitle ? item.articleTitle : "我是谁" }}</span>
+                        <span>{{
+                          item.articleTitle ? item.articleTitle : "我是谁"
+                        }}</span>
                       </router-link>
                       <router-link v-else :to="'/article/' + item.id">
-                        <i><img :alt="item.articleTitle"
-                            v-lazy=" item.indexPicture ? item.indexPicture
-                                : require('@/assets/img/cover3.jpeg') " />
+                        <i
+                          ><img
+                            :alt="item.articleTitle"
+                            v-lazy="
+                              item.indexPicture
+                                ? item.indexPicture
+                                : require('@/assets/img/cover3.jpeg')
+                            "
+                          />
                         </i>
                         <p>
-                          {{ item.articleTitle ? item.articleTitle
-                              : "那个老师那个看来是看到那个上课了" }}
+                          {{
+                            item.articleTitle
+                              ? item.articleTitle
+                              : "那个老师那个看来是看到那个上课了"
+                          }}
                         </p>
                       </router-link>
                     </div>
@@ -1055,7 +1204,11 @@
                       </a>
                     </div>-->
                   </div>
-                  <div class="special-topic"><router-link :to="allCategoryList[9].path">进入专题</router-link></div>
+                  <div class="special-topic">
+                    <router-link :to="allCategoryList[9].path"
+                      >进入专题</router-link
+                    >
+                  </div>
                 </div>
               </div>
               <div class="panel panel-default">
@@ -1066,11 +1219,24 @@
                   <span class="glyphicon glyphicon-th"></span>&nbsp;标签云图
                 </div>
                 <div class="panel-body tag-list">
-                  <span style="display:inline-block;margin:2px;" v-for="(item, index) in allTagArticleCount"
-                      :key="index">
-                    <router-link :to="{path:'/articleListForTag',query:{tagName:item.tagName}}" class="" > 
+                  <span
+                    style="display: inline-block; margin: 2px"
+                    v-for="(item, index) in allTagArticleCount"
+                    :key="index"
+                  >
+                    <router-link
+                      :to="{
+                        path: '/articleListForTag',
+                        query: { tagName: item.tagName },
+                      }"
+                      class=""
+                    >
                       {{ item.tagName ? item.tagName : "Java" }}
-                      <span>{{ item.articleCount != -1 ? numFormatKWM(item.articleCount) : 1 }}</span>
+                      <span>{{
+                        item.articleCount != -1
+                          ? numFormatKWM(item.articleCount)
+                          : 1
+                      }}</span>
                     </router-link>
                   </span>
                   <!-- <a class="btn btn-info"
@@ -1233,6 +1399,7 @@
 import SlideSwiper from "@/components/carousel/SlideSwiper";
 import mofang from "@/assets/icon/loading.gif";
 import {
+  getHomeViewData,
   getcCarousel,
   getcovid,
   get163coviddata,
@@ -1295,8 +1462,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
       },
-      oneNewNotice:{},
-      loadMoreBtn:"加载更多",
+      oneNewNotice: {},
+      loadMoreBtn: "加载更多",
     };
   },
   created() {
@@ -1310,15 +1477,16 @@ export default {
       dataTouch: true,
       dataInterval: 3000,
     };
-    this.getTenNewArticle();
-    this.getSixRecommendArticle();
-    this.getFourPlusOneArticles();
+    // this.getTenNewArticle();
+    // this.getSixRecommendArticle();
+    // this.getFourPlusOneArticles();
+    // this.getSixSameCategoryArticle0();
+    // this.getSixSameCategoryArticle6();
+    // this.getTagAndArticleCount();
+    // this.getOneNewestNotice();
     this.getIndexAllArticleList(this.queryParams.pageNum);
+    this.getIndexHomeView();
     this.getAllArticleCategory();
-    this.getSixSameCategoryArticle0();
-    this.getSixSameCategoryArticle6();
-    this.getTagAndArticleCount();
-    this.getOneNewestNotice();
     // document.onkeydown = function (e) {
     //   // 回车提交表单
     //   // 兼容FF和IE和Opera
@@ -1345,7 +1513,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      window.document.title=this.$route.meta.title + " | 极客普拉斯&梦极客园" || "极客普拉斯&梦极客园-geekplus.xyz";
+      window.document.title = this.$route.meta.title + " | 极客普拉斯&梦极客园" || "极客普拉斯&梦极客园-geekplus.xyz";
     }
   },
   methods: {
@@ -1372,6 +1540,30 @@ export default {
         //document.getElementsByClassName("text-info")[0]
         indexTextInfo.animate({ left: i / 2 + "px" }, 20);
       }, 25);
+    },
+    getIndexHomeView() {
+      var queryParams = {
+        sixCategory: "java", sixArticleCount: 6, oneArticle: "backProgram",
+        fourArticles: "frontWeb", firstTopic: "sql", secondTopic: "webSoftware", topicCount: 6
+      };
+      getHomeViewData(queryParams).then((response) => {
+        //this.swiperImgList = response.indexCarousel;
+        this.tenNewArticle = response.indexTenNewArticle;
+        this.sixRecommendArticle = response.indexSixArticles;
+        this.oneIndexArticle = response.indexOneArticle;
+        this.fourIndexArticle = response.indexFourArticles;
+        this.asideSixArticle0 = response.indexFirstTopic;
+        this.asideSixArticle6 = response.indexSecondTopic;
+        this.allTagArticleCount = response.indexArticleTag;
+        this.oneNewNotice = response.indexNotice;
+      }).catch((error) => {
+          //console.log(error);
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
     },
     getHomeCarousel() {
       getcCarousel()
@@ -1400,11 +1592,11 @@ export default {
         });
     },
     getArticleListForTag(tagName) {
-        //this.$router.push("/search?keayword="+this.keywords);
-        this.$router.push({
-          path: "/articleList/tag",
-          query: { tagName: tagName },
-        });
+      //this.$router.push("/search?keayword="+this.keywords);
+      this.$router.push({
+        path: "/articleList/tag",
+        query: { tagName: tagName },
+      });
     },
     searchResult() {
       if (this.keywords !== "") {
@@ -1496,7 +1688,7 @@ export default {
     },
     //获取首页所有类型文章
     getIndexAllArticleList(pageNum) {
-      this.queryParams.pageNum=pageNum;
+      this.queryParams.pageNum = pageNum;
       // if(pageNum==null ||pageNum==''){
       //   this.queryParams.pageNum=1;
       // }else if(this.articleTotal <= this.queryParams.pageSize){
@@ -1510,7 +1702,7 @@ export default {
         .then((response) => {
           //console.log(response);
           this.indexAllArticle = response.rows;
-          this.articleTotal=response.total;
+          this.articleTotal = response.total;
         })
         .catch((error) => {
           this.$toasted.error(error.msg, {
@@ -1523,16 +1715,16 @@ export default {
         1000);
     },
     //懒加载方法
-    loadMoreArticleList(pageNum){
-      this.queryParams.pageNum=pageNum;
-      this.loadMoreBtn="加载数据...";
+    loadMoreArticleList(pageNum) {
+      this.queryParams.pageNum = pageNum;
+      this.loadMoreBtn = "加载数据...";
       getIndexAllCategoryArticleList(this.queryParams)
         .then((response) => {
           //console.log(response);
           //this.indexAllArticle = response.rows;
           this.indexAllArticle = this.indexAllArticle.concat(response.rows);
           this.articleTotal = response.total;
-          setTimeout(async() => {this.loadMoreBtn="加载更多";},1000);
+          setTimeout(async () => { this.loadMoreBtn = "加载更多"; }, 1000);
         })
         .catch((error) => {
           this.$toasted.error(error.msg, {
@@ -1540,16 +1732,16 @@ export default {
             duration: 3000,
             theme: "bubble",
           });
-          this.loadMoreBtn="数据加载失败";
+          this.loadMoreBtn = "数据加载失败";
         }).finally(() => {
         });
-        //this.backToTop()
+      //this.backToTop()
     },
     getAllArticleCategory() {
       // let tempMenuList = this.$router.options.routes.filter(
       //   (item) => { return item.type == "servermenu"}
       // );
-      this.allCategoryList=this.getListSubCategory(this.$store.getters.addRoutes.slice(0,4));
+      this.allCategoryList = this.getListSubCategory(this.$store.getters.addRoutes.slice(0, 4));
       // console.log(this.categoryPathList)
       // listSubCategory()
       //   .then((response) => {
@@ -1564,14 +1756,14 @@ export default {
       //     });
       //   });
     },
-    getListSubCategory(list){
-      let listCategory=new Array();
+    getListSubCategory(list) {
+      let listCategory = new Array();
       list.forEach(parent => {
         parent.children.forEach(child => {
-          let childCategory={
-            path:parent.path+'/'+child.path,
-            pathName:child.path,
-            categoryName:child.meta.title,
+          let childCategory = {
+            path: parent.path + '/' + child.path,
+            pathName: child.path,
+            categoryName: child.meta.title,
           }
           listCategory.push(childCategory)
         })
@@ -1592,17 +1784,17 @@ export default {
           });
         });
     },
-    getOneNewestNotice(){
-      getGpNoticeNewOne().then((response) =>{
-        this.oneNewNotice=response.data;
+    getOneNewestNotice() {
+      getGpNoticeNewOne().then((response) => {
+        this.oneNewNotice = response.data;
       });
     },
-    loadMoreData(){
-      this.queryParams.pageNum+=1;
-      if(this.queryParams.pageNum<=Math.ceil(this.articleTotal/this.queryParams.pageSize)){
+    loadMoreData() {
+      this.queryParams.pageNum += 1;
+      if (this.queryParams.pageNum <= Math.ceil(this.articleTotal / this.queryParams.pageSize)) {
         this.loadMoreArticleList(this.queryParams.pageNum);
-      }else{
-        this.loadMoreBtn="数据加载完了";
+      } else {
+        this.loadMoreBtn = "数据加载完了";
       }
     },
     // test() {
@@ -1617,15 +1809,15 @@ export default {
     //     });
     // },
     backToTopIndex() {
-    let top = document.documentElement.scrollTop || document.body.scrollTop
-    // 实现滚动效果
-    const timeTop = setInterval(() => {
+      let top = document.documentElement.scrollTop || document.body.scrollTop
+      // 实现滚动效果
+      const timeTop = setInterval(() => {
         document.body.scrollTop = document.documentElement.scrollTop = top -= 30
         if (top <= 650) {
-            clearInterval(timeTop)
+          clearInterval(timeTop)
         }
-    }, 10)
-}
+      }, 10)
+    }
   },
   destroyed() {
     //console.log("销毁！")

@@ -1,5 +1,14 @@
 import request from '@/utils/request'
 
+// 网站首页聚合数据
+export function getHomeViewData(queryParams) {
+  return request({
+    url: '/geekplusapp/getHomeView',
+    method: 'post',
+    params: queryParams
+  })
+}
+
 //获取首页轮播图
 export function getcCarousel() {
     return request({
