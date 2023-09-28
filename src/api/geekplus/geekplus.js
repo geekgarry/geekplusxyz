@@ -9,6 +9,14 @@ export function getHomeViewData(queryParams) {
   })
 }
 
+// 网站顶部每日名言
+export function getOneFamousWords() {
+  return request({
+    url: '/geekplusapp/getTodayFamousWords',
+    method: 'get',
+  })
+}
+
 //获取首页轮播图
 export function getcCarousel() {
     return request({

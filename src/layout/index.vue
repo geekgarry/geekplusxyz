@@ -21,31 +21,23 @@
                 >极客普拉斯</span
               >
             </div>
-            <div class="right-block">
-              <div class="wow pulse bg-yellow" data-wow-delay="0.1s">
-                人生，
-              </div>
-              <div
-                class="wow rollIn bg-red"
-                data-wow-iteration="1"
-                data-wow-duration="0.5s"
-              >
+            <!-- <div class="right-block">
+              <div class="wow pulse bg-yellow" data-wow-delay="0.1s">人生，</div>
+              <div class="wow rollIn bg-red" data-wow-iteration="1" data-wow-duration="0.5s">
                 就像一盒巧克力，
               </div>
-              <div class="wow bounceInRight bg-blue">
-                你永远不知道下一块会是什么味道！
-              </div>
+              <div class="wow bounceInRight bg-blue">你永远不知道下一块会是什么味道！</div>
               <div class="wow bounceInRight bg-blue">---《阿甘正传》</div>
+            </div> -->
+            <div class="right-block">
+              <div class="wow rollIn bg-red" data-wow-iteration="1" data-wow-duration="0.5s">{{ famousWords }}</div>
             </div>
           </div>
         </div>
       </div>
     </header>
     <div :class="topNavBarFixed">
-      <nav-bar
-        :navBarStyle="navBarStyle"
-        :menuList="menuList"
-      ></nav-bar>
+      <nav-bar :navBarStyle="navBarStyle" :menuList="menuList"></nav-bar>
     </div>
     <!-- <div :class="topNavBarFixed">
       <b-t-nav-bar
@@ -59,7 +51,7 @@
           >
         </div>
       </div> -->
-    
+
     <back-to-top
       class="hidden-xs"
       :transitionName="transName"
@@ -81,10 +73,21 @@
       </div> -->
     <!-- <router-view :key="key" /> -->
     <!-- Modal 模态框，弹出层 -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div
+      class="modal fade"
+      id="myModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+    >
       <div role="document" class="plus-dialog">
         <div style="">
-          <span class="close" style="color:white;font-size:3rem;" data-dismiss="modal" aria-label="Close">
+          <span
+            class="close"
+            style="color: white; font-size: 3rem"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <!-- <span  aria-hidden="true">&times;</span> -->
             <font-awesome-icon :icon="['fas', 'times']" />
           </span>
@@ -204,9 +207,14 @@
       </div>
     </div>
     <gp-player></gp-player>
-    <nav :class="'navbar navbar-default '+bottomNavBarFixed+' visible-xs'"
-        style="background:var(--color-main-container-bg-2,#eff0f0);color:var(--color-main-container-text-1,#333535);
-        border-radius:0;">
+    <nav
+      :class="'navbar navbar-default ' + bottomNavBarFixed + ' visible-xs'"
+      style="
+        background: var(--color-main-container-bg-2, #eff0f0);
+        color: var(--color-main-container-text-1, #333535);
+        border-radius: 0;
+      "
+    >
       <div class="container">
         <div class="row">
           <div class="col-xs-3 col-sm-3 text-center">
@@ -264,6 +272,7 @@ import BackToTop from "@/components/BackToTop";
 import GpPlayer from '@/components/music/GpPlayer.vue'
 import maiLogo from "@/assets/icon/mai.png";
 import {
+  getOneFamousWords,
   displayFriendlyLink,
   getGpWebTitleInfo,
   listSubParentCategory,
@@ -285,6 +294,7 @@ export default {
   },
   data() {
     return {
+      famousWords:"人生，就像一盒巧克力，你永远不知道下一块会是什么味道！---《阿甘正传》",
       theme1: "light",
       visible: false,
       contentScrollTop: 0,
@@ -309,7 +319,7 @@ export default {
       GCLogo: require("@/assets/logo.png"),
       MKLogo: maiLogo,
       topNavBarFixed: "",//"navbar navbar-default navbar-static-top",
-      bottomNavBarFixed:"navbar-fixed-bottom",
+      bottomNavBarFixed: "navbar-fixed-bottom",
       navBarStyle: "",//导航栏固定顶部，导致内容被遮挡的问题，设置margin或padding
       keywords: "", //搜索关键词
       subParentCategoryList: [],
@@ -333,6 +343,7 @@ export default {
     //this.getGeekplusCategory();//直接获取后台菜单
     this.getRouterMneuList(); //获取后台菜单动态添加后的路由信息
     this.getBreadcrumb();
+    this.getOneRandomFamousWords();
     this.displayWebFriendlyLink();
     this.getWebTitleNameFooterInfo();
     var wwidth = window.fullWidth || document.documentElement.clientWidth;
@@ -341,7 +352,7 @@ export default {
     if (this.windowWidth <= 767) {
       this.topNavBarFixed =
         "navbar-fixed-top animate__animated animate__slideInDown";//mkplus-header-not-on-top
-      this.bottomNavBarFixed ="navbar-fixed-bottom animate__animated animate__slideInUp";
+      this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
       window.document.body.style.paddingTop = "70px";
       window.document.body.style.paddingBottom = "65px";
     }
@@ -376,9 +387,9 @@ export default {
         // 页面滚动距顶部距离
         var scroll = st - this.contentScrollTop;
         //获取文档实际高度
-        var scrollHeight=document.documentElement.scrollHeight || document.body.scrollHeight;
+        var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
         //获取视口实际高度
-        var bodyClientHeight=document.documentElement.clientHeight || document.body.clientHeight;
+        var bodyClientHeight = document.documentElement.clientHeight || document.body.clientHeight;
         this.contentScrollTop = st;
         //console.log("实时页面滚动高度："+st);this.contentScrollTop < 200 &&
         if (this.contentScrollTop < 200 && this.windowWidth > 767) {
@@ -414,26 +425,26 @@ export default {
           window.document.body.style.paddingBottom = "65px";
           if (scroll > 0) {
             this.topNavBarFixed = "navbar-static-top";
-            this.bottomNavBarFixed ="navbar-fixed-bottom animate__animated animate__slideInUp";
+            this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
             //this.navBarStyle = "mkplus-header-overlay-dark-bg";
             window.document.body.style.paddingTop = "0";
             window.document.body.style.paddingBottom = "65px";
             //console.log("up");
             //添加你想要的事件
-            if (bodyClientHeight + this.contentScrollTop === scrollHeight){
+            if (bodyClientHeight + this.contentScrollTop === scrollHeight) {
               window.document.body.style.paddingBottom = "0";
-              this.bottomNavBarFixed ="navbar-static-bottom animate__animated animate__slideInUp";
+              this.bottomNavBarFixed = "navbar-static-bottom animate__animated animate__slideInUp";
             }
           } else {
             this.topNavBarFixed = "navbar-fixed-top animate__animated animate__slideInDown";
-            this.bottomNavBarFixed ="navbar-static-bottom";
+            this.bottomNavBarFixed = "navbar-static-bottom";
             // this.navBarStyle = "mkplus-header-overlay-light-bg";
             window.document.body.style.paddingTop = "70px";
             window.document.body.style.paddingBottom = "65px";
             //添加你想要的事件
-            if (bodyClientHeight + this.contentScrollTop === scrollHeight){
+            if (bodyClientHeight + this.contentScrollTop === scrollHeight) {
               window.document.body.style.paddingBottom = "0";
-              this.bottomNavBarFixed ="navbar-static-bottom animate__animated animate__slideInUp";
+              this.bottomNavBarFixed = "navbar-static-bottom animate__animated animate__slideInUp";
             }
           }
         }
@@ -530,6 +541,19 @@ export default {
       //console.log(this.$route.path);
       return this.$route.path;
     },
+    /** 顶部一句随机名言 */
+    getOneRandomFamousWords() {
+      getOneFamousWords().then((response) => {
+        this.famousWords=response.data;
+      }).catch((error) => {
+          //console.log(error.msg);
+          this.$toasted.error(error.msg, {
+            position: "top-center",
+            duration: 3000,
+            theme: "bubble",
+          });
+        });
+    },
     /** 首页显示友情链接 */
     displayWebFriendlyLink() {
       displayFriendlyLink()
@@ -550,7 +574,7 @@ export default {
       let queryParams = { id: 1 };
       getGpWebTitleInfo(queryParams)
         .then((response) => {
-          console.log("%c"+response.data.gpWebName," text-shadow: 0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);font-size:5em");
+          console.log("%c" + response.data.gpWebName, " text-shadow: 0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);font-size:5em");
           this.webHeaderFooterInfo = response.data;
         })
         .catch((error) => {
@@ -570,7 +594,7 @@ export default {
         document.body.scrollTop =
           document.documentElement.scrollTop =
           top -=
-            50;
+          50;
         if (top <= 0) {
           clearInterval(timeTop);
         }

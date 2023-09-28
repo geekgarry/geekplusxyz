@@ -79,52 +79,69 @@ a::-webkit-selection{
   padding-right: 0;
   padding-left: 0;
 }
-.pagination>li>a, .pagination>li>span {
+
+.pagination>li>a,
+.pagination>li>span {
   position: relative;
   float: left;
   padding: 6px 12px;
   margin-left: -1px;
   line-height: 1.42857143;
-  color: var(--color-primary,#337ab7) !important;
+  color: var(--color-primary, #337ab7) !important;
   text-decoration: none;
-  background-color: var(--color-container,#fff) !important;
-  border: 1px solid var(--color-main-container-border,#ddd) !important;
+  background-color: var(--color-container, #fff) !important;
+  border: 1px solid var(--color-main-container-border, #ddd) !important;
 }
-.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
   z-index: 3;
   color: #fff !important;
   cursor: default;
-  background-color: var(--color-primary,#337ab7) !important;
-  border-color: var(--color-primary,#337ab7) !important;
+  background-color: var(--color-primary, #337ab7) !important;
+  border-color: var(--color-primary, #337ab7) !important;
 }
+
 .panel {
-  background-color: var(--color-aside-panel,#fff) !important;
-  border: 0px solid var(--color-border-1,#ddd) !important;
+  background-color: var(--color-aside-panel, #fff) !important;
+  border: 0px solid var(--color-border-1, #ddd) !important;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important; */
   -webkit-box-shadow: 0 0.5em 1em -0.125em hsla(0, 0%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc) !important;
   box-shadow: 0 0.5em 1em -0.125em hsla(180, 3%, 6%, 0.2), 0 0 5px var(--color-main-container-shadow, #ccc) !important;
 }
-.panel .panel-default,.panel .panel-info{
+
+.panel .panel-default,
+.panel .panel-info {
   border: var(--color-border-1);
 }
-.panel-heading{
+
+.panel-heading {
   color: var(--color-aside-panel-text) !important;
-  border-color: var(--color-border-1,#ddd) !important;
+  border-color: var(--color-border-1, #ddd) !important;
   /*border-bottom: 1px solid #D9DCDD !important;*/
 }
-.panel-default > .panel-body,.panel-default > .panel-body > a{
+
+.panel-default>.panel-body,
+.panel-default>.panel-body>a {
   color: var(--color-aside-panel-text) !important;
 }
+
 .navbar-default {
-  border-color: var(--color-border-3,#e7e7e7) !important;
+  border-color: var(--color-border-3, #e7e7e7) !important;
 }
+
 .alert-info {
-  background-image: linear-gradient(to bottom, var(--color-alert-info-2,#d9edf7) 0%, var(--color-alert-info-1,#89b8d0) 100%) !important;
+  background-image: linear-gradient(to bottom, var(--color-alert-info-2, #d9edf7) 0%, var(--color-alert-info-1, #89b8d0) 100%) !important;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9edf7', endColorstr='#ffb9def0', GradientType=0);
   background-repeat: repeat-x;
-  border-color: var(--color-alert-info-border,#9acfea) !important;
-  color: var(--color-alert-info-text,#31708f) !important;
+  border-color: var(--color-alert-info-border, #9acfea) !important;
+  color: var(--color-alert-info-text, #31708f) !important;
 }
+
 /***********自定义样式覆盖bootstrap的container样式*****************/
 
 /*媒体查询*/
@@ -151,19 +168,21 @@ a::-webkit-selection{
 /***鼠标悬浮图片旋转360度 begin***/
 
 .top_banner_logo {
-  margin: 25px auto;
-  -webkit-border-radius: 110px;
-  border-radius: 110px;
-  -webkit-transition: -webkit-transform 0.4s ease-out;
-  -moz-transition: -moz-transform 0.4s ease-out;
-  -o-transition: -o-transform 0.4s ease-out;
-  -ms-transition: -ms-transform 0.4s ease-out;
-  width: 90px;
-  height: 90px;
-  box-shadow: 0 0 0 4px #292929e3;
-  float: left;
-  margin-left: 30px;
-  background: var(--color-background, #fffffff0);
+  margin: 0;
+  padding: 0;
+  border-radius: 100px;
+  -webkit-transition: -webkit-transform .4s ease-out;
+  -moz-transition: -moz-transform .4s ease-out;
+  -o-transition: -o-transform .4s ease-out;
+  -ms-transition: -ms-transform .4s ease-out;
+  width: 100px;
+  height: 100px;
+  /* box-shadow: 1px 0px 0 4px #292929e3; */
+  border: #5ea5a5 solid 2px;
+  /* float: left; */
+  /* clear: both; */
+  text-align: center;
+  background: var(--color-background, #ffffff00);
 }
 
 .top_banner_logo:hover {
@@ -256,12 +275,17 @@ a::-webkit-selection{
   width: 50%;
   line-height: 144px;
   font-size: 2.3em;
-  color: white;
+  color: #fff;
   font-weight: 800;
+  display: inline-flex;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .logo .logo-text {
-  margin-left: 20px;
+  /* margin-left: 20px; */
   float: left;
 }
 
@@ -270,21 +294,25 @@ a::-webkit-selection{
   width: 50%;
   float: left;
   line-height: 144px;
-  /* white-space: nowrap; */
   overflow: hidden;
-  /* text-overflow: ellipsis; */
-  vertical-align: middle;
-  /*
-    flex-direction: column; */
+  /* vertical-align: middle; */
+  /* white-space: break-spaces; */
+  display: inline-flex;
+  align-content: center;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  /*flex-direction: column; */
 }
 
 .right-block div {
   width: 100%;
   text-align: right;
-  margin-right: 4%;
   color: white;
-  font-size: 1.5rem;
-  line-height: 28px;
+  font-size: 1.4rem;
+  line-height: 26px;
+  /* font-weight: 500; */
+  /* text-shadow: 0px 1px #3a2d2b;*/
 }
 
 /******************************导航菜单栏navigator_bar****************************************/
@@ -919,9 +947,11 @@ ol {
 .mx-4 {
   margin: 4px auto;
 }
+
 .mx-4-auto {
   margin: 4px auto;
 }
+
 /*****************************blog技术文章的排布与显示******************************/
 /*********************************博客首页公告栏**************************************/
 .my-blog-inform {
@@ -1331,8 +1361,8 @@ ol {
   border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -o-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
   /* border:#c5c5c5 1px solid; */
 }
 
@@ -3269,20 +3299,23 @@ footer .footer_content p:nth-child(2) {
   color: #333; */
   white-space: pre-wrap;
 }
+
 .hljs ol {
   list-style: decimal;
   margin: 0px 0px 0 40px !important;
   padding: 0px;
   color: #999999;
 }
+
 .hljs ol li::marker {
   position: absolute;
 }
+
 .hljs ol li {
   list-style: decimal;
   list-style-position: outside;
   border-left: 1px solid #aaa !important;
-  padding: 3px!important;
+  padding: 3px !important;
   margin: 0 !important;
   white-space: pre;
 }

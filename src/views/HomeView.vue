@@ -1075,7 +1075,7 @@
                   style="background: rgba(0, 0, 0, 0.0001)"
                 >
                   <span class="glyphicon glyphicon-list"></span>&nbsp;{{
-                    allCategoryList[0].categoryName
+                    allCategoryList[2].categoryName
                   }}-专题
                 </div>
                 <div class="panel-body">
@@ -1134,7 +1134,7 @@
                     </div> -->
                   </div>
                   <div class="special-topic">
-                    <router-link :to="allCategoryList[0].path"
+                    <router-link :to="allCategoryList[2].path"
                       >进入专题</router-link
                     >
                   </div>
