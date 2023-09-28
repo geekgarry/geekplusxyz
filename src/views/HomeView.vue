@@ -1400,7 +1400,7 @@ import SlideSwiper from "@/components/carousel/SlideSwiper";
 import mofang from "@/assets/icon/loading.gif";
 import {
   getHomeViewData,
-  getcCarousel,
+  getCarousel,
   getcovid,
   get163coviddata,
   getTenNewestArticle,
@@ -1484,8 +1484,8 @@ export default {
     // this.getSixSameCategoryArticle6();
     // this.getTagAndArticleCount();
     // this.getOneNewestNotice();
-    this.getIndexAllArticleList(this.queryParams.pageNum);
     this.getIndexHomeView();
+    this.getIndexAllArticleList(this.queryParams.pageNum);
     this.getAllArticleCategory();
     // document.onkeydown = function (e) {
     //   // 回车提交表单
@@ -1566,7 +1566,7 @@ export default {
         });
     },
     getHomeCarousel() {
-      getcCarousel()
+      getCarousel()
         .then((response) => {
           var res = response;
           //console.log(res.data);

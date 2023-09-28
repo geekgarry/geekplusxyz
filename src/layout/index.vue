@@ -206,7 +206,7 @@
         </div>
       </div>
     </div>
-    <gp-player></gp-player>
+    <gp-player ></gp-player>
     <nav
       :class="'navbar navbar-default ' + bottomNavBarFixed + ' visible-xs'"
       style="
@@ -272,6 +272,7 @@ import BackToTop from "@/components/BackToTop";
 import GpPlayer from '@/components/music/GpPlayer.vue'
 import maiLogo from "@/assets/icon/mai.png";
 import {
+  getOnlineMusic,
   getOneFamousWords,
   displayFriendlyLink,
   getGpWebTitleInfo,
@@ -325,13 +326,7 @@ export default {
       subParentCategoryList: [],
       webHeaderFooterInfo: {},
       // 音频配置
-      songInfo: {
-        title: "我爱祖国.map3", //歌曲名称
-        artist: "123", //演唱者
-        lrc: "", //LRC 歌词或者歌词文件的 URL
-        pic: "", //封面图片 URL
-        src: "https://music.163.com/song/media/outer/url?id=1466598056.mp3", //音频文件的 URL
-      },
+      songInfoList: [],
     };
   },
   computed: {
@@ -345,6 +340,7 @@ export default {
     this.getBreadcrumb();
     this.displayWebFriendlyLink();
     this.getWebTitleNameFooterInfo();
+    //this.getRemoteMusic();
     var wwidth = window.fullWidth || document.documentElement.clientWidth;
     //console.log(wwidth);
     this.windowWidth = wwidth;
@@ -571,6 +567,20 @@ export default {
           });
         });
     },
+    //首页在线音乐
+    getRemoteMusic() {
+      // setTimeout(
+      //   function() {
+      //     //console.log( "Timeout executed", Date.now() );
+      //   },
+      //   5000
+      // );
+      getOnlineMusic().then((response) => {
+        this.songInfoList=response.data;
+        console.log(this.songInfoList)
+      })
+    },
+    //获取网站基本信息
     getWebTitleNameFooterInfo() {
       let queryParams = { id: 1 };
       getGpWebTitleInfo(queryParams)

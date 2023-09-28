@@ -17,8 +17,16 @@ export function getOneFamousWords() {
   })
 }
 
+//首页在线音乐
+export function getOnlineMusic() {
+  return request({
+    url: '/geekplusapp/getOnlineMusic',
+    method: 'get',
+  })
+}
+
 //获取首页轮播图
-export function getcCarousel() {
+export function getCarousel() {
     return request({
       url: '/geekplusapp/getCarousel',
       method: 'get',

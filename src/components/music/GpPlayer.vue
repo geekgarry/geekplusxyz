@@ -1,6 +1,6 @@
 <template>
-    <div class="mainPage" ref="MainRef">
-      <!-- <aplayer
+  <div class="mainPage" ref="MainRef">
+    <!-- <aplayer
         :autoplay="autoplay"
         :music="songInfo"
         :showLrc="showLrc"
@@ -16,139 +16,47 @@
         :volume="volume"
         :preload="preload"
       ></aplayer> -->
-      <div id="aplayer"></div>
-    </div>
-  </template>
+    <div id="aplayer"></div>
+  </div>
+</template>
    
   <script>
-  import APlayer from "aplayer"; // 引入音乐插件
-  import "aplayer/dist/APlayer.min.css"; // 引入音乐插件的样式
-  export default {
-    name:'GpPlayer',
-    // comments:{
-    //   Aplayer
-    // },
-    props: {
-      /**
-       *  音频配置
-       * */
-      songInfo: {
-        type: Object,
-        default: () => {
-          return {
-            // title: '', //歌曲名称
-            // artist: ' ', //演唱者
-            // lrc: '', //LRC 歌词或者歌词文件的 URL
-            // pic: '', //封面图片 URL
-            // src: '' //音频文件的 URL
-            name: '东西（Cover：林俊呈）',
-            artist: '纳豆',
-            url: 'https://cdn.moefe.org/music/mp3/thing.mp3',
-            cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
-            lrc: 'https://cdn.moefe.org/music/lrc/thing.lrc',
-          }
+import APlayer from "aplayer"; // 引入音乐插件
+import "aplayer/dist/APlayer.min.css"; // 引入音乐插件的样式
+import { getOnlineMusic } from "@/api/geekplus/geekplus"
+export default {
+  name: 'GpPlayer',
+  // comments:{
+  //   Aplayer
+  // },
+  props: {
+    /**
+     *  音频配置
+     * */
+    songInfo: {
+      type: Object,
+      default: () => {
+        return {
+          // title: '', //歌曲名称
+          // artist: ' ', //演唱者
+          // lrc: '', //LRC 歌词或者歌词文件的 URL
+          // pic: '', //封面图片 URL
+          // src: '' //音频文件的 URL
+          name: '东西（Cover：林俊呈）',
+          artist: '纳豆',
+          url: 'https://cdn.moefe.org/music/mp3/thing.mp3',
+          cover: 'https://p1.music.126.net/5zs7IvmLv7KahY3BFzUmrg==/109951163635241613.jpg?param=300y300', // prettier-ignore
+          lrc: 'https://cdn.moefe.org/music/lrc/thing.lrc',
         }
-      },
-      /**
-       *  播放列表。如果 list 不是空数组，播放列表就会显示出来，即使 list 中只有一首歌并且它和 music 一样
-       * */
-      list: {
-        type: Array,
-        default: () => {
-          return []
-        }
-      },
-      /**
-       *  是否展示歌词
-       * */
-      showLrc: {
-        type: Boolean,
-        default: false
-      },
-      /**
-       *  自动播放。如果多个 mutex 播放器设置了 autoplay，只有第一个会自动播放
-       * */
-      autoplay: {
-        type: Boolean,
-        default: false
-      },
-      /**
-       *  显示原生 audio 元素（在播放器面板和播放列表面板之间）
-       * */
-      controls: {
-        type: Boolean,
-        default: false
-      },
-      /**
-       *  静音
-       * */
-      muted: {
-        type: Boolean,
-        default: false
-      },
-      /**
-       *  是否在该播放器播放时暂停其他播放器
-       * */
-      mutex: {
-        type: Boolean,
-        default: true
-      },
-      /**
-       *  随机播放
-       * */
-      shuffle: {
-        type: Boolean,
-        default: false
-      },
-      /**
-      *  默认收起播放列表
-      * */
-      listFolded: {
-        type: Boolean,
-        default: false
-      },
-      /**
-       *  主题色。如果当前歌曲也设置了 theme 则以歌曲的为准
-       * */
-      theme: {
-        type: String,
-        default: '#41b883'
-      },
-      /**
-       *  轮播模式。值可以是 'repeat-one'（单曲循环）'repeat-all'（列表循环）或者 'no-repeat'（不循环）。
-       *  为了好记，还可以使用对应的 'music' 'list' 'none'
-       * */
-      repeat: {
-        type: String,
-        default: 'no-repeat'
-      },
-      /**
-       * 播放列表面板最大高度
-       * */
-      listMaxHeight: {
-        type: String,
-        default: ''
-      },
-      /**
-       * 加载音乐的方式可以是“none”“metadata”或“auto”
-       * */
-      preload: {
-        type: String,
-        default: 'none'
-      },
-      /**
-       * 播放音量
-       * */
-      volume: {
-        type: Number,
-        default: 0.8
-      },
-   
+      }
     },
-    watch: {},
-    data() {
-      return {
-        audio: [ // 歌曲列表
+    /**
+     *  播放列表。如果 list 不是空数组，播放列表就会显示出来，即使 list 中只有一首歌并且它和 music 一样
+     * */
+    songList: {
+      type: Array,
+      default: () => {
+        return [
           {
             name: 'Nightingale',
             artist: 'Tribute-Yanni',
@@ -312,10 +220,10 @@
           {
             name: "人间烟火", // 歌曲名字
             artist: "人间烟火-程响", // 歌曲演唱者
-            url: // 歌曲地址（这里用外链地址）
+            url: // 歌曲地址,音频文件的URL（这里用外链地址）
               "https://www.geekplus.xyz/prod-api/profile/music/renjianyanhuo.mp3",
-            cover: "http://p1.music.126.net/v0V_wIobKIvP946B0hysjQ==/109951167165571077.jpg", // 歌曲头像
-            lrc: "", // 歌词
+            cover: "http://p1.music.126.net/v0V_wIobKIvP946B0hysjQ==/109951167165571077.jpg", // 歌曲头像,封面图片 URL
+            lrc: "", // 歌词,歌词或者歌词文件的 URL
             theme: "rgb(127, 218, 180)", // 播放这首歌曲时的主题色
           },
           {
@@ -325,60 +233,163 @@
             cover: "http://p1.music.126.net/cpoUinrExafBHL5Nv5iDHQ==/109951166361218466.jpg",
             lrc: "",
             theme: "rgb(61, 162, 230)",
-          },
-          // {
-          //   name: "画心",
-          //   artist: "张靓颖-画心",
-          //   url:
-          //     "https://dl.stream.qqmusic.qq.com/C400001KKpDp1OL8UX.m4a?guid=9869214230&vkey=2CC6FECD27B91E1E516DE80ADAFD0BC2E1C9ACF5ADFDE54A4070D91117B9F6E49106C93DA7FECABC65BA10DAA4FE495EA24D534D9CFB326C&uin=1789615426&fromtag=120032",
-          //   cover: "http://p1.music.126.net/9YeRLbaJmAc3FiHRxJXxzw==/109951165641456869.jpg",
-          //   lrc: "",
-          //   theme: "#345566",
-          // },
-        ],
-        info: {
-          fixed: true, // 不开启吸底模式
-          listFolded: true, // 折叠歌曲列表
-          autoplay: false, // 开启自动播放
-          preload: "auto", // 自动预加载歌曲
-          loop: "all", // 播放循环模式、all全部循环 one单曲循环 none只播放一次
-          order: "list", //  播放模式，list列表播放, random随机播放
-          productionTip: false,
-        },
+          }
+        ]
       }
     },
-    created() {
+    /**
+     *  是否展示歌词
+     * */
+    showLrc: {
+      type: Boolean,
+      default: false
     },
-    mounted() {
-      const ap = new APlayer({
-        container: document.getElementById("aplayer"),
-        audio: this.audio, // 音乐信息
-        ...this.info, // 其他配置信息
-      });
+    /**
+     *  自动播放。如果多个 mutex 播放器设置了 autoplay，只有第一个会自动播放
+     * */
+    autoplay: {
+      type: Boolean,
+      default: false
     },
-    methods: {
-   
+    /**
+     *  显示原生 audio 元素（在播放器面板和播放列表面板之间）
+     * */
+    controls: {
+      type: Boolean,
+      default: false
     },
-    beforeDestroy() {
+    /**
+     *  静音
+     * */
+    muted: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     *  是否在该播放器播放时暂停其他播放器
+     * */
+    mutex: {
+      type: Boolean,
+      default: true
+    },
+    /**
+     *  随机播放
+     * */
+    shuffle: {
+      type: Boolean,
+      default: false
+    },
+    /**
+    *  默认收起播放列表
+    * */
+    listFolded: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     *  主题色。如果当前歌曲也设置了 theme 则以歌曲的为准
+     * */
+    theme: {
+      type: String,
+      default: '#41b883'
+    },
+    /**
+     *  轮播模式。值可以是 'repeat-one'（单曲循环）'repeat-all'（列表循环）或者 'no-repeat'（不循环）。
+     *  为了好记，还可以使用对应的 'music' 'list' 'none'
+     * */
+    repeat: {
+      type: String,
+      default: 'no-repeat'
+    },
+    /**
+     * 播放列表面板最大高度
+     * */
+    listMaxHeight: {
+      type: String,
+      default: ''
+    },
+    /**
+     * 加载音乐的方式可以是“none”“metadata”或“auto”
+     * */
+    preload: {
+      type: String,
+      default: 'none'
+    },
+    /**
+     * 播放音量
+     * */
+    volume: {
+      type: Number,
+      default: 0.8
+    },
+
+  },
+  watch: {},
+  data() {
+    return {
+      audio: [ // 歌曲列表
+        // {
+        //   name: "画心",
+        //   artist: "张靓颖-画心",
+        //   url:
+        //     "https://dl.stream.qqmusic.qq.com/C400001KKpDp1OL8UX.m4a?guid=9869214230&vkey=2CC6FECD27B91E1E516DE80ADAFD0BC2E1C9ACF5ADFDE54A4070D91117B9F6E49106C93DA7FECABC65BA10DAA4FE495EA24D534D9CFB326C&uin=1789615426&fromtag=120032",
+        //   cover: "http://p1.music.126.net/9YeRLbaJmAc3FiHRxJXxzw==/109951165641456869.jpg",
+        //   lrc: "",
+        //   theme: "#345566",
+        // },
+      ],
+      info: {
+        fixed: true, // 不开启吸底模式
+        listFolded: true, // 折叠歌曲列表
+        autoplay: false, // 开启自动播放
+        preload: "auto", // 自动预加载歌曲
+        loop: "all", // 播放循环模式、all全部循环 one单曲循环 none只播放一次
+        order: "list", //  播放模式，list列表播放, random随机播放
+        productionTip: false,
+      },
     }
-   
+  },
+  created() {
+  },
+  mounted() {
+    const ap = new APlayer({
+      container: document.getElementById("aplayer"),
+      audio: this.songList, // 音乐信息
+      ...this.info, // 其他配置信息
+    });
+  },
+  methods: {
+    async getRemoteMusic() {
+      // setTimeout(
+      //   function() {
+      //     //console.log( "Timeout executed", Date.now() );
+      //   },
+      //   5000
+      // );
+      getOnlineMusic().then((response) => {
+      })
+    }
+  },
+  beforeDestroy() {
   }
+
+}
   </script>
    
   <style lang="scss" scoped>
-    /*.mainPage{
+/*.mainPage{
       //@include wh(100%,84px);
       background: #FCFCFC;
       border: 1px solid #E0E0E0;
       border-radius: 4px;
    
     }*/
-   
-    .mainPage {
-      width: 100%;
-      height: fit-content;
-      #aplayer {
-        width: 480px; // 定个宽度
-      }
-    }
-  </style>
+
+.mainPage {
+  width: 100%;
+  height: fit-content;
+  #aplayer {
+    width: 480px; // 定个宽度
+  }
+}
+</style>
