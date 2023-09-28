@@ -343,7 +343,6 @@ export default {
     //this.getGeekplusCategory();//直接获取后台菜单
     this.getRouterMneuList(); //获取后台菜单动态添加后的路由信息
     this.getBreadcrumb();
-    this.getOneRandomFamousWords();
     this.displayWebFriendlyLink();
     this.getWebTitleNameFooterInfo();
     var wwidth = window.fullWidth || document.documentElement.clientWidth;
@@ -355,6 +354,8 @@ export default {
       this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
       window.document.body.style.paddingTop = "70px";
       window.document.body.style.paddingBottom = "65px";
+    }else{
+      this.getOneRandomFamousWords();
     }
   },
   mounted() {
