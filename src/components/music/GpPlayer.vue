@@ -54,7 +54,7 @@ export default {
      *  播放列表。如果 list 不是空数组，播放列表就会显示出来，即使 list 中只有一首歌并且它和 music 一样
      * */
     songList: {
-      type: Array,
+      type: [Array, Object],
       default: () => {
         return [
           {
@@ -350,15 +350,27 @@ export default {
     }
   },
   created() {
+    //this.getRemoteMusic();
   },
-  mounted() {
-    const ap = new APlayer({
-      container: document.getElementById("aplayer"),
-      audio: this.songList, // 音乐信息
-      ...this.info, // 其他配置信息
-    });
+  async mounted() {
+    let _this=this;
+    await this.getRemoteMusic();
+    //await this.initAPlayer();
   },
   methods: {
+    getAudioList(res){
+      this.audio=res.data;
+      this.initAPlayer();
+    },
+    //创建一个播放器
+    async initAPlayer() {
+      let _this=this;
+      const ap = new APlayer({
+        container: document.getElementById("aplayer"),
+        audio: _this.audio, // 音乐信息
+        ..._this.info, // 其他配置信息
+      });
+    },
     async getRemoteMusic() {
       // setTimeout(
       //   function() {
@@ -366,8 +378,9 @@ export default {
       //   },
       //   5000
       // );
-      getOnlineMusic().then((response) => {
-      })
+      let _this=this;
+      await getOnlineMusic()
+      .then(_this.getAudioList)
     }
   },
   beforeDestroy() {

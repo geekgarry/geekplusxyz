@@ -206,7 +206,7 @@
         </div>
       </div>
     </div>
-    <gp-player ></gp-player>
+    <gp-player></gp-player>
     <nav
       :class="'navbar navbar-default ' + bottomNavBarFixed + ' visible-xs'"
       style="
@@ -325,7 +325,7 @@ export default {
       keywords: "", //搜索关键词
       subParentCategoryList: [],
       webHeaderFooterInfo: {},
-      // 音频配置
+      // 音频列表
       songInfoList: [],
     };
   },
@@ -340,7 +340,6 @@ export default {
     this.getBreadcrumb();
     this.displayWebFriendlyLink();
     this.getWebTitleNameFooterInfo();
-    //this.getRemoteMusic();
     var wwidth = window.fullWidth || document.documentElement.clientWidth;
     //console.log(wwidth);
     this.windowWidth = wwidth;
@@ -566,19 +565,6 @@ export default {
             theme: "bubble",
           });
         });
-    },
-    //首页在线音乐
-    getRemoteMusic() {
-      // setTimeout(
-      //   function() {
-      //     //console.log( "Timeout executed", Date.now() );
-      //   },
-      //   5000
-      // );
-      getOnlineMusic().then((response) => {
-        this.songInfoList=response.data;
-        console.log(this.songInfoList)
-      })
     },
     //获取网站基本信息
     getWebTitleNameFooterInfo() {
