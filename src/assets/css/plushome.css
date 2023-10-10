@@ -14,7 +14,7 @@ body {
     #eff1f2 20%
     #eff1f2 100%
     );*/
-  /*background: val(--color-background,#ffffff);*/
+  /*background: var(--color-background,#ffffff);*/
   color: var(--color-text);
   background-color: var(--color-background, #ffffff) !important;
   transition: color 0.5s, background-color 0.5s;
@@ -258,7 +258,9 @@ a::-webkit-selection{
   height: 150px;
   line-height: 150px;
   margin: 0 auto;
-  background: rgb(138, 179, 202);
+  /*background: rgb(138, 179, 202);*/
+  background: var(--top-banner-bg-img,url("@/assets/img/topBanner3.jpeg") no-repeat center center);
+  background-size: cover;
   padding: 0 0;
   top: 0;
 }
@@ -465,7 +467,7 @@ nav ul {
   line-height: 40px;
   border: none;
   font-size: 1.8rem;
-  background-color: val(--color-header, #ffffff);
+  background-color: var(--color-header, #ffffff);
   background-color: #ffffff00;
 }
 

@@ -26,6 +26,7 @@
 }
 /* Light 默认主题色*/
 :root body[theme-mode="light"]{
+  --top-banner-bg-img: url("@/assets/img/topBanner1.jpeg") no-repeat center center;
   --color-primary:#2786de;
   --color-background: var(--pl-con-white);
   --color-header: var(--pl-con-white);
@@ -70,6 +71,7 @@
 }
 /* Dark主题颜色*/
 :root body[theme-mode="dark"]{
+  --top-banner-bg-img: url("@/assets/img/topBanner2.jpeg") no-repeat center center;
   --color-primary:#139F95;
   --color-background: var(--pl-con-black);
   --color-header: var(--pl-con-black);
