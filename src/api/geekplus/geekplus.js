@@ -17,6 +17,14 @@ export function getOneFamousWords() {
   })
 }
 
+// 网站顶部每日名言
+export function getDailyFamousWords() {
+  return request({
+    url: '/geekplusapp/getDailyFamousWords',
+    method: 'get',
+  })
+}
+
 //首页在线音乐
 export function getOnlineMusic() {
   return request({

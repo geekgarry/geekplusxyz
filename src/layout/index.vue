@@ -5,7 +5,7 @@
         <router-link to="/about">About</router-link>
       </nav>
       <router-view/> -->
-    <header class="header hidden-xs">
+    <header class="header hidden-xs hidden-sm">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -274,6 +274,7 @@ import maiLogo from "@/assets/icon/mai.png";
 import {
   getOnlineMusic,
   getOneFamousWords,
+  getDailyFamousWords,
   displayFriendlyLink,
   getGpWebTitleInfo,
   listSubParentCategory,
@@ -539,8 +540,22 @@ export default {
     },
     /** 顶部一句随机名言 */
     getOneRandomFamousWords() {
-      getOneFamousWords().then((response) => {
-        this.famousWords=response.data;
+      // getOneFamousWords().then((response) => {
+      //   if(response.data!=""&&response.data!=undefined){
+      //     this.famousWords=response.data;
+      //   }
+      // }).catch((error) => {
+      //     //console.log(error.msg);
+      //     this.$toasted.error(error.msg, {
+      //       position: "top-center",
+      //       duration: 3000,
+      //       theme: "bubble",
+      //     });
+      //   });
+      getDailyFamousWords().then((response) => {
+        if(response.data!=""&&response.data!=undefined){
+          this.famousWords=response.data.content+"——"+response.data.name;
+        }
       }).catch((error) => {
           //console.log(error.msg);
           this.$toasted.error(error.msg, {
