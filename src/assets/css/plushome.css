@@ -261,6 +261,7 @@ a::-webkit-selection{
   /*background: rgb(138, 179, 202);*/
   background: var(--top-banner-bg-img,url("@/assets/img/topBanner3.jpeg") no-repeat center center);
   background-size: cover;
+  /* background-image: linear-gradient(186deg, black, #3d858e); */
   padding: 0 0;
   top: 0;
 }
@@ -3265,11 +3266,12 @@ footer .footer_content p:nth-child(2) {
   font-size: 1.1em;
 }
 
-.article-container img {
+.article-container p img {
   /* width: auto; */
+  display: block;
   height: auto;
-  max-width: 84%;
-  max-height: 84%;
+  max-width: 90%;
+  max-height: 90%;
   margin: 2px auto;
 }
 
