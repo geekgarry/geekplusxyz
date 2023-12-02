@@ -92,7 +92,7 @@
                         <div class="content">
                           <img
                             alt="geekplus,极客普拉斯,我的QQ"
-                            class="qq-image-code"
+                            class="donate-image-code"
                             src="/imgs/mysocialQRCode/QQCode.jpg"
                           />
                         </div>
@@ -114,7 +114,7 @@
                         <div class="content">
                           <img
                             alt="geekplus,极客普拉斯,我的微信"
-                            class="weixin-image-code"
+                            class="donate-image-code"
                             src="/imgs/mysocialQRCode/WexinCode.jpg"
                           />
                         </div>

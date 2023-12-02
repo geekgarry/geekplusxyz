@@ -3275,6 +3275,10 @@ footer .footer_content p:nth-child(2) {
   margin: 2px auto;
 }
 
+.article-container .article-content .donate-image-code{
+  width: 100%;
+  height: auto;
+}
 .article-container .plus-article-toolbar {
   border-top: var(--color-article-container-text-2, #bbbcbc) 1px dashed;
   text-align: right;
