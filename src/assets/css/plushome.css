@@ -3266,7 +3266,7 @@ footer .footer_content p:nth-child(2) {
   font-size: 1.1em;
 }
 
-.article-container p img {
+.article-container p img, video, audio {
   /* width: auto; */
   display: block;
   height: auto;
