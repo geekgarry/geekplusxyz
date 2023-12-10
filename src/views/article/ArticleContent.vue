@@ -3,7 +3,7 @@
     <section class="container-content">
       <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-          <div class="article-container" v-viewer>
+          <div class="article-container">
             <div class="plus-bread-crumb">
               <bread-crumb>
                 <bread-crumb-item
@@ -48,9 +48,12 @@
               class="article-content"
               v-if="articleInfo.articleContent"
               v-html="articleInfo.articleContent"
+              v-viewer
               v-highlight
             ></div>
-            <div class="article-content" v-else>
+            <div class="article-content" 
+              v-else 
+              v-viewer>
               <p>
                 软件设计要考虑诸多方面，权衡各种利弊，以设计一个趋于完美的解决方案。在方案未落实之前，这也是争论的焦点，探讨的是方案的可行性，然而无论再好的方案都有弊端的，只是众多方案中选优罢了，这点正是本文的主题。程序设计不可能集所有优点于一身，必有牺牲的一面，常常因为为了满足准确性，而牺牲了性能，为了满足某些需求，而冗余了代码，甚至入侵了业务也不惜，因此代码是没有双全法的，有得必有失，不必苛求。
               </p>
@@ -693,6 +696,8 @@ export default {
       },
       GPLogo: require("@/assets/logo.png"),
       UserLogo: require("@/assets/icon/mai.png"),
+      alipayImg: "imgs/earnmoney/alipay.jpg",
+      wxpayImg: "imgs/earnmoney/wxpay.jpg",
       isDisplayMsgBox: false,
       replyBoxIndex: -1,
       //网站直接留言
