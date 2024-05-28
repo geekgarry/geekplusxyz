@@ -2213,21 +2213,21 @@ ol {
   /*--color-main-container-border*/
 }
 
-/******通用输入框控件样式********/
+/*******************************通用输入框控件样式**********************************/
 .form-control {
   box-shadow: 0 0 0;
   background-color: var(--color-input, #fff) !important;
   color: var(--color-main-container-text) !important;
   border-color: var(--color-main-container-border, #ccc) !important;
 }
-
-.search-input-group .input-group-addon {
+/******输入框右边按钮与输入框为一体（默认）****/
+.search-input-group .input-group-addon{
   background: var(--color-container, rgb(244, 247, 247)) !important;
   padding: 0px 3px;
   border: 1px solid var(--color-input-border, #ccc) !important;
 }
 
-.search-input-group .input-group-addon button {
+.search-input-group .input-group-addon button{
   color: rgb(121, 197, 202) !important;
   height: 32px;
   width: 44px;
