@@ -136,6 +136,7 @@
 </template>
 
 <script>
+//import axios from 'axios'
 import {getchatgpt,getchatgpthistory,uploadVoiceBlobFile} from "@/api/chatgpt/chatgpt"
 import Recorder from 'js-audio-recorder'
 //let recorder = new Recorder();
@@ -304,7 +305,7 @@ export default {
             let sendMessage={ username:"You", data: that.inputChat };
             // 处理自己的接口请求 返回需要的数据
             //this.axios
-            //.post("https://maikeadmin.geekplus.xyz:8443/openai/getchatgpt", { username:"You", data: this.inputChat })
+            //.post("/openai/getchatgpt", { username:"You", data: this.inputChat })
             getchatgpt(sendMessage).then((response) => {
             //console.log(response);
             //if (response.status == 200) {
@@ -350,7 +351,7 @@ export default {
         //获取用户的历史聊天记录
         getHistoryMag(username){
         //   this.axios
-        //   .get("https://maikeadmin.geekplus.xyz:8443/openai/getHistoryMessage?username=You")
+        //   .get("/openai/getHistoryMessage?username=You")
         //   .then(async (response) => {
         //     console.log(response.data)
         //     let msglist=response.data.data;
@@ -652,7 +653,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .chatgpt_container{
     width: 100%;
     margin: 0 auto;

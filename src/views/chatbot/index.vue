@@ -1,46 +1,47 @@
 <template>
     <div id="app">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-1 col-md-1 col-lg-2" >
-                </div>
-                <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8" >
-                    <div class="grid-content" v-if="chatdisplay">
-                        <div class="chatBoxHeader">
-                            <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> -->
-                            <div><i class="el-icon-key"></i></div>
-                            AI智能助手
-                            <div><i class="el-icon-info" @click="openMsg"></i></div>
-                        </div>
-                        <div class="bigChatBox" id="bigChatBox" :style="{height: chatBoxHeight+ 'px'}">
-                            <div v-for="(item, index) in list" v-bind:key="index" class="listChatMsg" :style="{textAlign: item.align}">
-                                <span class="listChatItemL" v-if="item && item.align == 'left'">
+            <div class="row" v-show="chatdisplay">
+                <!-- <div class="col-sm-1 col-md-1 col-lg-2">
+                </div> -->
+                <!-- <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8">
+                </div> -->
+                <div class="grid-content">
+                    <div class="chatBoxHeader">
+                        <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> -->
+                        <div><span class="glyphicon glyphicon-home" aria-hidden="true"></span></div>
+                        AI智能助手
+                        <div><span class="glyphicon glyphicon-info-sign" aria-hidden="true" @click="openMsg"></span></div>
+                    </div>
+                    <div class="bigChatBox" id="bigChatBox" :style="{height: chatBoxHeight+ 'px'}">
+                        <div v-for="(item, index) in list" v-bind:key="index" class="listChatMsg" >
+                            <span class="listChatItemL" v-if="item && item.align == 'left'">
                                       <span><img
                                         class="chatUserIcon"
                                         src="https://www.geekplus.xyz/imgs/logo.png"
                                         alt="极客普拉斯" />
                                       </span>
-                                <span class="listChatItemContent" v-if="item && item.link == ''">
+                            <span class="listChatItemContent" v-if="item && item.link == ''">
                                         <span v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
-                                <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
-                                </span>
-                                <span class="listChatItemContent" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span
+                            <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
+                            </span>
+                            <span class="listChatItemContent" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span
                                       >
                                     </span>
-                                <span class="listChatItemR" v-if="item && item.align == 'right'">
+                            <span class="listChatItemR" v-if="item && item.align == 'right'">
                                       <span class="listChatItemContent">{{item.text}}</span>
-                                <span><img
+                            <span><img
                                         class="chatUserIcon"
                                         src="https://www.geekplus.xyz/imgs/mai.png"
                                         alt="麦壳" />
                                       </span>
-                                </span>
-                            </div>
+                            </span>
                         </div>
-                        <div class="chatBoxFooter">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <!-- <div class="input-group search-input-group">
+                    </div>
+                    <div class="chatBoxFooter">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <!-- <div class="input-group search-input-group">
                                         <input
                                           id="inputContentText"
                                           name="inputChat"
@@ -61,83 +62,79 @@
                                             </button>
                                         </span>
                                     </div> -->
-                                    <div class="chatBoxFooterBtn">
-                                        <span class="chat_btn_left"><a class="btn btn-default" href="#" role="button"
+                                <div class="chatBoxFooterBtn">
+                                    <span class="chat_btn_left"><a class="btn btn-default" href="#" role="button"
                                           @click="startAndStopRecording" >{{recordingTxt}}
                                         </a>
                                         </span>
-                                        <input placeholder="请输入聊天内容" v-model="inputChat" class="form-control" :autofocus="true" type="text" >
-                                        <span class="chat_btn_right"><a class="btn btn-default" href="#" role="button"
+                                    <input placeholder="请输入聊天内容" v-model="inputChat" class="form-control" :autofocus="true" type="text">
+                                    <span class="chat_btn_right"><a class="btn btn-default" href="#" role="button"
                                           @keydown.enter.native="handleMsg"
                                           @click="handleMsg"
                                           >发送</a
                                         ></span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-1 col-md-1 col-lg-2" >
-                </div>
             </div>
             <!-- <button type="button" class="btn btn-info" @click="visible11" v-show="chatbtndisplay">打开ChatGpt聊天框</button> -->
+            <div class="row" v-if="chatbtndisplay">
+                <div class="col-sm-2 col-md-2 col-lg-3"></div>
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+                    <div style="
+                        margin: 0 auto;
+                        text-align: center;
+                        line-height: normal;
+                        padding: 5px 0;
+                        font-size: initial;
+                        color: var(--color-article-container-text-1, #696969);
+                        border-bottom: var(--color-border-4, #c5c5c5) 1px solid;
+                    ">AI聊天助手</div>
+                    <div class="bigChatBox" id="bigChatBox">
+                        <div v-for="(item, index) in list" :key="index" class="listChatMsg" :style="{textAlign: item.align}">
+                            <span class="listChatItemL" v-if="item && item.align == 'left'">
+                                <img
+                                    class="chatUserIcon"
+                                    src="https://www.geekplus.xyz/imgs/logo.png"
+                                    alt="极客普拉斯"
+                                />
+                            <span class="pcChatTextSpan" v-if="item && item.link == ''" >
+                                <span v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
+                                <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
+                            </span>
+                            <span class="pcChatTextSpan" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span>
+                            </span>
+                            <span class="listChatItemR" v-if="item && item.align == 'right'">
+                                <span class="pcChatTextSpan">{{item.text}}</span>
+                                <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/mai.png" alt="麦壳" />
+                            </span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px">
+                        <!-- <div class="form-inline">
+                            <div class="form-group">
+                                <label for="exampleInputName2">Name</label>
+                                <input type="text" class="form-control" id="inputContentText" v-model="inputChat" :autofocus="true" placeholder="请输入聊天内容">
+                            </div>
+                            <button type="submit" class="btn btn-primary" @keydown.enter.native="handleMsg" @click="handleMsg">发送</button>
+                        </div> -->
+                        <div class="input-group search-input-group">
+                            <!-- <input type="hidden" name="scope" value="1" /> -->
+                            <input id="inputContentText" name="inputChat" autocomplete="off" :autofocus="true" type="text" v-model="inputChat" class="form-control" placeholder="请输入聊天内容" />
+                            <span class="input-group-addon">
+                              <button type="button" @keydown.enter.native="handleMsg" @click="handleMsg">
+                                <span class="glyphicon glyphicon-send"></span>
+                            </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-3"></div>
+            </div>
         </div>
         <!-- <el-dialog :visible.sync="visible" title="对话框"> -->
-        <div class="row" v-show="chatbtndisplay">
-            <div class="col-sm-2 col-md-2 col-lg-3" ></div>
-            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6" >
-            <div class="bigChatBox" id="bigChatBox">
-                <div v-for="(item, index) in list" :key="index" class="listChatMsg" :style="{textAlign: item.align}">
-                    <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                <img
-                                  class="chatUserIcon"
-                                  src="https://www.geekplus.xyz/imgs/logo.png"
-                                  alt="极客普拉斯"
-                                />
-                                <span v-if="item && item.link == ''" >
-                                  <span v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
-                    <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
-                    </span>
-                    <span v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span
-                                >
-                              </span>
-                    <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                <span class="pcChatTextSpan">{{item.text}}</span>
-                    <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/mai.png" alt="麦壳" />
-                    </span>
-                </div>
-            </div>
-            <div style="margin-top: 15px">
-                <!-- <div class="form-inline">
-                    <div class="form-group">
-                        <label for="exampleInputName2">Name</label>
-                        <input type="text" class="form-control" id="inputContentText" v-model="inputChat" :autofocus="true" placeholder="请输入聊天内容">
-                    </div>
-                    <button type="submit" class="btn btn-primary" @keydown.enter.native="handleMsg" @click="handleMsg">发送</button>
-                </div> -->
-                <div class="input-group search-input-group">
-                    <!-- <input type="hidden" name="scope" value="1" /> -->
-                    <input
-                      id="inputContentText"
-                      name="inputChat"
-                      autocomplete="off"
-                      :autofocus="true" 
-                      type="text"
-                      v-model="inputChat"
-                      class="form-control"
-                      placeholder="请输入聊天内容"
-                    />
-                    <span class="input-group-addon">
-                      <button type="button" @keydown.enter.native="handleMsg" @click="handleMsg">
-                        <span class="glyphicon glyphicon-send"></span>
-                      </button>
-                    </span>
-                </div>
-            </div>
-            </div>
-            <div class="col-sm-2 col-md-2 col-lg-3" ></div>
-        </div>
         <!-- </el-dialog> -->
     </div>
 </template>
@@ -146,7 +143,7 @@
 //import axios from 'axios'
 import Recorder from 'js-audio-recorder'
 // import { marked } from "marked"
-import {getchatgpt, chatgpttest, geminiAI, getHistoryMessage} from "@/api/chatbot/chatbot"
+import { getchatgpt, chatgpttest, geminiAI, getHistoryMessage } from "@/api/chatbot/chatbot"
 
 export default {
     name: "ChatBot",
@@ -198,7 +195,7 @@ export default {
             this.chatdisplay = false;
         }
         //document.getElementById("bigChatBox").offsetHeight = (this.fullHeight - 100) + "px";
-        this.chatBoxHeight=this.fullHeight - 100;
+        this.chatBoxHeight = this.fullHeight - 100;
     },
     mounted() {
         const that = this
@@ -220,7 +217,7 @@ export default {
                 }
                 console.log("页面高度：" + that.windowHeight)
                 //document.getElementById("bigChatBox").offsetHeight = (that.windowHeight - 100) + "px";
-                that.chatBoxHeight=that.windowHeight - 100;
+                that.chatBoxHeight = that.windowHeight - 100;
             })()
         };
     },
@@ -342,38 +339,38 @@ export default {
                     .then(async (response) => {
                         //console.log(response);
                         //if (response.code == 200) {
-                            //console.log("返回响应信息")
-                            //console.log(response.data)
-                            let msg = "消息";
-                            let msgtype = "0"
-                            if(response.status&&response.status == 500) {
-                                msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
-                                msgtype = "0";
-                            }
-                            if (response.code == 500) {
-                                msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
-                                msgtype = "0";
-                            } else if (response.code == 200) {
-                                // 自行处理需要的数据
-                                msg = response.data.msg_data.trim();
-                                msgtype = response.data.msg_type;
-                            }
-                            let listMsg = {
-                                align: "left",
-                                text: msg,
-                                link: "",
-                                type: msgtype
-                            };
-                            /**if (msg.flag == 1) {
-                            const splitMsg = msg.answer.split("：");
-                            listMsg.text = splitMsg[0];
-                            listMsg.link = splitMsg[1];
-                            }*/
-                            if (this.isTextVoice === true) {
-                                this.startTTS(msg);
-                            }
-                            await this.list.push(listMsg);
-                            await this.scrollTop11();
+                        //console.log("返回响应信息")
+                        //console.log(response.data)
+                        let msg = "消息";
+                        let msgtype = "0"
+                        if (response.status && response.status == 500) {
+                            msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
+                            msgtype = "0";
+                        }
+                        if (response.code == 500) {
+                            msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
+                            msgtype = "0";
+                        } else if (response.code == 200) {
+                            // 自行处理需要的数据
+                            msg = response.data.msg_data.trim();
+                            msgtype = response.data.msg_type;
+                        }
+                        let listMsg = {
+                            align: "left",
+                            text: msg,
+                            link: "",
+                            type: msgtype
+                        };
+                        /**if (msg.flag == 1) {
+                        const splitMsg = msg.answer.split("：");
+                        listMsg.text = splitMsg[0];
+                        listMsg.link = splitMsg[1];
+                        }*/
+                        if (this.isTextVoice === true) {
+                            this.startTTS(msg);
+                        }
+                        await this.list.push(listMsg);
+                        await this.scrollTop11();
                         //}
                         this.loading = false;
                     })
@@ -385,7 +382,7 @@ export default {
         },
         //获取用户的历史聊天记录
         getHistoryMag(username) {
-            getHistoryMessage({username:"You"})
+            getHistoryMessage({ username: "You" })
                 .then(async (response) => {
                     //console.log(response.data)
                     let msglist = response.data;
@@ -704,7 +701,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 /** @media screen and (max-width:600px){
       .con{
         background:red;
@@ -721,16 +718,18 @@ export default {
       }
     } */
 
-body{
+body {
     background-color: rgba(239, 239, 239, 0.98);
     margin: 0;
     padding: 0;
 }
+
 #app {
     margin: 0 auto;
     padding: 0;
     overflow-x: hidden;
 }
+
 .chatBoxHeader {
     height: 40px;
     line-height: 40px;
@@ -759,13 +758,13 @@ body{
     padding: 0 2px;
 }
 
-.bigChatBox::-webkit-scrollbar{
+.bigChatBox::-webkit-scrollbar {
     display: none;
 }
 
 .listChatMsg {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 1.1em;
+    margin: 10px auto;
 }
 
 .listChatItemL {
@@ -787,12 +786,15 @@ body{
     border-width: 1px;
     border-color: mediumaquamarine;
     background-color: #66CEAA;
-    padding: 3px;
-    word-break: normal;
+    padding: 5px;
+    /* word-break: normal;
     display: block;
     white-space: pre-wrap;
-    word-wrap: break-word;
+    word-wrap: break-word; */
     overflow-x: scroll;
+    display: inline-flex;
+    align-items: center;
+    margin-right:49px;
 }
 
 .listChatItemL .listChatItemContent::-webkit-scrollbar {
@@ -804,13 +806,37 @@ body{
     border-width: 1px;
     border-color: #355CBF;
     background-color: #4c65b8;
-    padding: 3px;
+    padding: 5px;
     color: #f0efef;
-    text-align: left;
+    display: inline-flex;
+    align-items: center;
+    margin-left:49px;
+}
+
+.listChatItemL .pcChatTextSpan {
+    /*color:#252020;
+    border-color: mediumaquamarine;
+    background-color: #66CEAA;*/
+    background-color: var(--color-article-container, #353434);
+    color: var(--color-article-container-content-text, #d3d1d1);
+    border-radius: 5px;
+    padding: 5px;
+    overflow-x: scroll;
+    display: inline-flex;
+    align-items: center;
+}
+
+.listChatItemL .pcChatTextSpan::-webkit-scrollbar {
+    display: none;
 }
 
 .listChatItemR .pcChatTextSpan {
-    text-align: left;
+    background-color: #8ab3ca;
+    border-radius: 5px;
+    color:#252020;
+    padding: 5px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .chatUserIcon {
@@ -839,7 +865,8 @@ body{
     /* background-color: #83a097; */
     background: var(--color-background, #ffffff00);
 }
-.chatBoxFooterBtn .chat_btn_left a{
+
+.chatBoxFooterBtn .chat_btn_left a {
     border: 1px solid var(--color-border-2, #c0c9cbb3);
     border-right: 0 !important;
     border-radius: 0;
@@ -847,14 +874,17 @@ body{
     color: var(--color-main-container-text, #2f3030) !important;
     box-shadow: none !important;
 }
-.chatBoxFooterBtn .chat_btn_right a{
+
+.chatBoxFooterBtn .chat_btn_right a {
     border: 1px solid var(--color-border-2, #c0c9cbb3);
     border-left: 0 !important;
     border-radius: 0;
+    /* border-radius: 0 5px 5px 0; */
     background: transparent;
     color: var(--color-main-container-text, #2f3030) !important;
     box-shadow: none !important;
 }
+
 .chatBoxFooterBtn span {
     flex-grow: 0;
     flex-shrink: 0;
@@ -875,10 +905,12 @@ body{
     -ms-border-radius: 4px;
     -webkit-border-radius: 4px; */
 }
-.chatBoxFooterBtn input:focus{
+
+.chatBoxFooterBtn input:focus {
     outline: 0;
     box-shadow: none !important;
 }
+
 .input-with-chatgpt {
     vertical-align: middle;
     line-height: inherit;
