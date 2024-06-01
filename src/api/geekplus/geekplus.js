@@ -242,6 +242,15 @@ export function getGpNoticeNewOne() {
   })
 }
 
+// 查询网站弹窗通知
+export function getWebPopUpNotice(query) {
+  return request({
+    url: '/geekplusapp/getWebPopUpNotice',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询最新的五条通知
 export function getGpNoticeNewFive() {
   return request({

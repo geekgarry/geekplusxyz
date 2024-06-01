@@ -8,13 +8,14 @@
                 </div> -->
                 <div class="grid-content">
                     <div class="chatBoxHeader">
-                        <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> -->
-                        <div><span class="glyphicon glyphicon-home" aria-hidden="true"></span></div>
+                        <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> $router.push({path:'/'})-->
+                        <div><span class="glyphicon glyphicon-home" aria-hidden="true" ></span></div>
                         AI智能助手
                         <div><span class="glyphicon glyphicon-info-sign" aria-hidden="true" @click="openMsg"></span></div>
                     </div>
                     <div class="bigChatBox" id="bigChatBox" :style="{height: chatBoxHeight+ 'px'}">
-                        <div v-for="(item, index) in list" v-bind:key="index" class="listChatMsg" >
+                        <div v-for="(item, index) in msgList" v-bind:key="index" class="listChatMsg" >
+                            <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
                                       <span><img
                                         class="chatUserIcon"
@@ -93,7 +94,9 @@
                         border-bottom: var(--color-border-4, #c5c5c5) 1px solid;
                     ">AI聊天助手</div>
                     <div class="bigChatBox" id="bigChatBox">
-                        <div v-for="(item, index) in list" :key="index" class="listChatMsg" :style="{textAlign: item.align}">
+                        <!-- :style="{textAlign: item.align}" -->
+                        <div v-for="(item, index) in msgList" :key="index" class="listChatMsg" >
+                            <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
                                 <img
                                     class="chatUserIcon"
@@ -151,7 +154,7 @@ export default {
         return {
             visible: false,
             inputChat: "",
-            list: [], //聊天消息的list
+            msgList: [], //聊天消息的list
             loading: false,
             chatbtndisplay: true,
             chatdisplay: false,
@@ -249,7 +252,7 @@ export default {
             console.log(this.inputChat, "发送信息");
             if (this.inputChat !== "") {
                 this.loading = true;
-                await this.list.push({ align: "right", text: this.inputChat });
+                await this.msgList.push({ align: "right", text: this.inputChat, time: Date.now() });
                 await this.scrollTop11();
                 this.getMsg();
                 this.inputChat = "";
@@ -268,7 +271,7 @@ export default {
                         link: "",
                         type: '0'
                     };
-                    await this.list.push(listMsg);
+                    await this.msgList.push(listMsg);
                     await this.scrollTop11();
                     this.loading = false;
                 }, 1000);
@@ -284,7 +287,7 @@ export default {
                         link: "",
                         type: '0'
                     };
-                    await this.list.push(listMsg);
+                    await this.msgList.push(listMsg);
                     await this.scrollTop11();
                     this.loading = false;
                 }, 1000);
@@ -325,7 +328,7 @@ export default {
                     if(this.isTextVoice===true){
                       this.startTTS(msg);
                     }
-                    await this.list.push(listMsg);
+                    await this.msgList.push(listMsg);
                     await this.scrollTop11();
                   }
                   this.loading = false;
@@ -335,7 +338,7 @@ export default {
                   this.loading = false;
                   });
                 } */
-                geminiAI({ username: "You", data: this.inputChat })
+                geminiAI({ username: "guest", data: this.inputChat })
                     .then(async (response) => {
                         //console.log(response);
                         //if (response.code == 200) {
@@ -359,7 +362,8 @@ export default {
                             align: "left",
                             text: msg,
                             link: "",
-                            type: msgtype
+                            type: msgtype,
+                            time: response.data.msg_date_time
                         };
                         /**if (msg.flag == 1) {
                         const splitMsg = msg.answer.split("：");
@@ -369,27 +373,37 @@ export default {
                         if (this.isTextVoice === true) {
                             this.startTTS(msg);
                         }
-                        await this.list.push(listMsg);
+                        await this.msgList.push(listMsg);
                         await this.scrollTop11();
                         //}
                         this.loading = false;
                     })
                     .catch(function(error) {
-                        console.log(error);
+                        //console.log(error);
+                        Vue.toasted.error(error.msg, {
+                            position: "top-center",
+                            duration: 3000,
+                            theme: "outline",
+                        });
                         this.loading = false;
                     });
             }
         },
         //获取用户的历史聊天记录
         getHistoryMag(username) {
-            getHistoryMessage({ username: "You" })
+            getHistoryMessage({ username: "guest" })
                 .then(async (response) => {
                     //console.log(response.data)
                     let msglist = response.data;
                     await this.jsonStrToObj(msglist);
                     await this.scrollTop11();
                 }).catch(function(error) {
-                    console.log(error);
+                    // console.log(error);
+                    Vue.toasted.error(error.msg, {
+                        position: "top-center",
+                        duration: 3000,
+                        theme: "outline",
+                    });
                 });
         },
 
@@ -426,11 +440,16 @@ export default {
                     this.recorder.start(); // 开始录音
                 },
                 (error) => {
-                    this.$message({
-                        message: "请先允许该网页使用麦克风",
-                        type: "info",
-                    });
+                    // this.$message({
+                    //     message: "请先允许该网页使用麦克风",
+                    //     type: "info",
+                    // });
                     console.log(`${error.name} : ${error.message}`);
+                    this.$toasted.info("请先允许该网页使用麦克风", {
+                        position: "top-center",
+                        duration: 3000,
+                        theme: "toasted-primary",
+                    });
                 }
             );
         },
@@ -523,8 +542,8 @@ export default {
         },
         //去除换行符
         keepTextStyle(val) {
-            console.log(val)
-            console.log(typeof val)
+            //console.log(val)
+            //console.log(typeof val)
             console.log((typeof val) != 'undefined')
             return (val + '').replace(/\n/g, "<br/>")
         },
@@ -596,7 +615,12 @@ export default {
                     that.inputChat = response.data.data.result[0];
                     that.handleMsg()
                 }).catch(function(error) {
-                    console.log(error);
+                    // console.log(error);
+                    Vue.toasted.error(error.msg, {
+                        position: "top-center",
+                        duration: 3000,
+                        theme: "outline",
+                    });
                 });
         },
         // 播放文字转语音的按钮
@@ -641,12 +665,17 @@ export default {
         },
         openMsg() {
             const h = this.$createElement;
-            this.$notify({
-                title: '通知内容',
-                duration: 5500,
-                position: 'top-right',
-                offset: 30,
-                message: h('i', { style: 'color: teal' }, '聊天功能升级，增加语音回复与语音输入（默认关闭语音回复）。启用请发送”开启语音“，关闭发送“关闭语音”，发送“暂停播放”、“暂停”、“stop”实现停止播放语音，发送“继续播放”、“继续”、“play”可继续播放语音。左下角语音输入功能已更新！点击语音，然后结束！就可以发送语音文字！')
+            // this.$notify({
+            //     title: '通知内容',
+            //     duration: 5500,
+            //     position: 'top-right',
+            //     offset: 30,
+            //     message: h('i', { style: 'color: teal' }, '聊天功能升级，增加语音回复与语音输入（默认关闭语音回复）。启用请发送”开启语音“，关闭发送“关闭语音”，发送“暂停播放”、“暂停”、“stop”实现停止播放语音，发送“继续播放”、“继续”、“play”可继续播放语音。左下角语音输入功能已更新！点击语音，然后结束！就可以发送语音文字！')
+            // });
+            this.$toasted.show("聊天功能升级，增加语音回复与语音输入（默认关闭语音回复）。启用请发送”开启语音“，关闭发送“关闭语音”，发送“暂停播放”、“暂停”、“stop”实现停止播放语音，发送“继续播放”、“继续”、“play”可继续播放语音。左下角语音输入功能已更新！点击语音，然后结束！就可以发送语音文字！", {
+                position: "top-center",
+                duration: 3000,
+                theme: "bubble",
             });
         },
         setOpenAiKey() {
@@ -656,17 +685,27 @@ export default {
                 inputPattern: /^sk-[\w]+$/,
                 inputErrorMessage: 'openAiKey格式不正确'
             }).then(({ value }) => {
-                this.$message({
-                    type: 'success',
-                    message: '你的openAiKey是: ' + value,
-                    duration: 2500
+                // this.$message({
+                //     type: 'success',
+                //     message: '你的openAiKey是: ' + value,
+                //     duration: 2500
+                // });
+                this.$toasted.success('你的openAiKey是: ' + value, {
+                    position: "top-center",
+                    duration: 3000,
+                    theme: "toasted-primary",
                 });
                 this.openAiKey = value;
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '取消输入',
-                    duration: 2000
+                // this.$message({
+                //     type: 'info',
+                //     message: '取消输入',
+                //     duration: 2000
+                // });
+                this.$toasted.info("取消输入", {
+                    position: "top-center",
+                    duration: 3000,
+                    theme: "bubble",
                 });
             });
         },
@@ -675,7 +714,7 @@ export default {
             var len = msgArr.length;
             for (var i = 0; i < len; i++) {
                 var temp = JSON.parse(msgArr[i]);
-                this.list.push(temp);
+                this.msgList.push(temp);
             }
             //return msgArr;
         },
@@ -696,6 +735,17 @@ export default {
             //html = html.replace(/&nbsp;/ig, ''); //去掉&nbsp;
             //html = html.replace(/&nbsp/ig, '');
             return html;
+        },
+        getChatDateTime(timeNum) {
+            let dateTimeNow=new Date(timeNum);
+            if(timeNum == 0 || timeNum == null){
+                dateTimeNow=new Date();
+            }
+            let now = dateTimeNow,
+            y = now.getFullYear(),
+            m = now.getMonth() + 1,
+            d = now.getDate();
+            return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substring(0, 8);
         }
     }
 }
@@ -765,6 +815,14 @@ body {
 .listChatMsg {
     font-size: 1.1em;
     margin: 10px auto;
+}
+
+.listChatMsg .chat_date_time {
+    width: auto;
+    text-align: center;
+    font-size: 0.7em;
+    margin: 2px auto;
+    color: var(--color-link-text, #000);
 }
 
 .listChatItemL {

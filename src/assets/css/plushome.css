@@ -999,13 +999,28 @@ ol {
   align-items: center;
   width: -moz-fit-content;
   width: fit-content;
+  height: -webkit-fill-available;
   height: -moz-fit-content;
-  height: fit-content;
-  margin: 10px auto;
-  position: relative;
-  top: 5%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 15px;
+  /* position: relative;
+  top: 5%; */
 }
-
+/**自定义弹出对话框关闭按钮**/
+.close_dialog {
+  display: block;
+  color: white;
+  font-size: 2rem;
+  text-shadow: 0 1px 0 #fff;
+  cursor: pointer;
+  opacity: revert-layer;
+  border: 1px solid #ffffff;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+}
 /**********************************特别推荐的文章排布样式*******************************/
 .special-recommend-list {
   width: 100%;

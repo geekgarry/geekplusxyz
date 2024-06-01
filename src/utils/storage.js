@@ -10,6 +10,10 @@ export function _setCookie (key, value, params, type) {
   }
   Cookies.set(key, value, params)
 }
+export function _setCookieStorage (key, value, params) {
+  if (!key) return
+  Cookies.set(key, value, params)
+}
 export function _getCookie (key, type) {
   if (!Cookies.get(key)) {
     return
@@ -19,6 +23,12 @@ export function _getCookie (key, type) {
   } else {
     return Cookies.get(key)
   }
+}
+export function _getCookieStorage (key) {
+  if (!Cookies.get(key)) {
+    return
+  }
+  return Cookies.get(key)
 }
 export function _removeCookie (key) {
   return Cookies.remove(key)
@@ -35,6 +45,11 @@ export const _setSessionStore = (key, value, type) => {
   sessionStorage.setItem(key, value)
 }
 
+export const _setSessionStorage = (key, value) => {
+  if (!key) return
+  sessionStorage.setItem(key, value)
+}
+
 export const _getSessionStore = (key, type) => {
   if (!sessionStorage.getItem(key)) {
     return
@@ -44,6 +59,13 @@ export const _getSessionStore = (key, type) => {
   } else {
     return sessionStorage.getItem(key)
   }
+}
+
+export const _getSessionStorage = (key) => {
+  if (!sessionStorage.getItem(key)) {
+    return
+  }
+  return sessionStorage.getItem(key)
 }
 
 export const _removeSessionStore = (key) => {

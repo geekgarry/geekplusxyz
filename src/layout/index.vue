@@ -84,7 +84,7 @@
         <div style="">
           <span
             class="close"
-            style="color: white; font-size: 3rem"
+            style="color: white; opacity: revert-layer;"
             data-dismiss="modal"
             aria-label="Close"
           >
@@ -104,6 +104,34 @@
             <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div> -->
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="firstOpenModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+    >
+      <div role="document" class="plus-dialog">
+        <div class="alert alert-success" role="alert">
+          <span v-if="popUpNotice!=''" v-html="popUpNotice"></span>
+          <span v-else>
+            <p>欢迎体验AI聊天助手，对话模式，可以帮你解决问题，是你工作中的最佳助手！
+              <a href="https://geekplus.xyz/chat" rel="noopener noreferrer" target="_blank">点击</a>
+              看看吧</p>
+          </span>
+        </div>
+        <div>
+          <span
+            class="close_dialog"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <!-- <span  aria-hidden="true">&times;</span> -->
+            <font-awesome-icon :icon="['fas', 'times']" />
+          </span>
+        </div>
       </div>
     </div>
     <!---网站主页面组件app-main--->
@@ -278,6 +306,7 @@ import {
   displayFriendlyLink,
   getGpWebTitleInfo,
   listSubParentCategory,
+  getWebPopUpNotice
 } from "@/api/geekplus/geekplus";
 import AppMain from "./components/AppMain";
 import NavBar from "./components/NavBar";
@@ -328,6 +357,7 @@ export default {
       webHeaderFooterInfo: {},
       // 音频列表
       songInfoList: [],
+      popUpNotice: "",
     };
   },
   computed: {
@@ -508,6 +538,24 @@ export default {
     //     );
     //   });
     // });
+    //判断变量是否第一次打开,如果webOpenDialog不存在，就要请求后台通知内容，
+    //然后赋值webOpenDialog给cookie，14天后过期删除，再次打开就不会弹出
+    let openDialog=this.getCookieStorage("webOpenDialog");
+    if(!openDialog){
+      //打开后,将变量赋值,后续就不会再次出发,除非刷新
+      // window.firstOpenDialogFlag = true;
+      getWebPopUpNotice({id: 2}).then(response=>{
+        this.popUpNotice=response.data.noticeContent;
+      }).catch(error=>{
+        this.$toasted.error(error.msg, {
+          position: "top-center",
+          duration: 3000,
+          theme: "bubble",
+        });
+      })
+      $('#firstOpenModal').modal();
+      this.setCookieStorage("webOpenDialog","ok",{ expires: 14 });
+    }
   },
   watch: {
     contentScrollTop(val) {
