@@ -36,6 +36,15 @@ export function geminiAI(data) {
   })
 }
 
+//调用Google Gemini AI的接口,采用对话模式
+export function geminiAIChat(data) {
+  return request({
+    url: '/AIBot/getGeminiChat',
+    method: 'post',
+    data: data
+  })
+}
+
 //上传录音文件
 export function uploadVoiceBlob(data) {
   return request({
@@ -43,5 +52,26 @@ export function uploadVoiceBlob(data) {
     method: 'post',
     data: data,
     headers:{'Content-Type': 'multipart/form-data'}
+  })
+}
+
+//TTS 文字转语音
+export function downLoadZip(requestUrl,filename) {
+  var url = baseUrl + requestUrl
+  axios({
+    method: 'get',
+    url: url,
+    // params:queryParams,
+    responseType: 'blob',
+    headers: { 'Plus-Token': getToken() }//'Bearer ' + 
+  }).then(res => {
+    resolveBlob(res, mimeMap.zip)
+  })
+}
+export function getTTSChinese(query) {
+  return request({
+    url: '/translate/ttsZH_CN',
+    method: 'get',
+    params: query
   })
 }
