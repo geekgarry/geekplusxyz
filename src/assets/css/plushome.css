@@ -2,11 +2,9 @@
 
 * {
   font-family: 思源黑体 CN;
-  /* margin: 0;
-  padding: 0; */
 }
 
-body {
+html, body {
   /*background: linear-gradient(
     to top,
     #ffffff 0%,
@@ -25,12 +23,13 @@ body {
   /* background-size: contain;
     -moz-background-size: contain;
     -webkit-background-size: contain; */
-  min-height: 100vh;
+  height: 100%;
+  height: -webkit-fill-available;
   /* width: 100%;
   position: absolute; */
   padding: 0;
-  margin: 0 auto;
-  overflow-x: hidden;
+  margin: 0;
+  overflow: scroll;
 }
 
 a:link {

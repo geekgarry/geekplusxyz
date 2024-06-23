@@ -1,12 +1,12 @@
 <template>
-    <div id="app">
+    <div id="app_container">
         <div class="container">
             <div class="row" v-show="chatdisplay">
                 <!-- <div class="col-sm-1 col-md-1 col-lg-2">
                 </div> -->
                 <!-- <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8">
                 </div> -->
-                <div class="grid-content">
+                <div class="chat-main-content">
                     <div class="chatBoxHeader">
                         <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> $router.push({path:'/'})-->
                         <div><span class="glyphicon glyphicon-home" aria-hidden="true" ></span></div>
@@ -83,17 +83,16 @@
             <!-- <button type="button" class="btn btn-info" @click="visible11" v-show="chatbtndisplay">打开ChatGpt聊天框</button> -->
             <div class="row" v-if="chatbtndisplay">
                 <div class="col-sm-2 col-md-2 col-lg-3"></div>
-                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 chat-main-content">
                     <div style="
-                        margin: 0 auto;
                         text-align: center;
-                        line-height: normal;
-                        padding: 5px 0;
+                        line-height: 40px;
+                        height: 40px;
                         font-size: initial;
                         color: var(--color-article-container-text-1, #696969);
                         border-bottom: var(--color-border-4, #c5c5c5) 1px solid;
                     ">AI聊天助手</div>
-                    <div class="bigChatBox" id="bigChatBox">
+                    <div class="bigChatBox" id="bigChatBox" :style="{height: chatBoxHeight+ 'px'}">
                         <!-- :style="{textAlign: item.align}" -->
                         <div v-for="(item, index) in msgList" :key="index" class="listChatMsg" >
                             <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
@@ -115,7 +114,7 @@
                             </span>
                         </div>
                     </div>
-                    <div style="margin-top: 15px">
+                    <div class="chatBoxFooter">
                         <!-- <div class="form-inline">
                             <div class="form-group">
                                 <label for="exampleInputName2">Name</label>
@@ -202,9 +201,10 @@ export default {
             this.chatdisplay = false;
         }
         //document.getElementById("bigChatBox").offsetHeight = (this.fullHeight - 100) + "px";
-        this.chatBoxHeight = this.fullHeight - 100;
+        this.chatBoxHeight = this.fullHeight - 85;
     },
     mounted() {
+        //window.addEventListener('resize', function() {});
         const that = this
         //that.setOpenAiKey();
         // <!--把window.onresize事件挂在到mounted函数上-->
@@ -224,7 +224,16 @@ export default {
                 }
                 console.log("页面高度：" + that.windowHeight)
                 //document.getElementById("bigChatBox").offsetHeight = (that.windowHeight - 100) + "px";
-                that.chatBoxHeight = that.windowHeight - 100;
+                that.chatBoxHeight = that.windowHeight - 85;
+                if (document.activeElement.tagName === 'INPUT'  || document.activeElement.tagName === 'TEXTAREA') {
+                window.setTimeout(function() {
+                if('scrollIntoView' in document.activeElement) {
+                document.activeElement.scrollIntoView();
+                } else {
+                document.activeElement.scrollIntoViewIfNeeded();
+                }
+                }, 0);
+                }
             })()
         };
     },
@@ -891,14 +900,14 @@ export default {
 
 body {
     background-color: rgba(239, 239, 239, 0.98);
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
 }
 
-#app {
+#app_container {
     margin: 0 auto;
     padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .chatBoxHeader {
@@ -923,8 +932,12 @@ body {
     padding-right: 6px;
 }
 
+.chat-main-content{
+    display: flex;
+    flex-direction: column;
+}
+
 .bigChatBox {
-    height: 500px;
     overflow-y: scroll;
     padding: 0 2px;
 }
@@ -1029,11 +1042,11 @@ body {
 }
 
 .chatBoxFooter {
-    position: fixed;
-    bottom: 10px;
+    position: relative;
+    bottom: 0px;
     left: 0px;
     width: 100%;
-    margin-top: 15px;
+    margin: 5px 0 5px 0;
 }
 
 .chatBoxFooterBtn {
