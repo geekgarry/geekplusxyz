@@ -1,7 +1,7 @@
 <template>
     <div id="app_container">
         <div class="container">
-            <div class="row" v-show="chatdisplay">
+            <div class="row" v-if="chatdisplay">
                 <!-- <div class="col-sm-1 col-md-1 col-lg-2">
                 </div> -->
                 <!-- <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8">
@@ -68,7 +68,7 @@
                                           @click="startAndStopRecording" >{{recordingTxt}}
                                         </a>
                                         </span>
-                                    <input placeholder="请输入聊天内容" v-model="inputChat" class="form-control" :autofocus="true" type="text">
+                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control multiline" :autofocus="true" type="text" rows="1" />
                                     <span class="chat_btn_right"><a class="btn btn-default" href="#" role="button"
                                           @keydown.enter.native="handleMsg"
                                           @click="handleMsg"
@@ -80,8 +80,8 @@
                     </div>
                 </div>
             </div>
-            <!-- <button type="button" class="btn btn-info" @click="visible11" v-show="chatbtndisplay">打开ChatGpt聊天框</button> -->
-            <div class="row" v-if="chatbtndisplay">
+            <!-- <button type="button" class="btn btn-info" @click="visible11" v-show="chatBtnPcDisplay">打开ChatGpt聊天框</button> -->
+            <div class="row" v-else>
                 <div class="col-sm-2 col-md-2 col-lg-3"></div>
                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 chat-main-content">
                     <div style="
@@ -92,7 +92,7 @@
                         color: var(--color-article-container-text-1, #696969);
                         border-bottom: var(--color-border-4, #c5c5c5) 1px solid;
                     ">AI聊天助手</div>
-                    <div class="bigChatBox" id="bigChatBox" :style="{height: chatBoxHeight+ 'px'}">
+                    <div class="bigChatBox" id="bigChatBox-desktop" :style="{height: chatBoxHeight+ 'px'}">
                         <!-- :style="{textAlign: item.align}" -->
                         <div v-for="(item, index) in msgList" :key="index" class="listChatMsg" >
                             <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
@@ -124,7 +124,7 @@
                         </div> -->
                         <div class="input-group search-input-group">
                             <!-- <input type="hidden" name="scope" value="1" /> -->
-                            <input id="inputContentText" name="inputChat" autocomplete="off" :autofocus="true" type="text" v-model="inputChat" class="form-control" placeholder="请输入聊天内容" />
+                            <textarea id="inputContentText" name="inputChat" autocomplete="off" :autofocus="true" type="text" v-model="inputChat" class="form-control multiline" placeholder="请输入聊天内容" rows="1" ></textarea>
                             <span class="input-group-addon">
                               <button type="button" @keydown.enter.native="handleMsg" @click="handleMsg">
                                 <span class="glyphicon glyphicon-send"></span>
@@ -158,7 +158,7 @@ export default {
             msgList: [], //聊天消息的list
             historyMsgStr: "", //历史聊天记录
             loading: false,
-            chatbtndisplay: true,
+            chatBtnPcDisplay: true,
             chatdisplay: false,
             chatBoxHeight: 440,
             fullWidth: 0,
@@ -184,20 +184,32 @@ export default {
         this.getHistoryMag("guest");
         //this.startTTS("你好！请问现在是什么时间！");
         document.addEventListener("keydown", (e) => {
-            let key = window.event.keyCode;
-            if (key == 13) {
+            let keyC = window.event.keyCode;//这里是键盘的ASCLL码值，13为回车值
+            //let key = window.event.key || event.key;//新的key时表示为键盘的具体值
+            if(keyC == 13 && !e.shiftKey) {
+                //只有enter没有shift，或进行你的其他逻辑
+                e.preventDefault();// 阻止默认行为，即不换行
                 // 13是enter键的键盘码 如果等于13 就调用click的登录方法
                 this.handleMsg();
             }
+            // else if(keyC == 13 && e.shiftKey){
+            //     // 这里实现换行
+            //     //document.getElementById("a").value += "\n";
+            //     console.log(this.inputChat.length);
+            //     if(this.inputChat!='' && this.inputChat.length > 0){
+            //         this.inputChat+="\n";
+            //     }
+            //     console.log(this.inputChat);
+            // }
         });
         this.fullWidth = document.documentElement.clientWidth;
         this.fullHeight = document.documentElement.clientHeight;
-        // 页面宽度小于750px时，不显示地图
+        // 页面宽度小于750px时，显示移动端
         if (this.fullWidth < 750) {
-            this.chatbtndisplay = false;
+            //this.chatBtnPcDisplay = false;
             this.chatdisplay = true;
         } else {
-            this.chatbtndisplay = true;
+            //this.chatBtnPcDisplay = true;
             this.chatdisplay = false;
         }
         //document.getElementById("bigChatBox").offsetHeight = (this.fullHeight - 100) + "px";
@@ -216,15 +228,16 @@ export default {
                 that.windowWidth = window.fullWidth; // 宽
                 // 页面宽度小于750px时，不显示地图
                 if (that.windowWidth < 750) {
-                    that.chatbtndisplay = false;
+                    //that.chatBtnPcDisplay = false;
                     that.chatdisplay = true;
                 } else {
-                    that.chatbtndisplay = true;
+                    //that.chatBtnPcDisplay = true;
                     that.chatdisplay = false;
                 }
-                console.log("页面高度：" + that.windowHeight)
+                //console.log("页面高度：" + that.windowHeight)
                 //document.getElementById("bigChatBox").offsetHeight = (that.windowHeight - 100) + "px";
                 that.chatBoxHeight = that.windowHeight - 85;
+                that.scrollTop11();
                 if (document.activeElement.tagName === 'INPUT'  || document.activeElement.tagName === 'TEXTAREA') {
                 window.setTimeout(function() {
                 if('scrollIntoView' in document.activeElement) {
@@ -236,6 +249,25 @@ export default {
                 }
             })()
         };
+        const textarea = document.getElementById("inputContentText");
+        const maxLines = 8;
+        const inputHeight = textarea.offsetHeight;
+        textarea.addEventListener("input", () => {
+        // 将高度重置为自动，以便根据内容计算高度
+        textarea.style.height = "auto";
+        //console.log(textarea.style.height)
+        // 获取行数
+        const currentLines = textarea.value.split("\n").length;
+        //console.log(currentLines)
+        textarea.style.height = inputHeight + (currentLines-1) * 22+`px`;
+        // 如果行数超过最大行数，则设置最大高度
+        if (currentLines > maxLines) {
+            textarea.style.height = inputHeight + maxLines * 22+`px`;
+            //textarea.style.height = `${textarea.scrollHeight}px`;
+        }else if(currentLines == 1){
+            textarea.style.height = "auto";
+        }
+        });
     },
     watch: {
         windowHeight(val) {
@@ -247,7 +279,7 @@ export default {
             let that = this;
             if (val < 768) {
                 //that.dialogWidth='100%'
-                that.chatbtndisplay = false;
+                that.chatBtnPcDisplay = false;
             } else {
                 //that.dialogWidth='75%'
             }
@@ -262,7 +294,6 @@ export default {
             });
         },
         async handleMsg() {
-            console.log(this.inputChat, "发送信息");
             if (this.inputChat === "关闭语音") {
                 this.isTextVoice = false;
                 this.inputChat = "";
@@ -317,7 +348,7 @@ export default {
                 this.isHistory=false;
                 this.inputChat = "";
                 this.$toasted.show("取消聊天对话模式", {position: "top-center",duration: 3000,theme: "bubble",});
-            } else if (this.inputChat !== "") {
+            } else if ((this.inputChat !== "" || this.inputChat.length >0) && !this.isOnlyNewlines(this.inputChat)) {
                 //this.loading = true;
                 this.chatHistoryToJson(this.msgList);
                 await this.msgList.push({ align: "right", text: this.inputChat, time: Date.now() });
@@ -597,7 +628,7 @@ export default {
         },
         // 处理滚动条一直保持最上方
         scrollTop11() {
-            let div = document.getElementById("bigChatBox");
+            let div = document.getElementById("bigChatBox") || document.getElementById("bigChatBox-desktop");
             div.scrollTop = div.scrollHeight;
         },
         clearBlank(value) {
@@ -876,6 +907,12 @@ export default {
             d = now.getDate();
             let dateTimeStr = y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substring(0, 8);
             return this.dateTimeAgo(dateTimeStr);
+        },
+        isSymbol(str) {//是否仅包含各类符号
+            return /^[\u2000-\u27ff]+$/.test(str); // 检查Unicode范围内的符号
+        },
+        isOnlyNewlines(str) {//是否仅包含换行符
+            return /^\n*$/.test(str);
         }
     }
 }
@@ -1041,6 +1078,13 @@ body {
     margin-left: 7px;
 }
 
+.multiline {
+    line-height: 20px;
+    resize: none;
+    white-space: pre-wrap; /* 允许自动换行 */
+    overflow-wrap: break-word; /* 单词超出边界时自动换行 */
+}
+
 .chatBoxFooter {
     position: relative;
     bottom: 0px;
@@ -1085,7 +1129,7 @@ body {
     align-self: flex-end;
 }
 
-.chatBoxFooterBtn input {
+.chatBoxFooterBtn > input,.chatBoxFooterBtn > textarea {
     -webkit-transition: width 0.2s ease-in-out;
     -moz-transition: width 0.2s ease-in-out;
     -o-transition: width 0.2s ease-in-out;
@@ -1098,7 +1142,8 @@ body {
     -webkit-border-radius: 4px; */
 }
 
-.chatBoxFooterBtn input:focus {
+.chatBoxFooterBtn > input:focus,.chatBoxFooterBtn > textarea:focus
+,textarea:focus,input:focus {
     outline: 0;
     box-shadow: none !important;
 }
