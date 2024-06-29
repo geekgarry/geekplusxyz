@@ -19,7 +19,7 @@
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
                                       <span><img
                                         class="chatUserIcon"
-                                        src="https://www.geekplus.xyz/imgs/logo.png"
+                                        v-lazy="'https://www.geekplus.xyz/imgs/logo.png'"
                                         alt="极客普拉斯" />
                                       </span>
                             <span class="listChatItemContent" v-if="item && item.link == ''">
@@ -32,13 +32,13 @@
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
                                 <span v-highlight class="listChatItemContent">
                                     <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
-                                        <img :src="item.extraData" style="width: 95%;" />
+                                        <img v-lazy="item.extraData" style="width: 95%;" />
                                     </div>
                                     {{item.text}}
                                 </span>
                             <span><img
                                         class="chatUserIcon"
-                                        src="https://www.geekplus.xyz/imgs/mai.png"
+                                        v-lazy="'https://www.geekplus.xyz/imgs/mai.png'"
                                         alt="麦壳" />
                                       </span>
                             </span>
@@ -115,7 +115,12 @@
                             <span class="pcChatTextSpan" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span>
                             </span>
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                <span v-highlight class="pcChatTextSpan">{{item.text}}</span>
+                                <span v-highlight class="pcChatTextSpan">
+                                    <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
+                                        <img v-lazy="item.extraData" style="width: 95%;" />
+                                    </div>
+                                    {{item.text}}
+                                </span>
                                 <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/mai.png" alt="麦壳" />
                             </span>
                         </div>
@@ -653,7 +658,7 @@ export default {
                             $('#chatDataModal').modal();
                         };
                         break;
-                    }else if(items[i].kind === 'file' && items[i].type.indexOf('application/vnd') !== -1){
+                    }else if(items[i].kind === 'file' && (items[i].type.indexOf('application/vnd') !== -1 || items[i].type.indexOf('application/ms') !== -1)){
                         file = items[i].getAsFile();
                         //console.log(file);
                         // 创建FileReader读取图片
@@ -671,7 +676,7 @@ export default {
                             //pdfIframe.style.height="100%";
                             // pdfIframe.style.width="100%";
                             // pdfIframe.src = tempUrl;
-                            let domObject='<object data="'+tempUrl+'" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="'+tempUrl+'">Download Office File</a>.</p></object>';
+                            let domObject='<embed src="'+tempUrl+'" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="'+tempUrl+'">Download Office File</a>.</p></embed>';
                             //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
                             document.getElementById("fileData").innerHTML=domObject;
                             //document.getElementById("fileData").remove();
@@ -687,7 +692,6 @@ export default {
                         reader.onload = (e) => {
                             const base64 = e.target.result;
                             this.chatMsgData.mediaData=base64;
-                            console.log(base64);
                             const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
                             this.tempFileUrl=tempUrl;
                             // 在这里处理base64数据
@@ -712,7 +716,6 @@ export default {
                         reader.onload = (e) => {
                             const base64 = e.target.result;
                             this.chatMsgData.mediaData=base64;
-                            console.log(base64);
                             const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
                             this.tempFileUrl=tempUrl;
                             // 在这里处理base64数据
@@ -1374,8 +1377,6 @@ body {
     border-radius: 5px;
     padding: 5px;
     overflow-x: scroll;
-    display: inline-flex;
-    align-items: center;
 }
 
 .listChatItemL .pcChatTextSpan::-webkit-scrollbar {
@@ -1387,8 +1388,6 @@ body {
     border-radius: 5px;
     color:#252020;
     padding: 5px;
-    display: inline-flex;
-    align-items: center;
 }
 
 .chatUserIcon {
