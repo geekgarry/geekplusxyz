@@ -514,6 +514,8 @@ nav ul {
   resize: none;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+  background: var(--color-main-container-bg-2);
+  color: var(--color-main-container-text-1);
 }
 
 .plus-form-control{
@@ -2436,6 +2438,7 @@ ol {
   -ms-border-radius: 5px;
   display: block;
   width: fit-content;
+  width: -moz-fit-content;
   padding: 0 13px;
   margin: 0 auto;
 }

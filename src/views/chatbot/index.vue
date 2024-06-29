@@ -164,7 +164,7 @@
                     <div class="chat_extra_data" id="mediaData" contenteditable="false"></div>
                     <div class="chat_extra_data" id="fileData" contenteditable="false"></div>
                 </div>
-                <textarea id="inputContentText" name="inputChat" v-model="chatMsgData.chatData" class="plus-form-textarea"
+                <textarea name="inputChatDialog" v-model="chatMsgData.chatData" class="plus-form-textarea"
                     placeholder="请输入聊天内容" rows="1" ></textarea>
                 <div class="plus-dialog-footer">
                     <div class="pdf-left-btn">
@@ -237,25 +237,6 @@ export default {
     created: function() {
         this.getHistoryMag("guest");
         //this.startTTS("你好！请问现在是什么时间！");
-        document.addEventListener("keydown", (e) => {
-            let keyC = window.event.keyCode;//这里是键盘的ASCLL码值，13为回车值
-            //let key = window.event.key || event.key;//新的key时表示为键盘的具体值
-            if(keyC == 13 && !e.shiftKey) {
-                //只有enter没有shift，或进行你的其他逻辑
-                e.preventDefault();// 阻止默认行为，即不换行
-                // 13是enter键的键盘码 如果等于13 就调用click的登录方法
-                this.handleMsg();
-            }
-            // else if(keyC == 13 && e.shiftKey){
-            //     // 这里实现换行
-            //     //document.getElementById("a").value += "\n";
-            //     console.log(this.inputChat.length);
-            //     if(this.inputChat!='' && this.inputChat.length > 0){
-            //         this.inputChat+="\n";
-            //     }
-            //     console.log(this.inputChat);
-            // }
-        });
         this.fullWidth = document.documentElement.clientWidth;
         this.fullHeight = document.documentElement.clientHeight;
         // 页面宽度小于750px时，显示移动端
@@ -322,6 +303,25 @@ export default {
         }else if(currentLines == 1){
             textarea.style.height = "auto";
         }
+        });
+        textarea.addEventListener("keydown", (e) => {
+            let keyC = window.event.keyCode;//这里是键盘的ASCLL码值，13为回车值
+            //let key = window.event.key || event.key;//新的key时表示为键盘的具体值
+            if(keyC == 13 && !e.shiftKey) {
+                //只有enter没有shift，或进行你的其他逻辑
+                e.preventDefault();// 阻止默认行为，即不换行
+                // 13是enter键的键盘码 如果等于13 就调用click的登录方法
+                this.handleMsg();
+            }
+            // else if(keyC == 13 && e.shiftKey){
+            //     // 这里实现换行
+            //     //document.getElementById("a").value += "\n";
+            //     console.log(this.inputChat.length);
+            //     if(this.inputChat!='' && this.inputChat.length > 0){
+            //         this.inputChat+="\n";
+            //     }
+            //     console.log(this.inputChat);
+            // }
         });
     },
     watch: {
@@ -405,6 +405,7 @@ export default {
                 this.$toasted.show("取消聊天对话模式", {position: "top-center",duration: 3000,theme: "bubble",});
             } else if ((this.inputChat !== "" || this.inputChat.length >0) && !this.isOnlyNewlines(this.inputChat)) {
                 //this.loading = true;
+                //chatHistoryToJson方法是在发送消息前把之前所有的消息构造一个json作为历史消息记录
                 this.chatHistoryToJson(this.msgList);
                 await this.msgList.push({ align: "right", text: this.inputChat, time: Date.now() });
                 await this.scrollTop11();
@@ -484,6 +485,7 @@ export default {
                 });
         },
         sendWithImg(){
+            //chatHistoryToJson方法是在发送消息前把之前所有的消息构造一个json作为历史消息记录
             //this.chatHistoryToJson(this.msgList);
             this.chatMsgData.username="guest";
             this.chatMsgData.preChatData=this.preChatData;
@@ -1187,6 +1189,7 @@ export default {
             //return msgArr;
         },
         //遍历聊天记录数组，把里面的每一条json字符串转为json对象
+        //在发送消息前把之前所有的消息构造一个json作为历史消息记录
         chatHistoryToJson(msgArr) {
             let tempMessage = "";//[];
             var len = msgArr.length;
