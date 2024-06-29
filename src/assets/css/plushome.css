@@ -499,7 +499,32 @@ nav ul {
 .navbar-brand-logo-text {
   font-size: 1.5rem;
 }
+/*****************************自定义表单控制样式，给input等输入单元添加央视******************************/
+.plus-form-textarea{
+  display: block;
+  width: 100%;
+  height:35px;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+  border-top: var(--color-border-2, #9f9e9e) 1px solid;
+  border-bottom: var(--color-border-2, #9f9e9e) 1px solid;
+  padding: 2px 8px 2px 8px;
+  line-height: 29px;
+  resize: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
 
+.plus-form-control{
+  display: block;
+  width: 100%;
+  height:35px;
+  border-radius: 0;
+  line-height: 29px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
 /*****************************导航条和面包屑breadcrumb******************************/
 /* .banner_bar {
   width: 100%;
@@ -992,21 +1017,73 @@ ol {
 
 /***********************************自定义弹出对话框******************************************/
 .plus-dialog {
-  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: -moz-fit-content;*/
   height: -webkit-fill-available;
   height: -moz-fit-content;
-  height: 100%;
+  height: fit-content;
+  height: auto;
   margin: 0 auto;
   padding: 15px;
   /* position: relative;
   top: 5%; */
 }
-/**自定义弹出对话框关闭按钮**/
+.plus-dialog-main{
+  background: var(--color-article-container, #353434);
+  border-radius: 10px;
+  height: auto;
+}
+
+.chat_extra_data{
+  width: auto;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.plus-dialog-container{
+  padding: 15px;
+}
+
+.plus-dialog-footer{
+  /* border-top: var(--color-border-2,#9f9e9e) 1px solid; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-dialog-footer .pdf-left-btn{
+  flex: 1;
+  color: var(--color-article-container-text-2, #fefdfd);
+}
+
+.plus-dialog-footer .pdf-right-btn{
+  flex: 1;
+  color: var(--color-article-container-text-2, #fefdfd);
+}
+
+.split-line {
+  width: 1px;
+  height: 35px;
+  background: var(--color-border-2,#9f9e9e);
+}
+
+.cancel_btn, .confirm_btn{
+  display: block;
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+}
+
+/*********自定义弹出对话框关闭按钮*********/
 .close_dialog {
   display: block;
   color: white;
@@ -1019,6 +1096,7 @@ ol {
   height: 25px;
   text-align: center;
   line-height: 25px;
+  margin: 0 auto;
 }
 /**********************************特别推荐的文章排布样式*******************************/
 .special-recommend-list {

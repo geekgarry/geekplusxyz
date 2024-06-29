@@ -133,10 +133,12 @@ Vue.use(VueQuillEditor);
 import {
   getNowDate, checkHtml, getHtmlValue, randomRGB, color16, numFormatKWM, addLink, someColor, 
   getOnlyYearMonthDay, getHtmlPlainText, someNumberCount, backToTop, isLightDay,
-  getDateTimeStamp, dateTimeAgo} from '@/utils/plushome'
+  getDateTimeStamp, dateTimeAgo, checkObjectExists2} from '@/utils/plushome'
 import { _setLocalStore, _getLocalStore, _setCookieStorage, _getCookieStorage,
   dispatchSetLocalStore, _setSessionStorage, _getSessionStorage
 } from './utils/storage'
+import pdfjs from 'pdfjs'
+Vue.use(pdfjs)
 // Vue.use(getChildrenPath);
 Vue.prototype.axios = axios;
 Vue.use(VueLazyload, {
@@ -157,6 +159,7 @@ Vue.use(VueLazyload, {
 })
 Vue.config.productionTip = false;
 //Vue.use(WaveItem);
+Vue.prototype.checkObjectExistsJson=checkObjectExists2;
 Vue.prototype.getNowDate = getNowDate;
 Vue.prototype.checkHtml = checkHtml;
 Vue.prototype.color16 = color16;

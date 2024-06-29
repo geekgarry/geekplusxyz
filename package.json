@@ -24,6 +24,7 @@
     "js-audio-recorder": "^1.0.7",
     "js-cookie": "^3.0.1",
     "marked": "^9.1.6",
+    "pdfjs": "^2.5.3",
     "quill-image-resize-module": "^3.0.0",
     "v-viewer": "^1.6.4",
     "vue": "^2.6.14",

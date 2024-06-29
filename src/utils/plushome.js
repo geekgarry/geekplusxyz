@@ -221,7 +221,32 @@ export function getOnlyYearMonthDay(val) {
     //onsole.log(appointDate);   //2021-10-15
     return appointDate;
 }
-
+//判断是否为json对象
+export function objectIsJson(obj){
+    if(typeof(data) == "object" &&
+    Object.prototype.toString.call(data).toLowerCase() == "[object object]" && !data.length){
+    return true;
+    }
+    return false;
+}
+//判断json是否存在某个对象
+export function checkObjectExists1(json, key) {
+    return key in json;
+}
+export function checkObjectExists2(json, key) {
+    return json.hasOwnProperty(key);
+}
+//这个方法不太严谨，当key存在，且又为undefined
+export function checkObjectExists3(json, key) {
+    return typeof json[key] !== 'undefined';
+}
+export function checkObjectExists4(json, key) {
+    try {
+      return json[key] !== null;
+    } catch (error) {
+      return false;
+    }
+}
 /**
 * 字符串是否含有html标签的检测
 * @param htmlStr

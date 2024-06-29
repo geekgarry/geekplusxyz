@@ -30,7 +30,12 @@
                                       >
                                     </span>
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                      <span v-highlight class="listChatItemContent">{{item.text}}</span>
+                                <span v-highlight class="listChatItemContent">
+                                    <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
+                                        <img :src="item.extraData" style="width: 95%;" />
+                                    </div>
+                                    {{item.text}}
+                                </span>
                             <span><img
                                         class="chatUserIcon"
                                         src="https://www.geekplus.xyz/imgs/mai.png"
@@ -68,7 +73,8 @@
                                           @click="startAndStopRecording" >{{recordingTxt}}
                                         </a>
                                         </span>
-                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control multiline" :autofocus="true" type="text" rows="1" />
+                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control multiline" 
+                                    :autofocus="true" rows="1" @paste="pastingData" @paste.native.capture.prevent="pastingData"></textarea>
                                     <span class="chat_btn_right"><a class="btn btn-default" href="#" role="button"
                                           @keydown.enter.native="handleMsg"
                                           @click="handleMsg"
@@ -124,7 +130,8 @@
                         </div> -->
                         <div class="input-group search-input-group">
                             <!-- <input type="hidden" name="scope" value="1" /> -->
-                            <textarea id="inputContentText" name="inputChat" autocomplete="off" :autofocus="true" type="text" v-model="inputChat" class="form-control multiline" placeholder="请输入聊天内容" rows="1" ></textarea>
+                            <textarea id="inputContentText" name="inputChat" autocomplete="off" :autofocus="true" v-model="inputChat" class="form-control multiline"
+                             placeholder="请输入聊天内容" rows="1" @paste="pastingData" @paste.native.capture.prevent="pastingData"></textarea>
                             <span class="input-group-addon">
                               <button type="button" @keydown.enter.native="handleMsg" @click="handleMsg">
                                 <span class="glyphicon glyphicon-send"></span>
@@ -138,6 +145,43 @@
         </div>
         <!-- <el-dialog :visible.sync="visible" title="对话框"> -->
         <!-- </el-dialog> -->
+        <div
+            class="modal fade"
+            id="chatDataModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="myModalLabel"
+        >
+            <div role="document" class="plus-dialog">
+            <div class="plus-dialog-main">
+                <div class="plus-dialog-container">
+                    <div class="chat_extra_data" id="chatImgData" contenteditable="false"></div>
+                    <div class="chat_extra_data" id="mediaData" contenteditable="false"></div>
+                    <div class="chat_extra_data" id="fileData" contenteditable="false"></div>
+                </div>
+                <textarea id="inputContentText" name="inputChat" v-model="chatMsgData.chatData" class="plus-form-textarea"
+                    placeholder="请输入聊天内容" rows="1" ></textarea>
+                <div class="plus-dialog-footer">
+                    <div class="pdf-left-btn">
+                        <span
+                        class="cancel_btn"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        >
+                        取消
+                        <!-- <span  aria-hidden="true">&times;</span> -->
+                        <!-- <font-awesome-icon :icon="['fas', 'times']" /> -->
+                        </span>
+                    </div>
+                    <span class="split-line"></span>
+                    <div class="pdf-right-btn">
+                        <span
+                        class="confirm_btn" @click="sendWithImg" @click.native="sendWithImg">发送</span>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -176,7 +220,12 @@ export default {
             textAudio: null,
             isTextVoice: false, //是否语音朗读
             isHistory: true, //是否采用有历史记忆的聊天
+            tempFileUrl: "", //临时数据文件地址
             openAiKey: '',
+            chatMsgData:{},//封装一个聊天消息，里面自己添加具体的内容，可以携带媒体数据mediaData
+            baseHost: window.location.host,
+            baseApi: process.env.VUE_APP_BASE_API,
+            textAreaInput: null,
         };
     },
     //data:{},
@@ -250,6 +299,7 @@ export default {
             })()
         };
         const textarea = document.getElementById("inputContentText");
+        that.textAreaInput = textarea;
         const maxLines = 8;
         const inputHeight = textarea.offsetHeight;
         textarea.addEventListener("input", () => {
@@ -272,7 +322,7 @@ export default {
     watch: {
         windowHeight(val) {
             let that = this;
-            console.log("实时屏幕高度：", val, that.windowHeight);
+            //console.log("实时屏幕高度：", val, that.windowHeight);
             //chatBoxHeight=that.windowHeight
         },
         windowWidth(val) {
@@ -283,7 +333,7 @@ export default {
             } else {
                 //that.dialogWidth='75%'
             }
-            console.log("实时屏幕宽度：", val, that.windowHeight);
+            //console.log("实时屏幕宽度：", val, that.windowHeight);
         }
     },
     methods: {
@@ -355,6 +405,7 @@ export default {
                 await this.scrollTop11();
                 this.getMsg();
                 this.inputChat = "";
+                this.textAreaInput.style.height = "auto";
             }
         },
         getMsg() {
@@ -401,7 +452,45 @@ export default {
                   });
                 } */
                 if(that.isHistory === false){
-                    geminiAI({ username: "guest", chatData: that.inputChat })
+                    let dataParams= { username: "guest", chatData: this.inputChat };
+                    this.sendMessage(dataParams);
+                } else {
+                    let dataParams = { username: "guest", chatData: this.inputChat, preChatData: this.preChatData };
+                    this.sendMessageChat(dataParams);
+                }
+            //}
+        },
+        //获取用户的历史聊天记录
+        getHistoryMag(username) {
+            let that=this;
+            getHistoryMessage({ username: username })
+                .then(async (response) => {
+                    //console.log(response.data)
+                    let msglist = response.data;
+                    await this.jsonStrToObj(msglist);
+                    await this.scrollTop11();
+                }).catch(function(error) {
+                    // console.log(error);
+                    that.$toasted.error(error.msg, {
+                        position: "top-center",
+                        duration: 3000,
+                        theme: "outline",
+                    });
+                });
+        },
+        sendWithImg(){
+            //this.chatHistoryToJson(this.msgList);
+            this.chatMsgData.username="guest";
+            this.chatMsgData.preChatData=this.preChatData;
+            //let imgDiv=document.createElement("div").appendChild(this.convertBase64ToImage("base64Str")); this.chatMsgData.mediaData
+            this.msgList.push({ align: "right", text: this.chatMsgData.chatData, extraData: this.tempFileUrl, time: Date.now() });
+            this.scrollTop11();
+            this.sendMessageChat(this.chatMsgData);
+            $('#chatDataModal').modal('hide');
+        },
+        sendMessage(dataParams){
+            let _this=this;
+            geminiAI(dataParams)
                     .then(async (response) => {
                         //console.log(response);
                         //if (response.code == 200) {
@@ -443,16 +532,18 @@ export default {
                     })
                     .catch(function(error) {
                         //console.log(error);
-                        that.$toasted.error(error.msg, {
+                        _this.$toasted.error(error.msg, {
                             position: "top-center",
                             duration: 3000,
                             theme: "outline",
                         });
                         //this.loading = false;
                     });
-                } else {
-                    geminiAIChat({ username: "guest", chatData: this.inputChat, preChatData: that.preChatData })
-                    .then(async (response) => {
+        },
+        sendMessageChat(dataParams){
+            let _this=this;
+            geminiAIChat(dataParams)
+            .then(async (response) => {
                         //console.log(response);
                         //if (response.code == 200) {
                         //console.log("返回响应信息")
@@ -488,35 +579,226 @@ export default {
                     })
                     .catch(function(error) {
                         //console.log(error);
-                        that.$toasted.error(error.msg, {
+                        _this.$toasted.error(error.msg, {
                             position: "top-center",
                             duration: 3000,
                             theme: "outline",
                         });
                         //this.loading = false;
                     });
+        },
+        //输入框粘贴事件处理函数
+        pastingData(event){
+            //let txt=event.clipboardData.getData('Text');
+            let file = null
+            const items = (event.clipboardData || window.clipboardData).items
+            // if(typeof(txt) === 'string') {
+            //     console.log(txt)
+            //     if (txt.length > 1048570) {
+            //         this.$toasted.error("数据过长", {
+            //             position: "top-center",
+            //             duration: 3000,
+            //             theme: "bubble",
+            //         });
+            //         return false;
+            //     }
+            // }
+            if(items && items.length) {
+                // const item = items[0];
+                // if (item.kind === 'file' && item.type.startsWith('image/'))
+                for (let i = 0; i < items.length; i++) {
+                    //console.log(items[i].type);
+                    if (items[i].kind === 'file' && items[i].type.indexOf('image') !== -1) {
+                        file = items[i].getAsFile();
+                        //console.log(file)
+                        // 创建FileReader读取图片
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const base64 = e.target.result;
+                            this.chatMsgData.mediaData=base64;
+                            // 在这里处理base64数据
+                            //let baseArr=base64.split(",");
+                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl=tempUrl;
+                            var tempImg='<img src="'+ tempUrl +'" style="width: 100%"/>';
+                            document.getElementById("fileData").innerHTML=tempImg;
+                            // document.getElementById("chatImgData").appendChild(this.convertBase64ToImage(base64));
+                            $('#chatDataModal').modal();
+                        };
+                        reader.readAsDataURL(file);
+                        break;
+                    }else if(items[i].kind === 'file' && items[i].type.indexOf('pdf') !== -1){
+                        file = items[i].getAsFile();
+                        //console.log(file);
+                        // 创建FileReader读取图片
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = (e) => {
+                            const base64 = e.target.result;
+                            this.chatMsgData.mediaData=base64;
+                            //console.log(this.base64ToBlob(base64));
+                            const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl=tempUrl;
+                            // 在这里处理base64数据
+                            //let baseArr=base64.split(",");
+                            // var pdfIframe = document.createElement('iframe');
+                            //pdfIframe.style.height="100%";
+                            // pdfIframe.style.width="100%";
+                            // pdfIframe.src = tempUrl;
+                            let domObject='<object data="'+tempUrl+'" type="application/pdf" width="100%" height="100%">该浏览器不支持PDF.请点击查看:<a href="'+tempUrl+'">Download PDF</a>.</p></object>';
+                            //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
+                            document.getElementById("fileData").innerHTML=domObject;
+                            //document.getElementById("fileData").remove();
+                            //document.getElementById("fileData").appendChild(pdfIframe);
+                            $('#chatDataModal').modal();
+                        };
+                        break;
+                    }else if(items[i].kind === 'file' && items[i].type.indexOf('application/vnd') !== -1){
+                        file = items[i].getAsFile();
+                        //console.log(file);
+                        // 创建FileReader读取图片
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = (e) => {
+                            const base64 = e.target.result;
+                            this.chatMsgData.mediaData=base64;
+                            //console.log(this.base64ToBlob(base64));
+                            const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl=tempUrl;
+                            // 在这里处理base64数据
+                            //let baseArr=base64.split(",");
+                            // var pdfIframe = document.createElement('iframe');
+                            //pdfIframe.style.height="100%";
+                            // pdfIframe.style.width="100%";
+                            // pdfIframe.src = tempUrl;
+                            let domObject='<object data="'+tempUrl+'" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="'+tempUrl+'">Download Office File</a>.</p></object>';
+                            //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
+                            document.getElementById("fileData").innerHTML=domObject;
+                            //document.getElementById("fileData").remove();
+                            //document.getElementById("fileData").appendChild(pdfIframe);
+                            $('#chatDataModal').modal();
+                        };
+                        break;
+                    }else if(items[i].kind === 'file' && (items[i].type.indexOf('audio') !== -1 || items[i].type.indexOf('video') !== -1)){
+                        file = items[i].getAsFile();
+                        //console.log(file);
+                        // 创建FileReader读取图片
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const base64 = e.target.result;
+                            this.chatMsgData.mediaData=base64;
+                            console.log(base64);
+                            const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl=tempUrl;
+                            // 在这里处理base64数据
+                            //let baseArr=base64.split(",");
+                            var tempFile='<video controls height="50" width="100%" data="'+tempUrl+'">'+
+                                '<source src="'+tempUrl+'" type="audio/mpeg">'+
+                                '<source src="'+tempUrl+'" type="audio/ogg">'+
+                                '<embed height="50" width="100" src="'+tempUrl+'">'+
+                                //'<object height="50" width="100" data="'+tempUrl+'"></object>'+
+                                '</video>';
+                            document.getElementById("fileData").innerHTML=tempFile;
+                            // document.getElementById("fileData").append();
+                            $('#chatDataModal').modal();
+                        };
+                        reader.readAsDataURL(file);
+                        break;
+                    }else if(items[i].kind === 'file' && items[i].type.indexOf('text') !== -1){
+                        file = items[i].getAsFile();
+                        //console.log(file);
+                        // 创建FileReader读取图片
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const base64 = e.target.result;
+                            this.chatMsgData.mediaData=base64;
+                            console.log(base64);
+                            const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl=tempUrl;
+                            // 在这里处理base64数据
+                            //let baseArr=base64.split(",");
+                            var tempFile='<object controls height="100%" width="100%" data="'+tempUrl+'">'+
+                                '<source src="'+tempUrl+'" type="audio/mpeg">'+
+                                '<source src="'+tempUrl+'" type="audio/ogg">'+
+                                '<embed height="50" width="100" src="'+tempUrl+'">'+
+                                //'<object height="50" width="100" data="'+tempUrl+'"></object>'+
+                                '</object>';
+                            document.getElementById("fileData").innerHTML=tempFile;
+                            // document.getElementById("fileData").append();
+                            $('#chatDataModal').modal();
+                        };
+                        reader.readAsDataURL(file);
+                        break;
+                    }
                 }
-            //}
+            }
         },
-        //获取用户的历史聊天记录
-        getHistoryMag(username) {
-            let that=this;
-            getHistoryMessage({ username: username })
-                .then(async (response) => {
-                    //console.log(response.data)
-                    let msglist = response.data;
-                    await this.jsonStrToObj(msglist);
-                    await this.scrollTop11();
-                }).catch(function(error) {
-                    // console.log(error);
-                    that.$toasted.error(error.msg, {
-                        position: "top-center",
-                        duration: 3000,
-                        theme: "outline",
-                    });
-                });
+        //blob 和 base64 类型转换
+        base64ToBlob(base64) {
+            let arr = base64.split(',')
+            let type = arr[0].match(/:(.*?);/)[1]
+            let bstr = atob(arr[1])
+            let n = bstr.length
+            const u8arr = new Uint8Array(n)
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n)
+            }
+            return new Blob([u8arr], { type: type })
         },
-
+        //blob 和 base64 类型转换
+        blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.readAsDataURL(blob)
+                reader.onload = (e) => {
+                resolve(e.target.result)
+                }
+            })
+        },
+        //File 和 base64 类型转换
+        base64ToFile(base64, filename) {
+            const arr = base64.split(',')
+            const type = arr[0].match(/:(.*?);/)[1]
+            const bstr = atob(arr[1])
+            let n = bstr.length
+            const u8arr = new Uint8Array(n)
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n)
+            }
+            return new File([u8arr], filename, { type: type })
+        },
+        //File 和 base64 类型转换
+        fileToBase64 (data) {
+            return new Promise((resolve, reject) => {
+                const fileReader = new FileReader()
+                fileReader.onload = (e) => {
+                resolve(e.target.result)
+                }
+                fileReader.readAsDataURL(data)
+                fileReader.onerror = () => {
+                reject(new Error('文件流异常'))
+                }
+            })
+        },
+        //blob 和 File 类型转换
+        blobToFile(blob, fileName) {
+            const file = new File([blob], fileName, { type: blob.type });
+            return file;
+        },
+        //File 转 blob
+        fileToBlob(data) {
+            return new Promise((resolve, reject) => {
+                const fileReader = new FileReader()
+                fileReader.onload = (e) => {
+                const blob = new Blob([e.target.result], { type: data.type })
+                resolve(blob)
+                }
+                fileReader.readAsDataURL(data)
+                fileReader.onerror = () => {
+                reject(new Error('文件流异常'))
+                }
+            })
+        },
         startAndStopRecording() {
             let that = this;
             //recording为0表示开始录音
@@ -611,12 +893,12 @@ export default {
             let fileSize = this.recorder.fileSize; //录音总大小
             var pcmBlob = this.recorder.getPCMBlob();
             let channel = this.recorder.getChannelData(); //获取左声道和右声道音频数据
-            console.log(pcmBlob);
+            //console.log(pcmBlob);
         },
         //获取WAV录音数据
         getWAVRecordAudioData() {
             var wavBlob = this.recorder.getWAVBlob();
-            console.log(wavBlob);
+            //console.log(wavBlob);
         },
         //下载PCM录音文件
         downloadPCBRecordAudioData() {
@@ -654,7 +936,7 @@ export default {
         keepTextStyle(val) {
             //console.log(val)
             //console.log(typeof val)
-            console.log((typeof val) != 'undefined')
+            //console.log((typeof val) != 'undefined')
             return (val + '').replace(/\n/g, "<br/>")
         },
         //开始文字转语音
@@ -711,7 +993,7 @@ export default {
                 //const blob = new Blob([fileData], { type: "audio/mpeg" });
                 // 生成文件URL
                 const downloadUrl = URL.createObjectURL(fileData);
-                console.log(downloadUrl)
+                //console.log(downloadUrl)
                 // var audioContext = new AudioContext();
                 // audioContext.decodeAudioData(res.data, function(buffer) {
                 // var source = audioContext.createBufferSource();
@@ -729,7 +1011,7 @@ export default {
             var formData = new FormData()
             let voiceData;
             var pcmBlob = this.recorder.getPCMBlob();
-            console.log(pcmBlob);
+            //console.log(pcmBlob);
             /** var reader = new FileReader() //生成FileReader实例
             reader.readAsArrayBuffer(pcmBlob) //取出blob或者File文件的二进制原始数据
             reader.onload = function (da) { //有一个异步回调
@@ -743,12 +1025,12 @@ export default {
             //获取当时时间戳作为文件名
             const fileOfBlob = new File([newbolb], new Date().getTime() + '.pcm')
             formData.append('file', fileOfBlob)
-            console.log(formData);
+            //console.log(formData);
             //上传wav录音数据
 
             uploadVoiceBlob(formData)
                 .then(async (response) => {
-                    console.log(response.data.data)
+                    //console.log(response.data.data)
                     //let text=response.data.data.result[0]
                     that.inputChat = response.data.data.result[0];
                     that.handleMsg()
@@ -774,7 +1056,7 @@ export default {
         pauseTextAudio() {
             var that = this;
             if (that.textAudio === null) {
-                console.log('请先点击合成')
+                //console.log('请先合成音频')
             } else {
                 that.textAudio.pause();
             }
@@ -783,7 +1065,7 @@ export default {
         stopTextAudio() {
             var that = this;
             if (that.textAudio === null) {
-                console.log('没有语音，请先合成')
+                //console.log('没有语音，请先合成')
             } else {
                 that.textAudio.stop();
             }
@@ -793,7 +1075,7 @@ export default {
             var voicePack = speechSynthesis.getVoices();
             speechSynthesis.cancel();
             console.log('开始播放')
-            console.log(voicePack)
+            //console.log(voicePack)
             msg.text = txt
             msg.volume = 1 //音量
             msg.rate = 1 //语速
@@ -847,12 +1129,57 @@ export default {
                 });
             });
         },
+        convertBase64ToImage: (data) => {
+            // 创建一个新的图片元素
+            //var img = document.createElement('img');
+            const img = new Image();
+            img.src = data;
+            // var imgWidth=img.width;
+            // var imgHeight=img.height;
+            // var windowWidth=window.innerWidth;
+            // var windowHeight=window.innerHeight;
+            // var scale = Math.min(windowWidth/imgWidth,windowHeight/imgHeight);
+            // 设置图片的宽度和高度
+            img.style.width = '95%'; // 或者使用CSS像素值
+            img.id = "tempElement";
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                // canvas.width = imgWidth * scale + "px";
+                // canvas.height = imgHeight * scale + "px";
+                context.drawImage(img, 0, 0);
+                const imageURL = canvas.toDataURL('image/png');
+            };
+            return img;
+        },
+        convertImageToBase64 (imgUrl) {
+            const image = new Image()
+            image.crossOrigin = 'anonymous'
+            let dataUrl = ''
+            return new Promise((resolve, reject) => {
+                image.onload = () => {
+                const canvas = document.createElement('canvas')
+                const ctx = canvas.getContext('2d')
+                canvas.height = image.naturalHeight
+                canvas.width = image.naturalWidth
+                ctx.drawImage(image, 0, 0)
+                dataUrl = canvas.toDataURL()
+                //通过resolve将返回值返回
+                resolve(dataUrl)
+                }
+                image.src = imgUrl
+            })
+        },
         //遍历数组，把里面的每一条json字符串转为json对象
         jsonStrToObj(msgArr) {
+            let _this = this;
             var len = msgArr.length;
             for (var i = 0; i < len; i++) {
-                var temp = JSON.parse(msgArr[i]);
-                this.msgList.push(temp);
+                let oneMsg=JSON.parse(msgArr[i]);
+                if(_this.checkObjectExistsJson(oneMsg, "extraData")){
+                    oneMsg.extraData="https://"+_this.baseHost+_this.baseApi+oneMsg.extraData;
+                }
+                this.msgList.push(oneMsg);
             }
             //return msgArr;
         },
@@ -1021,8 +1348,6 @@ body {
     white-space: pre-wrap;
     word-wrap: break-word; */
     overflow-x: scroll;
-    display: inline-flex;
-    align-items: center;
     margin-right:49px;
 }
 
@@ -1037,8 +1362,6 @@ body {
     background-color: #4c65b8;
     padding: 5px;
     color: #f0efef;
-    display: inline-flex;
-    align-items: center;
     margin-left:49px;
 }
 
