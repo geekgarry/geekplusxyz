@@ -1,5 +1,13 @@
 import request from '@/utils/request'
 
+//测试后台异步处理任务
+export function testProcess() {
+  return request({
+    url: '/AIBot/testAsyncProcess',
+    method: 'post'
+    })
+}
+
 //调用chagpt3.5的接口
 export function getchatgpt(data) {
     return request({

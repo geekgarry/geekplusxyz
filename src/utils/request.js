@@ -8,7 +8,7 @@ Vue.use(Toasted,Option);
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 
 const service = axios.create({
-    timeout: 27000, // 超过27秒提示超时
+    timeout: 30000, // 超过11秒提示超时
     baseURL: process.env.VUE_APP_BASE_API
 })
 //const service = axios.

@@ -3,44 +3,44 @@
         <div class="container">
             <div class="row" v-if="chatdisplay">
                 <!-- <div class="col-sm-1 col-md-1 col-lg-2">
-                </div> -->
+                        </div> -->
                 <!-- <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8">
-                </div> -->
+                        </div> -->
                 <div class="chat-main-content">
                     <div class="chatBoxHeader">
                         <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> $router.push({path:'/'})-->
-                        <div><span class="glyphicon glyphicon-home" aria-hidden="true" ></span></div>
+                        <div><span class="glyphicon glyphicon-home" aria-hidden="true"></span></div>
                         AI智能助手
                         <div><span class="glyphicon glyphicon-info-sign" aria-hidden="true" @click="openMsg"></span></div>
                     </div>
                     <div class="bigChatBox" id="bigChatBox" :style="{height: chatBoxHeight+ 'px'}">
-                        <div v-for="(item, index) in msgList" v-bind:key="index" class="listChatMsg" >
+                        <div v-for="(item, index) in msgList" v-bind:key="index" class="listChatMsg">
                             <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                      <span><img
-                                        class="chatUserIcon"
-                                        v-lazy="'https://www.geekplus.xyz/imgs/logo.png'"
-                                        alt="极客普拉斯" />
-                                      </span>
+                                              <span><img
+                                                class="chatUserIcon"
+                                                v-lazy="'https://www.geekplus.xyz/imgs/logo.png'"
+                                                alt="极客普拉斯" />
+                                              </span>
                             <span class="listChatItemContent" v-if="item && item.link == ''">
-                                        <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
+                                                <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
                             <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                             </span>
                             <span class="listChatItemContent" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span
-                                      >
-                                    </span>
+                                              >
+                                            </span>
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                <span v-highlight class="listChatItemContent">
-                                    <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
-                                        <img v-lazy="item.extraData" style="width: 95%;" />
-                                    </div>
-                                    {{item.text}}
-                                </span>
+                                        <span v-highlight class="listChatItemContent">
+                                            <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
+                                                <img v-lazy="item.extraData" style="width: 95%;" />
+                                            </div>
+                                            {{item.text}}
+                                        </span>
                             <span><img
-                                        class="chatUserIcon"
-                                        v-lazy="'https://www.geekplus.xyz/imgs/mai.png'"
-                                        alt="麦壳" />
-                                      </span>
+                                                class="chatUserIcon"
+                                                v-lazy="'https://www.geekplus.xyz/imgs/mai.png'"
+                                                alt="麦壳" />
+                                              </span>
                             </span>
                         </div>
                     </div>
@@ -48,98 +48,97 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <!-- <div class="input-group search-input-group">
-                                        <input
-                                          id="inputContentText"
-                                          name="inputChat"
-                                          autocomplete="off"
-                                          :autofocus="true" 
-                                          type="text"
-                                          v-model="inputChat"
-                                          class="form-control"
-                                          placeholder="请输入聊天内容"
-                                        />
-                                        <span class="input-group-addon">
-                                            <button type="button" @click="startAndStopRecording" >
-                                                {{recordingTxt}}
-                                                <span class="glyphicon glyphicon-record"></span>
-                                            </button>
-                                            <button type="button" @keydown.enter.native="handleMsg" @click="handleMsg">
-                                                <span class="glyphicon glyphicon-send"></span>
-                                            </button>
-                                        </span>
-                                    </div> -->
+                                                <input
+                                                  id="inputContentText"
+                                                  name="inputChat"
+                                                  autocomplete="off"
+                                                  :autofocus="true" 
+                                                  type="text"
+                                                  v-model="inputChat"
+                                                  class="form-control"
+                                                  placeholder="请输入聊天内容"
+                                                />
+                                                <span class="input-group-addon">
+                                                    <button type="button" @click="startAndStopRecording" >
+                                                        {{recordingTxt}}
+                                                        <span class="glyphicon glyphicon-record"></span>
+                                                    </button>
+                                                    <button type="button" v-on:keydown.enter="handleMsg" @click="handleMsg">
+                                                        <span class="glyphicon glyphicon-send"></span>
+                                                    </button>
+                                                </span>
+                                            </div> -->
                                 <div class="chatBoxFooterBtn">
                                     <span class="chat_btn_left"><a class="btn btn-default" href="#" role="button"
-                                          @click="startAndStopRecording" >{{recordingTxt}}
-                                        </a>
-                                        </span>
-                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control multiline" 
-                                    :autofocus="true" rows="1" @paste="pastingData" @paste.native.capture.prevent="pastingData"></textarea>
+                                                  @click="startAndStopRecording" >{{recordingTxt}}
+                                                </a>
+                                                </span>
+                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control multiline" :autofocus="true" rows="1" @paste="pastingData" v-on:paste.capture.prevent="pastingData"></textarea>
                                     <span class="chat_btn_right"><a class="btn btn-default" href="#" role="button"
-                                          @keydown.enter.native="handleMsg"
-                                          @click="handleMsg"
-                                          >发送</a
-                                        ></span>
+                                                  v-on:keydown.enter="handleMsg"
+                                                  @click="handleMsg"
+                                                  >发送</a
+                                                ></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--事件的native修饰符只能在UI组件或自定义组件上使用，原生的html标签是不能使用的,入div，input等-->
             <!-- <button type="button" class="btn btn-info" @click="visible11" v-show="chatBtnPcDisplay">打开ChatGpt聊天框</button> -->
             <div class="row" v-else>
                 <div class="col-sm-2 col-md-2 col-lg-3"></div>
                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 chat-main-content">
                     <div style="
-                        text-align: center;
-                        line-height: 40px;
-                        height: 40px;
-                        font-size: initial;
-                        color: var(--color-article-container-text-1, #696969);
-                        border-bottom: var(--color-border-4, #c5c5c5) 1px solid;
-                    ">AI聊天助手</div>
+                                text-align: center;
+                                line-height: 40px;
+                                height: 40px;
+                                font-size: initial;
+                                color: var(--color-article-container-text-1, #696969);
+                                border-bottom: var(--color-border-4, #c5c5c5) 1px solid;
+                            ">AI聊天助手</div>
                     <div class="bigChatBox" id="bigChatBox-desktop" :style="{height: chatBoxHeight+ 'px'}">
                         <!-- :style="{textAlign: item.align}" -->
-                        <div v-for="(item, index) in msgList" :key="index" class="listChatMsg" >
+                        <div v-for="(item, index) in msgList" :key="index" class="listChatMsg">
                             <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                <img
-                                    class="chatUserIcon"
-                                    src="https://www.geekplus.xyz/imgs/logo.png"
-                                    alt="极客普拉斯"
-                                />
-                            <span class="pcChatTextSpan" v-if="item && item.link == ''" >
-                                <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
-                                <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
+                                        <img
+                                            class="chatUserIcon"
+                                            src="https://www.geekplus.xyz/imgs/logo.png"
+                                            alt="极客普拉斯"
+                                        />
+                                    <span class="pcChatTextSpan" v-if="item && item.link == ''" >
+                                        <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
+                            <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                             </span>
                             <span class="pcChatTextSpan" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span>
                             </span>
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                <span v-highlight class="pcChatTextSpan">
-                                    <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
-                                        <img v-lazy="item.extraData" style="width: 95%;" />
-                                    </div>
-                                    {{item.text}}
-                                </span>
-                                <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/mai.png" alt="麦壳" />
+                                        <span v-highlight class="pcChatTextSpan">
+                                            <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
+                                                <img v-lazy="item.extraData" style="width: 95%;" />
+                                            </div>
+                                            {{item.text}}
+                                        </span>
+                            <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/mai.png" alt="麦壳" />
                             </span>
                         </div>
                     </div>
                     <div class="chatBoxFooter">
                         <!-- <div class="form-inline">
-                            <div class="form-group">
-                                <label for="exampleInputName2">Name</label>
-                                <input type="text" class="form-control" id="inputContentText" v-model="inputChat" :autofocus="true" placeholder="请输入聊天内容">
-                            </div>
-                            <button type="submit" class="btn btn-primary" @keydown.enter.native="handleMsg" @click="handleMsg">发送</button>
-                        </div> -->
+                                    <div class="form-group">
+                                        <label for="exampleInputName2">Name</label>
+                                        <input type="text" class="form-control" id="inputContentText" v-model="inputChat" :autofocus="true" placeholder="请输入聊天内容">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" v-on:keydown.enter="handleMsg" @click="handleMsg">发送</button>
+                                </div> -->
                         <div class="input-group search-input-group">
                             <!-- <input type="hidden" name="scope" value="1" /> -->
-                            <textarea id="inputContentText" name="inputChat" autocomplete="off" :autofocus="true" v-model="inputChat" class="form-control multiline"
-                             placeholder="请输入聊天内容" rows="1" @paste="pastingData" @paste.native.capture.prevent="pastingData"></textarea>
+                            <textarea id="inputContentText" name="inputChat" autocomplete="off" :autofocus="true" v-model="inputChat" class="form-control multiline" placeholder="请输入聊天内容" rows="1" @paste="pastingData" v-on:paste.capture.prevent="pastingData"></textarea>
                             <span class="input-group-addon">
-                              <button type="button" @keydown.enter.native="handleMsg" @click="handleMsg">
-                                <span class="glyphicon glyphicon-send"></span>
+                                      <button type="button" v-on:keydown.enter="handleMsg" @click="handleMsg">
+                                        <span class="glyphicon glyphicon-send"></span>
                             </button>
                             </span>
                         </div>
@@ -150,41 +149,29 @@
         </div>
         <!-- <el-dialog :visible.sync="visible" title="对话框"> -->
         <!-- </el-dialog> -->
-        <div
-            class="modal fade"
-            id="chatDataModal"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="myModalLabel"
-        >
+        <div class="modal fade" id="chatDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div role="document" class="plus-dialog">
-            <div class="plus-dialog-main">
-                <div class="plus-dialog-container">
-                    <div class="chat_extra_data" id="chatImgData" contenteditable="false"></div>
-                    <div class="chat_extra_data" id="mediaData" contenteditable="false"></div>
-                    <div class="chat_extra_data" id="fileData" contenteditable="false"></div>
-                </div>
-                <textarea name="inputChatDialog" v-model="chatMsgData.chatData" class="plus-form-textarea"
-                    placeholder="请输入聊天内容" rows="1" ></textarea>
-                <div class="plus-dialog-footer">
-                    <div class="pdf-left-btn">
-                        <span
-                        class="cancel_btn"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        >
-                        取消
-                        <!-- <span  aria-hidden="true">&times;</span> -->
-                        <!-- <font-awesome-icon :icon="['fas', 'times']" /> -->
-                        </span>
+                <div class="plus-dialog-main">
+                    <div class="plus-dialog-container">
+                        <div class="chat_extra_data" id="chatImgData" contenteditable="false"></div>
+                        <div class="chat_extra_data" id="mediaData" contenteditable="false"></div>
+                        <div class="chat_extra_data" id="fileData" contenteditable="false"></div>
                     </div>
-                    <span class="split-line"></span>
-                    <div class="pdf-right-btn">
-                        <span
-                        class="confirm_btn" @click="sendWithImg" @click.native="sendWithImg">发送</span>
+                    <textarea name="inputChatDialog" v-model="chatMsgData.chatData" class="plus-form-textarea" placeholder="请输入聊天内容" rows="1"></textarea>
+                    <div class="plus-dialog-footer">
+                        <div class="pdf-left-btn">
+                            <span class="cancel_btn" data-dismiss="modal" aria-label="Close">
+                                取消
+                                <!-- <span  aria-hidden="true">&times;</span> -->
+                            <!-- <font-awesome-icon :icon="['fas', 'times']" /> -->
+                            </span>
+                        </div>
+                        <span class="split-line"></span>
+                        <div class="pdf-right-btn">
+                            <span class="confirm_btn" @click="sendWithImg" v-on:click="sendWithImg">发送</span>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -194,8 +181,8 @@
 import axios from 'axios'
 import Recorder from 'js-audio-recorder'
 // import { marked } from "marked"//9.1.6
-const marked = require('marked');//9.1.6
-import { getchatgpt, chatgpttest, geminiAI, geminiAIChat, getHistoryMessage, getTTSChinese } from "@/api/chatbot/chatbot"
+const marked = require('marked'); //9.1.6
+import { testProcess, getchatgpt, chatgpttest, geminiAI, geminiAIChat, getHistoryMessage, getTTSChinese } from "@/api/chatbot/chatbot"
 
 export default {
     name: "ChatBot",
@@ -203,7 +190,7 @@ export default {
         return {
             visible: false,
             inputChat: "",
-            preChatData: "",//历史聊天数据
+            preChatData: "", //历史聊天数据
             msgList: [], //聊天消息的list
             historyMsgStr: "", //历史聊天记录
             loading: false,
@@ -227,7 +214,7 @@ export default {
             isHistory: true, //是否采用有历史记忆的聊天
             tempFileUrl: "", //临时数据文件地址
             openAiKey: '',
-            chatMsgData:{},//封装一个聊天消息，里面自己添加具体的内容，可以携带媒体数据mediaData
+            chatMsgData: {}, //封装一个聊天消息，里面自己添加具体的内容，可以携带媒体数据mediaData
             baseHost: window.location.host,
             baseApi: process.env.VUE_APP_BASE_API,
             textAreaInput: null,
@@ -249,6 +236,7 @@ export default {
         }
         //document.getElementById("bigChatBox").offsetHeight = (this.fullHeight - 100) + "px";
         this.chatBoxHeight = this.fullHeight - 85;
+        // testProcess().then(res=>{console.log(res);})
     },
     mounted() {
         //window.addEventListener('resize', function() {});
@@ -273,14 +261,14 @@ export default {
                 //document.getElementById("bigChatBox").offsetHeight = (that.windowHeight - 100) + "px";
                 that.chatBoxHeight = that.windowHeight - 85;
                 that.scrollTop11();
-                if (document.activeElement.tagName === 'INPUT'  || document.activeElement.tagName === 'TEXTAREA') {
-                window.setTimeout(function() {
-                if('scrollIntoView' in document.activeElement) {
-                document.activeElement.scrollIntoView();
-                } else {
-                document.activeElement.scrollIntoViewIfNeeded();
-                }
-                }, 0);
+                if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                    window.setTimeout(function() {
+                        if ('scrollIntoView' in document.activeElement) {
+                            document.activeElement.scrollIntoView();
+                        } else {
+                            document.activeElement.scrollIntoViewIfNeeded();
+                        }
+                    }, 0);
                 }
             })()
         };
@@ -289,27 +277,27 @@ export default {
         const maxLines = 8;
         const inputHeight = textarea.offsetHeight;
         textarea.addEventListener("input", () => {
-        // 将高度重置为自动，以便根据内容计算高度
-        textarea.style.height = "auto";
-        //console.log(textarea.style.height)
-        // 获取行数
-        const currentLines = textarea.value.split("\n").length;
-        //console.log(currentLines)
-        textarea.style.height = inputHeight + (currentLines-1) * 22+`px`;
-        // 如果行数超过最大行数，则设置最大高度
-        if (currentLines > maxLines) {
-            textarea.style.height = inputHeight + maxLines * 22+`px`;
-            //textarea.style.height = `${textarea.scrollHeight}px`;
-        }else if(currentLines == 1){
+            // 将高度重置为自动，以便根据内容计算高度
             textarea.style.height = "auto";
-        }
+            //console.log(textarea.style.height)
+            // 获取行数
+            const currentLines = textarea.value.split("\n").length;
+            //console.log(currentLines)
+            textarea.style.height = inputHeight + (currentLines - 1) * 22 + `px`;
+            // 如果行数超过最大行数，则设置最大高度
+            if (currentLines > maxLines) {
+                textarea.style.height = inputHeight + maxLines * 22 + `px`;
+                //textarea.style.height = `${textarea.scrollHeight}px`;
+            } else if (currentLines == 1) {
+                textarea.style.height = "auto";
+            }
         });
         textarea.addEventListener("keydown", (e) => {
-            let keyC = window.event.keyCode;//这里是键盘的ASCLL码值，13为回车值
+            let keyC = window.event.keyCode; //这里是键盘的ASCLL码值，13为回车值
             //let key = window.event.key || event.key;//新的key时表示为键盘的具体值
-            if(keyC == 13 && !e.shiftKey) {
+            if (keyC == 13 && !e.shiftKey) {
                 //只有enter没有shift，或进行你的其他逻辑
-                e.preventDefault();// 阻止默认行为，即不换行
+                e.preventDefault(); // 阻止默认行为，即不换行
                 // 13是enter键的键盘码 如果等于13 就调用click的登录方法
                 this.handleMsg();
             }
@@ -352,7 +340,7 @@ export default {
             if (this.inputChat === "关闭语音") {
                 this.isTextVoice = false;
                 this.inputChat = "";
-                this.$toasted.show("关闭语音回复功能", {position: "top-center",duration: 3000,theme: "bubble",});
+                this.$toasted.show("关闭语音回复功能", { position: "top-center", duration: 3000, theme: "bubble", });
                 /*
                  * 模拟信息返回
                  */
@@ -370,7 +358,7 @@ export default {
             } else if (this.inputChat === "开启语音") {
                 this.isTextVoice = true;
                 this.inputChat = "";
-                this.$toasted.success("开启语音回复功能", {position: "top-center",duration: 3000,theme: "bubble",});
+                this.$toasted.success("开启语音回复功能", { position: "top-center", duration: 3000, theme: "bubble", });
                 /*
                  * 模拟信息返回
                  */
@@ -389,21 +377,21 @@ export default {
                 this.pauseTextAudio();
                 //this.loading = false;
                 this.inputChat = "";
-                this.$toasted.info("停止回复语音", {position: "top-center",duration: 3000,theme: "bubble",});
+                this.$toasted.info("停止回复语音", { position: "top-center", duration: 3000, theme: "bubble", });
             } else if (this.inputChat === "继续语音" || this.inputChat === "继续播放" || this.inputChat === "继续回复语音" || this.inputChat === "play") {
                 this.playTextAudio();
                 //this.loading = false;
                 this.inputChat = "";
-                this.$toasted.info("播放回复语音", {position: "top-center",duration: 3000,theme: "bubble",});
-            } else if(this.inputChat === "聊天模式"|| this.inputChat === "开启聊天模式"|| this.inputChat === "开启对话模式" || this.inputChat === "开启记忆对话" || this.inputChat === "对话模式"){
-                this.isHistory=true;
+                this.$toasted.info("播放回复语音", { position: "top-center", duration: 3000, theme: "bubble", });
+            } else if (this.inputChat === "聊天模式" || this.inputChat === "开启聊天模式" || this.inputChat === "开启对话模式" || this.inputChat === "开启记忆对话" || this.inputChat === "对话模式") {
+                this.isHistory = true;
                 this.inputChat = "";
-                this.$toasted.success("开启聊天对话模式", {position: "top-center",duration: 3000,theme: "bubble",});
-            } else if(this.inputChat === "取消历史记忆"|| this.inputChat === "关闭对话模式" || this.inputChat === "关闭聊天模式" || this.inputChat === "关闭记忆对话"){
-                this.isHistory=false;
+                this.$toasted.success("开启聊天对话模式", { position: "top-center", duration: 3000, theme: "bubble", });
+            } else if (this.inputChat === "取消历史记忆" || this.inputChat === "关闭对话模式" || this.inputChat === "关闭聊天模式" || this.inputChat === "关闭记忆对话") {
+                this.isHistory = false;
                 this.inputChat = "";
-                this.$toasted.show("取消聊天对话模式", {position: "top-center",duration: 3000,theme: "bubble",});
-            } else if ((this.inputChat !== "" || this.inputChat.length >0) && !this.isOnlyNewlines(this.inputChat)) {
+                this.$toasted.show("取消聊天对话模式", { position: "top-center", duration: 3000, theme: "bubble", });
+            } else if ((this.inputChat !== "" || this.inputChat.length > 0) && !this.isOnlyNewlines(this.inputChat)) {
                 //this.loading = true;
                 //chatHistoryToJson方法是在发送消息前把之前所有的消息构造一个json作为历史消息记录
                 this.chatHistoryToJson(this.msgList);
@@ -415,60 +403,71 @@ export default {
             }
         },
         getMsg() {
-            let that=this;
+            let that = this;
             // {
-                /** if(this.openAiKey==''||this.openAiKey==null){
-                  this.$message({message:'请先输入你的openAiKey',type:'error',duration:2500})
-                }else{
-                  // 处理自己的接口请求 返回需要的数据
-                axios.post("/getchatgpt",//openai的api
-                  { username:"You", data: this.inputChat,openAiKey:this.openAiKey })
-                  .then(async (response) => {
-                  console.log(response);
-                  if (response.status == 200) {
-                    console.log("返回响应信息")
-                    console.log(response.data)
-                    let msg="消息";
-                    let msgtype="0"
-                    if(response.data.code==500){
-                      msg="返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
-                      msgtype="0";
-                    }else if(response.data.code==200){
-                      // 自行处理需要的数据
-                      msg = response.data.data.msg_data;
-                      msgtype = response.data.data.msg_type;
-                    }
-                    let listMsg = {
-                    align: "left",
-                    text: msg,
-                    link: "",
-                    type: msgtype
-                    };
-                    if(this.isTextVoice===true){
-                      this.startTTS(msg);
-                    }
-                    await this.msgList.push(listMsg);
-                    await this.scrollTop11();
-                  }
-                  this.loading = false;
-                  })
-                  .catch(function (error) {
-                  console.log(error);
-                  this.loading = false;
-                  });
-                } */
-                if(that.isHistory === false){
-                    let dataParams= { username: "guest", chatData: this.inputChat };
-                    this.sendMessage(dataParams);
-                } else {
-                    let dataParams = { username: "guest", chatData: this.inputChat, preChatData: this.preChatData };
-                    this.sendMessageChat(dataParams);
+            /** if(this.openAiKey==''||this.openAiKey==null){
+              this.$message({message:'请先输入你的openAiKey',type:'error',duration:2500})
+            }else{
+              // 处理自己的接口请求 返回需要的数据
+            axios.post("/getchatgpt",//openai的api
+              { username:"You", data: this.inputChat,openAiKey:this.openAiKey })
+              .then(async (response) => {
+              console.log(response);
+              if (response.status == 200) {
+                console.log("返回响应信息")
+                console.log(response.data)
+                let msg="消息";
+                let msgtype="0"
+                if(response.data.code==500){
+                  msg="返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
+                  msgtype="0";
+                }else if(response.data.code==200){
+                  // 自行处理需要的数据
+                  msg = response.data.data.msg_data;
+                  msgtype = response.data.data.msg_type;
                 }
+                let listMsg = {
+                align: "left",
+                text: msg,
+                link: "",
+                type: msgtype
+                };
+                if(this.isTextVoice===true){
+                  this.startTTS(msg);
+                }
+                await this.msgList.push(listMsg);
+                await this.scrollTop11();
+              }
+              this.loading = false;
+              })
+              .catch(function (error) {
+              console.log(error);
+              this.loading = false;
+              });
+            } */
+            if (that.isHistory === false) {
+                let dataParams = { username: "guest", chatData: this.inputChat };
+                let result = null;
+                this.sendMessage(dataParams)
+                // .then(res => {
+                //     result = res;
+                //     this.handleResultTask(result);
+                // }, error => {});
+            } else {
+                let dataParams = { username: "guest", chatData: this.inputChat, preChatData: this.preChatData };
+                let result2 = null;
+                this.sendMessageChat(dataParams)
+                // .then(res => {
+                //     result2 = res;
+                //     console.log(res)
+                //     this.handleResultTask(result2);
+                // }, error => {});
+            }
             //}
         },
         //获取用户的历史聊天记录
         getHistoryMag(username) {
-            let that=this;
+            let that = this;
             getHistoryMessage({ username: username })
                 .then(async (response) => {
                     //console.log(response.data)
@@ -484,118 +483,116 @@ export default {
                     });
                 });
         },
-        sendWithImg(){
+        sendWithImg() {
             //chatHistoryToJson方法是在发送消息前把之前所有的消息构造一个json作为历史消息记录
             //this.chatHistoryToJson(this.msgList);
-            this.chatMsgData.username="guest";
-            this.chatMsgData.preChatData=this.preChatData;
+            this.chatMsgData.username = "guest";
+            this.chatMsgData.preChatData = this.preChatData;
             //let imgDiv=document.createElement("div").appendChild(this.convertBase64ToImage("base64Str")); this.chatMsgData.mediaData
             this.msgList.push({ align: "right", text: this.chatMsgData.chatData, extraData: this.tempFileUrl, time: Date.now() });
             this.scrollTop11();
             this.sendMessageChat(this.chatMsgData);
             $('#chatDataModal').modal('hide');
         },
-        sendMessage(dataParams){
-            let _this=this;
+        sendMessage(dataParams) {
+            let _this = this;
+            //链式编程
+            // new Promise((resolve, reject) => {
+            //     //第一次网络请求
+            //     setTimeout(() => {
+            //     //resolve将拿到的参数传递给then处理
+            //     resolve('hello');
+            //     //reject('err err err');
+            //     },1000);
+            // }).then((data) => {
+            //     //第一次网络请求后的处理
+            //     console.log(data);
+            // }).catch(err => {
+            //     console.log(err);
+            // });
             geminiAI(dataParams)
-                    .then(async (response) => {
-                        //console.log(response);
-                        //if (response.code == 200) {
-                        //console.log("返回响应信息")
-                        //console.log(response.data)
-                        let msg = "消息";
-                        let msgtype = "0"
-                        if (response.status && response.status == 500) {
-                            msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
-                            msgtype = "0";
-                        }
-                        if (response.code == 500) {
-                            msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
-                            msgtype = "0";
-                        } else if (response.code == 200) {
-                            // 自行处理需要的数据
-                            msg = response.data.msg_data.trim();
-                            msgtype = response.data.msg_type;
-                        }
-                        let listMsg = {
-                            align: "left",
-                            text: msg,
-                            link: "",
-                            type: msgtype,
-                            time: response.data.msg_date_time
-                        };
-                        /**if (msg.flag == 1) {
-                        const splitMsg = msg.answer.split("：");
-                        listMsg.text = splitMsg[0];
-                        listMsg.link = splitMsg[1];
-                        }*/
-                        if (this.isTextVoice === true) {
-                            this.startTTS(msg);
-                        }
-                        await this.msgList.push(listMsg);
-                        await this.scrollTop11();
-                        //}
-                        //this.loading = false;
-                    })
-                    .catch(function(error) {
-                        //console.log(error);
-                        _this.$toasted.error(error.msg, {
-                            position: "top-center",
-                            duration: 3000,
-                            theme: "outline",
-                        });
-                        //this.loading = false;
+                .then(async (response) => {
+                    //console.log(response);
+                    //if (response.code == 200) {
+                    //console.log(response.data)
+                    await this.handleResultTask(response);
+                    //}
+                    //this.loading = false;
+                })
+                .catch(function(error) {
+                    //reject(error);
+                    //console.log(error);
+                    _this.$toasted.error(error.msg, {
+                        position: "top-center",
+                        duration: 3000,
+                        theme: "outline",
                     });
+                    //this.loading = false;
+                });
         },
-        sendMessageChat(dataParams){
-            let _this=this;
+        sendMessageChat(dataParams) {
+            let _this = this;
             geminiAIChat(dataParams)
-            .then(async (response) => {
-                        //console.log(response);
-                        //if (response.code == 200) {
-                        //console.log("返回响应信息")
-                        //console.log(response.data)
-                        let msg = "消息";
-                        let msgtype = "0"
-                        if (response.status && response.status == 500) {
-                            msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
-                            msgtype = "0";
-                        }
-                        if (response.code == 500) {
-                            msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
-                            msgtype = "0";
-                        } else if (response.code == 200) {
-                            // 自行处理需要的数据
-                            msg = response.data.msg_data.trim();
-                            msgtype = response.data.msg_type;
-                        }
-                        let listMsg = {
-                            align: "left",
-                            text: msg,
-                            link: "",
-                            type: msgtype,
-                            time: response.data.msg_date_time
-                        };
-                        if (this.isTextVoice === true) {
-                            this.startTTS(msg);
-                        }
-                        await this.msgList.push(listMsg);
-                        await this.scrollTop11();
-                        //}
-                        //this.loading = false;
-                    })
-                    .catch(function(error) {
-                        //console.log(error);
-                        _this.$toasted.error(error.msg, {
-                            position: "top-center",
-                            duration: 3000,
-                            theme: "outline",
-                        });
-                        //this.loading = false;
+                .then(async (response) => {
+                    //console.log(response);
+                    //if (response.code == 200) {
+                    //console.log(response.data)
+                    await this.handleResultTask(response);
+                    //}
+                    //this.loading = false;
+                })
+                .catch(function(error) {
+                    //reject(error);
+                    //console.log(error);
+                    _this.$toasted.error(error.msg, {
+                        position: "top-center",
+                        duration: 3000,
+                        theme: "outline",
                     });
+                    //this.loading = false;
+                });
+            // return new Promise((resolve, reject) => {
+            //     // 执行耗时操作
+            //     // setTimeout(() => {
+            //     // resolve('Task completed');
+            //     // }, 5000); // 模拟耗时操作，延迟5秒
+            // });
+        },
+        async handleResultTask(response) {
+            let msg = "消息";
+            let msgtype = "0"
+            // if (response.status && response.status == 500) {
+            //     msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
+            //     msgtype = "0";
+            // }
+            if (response.code == 500) {
+                msg = "返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
+                msgtype = "0";
+            } else if (response.code == 200) {
+                // 自行处理需要的数据
+                msg = response.data.msg_data.trim();
+                msgtype = response.data.msg_type;
+            }
+            let listMsg = {
+                align: "left",
+                text: msg,
+                link: "",
+                type: msgtype,
+                time: response.data.msg_date_time
+            };
+            //if (msg.flag == 1) {
+            // const splitMsg = msg.answer.split("：");
+            // listMsg.text = splitMsg[0];
+            // listMsg.link = splitMsg[1];
+            // }
+            if (this.isTextVoice === true) {
+                this.startTTS(msg);
+            }
+            await this.msgList.push(listMsg);
+            await this.scrollTop11();
         },
         //输入框粘贴事件处理函数
-        pastingData(event){
+        pastingData(event) {
             //let txt=event.clipboardData.getData('Text');
             let file = null
             const items = (event.clipboardData || window.clipboardData).items
@@ -610,7 +607,7 @@ export default {
             //         return false;
             //     }
             // }
-            if(items && items.length) {
+            if (items && items.length) {
                 // const item = items[0];
                 // if (item.kind === 'file' && item.type.startsWith('image/'))
                 for (let i = 0; i < items.length; i++) {
@@ -622,19 +619,19 @@ export default {
                         const reader = new FileReader();
                         reader.onload = (e) => {
                             const base64 = e.target.result;
-                            this.chatMsgData.mediaData=base64;
+                            this.chatMsgData.mediaData = base64;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
                             const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
-                            this.tempFileUrl=tempUrl;
-                            var tempImg='<img src="'+ tempUrl +'" style="width: 100%"/>';
-                            document.getElementById("fileData").innerHTML=tempImg;
+                            this.tempFileUrl = tempUrl;
+                            var tempImg = '<img src="' + tempUrl + '" style="width: 100%"/>';
+                            document.getElementById("fileData").innerHTML = tempImg;
                             // document.getElementById("chatImgData").appendChild(this.convertBase64ToImage(base64));
                             $('#chatDataModal').modal();
                         };
                         reader.readAsDataURL(file);
                         break;
-                    }else if(items[i].kind === 'file' && items[i].type.indexOf('pdf') !== -1){
+                    } else if (items[i].kind === 'file' && (items[i].type.indexOf('json') !== -1 || items[i].type.indexOf('xml') !== -1)) {
                         file = items[i].getAsFile();
                         //console.log(file);
                         // 创建FileReader读取图片
@@ -642,25 +639,25 @@ export default {
                         reader.readAsDataURL(file);
                         reader.onload = (e) => {
                             const base64 = e.target.result;
-                            this.chatMsgData.mediaData=base64;
+                            this.chatMsgData.mediaData = base64;
                             //console.log(this.base64ToBlob(base64));
-                            const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
-                            this.tempFileUrl=tempUrl;
+                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl = tempUrl;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
                             // var pdfIframe = document.createElement('iframe');
                             //pdfIframe.style.height="100%";
                             // pdfIframe.style.width="100%";
                             // pdfIframe.src = tempUrl;
-                            let domObject='<object data="'+tempUrl+'" type="application/pdf" width="100%" height="100%">该浏览器不支持PDF.请点击查看:<a href="'+tempUrl+'">Download PDF</a>.</p></object>';
+                            let domObject = '<object data="' + tempUrl + '" type="application/pdf" width="100%" height="100%">该浏览器不支持PDF.请点击查看:<a href="' + tempUrl + '">Download PDF</a>.</p></object>';
                             //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
-                            document.getElementById("fileData").innerHTML=domObject;
+                            document.getElementById("fileData").innerHTML = domObject;
                             //document.getElementById("fileData").remove();
                             //document.getElementById("fileData").appendChild(pdfIframe);
                             $('#chatDataModal').modal();
                         };
                         break;
-                    }else if(items[i].kind === 'file' && (items[i].type.indexOf('application/vnd') !== -1 || items[i].type.indexOf('application/ms') !== -1)){
+                    } else if (items[i].kind === 'file' && (items[i].type.indexOf('application/vnd') !== -1 || items[i].type.indexOf('application/ms') !== -1)) {
                         file = items[i].getAsFile();
                         //console.log(file);
                         // 创建FileReader读取图片
@@ -668,67 +665,67 @@ export default {
                         reader.readAsDataURL(file);
                         reader.onload = (e) => {
                             const base64 = e.target.result;
-                            this.chatMsgData.mediaData=base64;
+                            this.chatMsgData.mediaData = base64;
                             //console.log(this.base64ToBlob(base64));
-                            const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
-                            this.tempFileUrl=tempUrl;
+                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl = tempUrl;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
                             // var pdfIframe = document.createElement('iframe');
                             //pdfIframe.style.height="100%";
                             // pdfIframe.style.width="100%";
                             // pdfIframe.src = tempUrl;
-                            let domObject='<embed src="'+tempUrl+'" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="'+tempUrl+'">Download Office File</a>.</p></embed>';
+                            let domObject = '<embed src="' + tempUrl + '" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="' + tempUrl + '">Download Office File</a>.</p></embed>';
                             //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
-                            document.getElementById("fileData").innerHTML=domObject;
+                            document.getElementById("fileData").innerHTML = domObject;
                             //document.getElementById("fileData").remove();
                             //document.getElementById("fileData").appendChild(pdfIframe);
                             $('#chatDataModal').modal();
                         };
                         break;
-                    }else if(items[i].kind === 'file' && (items[i].type.indexOf('audio') !== -1 || items[i].type.indexOf('video') !== -1)){
+                    } else if (items[i].kind === 'file' && (items[i].type.indexOf('audio') !== -1 || items[i].type.indexOf('video') !== -1)) {
                         file = items[i].getAsFile();
                         //console.log(file);
                         // 创建FileReader读取图片
                         const reader = new FileReader();
                         reader.onload = (e) => {
                             const base64 = e.target.result;
-                            this.chatMsgData.mediaData=base64;
-                            const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
-                            this.tempFileUrl=tempUrl;
+                            this.chatMsgData.mediaData = base64;
+                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl = tempUrl;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
-                            var tempFile='<video controls height="50" width="100%" data="'+tempUrl+'">'+
-                                '<source src="'+tempUrl+'" type="audio/mpeg">'+
-                                '<source src="'+tempUrl+'" type="audio/ogg">'+
-                                '<embed height="50" width="100" src="'+tempUrl+'">'+
+                            var tempFile = '<video controls height="50" width="100%" data="' + tempUrl + '">' +
+                                '<source src="' + tempUrl + '" type="audio/mpeg">' +
+                                '<source src="' + tempUrl + '" type="audio/ogg">' +
+                                '<embed height="50" width="100" src="' + tempUrl + '">' +
                                 //'<object height="50" width="100" data="'+tempUrl+'"></object>'+
                                 '</video>';
-                            document.getElementById("fileData").innerHTML=tempFile;
+                            document.getElementById("fileData").innerHTML = tempFile;
                             // document.getElementById("fileData").append();
                             $('#chatDataModal').modal();
                         };
                         reader.readAsDataURL(file);
                         break;
-                    }else if(items[i].kind === 'file' && items[i].type.indexOf('text') !== -1){
+                    } else if (items[i].kind === 'file' && items[i].type.indexOf('text') !== -1) {
                         file = items[i].getAsFile();
                         //console.log(file);
                         // 创建FileReader读取图片
                         const reader = new FileReader();
                         reader.onload = (e) => {
                             const base64 = e.target.result;
-                            this.chatMsgData.mediaData=base64;
-                            const tempUrl=URL.createObjectURL(this.base64ToBlob(base64));
-                            this.tempFileUrl=tempUrl;
+                            this.chatMsgData.mediaData = base64;
+                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            this.tempFileUrl = tempUrl;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
-                            var tempFile='<object controls height="100%" width="100%" data="'+tempUrl+'">'+
-                                '<source src="'+tempUrl+'" type="audio/mpeg">'+
-                                '<source src="'+tempUrl+'" type="audio/ogg">'+
-                                '<embed height="50" width="100" src="'+tempUrl+'">'+
+                            var tempFile = '<object controls height="100%" width="100%" data="' + tempUrl + '">' +
+                                '<source src="' + tempUrl + '" type="audio/mpeg">' +
+                                '<source src="' + tempUrl + '" type="audio/ogg">' +
+                                '<embed height="50" width="100" src="' + tempUrl + '">' +
                                 //'<object height="50" width="100" data="'+tempUrl+'"></object>'+
                                 '</object>';
-                            document.getElementById("fileData").innerHTML=tempFile;
+                            document.getElementById("fileData").innerHTML = tempFile;
                             // document.getElementById("fileData").append();
                             $('#chatDataModal').modal();
                         };
@@ -756,7 +753,7 @@ export default {
                 const reader = new FileReader()
                 reader.readAsDataURL(blob)
                 reader.onload = (e) => {
-                resolve(e.target.result)
+                    resolve(e.target.result)
                 }
             })
         },
@@ -773,15 +770,15 @@ export default {
             return new File([u8arr], filename, { type: type })
         },
         //File 和 base64 类型转换
-        fileToBase64 (data) {
+        fileToBase64(data) {
             return new Promise((resolve, reject) => {
                 const fileReader = new FileReader()
                 fileReader.onload = (e) => {
-                resolve(e.target.result)
+                    resolve(e.target.result)
                 }
                 fileReader.readAsDataURL(data)
                 fileReader.onerror = () => {
-                reject(new Error('文件流异常'))
+                    reject(new Error('文件流异常'))
                 }
             })
         },
@@ -795,12 +792,12 @@ export default {
             return new Promise((resolve, reject) => {
                 const fileReader = new FileReader()
                 fileReader.onload = (e) => {
-                const blob = new Blob([e.target.result], { type: data.type })
-                resolve(blob)
+                    const blob = new Blob([e.target.result], { type: data.type })
+                    resolve(blob)
                 }
                 fileReader.readAsDataURL(data)
                 fileReader.onerror = () => {
-                reject(new Error('文件流异常'))
+                    reject(new Error('文件流异常'))
                 }
             })
         },
@@ -914,7 +911,7 @@ export default {
             this.recorder.downloadWAV("maike");
         },
         // 处理滚动条一直保持最上方
-        scrollTop11() {
+        async scrollTop11() {
             let div = document.getElementById("bigChatBox") || document.getElementById("bigChatBox-desktop");
             div.scrollTop = div.scrollHeight;
         },
@@ -986,7 +983,7 @@ export default {
             axios({
                 method: 'post',
                 url: url,
-                data:{ ttsText:text },
+                data: { ttsText: text },
                 // params:queryParams,
                 responseType: 'blob',
                 //headers: { 'Plus-Token': getToken() }//'Bearer ' + 
@@ -1157,20 +1154,20 @@ export default {
             };
             return img;
         },
-        convertImageToBase64 (imgUrl) {
+        convertImageToBase64(imgUrl) {
             const image = new Image()
             image.crossOrigin = 'anonymous'
             let dataUrl = ''
             return new Promise((resolve, reject) => {
                 image.onload = () => {
-                const canvas = document.createElement('canvas')
-                const ctx = canvas.getContext('2d')
-                canvas.height = image.naturalHeight
-                canvas.width = image.naturalWidth
-                ctx.drawImage(image, 0, 0)
-                dataUrl = canvas.toDataURL()
-                //通过resolve将返回值返回
-                resolve(dataUrl)
+                    const canvas = document.createElement('canvas')
+                    const ctx = canvas.getContext('2d')
+                    canvas.height = image.naturalHeight
+                    canvas.width = image.naturalWidth
+                    ctx.drawImage(image, 0, 0)
+                    dataUrl = canvas.toDataURL()
+                    //通过resolve将返回值返回
+                    resolve(dataUrl)
                 }
                 image.src = imgUrl
             })
@@ -1180,9 +1177,9 @@ export default {
             let _this = this;
             var len = msgArr.length;
             for (var i = 0; i < len; i++) {
-                let oneMsg=JSON.parse(msgArr[i]);
-                if(_this.checkObjectExistsJson(oneMsg, "extraData")){
-                    oneMsg.extraData="https://"+_this.baseHost+_this.baseApi+oneMsg.extraData;
+                let oneMsg = JSON.parse(msgArr[i]);
+                if (_this.checkObjectExistsJson(oneMsg, "extraData")) {
+                    oneMsg.extraData = "https://" + _this.baseHost + _this.baseApi + oneMsg.extraData;
                 }
                 this.msgList.push(oneMsg);
             }
@@ -1191,20 +1188,20 @@ export default {
         //遍历聊天记录数组，把里面的每一条json字符串转为json对象
         //在发送消息前把之前所有的消息构造一个json作为历史消息记录
         chatHistoryToJson(msgArr) {
-            let tempMessage = "";//[];
+            let tempMessage = ""; //[];
             var len = msgArr.length;
-            if(len > 0) {
+            if (len > 0) {
                 for (var i = 0; i < len; i++) {
                     // var temp = JSON.parse(msgArr[i]);
                     // this.msgList.push(temp);
-                    if(msgArr[i].align=="right"){
+                    if (msgArr[i].align == "right") {
                         // tempMessage.push({role: "user", parts: [{text: msgArr[i].text}]});
                         //tempMessage += "{\"role\": \"user\",\"parts\": [{\"text\": \"" + msgArr[i].text + "\"}]},";
-                        tempMessage += JSON.stringify({role: "user", parts: [{text: msgArr[i].text}]})+",";
-                    } else if(msgArr[i].align=="left"){
+                        tempMessage += JSON.stringify({ role: "user", parts: [{ text: msgArr[i].text }] }) + ",";
+                    } else if (msgArr[i].align == "left") {
                         // tempMessage.push({role: "model", parts: [{text: msgArr[i].text}]});
                         //tempMessage += "{\"role\": \"model\",\"parts\": [{\"text\": \"" + msgArr[i].text + "\"}]},";
-                        tempMessage += JSON.stringify({role: "model", parts: [{text: msgArr[i].text}]})+",";
+                        tempMessage += JSON.stringify({ role: "model", parts: [{ text: msgArr[i].text }] }) + ",";
                     }
                 }
             }
@@ -1230,21 +1227,21 @@ export default {
             return html;
         },
         getChatDateTime(timeNum) {
-            let dateTimeNow=new Date(timeNum);
-            if(timeNum == 0 || timeNum == null){
-                dateTimeNow=new Date();
+            let dateTimeNow = new Date(timeNum);
+            if (timeNum == 0 || timeNum == null) {
+                dateTimeNow = new Date();
             }
             let now = dateTimeNow,
-            y = now.getFullYear(),
-            m = now.getMonth() + 1,
-            d = now.getDate();
+                y = now.getFullYear(),
+                m = now.getMonth() + 1,
+                d = now.getDate();
             let dateTimeStr = y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substring(0, 8);
             return this.dateTimeAgo(dateTimeStr);
         },
-        isSymbol(str) {//是否仅包含各类符号
+        isSymbol(str) { //是否仅包含各类符号
             return /^[\u2000-\u27ff]+$/.test(str); // 检查Unicode范围内的符号
         },
-        isOnlyNewlines(str) {//是否仅包含换行符
+        isOnlyNewlines(str) { //是否仅包含换行符
             return /^\n*$/.test(str);
         }
     }
@@ -1302,7 +1299,7 @@ body {
     padding-right: 6px;
 }
 
-.chat-main-content{
+.chat-main-content {
     display: flex;
     flex-direction: column;
 }
@@ -1354,7 +1351,7 @@ body {
     white-space: pre-wrap;
     word-wrap: break-word; */
     overflow-x: scroll;
-    margin-right:49px;
+    margin-right: 49px;
 }
 
 .listChatItemL .listChatItemContent::-webkit-scrollbar {
@@ -1368,7 +1365,7 @@ body {
     background-color: #4c65b8;
     padding: 5px;
     color: #f0efef;
-    margin-left:49px;
+    margin-left: 49px;
 }
 
 .listChatItemL .pcChatTextSpan {
@@ -1389,7 +1386,7 @@ body {
 .listChatItemR .pcChatTextSpan {
     background-color: #8ab3ca;
     border-radius: 5px;
-    color:#252020;
+    color: #252020;
     padding: 5px;
 }
 
@@ -1406,8 +1403,10 @@ body {
 .multiline {
     line-height: 20px;
     resize: none;
-    white-space: pre-wrap; /* 允许自动换行 */
-    overflow-wrap: break-word; /* 单词超出边界时自动换行 */
+    white-space: pre-wrap;
+    /* 允许自动换行 */
+    overflow-wrap: break-word;
+    /* 单词超出边界时自动换行 */
 }
 
 .chatBoxFooter {
@@ -1454,7 +1453,8 @@ body {
     align-self: flex-end;
 }
 
-.chatBoxFooterBtn > input,.chatBoxFooterBtn > textarea {
+.chatBoxFooterBtn>input,
+.chatBoxFooterBtn>textarea {
     -webkit-transition: width 0.2s ease-in-out;
     -moz-transition: width 0.2s ease-in-out;
     -o-transition: width 0.2s ease-in-out;
@@ -1467,8 +1467,10 @@ body {
     -webkit-border-radius: 4px; */
 }
 
-.chatBoxFooterBtn > input:focus,.chatBoxFooterBtn > textarea:focus
-,textarea:focus,input:focus {
+.chatBoxFooterBtn>input:focus,
+.chatBoxFooterBtn>textarea:focus,
+textarea:focus,
+input:focus {
     outline: 0;
     box-shadow: none !important;
 }
