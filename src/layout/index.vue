@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app-layout">
     <!-- <nav>
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
@@ -405,6 +405,8 @@ export default {
     //     this.searchResult();
     //   }
     // });
+    //监听华东事件，当入口html和body设置了全局的overflow: scroll或auto，使用window.onscroll=()=>{}/window.addEventListener会失效
+    //此时使用document.body.addEventListener("scroll", () =>{});可以,
     window.onscroll = () => {
       return (() => {
         var st =
@@ -554,7 +556,7 @@ export default {
         });
       })
       $('#firstOpenModal').modal();
-      this.setCookieStorage("webOpenDialog","ok",{ expires: 14 });
+      this.setCookieStorage("webOpenDialog","ok",{ expires: 11 });
     }
   },
   watch: {
@@ -739,18 +741,18 @@ export default {
       }
       return name.trim().toLocaleLowerCase() === "home".toLocaleLowerCase(); //返回true
     },
-    showMobileMenu() {
-      var mobileMenu = $("#navbar_mobile_div");
-      if (mobileMenu.hasClass("show-nav")) {
-        setTimeout(function () {
-          mobileMenu.addClass("hide-nav").removeClass("show-nav");
-        }, 100);
-      } else {
-        setTimeout(function () {
-          mobileMenu.addClass("show-nav").removeClass("hide-nav");
-        }, 100);
-      }
-    },
+    // showMobileMenu() {
+    //   var mobileMenu = document.getElementById("navbar_mobile_div");//$("#navbar_mobile_div");
+    //   if (mobileMenu.hasClass("show-nav")) {
+    //     setTimeout(function () {
+    //       mobileMenu.addClass("hide-nav").removeClass("show-nav");
+    //     }, 100);
+    //   } else {
+    //     setTimeout(function () {
+    //       mobileMenu.addClass("show-nav").removeClass("hide-nav");
+    //     }, 100);
+    //   }
+    // },
     //直接获取后台导航的菜单，并加入顶部导航栏
     getGeekplusCategory() {
       //getChildrenPath();
@@ -791,12 +793,12 @@ export default {
 </script>
   
 <style lang="scss">
-#app {
+#app-layout {
   /**font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;**/
-  color: #2c3e50;
+  text-align: center;
+  color: #2c3e50;**/
   .fade-transform-enter-active,
   .fade-transform-leave-avtive {
     /**transition: opacity 2s;**/
@@ -808,7 +810,7 @@ export default {
     transform: scale(0.9);
   }
 }
-nav {
+/**nav {
   padding: 10px;
 
   a {
@@ -819,6 +821,6 @@ nav {
       color: #42b983;
     }
   }
-}
+}**/
 </style>
   

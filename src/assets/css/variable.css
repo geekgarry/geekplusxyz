@@ -28,6 +28,9 @@
 :root body[theme-mode="light"]{
   --top-banner-bg-img: url("@/assets/img/topBanner1.jpeg") no-repeat center center;
   --color-primary:#2786de;
+  --color-chatHeader-bg:rgb(118, 164, 219);
+  --color-primary-tips: #f0f4ed;
+  --color-content-bg: #dfe2e2e6;
   --color-background: var(--pl-con-white);
   --color-header: var(--pl-con-white);
   --color-header-text: var(--pl-header-text-white-1);
@@ -73,6 +76,9 @@
 :root body[theme-mode="dark"]{
   --top-banner-bg-img: url("@/assets/img/topBanner2.jpeg") no-repeat center center;
   --color-primary:#139F95;
+  --color-chatHeader-bg:rgb(118, 164, 219);
+  --color-primary-tips: #8DE78D;
+  --color-content-bg: #353434;
   --color-background: var(--pl-con-black);
   --color-header: var(--pl-con-black);
   --color-header-text: var(--pl-header-text-black-1);

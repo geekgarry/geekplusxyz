@@ -24,12 +24,10 @@ html, body {
     -moz-background-size: contain;
     -webkit-background-size: contain; */
   height: 100%;
-  height: -webkit-fill-available;
-  /* width: 100%;
-  position: absolute; */
+  width: 100%;
+  /* position: absolute; */
   padding: 0;
   margin: 0;
-  overflow: scroll;
 }
 
 a:link {
@@ -1023,25 +1021,25 @@ ol {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70%;
-  /* display: flex;
+  display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  width: -moz-fit-content;*/
-  height: -webkit-fill-available;
+  /* width: fit-content;
+  width: -moz-fit-content;
+  width: -webkit-fill-available; */
+  /* height: -webkit-fill-available;
   height: -moz-fit-content;
-  height: fit-content;
+  height: fit-content; */
   height: auto;
   margin: 0 auto;
-  padding: 15px;
-  /* position: relative;
-  top: 5%; */
 }
 .plus-dialog-main{
   background: var(--color-article-container, #353434);
-  border-radius: 10px;
+  border-radius: 6px;
   height: auto;
+  width: 100%;
 }
 
 .chat_extra_data{
@@ -1050,8 +1048,17 @@ ol {
   text-align: center;
 }
 
+.chat_extra_data img {
+  width: 100%;
+  height: auto;
+  /* transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%; */
+}
+
 .plus-dialog-container{
-  padding: 15px;
+  padding: 7px;
 }
 
 .plus-dialog-footer{

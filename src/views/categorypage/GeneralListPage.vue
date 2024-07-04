@@ -536,7 +536,7 @@ export default {
     getAllArticleCategory(pathName) {
       // let tempMenuList = this.$router.options.routes.filter(
       //   (item) => { return item.type == "servermenu"}
-      // );this.allCategoryList
+      // );this.allCategoryList=[];
       let categoryPathList=this.$store.getters.addRoutes.slice(0,4);
       //this.getListSubCategory(this.$store.getters.addRoutes.slice(0,4));
       // var reg = RegExp('/'+pathName+'/');
@@ -546,6 +546,7 @@ export default {
       // })
       // console.log(pathName);
       // if(str.match(reg)){// 包含 }
+      var tempCat=[];
       categoryPathList.forEach((item) => {
         item.children.forEach((childItem) => {
           if(item.path.indexOf(pathName) != -1||childItem.path.search(pathName) != -1){
@@ -553,12 +554,11 @@ export default {
               path:item.path+'/'+childItem.path,
               categoryName:childItem.meta.title,
             }
-            this.allCategoryList.push(childCategory);
+            tempCat.push(childCategory);
           }
         })
       })
-      // console.log(this.allCategoryList);
-      //console.log(this.allCategoryList)
+      this.allCategoryList=tempCat;
       //console.log(this.allCategoryList)
       // listSubCategory()
       //   .then((response) => {
@@ -635,7 +635,7 @@ export default {
         this.loadMoreBtn="数据加载完了";
       }
     },
-    //加载瀑布流函数//思路来自Amy老师
+    //加载瀑布流函数//思路来自Amy
     loadWaterFall(boxID,thumbnailClass){
       //获取装缩略图外部的盒子
       var box = document.getElementById(boxID);

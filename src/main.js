@@ -49,18 +49,16 @@ Vue.directive('viewer', viewerDirective({
 }));
 // import PlusPager from './pager/PlusPager'
 // Vue.component(PlusPager)
-import PlusComponent from './components'
+import PlusComponent from './components';
 Vue.use(PlusComponent);
 // or you can use it with require
-//var Toasted = require('vue-toasted').default
-Vue.use(Toasted, Option);
 //Vue.prototype.Toasted=Toasted;
-Vue.use(require('vue-script2'))
-import Ads from 'vue-google-adsense'
+Vue.use(require('vue-script2'));
+import Ads from 'vue-google-adsense';
 // Vue.use(Ads.AutoAdsense, { adClient: 'ca-pub-7291512442295477', isNewAdsCode: true })
-Vue.use(Ads.Adsense)
-Vue.use(Ads.InArticleAdsense)
-Vue.use(Ads.InFeedAdsense)
+Vue.use(Ads.Adsense);
+Vue.use(Ads.InArticleAdsense);
+Vue.use(Ads.InFeedAdsense);
 // you can also pass options, check options reference below
 // import 'font-awesome/css/font-awesome.min.css'
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -71,12 +69,14 @@ import { faLightbulb} from '@fortawesome/free-regular-svg-icons';
 library.add(faHatWizard,faSun,faMoon,faEnvelope,faRssSquare,faGithub,faLightbulb,faAngleRight,faAngleDoubleLeft,
   faAngleDoubleRight,faUser,faTimes,faBars);
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+//var Toasted = require('vue-toasted').default
+Vue.use(Toasted, Option);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 import '@/assets/css/plushome.css';
 import "@/assets/css/variable.css";
-import 'highlight.js/styles/vs2015.css'
+import 'highlight.js/styles/vs2015.css';
 // import 'highlight.js/styles/monokai-sublime.css'
-import hljs from 'highlight.js'
+import hljs from 'highlight.js';
 Vue.directive("highlight", {
   deep: true,
   bind: function(el,binding) {

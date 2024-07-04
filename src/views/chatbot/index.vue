@@ -1,46 +1,46 @@
 <template>
-    <div id="app_container">
+    <div id="chat_app_container">
         <div class="container">
             <div class="row" v-if="chatdisplay">
                 <!-- <div class="col-sm-1 col-md-1 col-lg-2">
-                        </div> -->
+                            </div> -->
                 <!-- <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8">
-                        </div> -->
+                            </div> -->
                 <div class="chat-main-content">
-                    <div class="chatBoxHeader">
+                    <div class="chatBoxHeader" :style="{top: chatBoxHeaderTop+ `px`}">
                         <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> $router.push({path:'/'})-->
-                        <div><span class="glyphicon glyphicon-home" aria-hidden="true"></span></div>
-                        AI智能助手
-                        <div><span class="glyphicon glyphicon-info-sign" aria-hidden="true" @click="openMsg"></span></div>
+                        <div><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></div>
+                        <span>AI智能助手</span>
+                        <div @click="openMsg"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></div>
                     </div>
-                    <div class="bigChatBox" id="bigChatBox" :style="{height: chatBoxHeight+ 'px'}">
+                    <div class="bigChatBox" id="bigChatBox" :style="{height: chatBoxHeight + `px`}">
                         <div v-for="(item, index) in msgList" v-bind:key="index" class="listChatMsg">
                             <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                              <span><img
-                                                class="chatUserIcon"
-                                                v-lazy="'https://www.geekplus.xyz/imgs/logo.png'"
-                                                alt="极客普拉斯" />
-                                              </span>
+                                                  <span><img
+                                                    class="chatUserIcon"
+                                                    v-lazy="'https://www.geekplus.xyz/imgs/logo.png'"
+                                                    alt="极客普拉斯" />
+                                                  </span>
                             <span class="listChatItemContent" v-if="item && item.link == ''">
-                                                <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
+                                                    <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
                             <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                             </span>
                             <span class="listChatItemContent" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span
-                                              >
-                                            </span>
+                                                  >
+                                                </span>
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                        <span v-highlight class="listChatItemContent">
-                                            <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
-                                                <img v-lazy="item.extraData" style="width: 95%;" />
-                                            </div>
-                                            {{item.text}}
-                                        </span>
+                                            <span v-highlight class="listChatItemContent">
+                                                <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
+                                                    <img v-lazy="item.extraData" style="width: 95%;" />
+                                                </div>
+                                                {{item.text}}
+                                            </span>
                             <span><img
-                                                class="chatUserIcon"
-                                                v-lazy="'https://www.geekplus.xyz/imgs/mai.png'"
-                                                alt="麦壳" />
-                                              </span>
+                                                    class="chatUserIcon"
+                                                    v-lazy="'https://www.geekplus.xyz/imgs/mai.png'"
+                                                    alt="麦壳" />
+                                                  </span>
                             </span>
                         </div>
                     </div>
@@ -48,37 +48,36 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <!-- <div class="input-group search-input-group">
-                                                <input
-                                                  id="inputContentText"
-                                                  name="inputChat"
-                                                  autocomplete="off"
-                                                  :autofocus="true" 
-                                                  type="text"
-                                                  v-model="inputChat"
-                                                  class="form-control"
-                                                  placeholder="请输入聊天内容"
-                                                />
-                                                <span class="input-group-addon">
-                                                    <button type="button" @click="startAndStopRecording" >
-                                                        {{recordingTxt}}
-                                                        <span class="glyphicon glyphicon-record"></span>
-                                                    </button>
-                                                    <button type="button" v-on:keydown.enter="handleMsg" @click="handleMsg">
-                                                        <span class="glyphicon glyphicon-send"></span>
-                                                    </button>
-                                                </span>
-                                            </div> -->
+                                                    <input
+                                                      id="inputContentText"
+                                                      name="inputChat"
+                                                      autocomplete="off"
+                                                      :autofocus="true" 
+                                                      type="text"
+                                                      v-model="inputChat"
+                                                      class="form-control"
+                                                      placeholder="请输入聊天内容"
+                                                    />
+                                                    <span class="input-group-addon">
+                                                        <button type="button" @click="startAndStopRecording" >
+                                                            {{recordingTxt}}
+                                                            <span class="glyphicon glyphicon-record"></span>
+                                                        </button>
+                                                        <button type="button" v-on:keydown.enter="handleMsg" @click="handleMsg">
+                                                            <span class="glyphicon glyphicon-send"></span>
+                                                        </button>
+                                                    </span>
+                                                </div> -->
                                 <div class="chatBoxFooterBtn">
                                     <span class="chat_btn_left"><a class="btn btn-default" href="#" role="button"
-                                                  @click="startAndStopRecording" >{{recordingTxt}}
-                                                </a>
-                                                </span>
-                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control multiline" :autofocus="true" rows="1" @paste="pastingData" v-on:paste.capture.prevent="pastingData"></textarea>
-                                    <span class="chat_btn_right"><a class="btn btn-default" href="#" role="button"
-                                                  v-on:keydown.enter="handleMsg"
-                                                  @click="handleMsg"
-                                                  >发送</a
-                                                ></span>
+                                                      @click="startAndStopRecording" >{{recordingTxt}}
+                                                    </a>
+                                                    </span>
+                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control multiline" :disabled="statusDisabled" autofocus="true" rows="1" v-on:paste.capture.passive="pastingData"></textarea>
+                                    <span class="chat_btn_right">
+                                            <a class="btn btn-default" href="#" role="button" 
+                                            @keydown.enter="handleMsg" @click="handleMsg">发送</a>
+                                        </span>
                                 </div>
                             </div>
                         </div>
@@ -90,55 +89,52 @@
             <div class="row" v-else>
                 <div class="col-sm-2 col-md-2 col-lg-3"></div>
                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 chat-main-content">
-                    <div style="
-                                text-align: center;
-                                line-height: 40px;
-                                height: 40px;
-                                font-size: initial;
-                                color: var(--color-article-container-text-1, #696969);
-                                border-bottom: var(--color-border-4, #c5c5c5) 1px solid;
-                            ">AI聊天助手</div>
-                    <div class="bigChatBox" id="bigChatBox-desktop" :style="{height: chatBoxHeight+ 'px'}">
+                    <div class="chatBoxHeader">
+                        <div></div>
+                        <span>AI聊天助手</span>
+                        <div></div>
+                    </div>
+                    <div class="bigChatBox" id="bigChatBox-desktop" :style="{height: chatBoxHeight + `px`}">
                         <!-- :style="{textAlign: item.align}" -->
                         <div v-for="(item, index) in msgList" :key="index" class="listChatMsg">
                             <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                        <img
-                                            class="chatUserIcon"
-                                            src="https://www.geekplus.xyz/imgs/logo.png"
-                                            alt="极客普拉斯"
-                                        />
-                                    <span class="pcChatTextSpan" v-if="item && item.link == ''" >
-                                        <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
+                                            <img
+                                                class="chatUserIcon"
+                                                src="https://www.geekplus.xyz/imgs/logo.png"
+                                                alt="极客普拉斯"
+                                            />
+                                        <span class="pcChatTextSpan" v-if="item && item.link == ''" >
+                                            <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
                             <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                             </span>
                             <span class="pcChatTextSpan" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span>
                             </span>
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                        <span v-highlight class="pcChatTextSpan">
-                                            <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
-                                                <img v-lazy="item.extraData" style="width: 95%;" />
-                                            </div>
-                                            {{item.text}}
-                                        </span>
+                                            <span v-highlight class="pcChatTextSpan">
+                                                <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
+                                                    <img v-lazy="item.extraData" style="width: 95%;" />
+                                                </div>
+                                                {{item.text}}
+                                            </span>
                             <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/mai.png" alt="麦壳" />
                             </span>
                         </div>
                     </div>
                     <div class="chatBoxFooter">
                         <!-- <div class="form-inline">
-                                    <div class="form-group">
-                                        <label for="exampleInputName2">Name</label>
-                                        <input type="text" class="form-control" id="inputContentText" v-model="inputChat" :autofocus="true" placeholder="请输入聊天内容">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary" v-on:keydown.enter="handleMsg" @click="handleMsg">发送</button>
-                                </div> -->
+                                        <div class="form-group">
+                                            <label for="exampleInputName2">Name</label>
+                                            <input type="text" class="form-control" id="inputContentText" v-model="inputChat" :autofocus="true" placeholder="请输入聊天内容">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" v-on:keydown.enter="handleMsg" @click="handleMsg">发送</button>
+                                    </div> -->
                         <div class="input-group search-input-group">
                             <!-- <input type="hidden" name="scope" value="1" /> -->
-                            <textarea id="inputContentText" name="inputChat" autocomplete="off" :autofocus="true" v-model="inputChat" class="form-control multiline" placeholder="请输入聊天内容" rows="1" @paste="pastingData" v-on:paste.capture.prevent="pastingData"></textarea>
+                            <textarea id="inputContentText" name="inputChat" autocomplete="off" autofocus="true" v-model="inputChat" :disabled="statusDisabled" class="form-control multiline" placeholder="请输入聊天内容" rows="1" @paste.capture.passive="pastingData"></textarea>
                             <span class="input-group-addon">
-                                      <button type="button" v-on:keydown.enter="handleMsg" @click="handleMsg">
-                                        <span class="glyphicon glyphicon-send"></span>
+                                    <button type="button" @keydown.enter="handleMsg" @click="handleMsg" :disabled="statusDisabled">
+                                            <span class="glyphicon glyphicon-send"></span>
                             </button>
                             </span>
                         </div>
@@ -153,22 +149,22 @@
             <div role="document" class="plus-dialog">
                 <div class="plus-dialog-main">
                     <div class="plus-dialog-container">
-                        <div class="chat_extra_data" id="chatImgData" contenteditable="false"></div>
-                        <div class="chat_extra_data" id="mediaData" contenteditable="false"></div>
-                        <div class="chat_extra_data" id="fileData" contenteditable="false"></div>
+                        <div class="chat_extra_data" id="fileData">
+                            <!-- <img-cropper :imgFile="tempFileUrl" :autoCropHeight="200" :autoCropWidth="200" /> -->
+                        </div>
                     </div>
-                    <textarea name="inputChatDialog" v-model="chatMsgData.chatData" class="plus-form-textarea" placeholder="请输入聊天内容" rows="1"></textarea>
+                    <textarea name="inputChatDialog" v-model="chatMsgData.chatData" v-focus="dialogInputIsFocus" class="plus-form-textarea" placeholder="请输入聊天内容" rows="1"></textarea>
                     <div class="plus-dialog-footer">
                         <div class="pdf-left-btn">
                             <span class="cancel_btn" data-dismiss="modal" aria-label="Close">
-                                取消
-                                <!-- <span  aria-hidden="true">&times;</span> -->
+                                    取消
+                                    <!-- <span  aria-hidden="true">&times;</span> -->
                             <!-- <font-awesome-icon :icon="['fas', 'times']" /> -->
                             </span>
                         </div>
                         <span class="split-line"></span>
                         <div class="pdf-right-btn">
-                            <span class="confirm_btn" @click="sendWithImg" v-on:click="sendWithImg">发送</span>
+                            <span class="confirm_btn" v-on:click="sendWithImg">发送</span>
                         </div>
                     </div>
                 </div>
@@ -180,15 +176,19 @@
 <script>
 import axios from 'axios'
 import Recorder from 'js-audio-recorder'
+// import CropImg from "@/utils/pluscrop.js"
+// import ImgCropper from "@/components/cropImage/ImgCropper.vue"
 // import { marked } from "marked"//9.1.6
 const marked = require('marked'); //9.1.6
 import { testProcess, getchatgpt, chatgpttest, geminiAI, geminiAIChat, getHistoryMessage, getTTSChinese } from "@/api/chatbot/chatbot"
 
 export default {
     name: "ChatBot",
+    // components: { ImgCropper },
     data() {
         return {
             visible: false,
+            dialogInputIsFocus: false,
             inputChat: "",
             preChatData: "", //历史聊天数据
             msgList: [], //聊天消息的list
@@ -196,57 +196,51 @@ export default {
             loading: false,
             chatBtnPcDisplay: true,
             chatdisplay: false,
+            reduceH: 84,
             chatBoxHeight: 440,
+            chatBoxHeaderTop: 0,
             fullWidth: 0,
             fullHeight: 0,
-            audioData: [], // 存储录音数据块
+            audioData: [], // 存储录音数据块，recorderData//音频的二进制数据
             recorder: new Recorder({
                 sampleBits: 16, // 采样位数，支持 8 或 16，默认是16
                 sampleRate: 16000, // 采样率，支持 11025、16000、22050、24000、44100、48000，根据浏览器默认值，我的chrome是48000
                 numChannels: 1, // 声道，支持 1 或 2， 默认是1
                 // compiling: false,(0.x版本中生效,1.x增加中)  // 是否边录边转换，默认是false
             }),
-            recorderData: [], //音频的二进制数据
             recording: 0,
             recordingTxt: "语音",
             textAudio: null,
             isTextVoice: false, //是否语音朗读
             isHistory: true, //是否采用有历史记忆的聊天
-            tempFileUrl: "", //临时数据文件地址
+            tempFileUrl: "", //临时二进制数据Blob文件地址
             openAiKey: '',
             chatMsgData: {}, //封装一个聊天消息，里面自己添加具体的内容，可以携带媒体数据mediaData
             baseHost: window.location.host,
             baseApi: process.env.VUE_APP_BASE_API,
             textAreaInput: null,
+            statusDisabled: false,
+            cropper: null
         };
     },
     //data:{},
     created: function() {
         this.getHistoryMag("guest");
-        //this.startTTS("你好！请问现在是什么时间！");
-        this.fullWidth = document.documentElement.clientWidth;
-        this.fullHeight = document.documentElement.clientHeight;
-        // 页面宽度小于750px时，显示移动端
-        if (this.fullWidth < 750) {
-            //this.chatBtnPcDisplay = false;
-            this.chatdisplay = true;
-        } else {
-            //this.chatBtnPcDisplay = true;
-            this.chatdisplay = false;
-        }
-        //document.getElementById("bigChatBox").offsetHeight = (this.fullHeight - 100) + "px";
-        this.chatBoxHeight = this.fullHeight - 85;
-        // testProcess().then(res=>{console.log(res);})
+        // this.beforeLoadDocument();
+    },
+    beforeMount() {
+        this.beforeLoadDocument();
     },
     mounted() {
         //window.addEventListener('resize', function() {});
-        const that = this
-        //that.setOpenAiKey();
+        const that = this;
+        let reduceH = that.reduceH;
+        //that.setOpenAiKey()
         // <!--把window.onresize事件挂在到mounted函数上-->
         window.onresize = () => {
             return (() => {
-                window.fullHeight = document.documentElement.clientHeight;
-                window.fullWidth = document.documentElement.clientWidth;
+                window.fullHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                window.fullWidth = document.documentElement.clientWidth || document.body.clientWidth;
                 that.windowHeight = window.fullHeight; // 高
                 that.windowWidth = window.fullWidth; // 宽
                 // 页面宽度小于750px时，不显示地图
@@ -259,8 +253,8 @@ export default {
                 }
                 //console.log("页面高度：" + that.windowHeight)
                 //document.getElementById("bigChatBox").offsetHeight = (that.windowHeight - 100) + "px";
-                that.chatBoxHeight = that.windowHeight - 85;
-                that.scrollTop11();
+                that.chatBoxHeight = that.windowHeight - reduceH;
+                // that.scrollAtTop();
                 if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
                     window.setTimeout(function() {
                         if ('scrollIntoView' in document.activeElement) {
@@ -272,24 +266,36 @@ export default {
                 }
             })()
         };
+        window.onscroll = () => {
+            //在IOS下document.body.scrollTop 一直为0，要用document.documentElement.scrollTop
+            var scrollTopDis = document.documentElement.scrollTop || document.body.scrollTop;
+            // console.log(document.body.scrollHeight)
+            //console.log(scrollTopDis)
+            this.chatBoxHeaderTop = scrollTopDis;
+        }
         const textarea = document.getElementById("inputContentText");
         that.textAreaInput = textarea;
         const maxLines = 8;
         const inputHeight = textarea.offsetHeight;
+        var textAreaAddHeight = 0; //输入框增加的高度
         textarea.addEventListener("input", () => {
             // 将高度重置为自动，以便根据内容计算高度
             textarea.style.height = "auto";
             //console.log(textarea.style.height)
             // 获取行数
             const currentLines = textarea.value.split("\n").length;
-            //console.log(currentLines)
-            textarea.style.height = inputHeight + (currentLines - 1) * 22 + `px`;
+            textAreaAddHeight = (currentLines - 1) * 22;
+            textarea.style.height = inputHeight + textAreaAddHeight + `px`;
+            that.chatBoxHeight = that.windowHeight - (textAreaAddHeight + reduceH);
             // 如果行数超过最大行数，则设置最大高度
             if (currentLines > maxLines) {
-                textarea.style.height = inputHeight + maxLines * 22 + `px`;
+                textAreaAddHeight = maxLines * 22;
+                textarea.style.height = inputHeight + textAreaAddHeight + `px`;
+                that.chatBoxHeight = that.windowHeight - (textAreaAddHeight + reduceH);
                 //textarea.style.height = `${textarea.scrollHeight}px`;
             } else if (currentLines == 1) {
                 textarea.style.height = "auto";
+                that.chatBoxHeight = that.windowHeight - reduceH;
             }
         });
         textarea.addEventListener("keydown", (e) => {
@@ -311,31 +317,55 @@ export default {
             //     console.log(this.inputChat);
             // }
         });
+        //shown是在显示之后，show是在显示的同时
+        $('#chatDataModal').on('show.bs.modal', function(e) {
+            that.dialogInputIsFocus = true;
+        });
+        //hidden是在隐藏之后，hide是在隐藏的同时
+        $('#chatDataModal').on('hidden.bs.modal', function(e) {
+            URL.revokeObjectURL(that.tempFileUrl); // 释放url
+            that.dialogInputIsFocus = false;
+            // document.getElementById('myInput').focus();
+        });
     },
     watch: {
         windowHeight(val) {
-            let that = this;
+            // let that = this;
             //console.log("实时屏幕高度：", val, that.windowHeight);
-            //chatBoxHeight=that.windowHeight
         },
         windowWidth(val) {
-            let that = this;
-            if (val < 768) {
-                //that.dialogWidth='100%'
-                that.chatBtnPcDisplay = false;
-            } else {
-                //that.dialogWidth='75%'
-            }
+            // let that = this;
+            // if (val < 768) {
+            //     that.chatBtnPcDisplay = false;
+            // } else {
+            //     that.chatBtnPcDisplay = true;
+            // }
             //console.log("实时屏幕宽度：", val, that.windowHeight);
         }
     },
     methods: {
-        visible11() {
-            this.visible = true;
-            this.$nextTick(() => {
-                this.$refs.serachBox.focus();
-            });
+        beforeLoadDocument() {
+            //this.startTTS("你好！请问现在是什么时间！");
+            this.windowWidth = document.documentElement.clientWidth || document.body.clientWidth;;
+            this.windowHeight = document.documentElement.clientHeight || document.body.clientHeight;;
+            // 页面宽度小于750px时，显示移动端
+            if (this.windowWidth < 750) {
+                //this.chatBtnPcDisplay = false;
+                this.chatdisplay = true;
+            } else {
+                //this.chatBtnPcDisplay = true;
+                this.chatdisplay = false;
+            }
+            //document.getElementById("bigChatBox").offsetHeight = (this.fullHeight - 100) + "px";
+            this.chatBoxHeight = this.windowHeight - this.reduceH;
+            // testProcess().then(res=>{console.log(res);})
         },
+        // visible11() {
+        //     this.visible = true;
+        //     this.$nextTick(() => {
+        //         this.$refs.serachBox.focus();
+        //     });
+        // },
         async handleMsg() {
             if (this.inputChat === "关闭语音") {
                 this.isTextVoice = false;
@@ -352,7 +382,7 @@ export default {
                 //         type: '0'
                 //     };
                 //     await this.msgList.push(listMsg);
-                //     await this.scrollTop11();
+                //     await this.scrollAtTop();
                 //     //this.loading = false;
                 // }, 1000);
             } else if (this.inputChat === "开启语音") {
@@ -370,7 +400,7 @@ export default {
                 //         type: '0'
                 //     };
                 //     await this.msgList.push(listMsg);
-                //     await this.scrollTop11();
+                //     await this.scrollAtTop();
                 //     //this.loading = false;
                 // }, 1000);
             } else if (this.inputChat === "停止语音" || this.inputChat === "停止播放" || this.inputChat === "暂停播放" || this.inputChat === "暂停回复语音" || this.inputChat === "pause") {
@@ -391,19 +421,21 @@ export default {
                 this.isHistory = false;
                 this.inputChat = "";
                 this.$toasted.show("取消聊天对话模式", { position: "top-center", duration: 3000, theme: "bubble", });
-            } else if ((this.inputChat !== "" || this.inputChat.length > 0) && !this.isOnlyNewlines(this.inputChat)) {
+            } else if ((this.inputChat && this.inputChat.trim().length > 0)) { //!this.isOnlyNewlines(this.inputChat)
                 //this.loading = true;
                 //chatHistoryToJson方法是在发送消息前把之前所有的消息构造一个json作为历史消息记录
                 this.chatHistoryToJson(this.msgList);
-                await this.msgList.push({ align: "right", text: this.inputChat, time: Date.now() });
-                await this.scrollTop11();
+                await this.showChatMsgList(this.msgList, { align: "right", text: this.inputChat, time: Date.now() });
+                await this.scrollAtTop();
                 this.getMsg();
                 this.inputChat = "";
                 this.textAreaInput.style.height = "auto";
+                this.chatBoxHeight = this.windowHeight - this.reduceH;
             }
         },
         getMsg() {
             let that = this;
+            that.statusDisabled = true;
             // {
             /** if(this.openAiKey==''||this.openAiKey==null){
               this.$message({message:'请先输入你的openAiKey',type:'error',duration:2500})
@@ -436,7 +468,7 @@ export default {
                   this.startTTS(msg);
                 }
                 await this.msgList.push(listMsg);
-                await this.scrollTop11();
+                await this.scrollAtTop();
               }
               this.loading = false;
               })
@@ -445,6 +477,15 @@ export default {
               this.loading = false;
               });
             } */
+            //在获取请求响应前，设置一个临时加载显示的消息
+            let listMsgTemp = { align: "left", text: "回复中，请稍后...", link: "", type: 2, time: Date.now()};
+            //推送到消息列表中
+            that.showChatMsgList(that.msgList, listMsgTemp);
+            //延迟一秒等内容已经包含在div消息列表框中，然后在进行滑动到底部
+            that.delayFunction(()=>{
+                that.scrollAtTop();
+            }, 1000);
+            
             if (that.isHistory === false) {
                 let dataParams = { username: "guest", chatData: this.inputChat };
                 let result = null;
@@ -457,11 +498,6 @@ export default {
                 let dataParams = { username: "guest", chatData: this.inputChat, preChatData: this.preChatData };
                 let result2 = null;
                 this.sendMessageChat(dataParams)
-                // .then(res => {
-                //     result2 = res;
-                //     console.log(res)
-                //     this.handleResultTask(result2);
-                // }, error => {});
             }
             //}
         },
@@ -473,7 +509,7 @@ export default {
                     //console.log(response.data)
                     let msglist = response.data;
                     await this.jsonStrToObj(msglist);
-                    await this.scrollTop11();
+                    await this.scrollAtTop();
                 }).catch(function(error) {
                     // console.log(error);
                     that.$toasted.error(error.msg, {
@@ -489,13 +525,13 @@ export default {
             this.chatMsgData.username = "guest";
             this.chatMsgData.preChatData = this.preChatData;
             //let imgDiv=document.createElement("div").appendChild(this.convertBase64ToImage("base64Str")); this.chatMsgData.mediaData
-            this.msgList.push({ align: "right", text: this.chatMsgData.chatData, extraData: this.tempFileUrl, time: Date.now() });
-            this.scrollTop11();
+            this.showChatMsgList(this.msgList, { align: "right", text: this.chatMsgData.chatData, extraData: this.tempFileUrl, time: Date.now() });
+            this.scrollAtTop();
             this.sendMessageChat(this.chatMsgData);
             $('#chatDataModal').modal('hide');
         },
         sendMessage(dataParams) {
-            let _this = this;
+            let that = this;
             //链式编程
             // new Promise((resolve, reject) => {
             //     //第一次网络请求
@@ -514,15 +550,14 @@ export default {
                 .then(async (response) => {
                     //console.log(response);
                     //if (response.code == 200) {
-                    //console.log(response.data)
-                    await this.handleResultTask(response);
+                    await that.handleResultTask(response);
                     //}
                     //this.loading = false;
                 })
                 .catch(function(error) {
                     //reject(error);
                     //console.log(error);
-                    _this.$toasted.error(error.msg, {
+                    that.$toasted.error(error.msg, {
                         position: "top-center",
                         duration: 3000,
                         theme: "outline",
@@ -531,20 +566,19 @@ export default {
                 });
         },
         sendMessageChat(dataParams) {
-            let _this = this;
+            let that = this;
             geminiAIChat(dataParams)
                 .then(async (response) => {
                     //console.log(response);
                     //if (response.code == 200) {
-                    //console.log(response.data)
-                    await this.handleResultTask(response);
+                    await that.handleResultTask(response);
                     //}
                     //this.loading = false;
                 })
                 .catch(function(error) {
                     //reject(error);
                     //console.log(error);
-                    _this.$toasted.error(error.msg, {
+                    that.$toasted.error(error.msg, {
                         position: "top-center",
                         duration: 3000,
                         theme: "outline",
@@ -572,6 +606,7 @@ export default {
                 // 自行处理需要的数据
                 msg = response.data.msg_data.trim();
                 msgtype = response.data.msg_type;
+                this.statusDisabled = false;
             }
             let listMsg = {
                 align: "left",
@@ -588,22 +623,19 @@ export default {
             if (this.isTextVoice === true) {
                 this.startTTS(msg);
             }
-            await this.msgList.push(listMsg);
-            await this.scrollTop11();
+            await this.refreshChatReply(this.msgList, listMsg);
+            await this.scrollAtTop();
         },
         //输入框粘贴事件处理函数
         pastingData(event) {
             //let txt=event.clipboardData.getData('Text');
+            // 输入框粘贴
+            //let excelArr = ['text/plain', "text/html", "text/rtf", "image/png"];//excel格式
             let file = null
+            // 获取剪切板图片、视频、文件、文件夹
             const items = (event.clipboardData || window.clipboardData).items
             // if(typeof(txt) === 'string') {
-            //     console.log(txt)
             //     if (txt.length > 1048570) {
-            //         this.$toasted.error("数据过长", {
-            //             position: "top-center",
-            //             duration: 3000,
-            //             theme: "bubble",
-            //         });
             //         return false;
             //     }
             // }
@@ -620,13 +652,51 @@ export default {
                         reader.onload = (e) => {
                             const base64 = e.target.result;
                             this.chatMsgData.mediaData = base64;
+                            const fileData = this.base64ToBlob(base64);
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
-                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            // 拿到文件对象后，先上传或先展示都行，这里以图片进行举例
+                            // 如果是直接上传服务器，那可以拿到图片地址直接使用
+                            // 如果不进行上传，先展示，等点击确定在上传，那就自己创建一个链接进行使用
+                            // const windowURL = window.URL || window.webkitURL
+                            const tempUrl = URL.createObjectURL(fileData);
+                            // let clip = new CropImg({width: 300, height:220}) // 设置裁剪的比例
+                            // clip.init(fileData, res => { // 需要将裁剪的图片文件传入，既可以触发裁剪
+                            //     // 裁剪按钮 点击后会触发此函数，传入的res是裁剪后的文件,可以上传，也可以自己手动转成url显示
+                            //     var tempUrl = URL.createObjectURL(res)
+                            //     this.tempFileUrl = tempUrl
+                            //     let tempImg = '<img src="' + tempUrl + '" style=""/>';
+                            //     document.getElementById("fileData").innerHTML = tempImg;
+                            // })
+                            // 重新绘制图片，自定义长宽
+                            // this.resizeImage(tempUrl, 300, 200, function(resizedImgSrc) {
+                            //     // 在这里处理新尺寸的图片数据
+                            //     const img = document.createElement('img');
+                            //     img.src = resizedImgSrc;
+                            //     document.getElementById("fileData").appendChild(img);
+                            // });
+                            // var croppedCanvas;
+                            // var roundedCanvas;
+                            // let imgObj = this.convertBase64ToImage(base64);
+                            // // imgObj.src = tempUrl;
+                            // this.cropper = new Cropper(imgObj,{
+                            //     viewMode: 1,
+                            //     dragMode: 'move',
+                            //     // initialAspectRatio: 1,
+                            //     preview: '.before',
+                            //     background: false,
+                            //     autoCropArea: 1,
+                            //     zoomOnWheel: true,
+                            // });
+                            // croppedCanvas = this.cropper.getCroppedCanvas();
+                            // // Round
+                            // roundedCanvas = this.getRoundedCanvas(croppedCanvas);
+                            //tempUrl = this.cropper.getCroppedCanvas().toDataURL();
                             this.tempFileUrl = tempUrl;
-                            var tempImg = '<img src="' + tempUrl + '" style="width: 100%"/>';
+                            let tempImg = '<img src="' + tempUrl + '" />';
+                            //let tempImg = '<img-cropper :imgFile="'+tempUrl+'" :autoCropHeight="200" :autoCropWidth="200" />';
                             document.getElementById("fileData").innerHTML = tempImg;
-                            // document.getElementById("chatImgData").appendChild(this.convertBase64ToImage(base64));
+                            // document.getElementById("fileData").appendChild(this.convertBase64ToImage(base64));
                             $('#chatDataModal').modal();
                         };
                         reader.readAsDataURL(file);
@@ -734,6 +804,36 @@ export default {
                     }
                 }
             }
+        },
+        initCropper(imgObj) {
+            this.cropper = new Cropper(imgObj, {});
+        },
+        getRoundedCanvas(sourceCanvas) {
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            var width = sourceCanvas.width;
+            var height = sourceCanvas.height;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            context.imageSmoothingEnabled = true;
+            context.drawImage(sourceCanvas, 0, 0, width, height);
+            context.globalCompositeOperation = 'destination-in';
+            context.beginPath();
+            context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+            context.fill();
+
+            return canvas;
+        },
+        /**
+         * @param blob      BLOB对象
+         * @param base64    base64字符串
+         */
+        cutChange({ blob, base64 }) {
+            console.log(blob);
+            this.tempFileUrl = window.URL.createObjectURL(blob);
+            this.chatMsgData.mediaData = base64;
         },
         //blob 和 base64 类型转换
         base64ToBlob(base64) {
@@ -910,10 +1010,48 @@ export default {
         downloadWAVRecordAudioData() {
             this.recorder.downloadWAV("maike");
         },
-        // 处理滚动条一直保持最上方
-        async scrollTop11() {
+        //发送消息立刻推送到消息显示列表
+        async showChatMsgList(msgList, chatMsg) {
+            msgList.push(chatMsg);
+        },
+        //接受回复消息显示在消息列表
+        async refreshChatReply(msgList, chatMsg) {
+            if (chatMsg.text && chatMsg.text.trim().length > 0) {
+                this.msgList.pop();
+                this.msgList.push(chatMsg);
+            }
+        },
+        // 延时函数
+        delayFunction(fn, delay) {
+            setTimeout(fn, delay);
+        },
+        // 处理滚动条一直保持最上方,也就让内容处于最底部contentAtBottom
+        async scrollAtTop() {
             let div = document.getElementById("bigChatBox") || document.getElementById("bigChatBox-desktop");
             div.scrollTop = div.scrollHeight;
+            // let distanceY = window.scrollY;
+            // let i = 0
+            // this.interval = setInterval(() => {
+            //     let next = Math.floor(this.easeInOutQuad(2 * i, distanceY, -distanceY, 100))
+            //     if (next <= 40) {
+            //         //window.scrollTo(0, this.backPosition);
+            //         div.scrollTop = div.scrollHeight;
+            //         clearInterval(this.interval);
+            //     } else {
+            //         // window.scrollTo(0, next);
+            //         div.scrollTop = div.scrollHeight;
+            //     }
+            //     i++
+            // }, 5)
+        },
+        easeInOutQuad(t, b, c, d) {
+            // 判断当前时间是否总在总时间的一半以内，是的话执行缓入函数，否则的话执行缓出函数
+            if ((t /= d / 2) < 1) {
+                return c / 2 * t * t + b
+            } else {
+                // 将总长度设置为一半，并且时间从当前开始递减，对图像进行垂直向上平移
+                return -c / 2 * (--t * (t - 2) - 1) + b
+            }
         },
         clearBlank(value) {
             if (value) {
@@ -1086,18 +1224,17 @@ export default {
             speechSynthesis.speak(msg);
         },
         openMsg() {
-            const h = this.$createElement;
-            // this.$notify({
-            //     title: '通知内容',
-            //     duration: 5500,
-            //     position: 'top-right',
-            //     offset: 30,
-            //     message: h('i', { style: 'color: teal' }, '聊天功能升级，增加语音回复与语音输入（默认关闭语音回复）。启用请发送”开启语音“，关闭发送“关闭语音”，发送“暂停播放”、“暂停”、“stop”实现停止播放语音，发送“继续播放”、“继续”、“play”可继续播放语音。左下角语音输入功能已更新！点击语音，然后结束！就可以发送语音文字！')
-            // });
-            this.$toasted.show("聊天功能升级，增加语音回复与语音输入（默认关闭语音回复）。启用请发送”开启语音“，关闭发送“关闭语音”，发送“暂停播放”、“暂停”、“stop”实现停止播放语音，发送“继续播放”、“继续”、“play”可继续播放语音。左下角语音输入功能已更新！点击语音，然后结束！就可以发送语音文字！", {
+            //const h = this.$createElement;
+            //var message = h('i', { style: 'color: teal' }, '这里是提示消息');
+            //三种主题:toasted-primary,bubble,outline
+            let msgContent = "<div style='color: var(--color-primary-tips,#8DE78D);'>" +
+                "<div style='text-align: center;'>AI助手小提示：</div>" +
+                "<div>新增图片，视频，音频，文本等文件粘贴发送：复制一个图片或音视频等文件，粘贴到发送消息框中，即可对文件进行分析！</div>" +
+                "<div>增加语音回复与语音输入：(默认关闭语音回复)启用请发送”开启语音“，关闭发送“关闭语音”，发送“暂停播放”、“暂停”、“stop”实现停止播放语音，发送“继续播放”、“继续”、“play”可继续播放语音。左下角语音输入功能已更新！点击语音，然后结束！就可以发送语音文字！</div></div>";
+            this.$toasted.show(msgContent, {
                 position: "top-center",
-                duration: 3000,
-                theme: "bubble",
+                duration: 5000,
+                theme: "toasted-primary",
             });
         },
         setOpenAiKey() {
@@ -1136,23 +1273,53 @@ export default {
             //var img = document.createElement('img');
             const img = new Image();
             img.src = data;
-            // var imgWidth=img.width;
-            // var imgHeight=img.height;
-            // var windowWidth=window.innerWidth;
-            // var windowHeight=window.innerHeight;
-            // var scale = Math.min(windowWidth/imgWidth,windowHeight/imgHeight);
+            var imgWidth = img.width;
+            var imgHeight = img.height;
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+            var scale = Math.min(windowWidth / imgWidth, windowHeight / imgHeight);
             // 设置图片的宽度和高度
             img.style.width = '95%'; // 或者使用CSS像素值
             img.id = "tempElement";
             img.onload = () => {
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
-                // canvas.width = imgWidth * scale + "px";
-                // canvas.height = imgHeight * scale + "px";
+                canvas.width = imgWidth * scale + "px";
+                canvas.height = imgHeight * scale + "px";
                 context.drawImage(img, 0, 0);
                 const imageURL = canvas.toDataURL('image/png');
             };
             return img;
+        },
+        //重新调整图片尺寸
+        resizeImage(src, newWidth, newHeight, callback) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                const ctx = canvas.getContext('2d');
+                // 重绘图片
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+                const resizedImgSrc = canvas.toDataURL('image/png'); // 或者其他格式
+                callback(resizedImgSrc);
+            };
+            img.src = src;
+        },
+        resizeImg(img) {
+            // 获取窗口宽度和高度
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+
+            // 获取图片原始宽度和高度
+            var imgWidth = img.naturalWidth;
+            var imgHeight = img.naturalHeight;
+            // 计算缩放比例
+            var scale = Math.min(windowWidth / imgWidth, windowHeight / imgHeight);
+
+            // 设置图片宽度和高度
+            img.style.width = imgWidth * scale + "px";
+            img.style.height = imgHeight * scale + "px";
         },
         convertImageToBase64(imgUrl) {
             const image = new Image()
@@ -1171,6 +1338,28 @@ export default {
                 }
                 image.src = imgUrl
             })
+        },
+        // 假设这个函数会在某个事件监听器中调用，比如点击按钮时
+        checkStringAndAllowEvent(str, callbackY, callbackN) {
+            // 使用trim去除字符串首尾空白，然后检查长度
+            if (str && str.trim().length > 0) {
+                // 字符串不为空，允许执行事件
+                //console.log('字符串不为空，允许执行事件');
+                // 调用第一个回调函数
+                // if (typeof callbackY === 'function') {
+                //     callbackY();
+                // }
+                callbackY();
+                // 这里执行允许的事件代码
+            } else {
+                // 字符串为空，阻止执行事件
+                //console.log('字符串为空，阻止执行事件');
+                // if (typeof callbackN === 'function') {
+                //     callbackN();
+                // }
+                callbackN();
+                // 阻止事件的代码，比如event.preventDefault()或return false
+            }
         },
         //遍历数组，把里面的每一条json字符串转为json对象
         jsonStrToObj(msgArr) {
@@ -1244,11 +1433,26 @@ export default {
         isOnlyNewlines(str) { //是否仅包含换行符
             return /^\n*$/.test(str);
         }
+    },
+    // 在Vue组件中
+    directives: {
+        Focus: {
+            // 当绑定元素插入到DOM中时
+            // inserted: function (el) {
+            //     el.focus(); // 聚焦元素
+            // }
+            // 当绑定更新时
+            update: function(el, binding) {
+                if (binding.value) {
+                    el.focus();
+                }
+            }
+        }
     }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 /** @media screen and (max-width:600px){
       .con{
         background:red;
@@ -1265,48 +1469,93 @@ export default {
       }
     } */
 
+@import 'cropperjs/dist/cropper.css';
 body {
     background-color: rgba(239, 239, 239, 0.98);
     margin: 0 auto;
     padding: 0;
 }
 
-#app_container {
+#chat_app_container {
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.28s;
+}
+
+.fade-enter,
+.fade-leave-active {
+    opacity: 0;
+}
+
+/* fade-transform */
+
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+    transition: all .3s;
+}
+
+.fade-transform-enter {
+    opacity: 0;
+    transform: translateX(-90vw);
+}
+
+.fade-transform-leave-to {
+    opacity: 0;
+    transform: translateX(90vw);
+}
+
+.chat-main-content {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    -moz-flex-wrap: nowrap;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    /*align-content: stretch;
+    -webkit-align-content: stretch;
+    height: -webkit-fill-available;
+    min-height: 100%;*/
+}
+
 .chatBoxHeader {
+    position: relative;
     height: 40px;
     line-height: 40px;
     vertical-align: middle;
     text-align: center;
-    background-color: rgb(118, 164, 219);
+    background-color: var(--color-primary, rgb(118, 164, 219));
     color: #ffffff;
     font-weight: bolder;
     display: flex;
     flex-flow: row;
     flex-wrap: nowrap;
     justify-content: space-between;
+    /*color: var(--color-article-container-text-1, #696969)
+    border-bottom: var(--color-border-4, #c5c5c5) 1px solid;*/
 }
 
 .chatBoxHeader div {
     flex-grow: 0;
     flex-shrink: 0;
+    flex-basis: auto;
+    /* 上面上个组合起来等于 flex: 0 0 auto;*/
     align-self: center;
-    padding-left: 6px;
-    padding-right: 6px;
-}
-
-.chat-main-content {
-    display: flex;
-    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .bigChatBox {
     overflow-y: scroll;
     padding: 0 2px;
+    /*flex: 1 1 auto;*/
 }
 
 .bigChatBox::-webkit-scrollbar {
@@ -1345,6 +1594,7 @@ body {
     border-width: 1px;
     border-color: mediumaquamarine;
     background-color: #66CEAA;
+    color: black;
     padding: 5px;
     /* word-break: normal;
     display: block;
@@ -1372,7 +1622,7 @@ body {
     /*color:#252020;
     border-color: mediumaquamarine;
     background-color: #66CEAA;*/
-    background-color: var(--color-article-container, #353434);
+    background-color: var(--color-content-bg, #353434);
     color: var(--color-article-container-content-text, #d3d1d1);
     border-radius: 5px;
     padding: 5px;

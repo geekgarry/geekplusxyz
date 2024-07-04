@@ -242,7 +242,7 @@ export default {
             if (menu_monitor) {
                 menu_monitor.onchange = function (event) {
                     if (event.target.checked) {
-                      console.log(document.body.c)
+                      //console.log(document.body.c)
                       document.body.style.overflowY="hidden";
                       // document.documentElement.classList.add("mkplus-no-scroll");
                     } else {
