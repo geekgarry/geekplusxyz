@@ -1084,14 +1084,138 @@ ol {
   height: 35px;
   background: var(--color-border-2,#9f9e9e);
 }
+/*********自定义输入和按钮组合，用于发送框等*********/
+.input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 7px;
+  background: var(--color-main-container-bg-1,#ecedee);
+}
 
+.textarea-container {
+  position: relative;
+  display: inline-block;
+  width: 100%; /* 默认宽度占满父元素 */
+  /* max-width: 400px; 最大宽度 */
+  box-sizing: border-box; /* 包含内边距和边框 */
+  margin: 0 5px;
+}
+
+.textarea-container textarea {
+  width: 100%;
+  padding: 5px 36px 5px 5px;
+  border: 1px solid var(--color-border-3,#ececec);
+  background: var(--color-input-bg,#fefefe);
+  color: var(--color-input-txt,#242424);
+  border-radius: 5px;
+  resize: vertical;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+.button-container {
+  /* margin: auto; */
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-self: flex-end;
+  justify-content: center;
+  align-items: center;
+  margin: 3px auto;
+}
+
+.upload-button,
+.send-button {
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+  /* background-color: #4CAF50; */
+  background-color: var(--color-button-bg,#ccd0cc);
+  color: var(--color-button-txt,#424242);
+  margin: 0 auto;
+  line-height: inherit;
+}
+
+.upload-button:hover,
+.send-button:hover {
+  /* background-color: #3e8e41; */
+  background: var(--color-button-bg-ho,#dbe0db);
+}
+
+.upload-button {
+  position: absolute;
+  /* top: 50%; */
+  bottom: 5px;
+  right: 5px;
+  /* transform: translateY(-50%); */
+  border-radius: 50px;
+  width: 26px;
+  height: 26px;
+  font-size: 16px;
+  display: inline-flex;
+  /* vertical-align: middle;
+  text-align: center; */
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.send-button {
+  width: 40px;
+  height: 30px;
+  font-size: 1rem;
+}
+
+.onlyoneline {
+  line-height: 24px;
+  resize: none !important;
+  white-space: pre-wrap;
+  /* 允许自动换行 */
+  overflow-wrap: break-word;
+  /* 单词超出边界时自动换行 */
+}
+
+/* 媒体查询，针对小屏幕设备 */
+@media screen and (max-width: 500px) {
+  .textarea-container {
+    max-width: 100%; /* 小屏幕下，宽度占满父元素 */
+  }
+}
+/*********自定义样式按钮，可以添加到span，a等标签上*********/
+.plus_btn, .plus_btn:visited {
+  border: 1px solid var(--color-border-2, #c0c9cbb3);
+  background: inherit;
+  text-decoration: none; /* 去除下划线样式 */
+  color: initial; /* 继承父元素的字体颜色 */
+  cursor: pointer; /* 可选：改变鼠标悬停时的样式为手型 */
+  /*color: var(--color-main-container-text, #2f3030) !important;*/
+  box-shadow: none !important;
+}
+.plus_btn:hover {
+  border: 1px solid var(--color-border-2, #c0c9cbb3);
+  background: inherit;
+  text-decoration: none; /* 去除下划线样式 */
+  color: initial; /* 继承父元素的字体颜色 */
+  cursor: pointer; /* 可选：改变鼠标悬停时的样式为手型 */
+  /*color: var(--color-main-container-text, #2f3030) !important;*/
+  box-shadow: none !important;
+  opacity: 0.95;
+}
 .cancel_btn, .confirm_btn{
   display: block;
   height: 35px;
   text-align: center;
   line-height: 35px;
-}
+  cursor: pointer;
 
+}
 /*********自定义弹出对话框关闭按钮*********/
 .close_dialog {
   display: block;

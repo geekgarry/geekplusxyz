@@ -1,11 +1,11 @@
 <template>
     <div id="chat_app_container">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row" v-if="chatdisplay">
                 <!-- <div class="col-sm-1 col-md-1 col-lg-2">
-                            </div> -->
+                                        </div> -->
                 <!-- <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8">
-                            </div> -->
+                                        </div> -->
                 <div class="chat-main-content">
                     <div class="chatBoxHeader" :style="{top: chatBoxHeaderTop+ `px`}">
                         <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> $router.push({path:'/'})-->
@@ -17,68 +17,78 @@
                         <div v-for="(item, index) in msgList" v-bind:key="index" class="listChatMsg">
                             <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                                  <span><img
-                                                    class="chatUserIcon"
-                                                    v-lazy="'https://www.geekplus.xyz/imgs/logo.png'"
-                                                    alt="极客普拉斯" />
-                                                  </span>
+                                                              <span><img
+                                                                class="chatUserIcon"
+                                                                v-lazy="'https://www.geekplus.xyz/imgs/logo.png'"
+                                                                alt="极客普拉斯" />
+                                                              </span>
                             <span class="listChatItemContent" v-if="item && item.link == ''">
-                                                    <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
+                                                                <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
                             <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                             </span>
                             <span class="listChatItemContent" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span
-                                                  >
-                                                </span>
+                                                              >
+                                                            </span>
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                            <span v-highlight class="listChatItemContent">
-                                                <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
-                                                    <img v-lazy="item.extraData" style="width: 95%;" />
-                                                </div>
-                                                {{item.text}}
-                                            </span>
-                            <span><img
-                                                    class="chatUserIcon"
-                                                    v-lazy="'https://www.geekplus.xyz/imgs/mai.png'"
-                                                    alt="麦壳" />
-                                                  </span>
+                                                        <span v-highlight class="listChatItemContent">
+                                                            <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
+                                                                <object :data="item.extraData" style="width: 95%;" height="100%">
+                                                                    <!-- <embed :src="item.extraData" style="width: 100%;" >
+                                                                    <audio controls height="50" width="100%" :data="item.extraData">
+                                                                    </audio> -->
+                                                                    <video controls height="50" width="100%" :data="item.extraData">
+                                                                        <source :src="item.extraData" type="audio/mpeg">
+                                                                        <source :src="item.extraData" type="audio/ogg">
+                                                                        <source :src="item.extraData" type="video/mp4">
+                                                                        <source :src="item.extraData" type="video/ogg">
+                                                                    </video>
+                                                                    <a :href="item.extraData" target="_blank">查看</a>
+                                                                </object>
+                                                            </div>
+                                                            {{item.text}}
+                                                        </span>
+                            <span>
+                                <img class="chatUserIcon" v-lazy="'https://www.geekplus.xyz/imgs/mai.png'" alt="麦壳" />
+                            </span>
                             </span>
                         </div>
                     </div>
                     <div class="chatBoxFooter">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <!-- <div class="input-group search-input-group">
-                                                    <input
-                                                      id="inputContentText"
-                                                      name="inputChat"
-                                                      autocomplete="off"
-                                                      :autofocus="true" 
-                                                      type="text"
-                                                      v-model="inputChat"
-                                                      class="form-control"
-                                                      placeholder="请输入聊天内容"
-                                                    />
-                                                    <span class="input-group-addon">
-                                                        <button type="button" @click="startAndStopRecording" >
-                                                            {{recordingTxt}}
-                                                            <span class="glyphicon glyphicon-record"></span>
-                                                        </button>
-                                                        <button type="button" v-on:keydown.enter="handleMsg" @click="handleMsg">
-                                                            <span class="glyphicon glyphicon-send"></span>
-                                                        </button>
-                                                    </span>
-                                                </div> -->
-                                <div class="chatBoxFooterBtn">
+                        <!-- <div class="chatBoxFooterBtn">
                                     <span class="chat_btn_left"><a class="btn btn-default" href="#" role="button"
-                                                      @click="startAndStopRecording" >{{recordingTxt}}
-                                                    </a>
-                                                    </span>
-                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control multiline" :disabled="statusDisabled" autofocus="true" rows="1" v-on:paste.capture.passive="pastingData"></textarea>
+                                                          @click="startAndStopRecording" >{{recordingTxt}}
+                                                        </a>
+                                                        </span>
+                                    <textarea placeholder="请输入聊天内容" v-model="inputChat" id="inputContentText" class="form-control onlyoneline" :disabled="statusDisabled" :autofocus="false" rows="1" 
+                                    @keydown="keyDownEvent" @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
                                     <span class="chat_btn_right">
-                                            <a class="btn btn-default" href="#" role="button" 
-                                            @keydown.enter="handleMsg" @click="handleMsg">发送</a>
-                                        </span>
-                                </div>
+                                                <a class="btn btn-default" href="#" role="button" 
+                                                @click="handleMsg">发送</a>
+                                            </span>
+                                </div> -->
+                        <div class="input-container">
+                            <div class="button-container">
+                                <button type="button" class="send-button" @click="startAndStopRecording">
+                                            {{recordingTxt}}
+                                        </button>
+                            </div>
+                            <div class="textarea-container">
+                                <textarea placeholder="请输入消息..." class="onlyoneline" id="inputContentText" name="inputChat" autocomplete="off" rows="1" v-model="inputChat" :disabled="statusDisabled" :autofocus="false" @keydown="keyDownEvent" @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
+                                <label for="file-upload" class="upload-button">
+                                    <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
+                                        <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
+                                    </svg> -->
+                                    <svg t="1720279770597" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10853" id="mx_n_1720279770598" width="20" height="20">
+                                        <path d="M0 0h1024v1024H0z" fill="#000000" opacity=".01" p-id="10854"></path>
+                                        <path d="M533.312 128a21.312 21.312 0 0 1 21.376 21.312v320h320a21.312 21.312 0 0 1 21.312 21.376v42.624a21.312 21.312 0 0 1-21.312 21.376h-320v320a21.312 21.312 0 0 1-21.376 21.312h-42.624a21.312 21.312 0 0 1-21.376-21.312v-320h-320A21.312 21.312 0 0 1 128 533.312v-42.624a21.312 21.312 0 0 1 21.312-21.376h320v-320A21.312 21.312 0 0 1 490.688 128h42.624z" fill="#000000" fill-opacity=".65" p-id="10855"></path>
+                                    </svg>
+                                    <input type="file" id="file-upload" ref="file-upload-ref" accept="*" @change="uploadDataFileEvent($event)" style="display: none;">
+                                </label>
+                            </div>
+                            <div class="button-container">
+                                <button type="button" class="send-button" @click="handleMsg" :disabled="statusDisabled">
+                                            发送
+                                        </button>
                             </div>
                         </div>
                     </div>
@@ -87,8 +97,8 @@
             <!--事件的native修饰符只能在UI组件或自定义组件上使用，原生的html标签是不能使用的,入div，input等-->
             <!-- <button type="button" class="btn btn-info" @click="visible11" v-show="chatBtnPcDisplay">打开ChatGpt聊天框</button> -->
             <div class="row" v-else>
-                <div class="col-sm-2 col-md-2 col-lg-3"></div>
-                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 chat-main-content">
+                <div class="col-md-2 col-lg-3"></div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 chat-main-content">
                     <div class="chatBoxHeader">
                         <div></div>
                         <span>AI聊天助手</span>
@@ -99,48 +109,72 @@
                         <div v-for="(item, index) in msgList" :key="index" class="listChatMsg">
                             <div v-show="item.time" class="chat_date_time">{{getChatDateTime(item.time)}}</div>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                            <img
-                                                class="chatUserIcon"
-                                                src="https://www.geekplus.xyz/imgs/logo.png"
-                                                alt="极客普拉斯"
-                                            />
-                                        <span class="pcChatTextSpan" v-if="item && item.link == ''" >
-                                            <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
+                                <img
+                                    class="chatUserIcon"
+                                    src="https://www.geekplus.xyz/imgs/logo.png"
+                                    alt="极客普拉斯"
+                                />
+                                <span class="pcChatTextSpan" v-if="item && item.link == ''" >
+                                <span v-highlight v-html="markdownToHtmlWithoutExtraLines(item.text)"></span>
                             <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                             </span>
                             <span class="pcChatTextSpan" v-if="item && item.link">: <a :href="item.link" target="_blank" >{{item.text}}</a></span>
                             </span>
                             <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                            <span v-highlight class="pcChatTextSpan">
-                                                <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
-                                                    <img v-lazy="item.extraData" style="width: 95%;" />
-                                                </div>
-                                                {{item.text}}
-                                            </span>
+                                                        <span v-highlight class="pcChatTextSpan">
+                                                            <div class="chat_extra_data" v-if="checkObjectExistsJson(item,'extraData')">
+                                                                <object :data="item.extraData" style="width: 95%;" height="100%">
+                                                                <!-- <embed :src="item.extraData" style="width: 100%;" >
+                                                                <audio controls height="50" width="100%" :data="item.extraData">
+                                                                </audio> -->
+                                                                <video controls height="50" width="100%" :data="item.extraData">
+                                                                    <source :src="item.extraData" type="audio/mpeg">
+                                                                    <source :src="item.extraData" type="audio/ogg">
+                                                                    <source :src="item.extraData" type="video/mp4">
+                                                                    <source :src="item.extraData" type="video/ogg">
+                                                                </video>
+                                                                <a :href="item.extraData" target="_blank">查看</a>
+                                                                </object>
+                                                            </div>
+                                                            {{item.text}}
+                                                        </span>
                             <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/mai.png" alt="麦壳" />
                             </span>
                         </div>
                     </div>
                     <div class="chatBoxFooter">
-                        <!-- <div class="form-inline">
-                                        <div class="form-group">
-                                            <label for="exampleInputName2">Name</label>
-                                            <input type="text" class="form-control" id="inputContentText" v-model="inputChat" :autofocus="true" placeholder="请输入聊天内容">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary" v-on:keydown.enter="handleMsg" @click="handleMsg">发送</button>
-                                    </div> -->
-                        <div class="input-group search-input-group">
-                            <!-- <input type="hidden" name="scope" value="1" /> -->
-                            <textarea id="inputContentText" name="inputChat" autocomplete="off" autofocus="true" v-model="inputChat" :disabled="statusDisabled" class="form-control multiline" placeholder="请输入聊天内容" rows="1" @paste.capture.passive="pastingData"></textarea>
-                            <span class="input-group-addon">
-                                    <button type="button" @keydown.enter="handleMsg" @click="handleMsg" :disabled="statusDisabled">
+                        <!-- <div class="input-group search-input-group">
+                                    <textarea id="inputContentText" name="inputChat" autocomplete="off" :autofocus="false" v-model="inputChat" :disabled="statusDisabled" class="form-control onlyoneline" 
+                                    placeholder="请输入聊天内容" rows="1" v-on:keydown="keyDownEvent" v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
+                                    <span class="input-group-addon">
+                                                <button type="button" @keydown.enter="handleMsg" @click="handleMsg" :disabled="statusDisabled">
+                                                    <span class="glyphicon glyphicon-send"></span>
+                                    </button>
+                                    </span>
+                                </div> -->
+                        <div class="input-container">
+                            <div class="textarea-container">
+                                <textarea placeholder="请输入消息..." class="onlyoneline" id="inputContentText" name="inputChat" autocomplete="off" rows="1" :autofocus="false" v-model="inputChat" :disabled="statusDisabled" v-on:keydown="keyDownEvent" v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
+                                <label for="file-upload" class="upload-button">
+                                    <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
+                                        <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
+                                    </svg> -->
+                                    <svg t="1720279770597" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10853" id="mx_n_1720279770598" width="20" height="20">
+                                        <path d="M0 0h1024v1024H0z" fill="#000000" opacity=".01" p-id="10854"></path>
+                                        <path d="M533.312 128a21.312 21.312 0 0 1 21.376 21.312v320h320a21.312 21.312 0 0 1 21.312 21.376v42.624a21.312 21.312 0 0 1-21.312 21.376h-320v320a21.312 21.312 0 0 1-21.376 21.312h-42.624a21.312 21.312 0 0 1-21.376-21.312v-320h-320A21.312 21.312 0 0 1 128 533.312v-42.624a21.312 21.312 0 0 1 21.312-21.376h320v-320A21.312 21.312 0 0 1 490.688 128h42.624z" fill="#000000" fill-opacity=".65" p-id="10855"></path>
+                                    </svg>
+                                    <input type="file" id="file-upload" ref="file-upload-ref" accept="*" @change="uploadDataFileEvent($event)" style="display: none;">
+                                </label>
+                            </div>
+                            <div class="button-container">
+                                <button type="button" class="send-button" @keydown.enter="handleMsg" @click="handleMsg" :disabled="statusDisabled">
                                             <span class="glyphicon glyphicon-send"></span>
-                            </button>
-                            </span>
+                                        </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2 col-md-2 col-lg-3"></div>
+                <div class="col-md-2 col-lg-3"></div>
             </div>
         </div>
         <!-- <el-dialog :visible.sync="visible" title="对话框"> -->
@@ -157,14 +191,14 @@
                     <div class="plus-dialog-footer">
                         <div class="pdf-left-btn">
                             <span class="cancel_btn" data-dismiss="modal" aria-label="Close">
-                                    取消
-                                    <!-- <span  aria-hidden="true">&times;</span> -->
+                                                取消
+                                                <!-- <span  aria-hidden="true">&times;</span> -->
                             <!-- <font-awesome-icon :icon="['fas', 'times']" /> -->
                             </span>
                         </div>
                         <span class="split-line"></span>
                         <div class="pdf-right-btn">
-                            <span class="confirm_btn" v-on:click="sendWithImg">发送</span>
+                            <span class="confirm_btn" v-on:click="sendWithFile">发送</span>
                         </div>
                     </div>
                 </div>
@@ -196,11 +230,11 @@ export default {
             loading: false,
             chatBtnPcDisplay: true,
             chatdisplay: false,
-            reduceH: 84,
+            reduceH: 90,
             chatBoxHeight: 440,
             chatBoxHeaderTop: 0,
-            fullWidth: 0,
-            fullHeight: 0,
+            windowWidth: 0,
+            windowHeight: 0,
             audioData: [], // 存储录音数据块，recorderData//音频的二进制数据
             recorder: new Recorder({
                 sampleBits: 16, // 采样位数，支持 8 或 16，默认是16
@@ -219,6 +253,7 @@ export default {
             baseHost: window.location.host,
             baseApi: process.env.VUE_APP_BASE_API,
             textAreaInput: null,
+            textInputHeight: 0,
             statusDisabled: false,
             cropper: null
         };
@@ -232,9 +267,10 @@ export default {
         this.beforeLoadDocument();
     },
     mounted() {
-        //window.addEventListener('resize', function() {});
         const that = this;
-        let reduceH = that.reduceH;
+        that.textAreaInput = document.querySelector("#inputContentText");
+        that.textInputHeight = that.textAreaInput.offsetHeight;
+        //window.addEventListener('resize', function() {});
         //that.setOpenAiKey()
         // <!--把window.onresize事件挂在到mounted函数上-->
         window.onresize = () => {
@@ -243,17 +279,21 @@ export default {
                 window.fullWidth = document.documentElement.clientWidth || document.body.clientWidth;
                 that.windowHeight = window.fullHeight; // 高
                 that.windowWidth = window.fullWidth; // 宽
-                // 页面宽度小于750px时，不显示地图
-                if (that.windowWidth < 750) {
+                // 页面宽度小于768px时，移动端显示，小屏幕平板 (≥768px) (<992px)
+                if (that.windowWidth < 992) {
+                    that.textAreaInput = document.querySelector("#inputContentText");
+                    that.textInputHeight = that.textAreaInput.offsetHeight;
                     //that.chatBtnPcDisplay = false;
                     that.chatdisplay = true;
                 } else {
+                    that.textAreaInput = document.querySelector("#inputContentText");
+                    that.textInputHeight = that.textAreaInput.offsetHeight;
                     //that.chatBtnPcDisplay = true;
                     that.chatdisplay = false;
                 }
                 //console.log("页面高度：" + that.windowHeight)
                 //document.getElementById("bigChatBox").offsetHeight = (that.windowHeight - 100) + "px";
-                that.chatBoxHeight = that.windowHeight - reduceH;
+                that.chatBoxHeight = that.windowHeight - that.reduceH;
                 // that.scrollAtTop();
                 if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
                     window.setTimeout(function() {
@@ -273,50 +313,8 @@ export default {
             //console.log(scrollTopDis)
             this.chatBoxHeaderTop = scrollTopDis;
         }
-        const textarea = document.getElementById("inputContentText");
-        that.textAreaInput = textarea;
-        const maxLines = 8;
-        const inputHeight = textarea.offsetHeight;
-        var textAreaAddHeight = 0; //输入框增加的高度
-        textarea.addEventListener("input", () => {
-            // 将高度重置为自动，以便根据内容计算高度
-            textarea.style.height = "auto";
-            //console.log(textarea.style.height)
-            // 获取行数
-            const currentLines = textarea.value.split("\n").length;
-            textAreaAddHeight = (currentLines - 1) * 22;
-            textarea.style.height = inputHeight + textAreaAddHeight + `px`;
-            that.chatBoxHeight = that.windowHeight - (textAreaAddHeight + reduceH);
-            // 如果行数超过最大行数，则设置最大高度
-            if (currentLines > maxLines) {
-                textAreaAddHeight = maxLines * 22;
-                textarea.style.height = inputHeight + textAreaAddHeight + `px`;
-                that.chatBoxHeight = that.windowHeight - (textAreaAddHeight + reduceH);
-                //textarea.style.height = `${textarea.scrollHeight}px`;
-            } else if (currentLines == 1) {
-                textarea.style.height = "auto";
-                that.chatBoxHeight = that.windowHeight - reduceH;
-            }
-        });
-        textarea.addEventListener("keydown", (e) => {
-            let keyC = window.event.keyCode; //这里是键盘的ASCLL码值，13为回车值
-            //let key = window.event.key || event.key;//新的key时表示为键盘的具体值
-            if (keyC == 13 && !e.shiftKey) {
-                //只有enter没有shift，或进行你的其他逻辑
-                e.preventDefault(); // 阻止默认行为，即不换行
-                // 13是enter键的键盘码 如果等于13 就调用click的登录方法
-                this.handleMsg();
-            }
-            // else if(keyC == 13 && e.shiftKey){
-            //     // 这里实现换行
-            //     //document.getElementById("a").value += "\n";
-            //     console.log(this.inputChat.length);
-            //     if(this.inputChat!='' && this.inputChat.length > 0){
-            //         this.inputChat+="\n";
-            //     }
-            //     console.log(this.inputChat);
-            // }
-        });
+        // textArea.addEventListener("input", (e) => {});
+        // textarea.addEventListener("keydown", (e) => {});
         //shown是在显示之后，show是在显示的同时
         $('#chatDataModal').on('show.bs.modal', function(e) {
             that.dialogInputIsFocus = true;
@@ -348,15 +346,15 @@ export default {
             //this.startTTS("你好！请问现在是什么时间！");
             this.windowWidth = document.documentElement.clientWidth || document.body.clientWidth;;
             this.windowHeight = document.documentElement.clientHeight || document.body.clientHeight;;
-            // 页面宽度小于750px时，显示移动端
-            if (this.windowWidth < 750) {
+            // 页面宽度小于768px时，显示移动端,<992px,显示移动和平板
+            if (this.windowWidth < 992) {
                 //this.chatBtnPcDisplay = false;
                 this.chatdisplay = true;
             } else {
                 //this.chatBtnPcDisplay = true;
                 this.chatdisplay = false;
             }
-            //document.getElementById("bigChatBox").offsetHeight = (this.fullHeight - 100) + "px";
+            //document.getElementById("bigChatBox").offsetHeight = (this.windowHeight - 100) + "px";
             this.chatBoxHeight = this.windowHeight - this.reduceH;
             // testProcess().then(res=>{console.log(res);})
         },
@@ -366,6 +364,7 @@ export default {
         //         this.$refs.serachBox.focus();
         //     });
         // },
+        //处理发送消息
         async handleMsg() {
             if (this.inputChat === "关闭语音") {
                 this.isTextVoice = false;
@@ -427,13 +426,13 @@ export default {
                 this.chatHistoryToJson(this.msgList);
                 await this.showChatMsgList(this.msgList, { align: "right", text: this.inputChat, time: Date.now() });
                 await this.scrollAtTop();
-                this.getMsg();
+                this.getReplyMsg();
                 this.inputChat = "";
                 this.textAreaInput.style.height = "auto";
                 this.chatBoxHeight = this.windowHeight - this.reduceH;
             }
         },
-        getMsg() {
+        getReplyMsg() {
             let that = this;
             that.statusDisabled = true;
             // {
@@ -477,15 +476,7 @@ export default {
               this.loading = false;
               });
             } */
-            //在获取请求响应前，设置一个临时加载显示的消息
-            let listMsgTemp = { align: "left", text: "回复中，请稍后...", link: "", type: 2, time: Date.now()};
-            //推送到消息列表中
-            that.showChatMsgList(that.msgList, listMsgTemp);
-            //延迟一秒等内容已经包含在div消息列表框中，然后在进行滑动到底部
-            that.delayFunction(()=>{
-                that.scrollAtTop();
-            }, 1000);
-            
+            that.beforeGetReplyRes();
             if (that.isHistory === false) {
                 let dataParams = { username: "guest", chatData: this.inputChat };
                 let result = null;
@@ -519,7 +510,7 @@ export default {
                     });
                 });
         },
-        sendWithImg() {
+        sendWithFile() {
             //chatHistoryToJson方法是在发送消息前把之前所有的消息构造一个json作为历史消息记录
             //this.chatHistoryToJson(this.msgList);
             this.chatMsgData.username = "guest";
@@ -527,6 +518,7 @@ export default {
             //let imgDiv=document.createElement("div").appendChild(this.convertBase64ToImage("base64Str")); this.chatMsgData.mediaData
             this.showChatMsgList(this.msgList, { align: "right", text: this.chatMsgData.chatData, extraData: this.tempFileUrl, time: Date.now() });
             this.scrollAtTop();
+            this.beforeGetReplyRes();
             this.sendMessageChat(this.chatMsgData);
             $('#chatDataModal').modal('hide');
         },
@@ -592,6 +584,18 @@ export default {
             //     // }, 5000); // 模拟耗时操作，延迟5秒
             // });
         },
+        //在获取消息回复之前的临时等待或加载中，蕾丝进度条或加载转动圈
+        beforeGetReplyRes(){
+            //在获取请求响应前，设置一个临时加载显示的消息
+            let listMsgTemp = { align: "left", text: "回复中，请稍后...", link: "", type: 9, time: Date.now() };
+            //推送到消息列表中
+            this.showChatMsgList(this.msgList, listMsgTemp);
+            //延迟一秒等内容已经包含在div消息列表框中，然后在进行滑动到底部
+            this.delayFunction(() => {
+                this.scrollAtTop();
+            }, 900);
+        },
+        //处理回复响应的异步任务函数
         async handleResultTask(response) {
             let msg = "消息";
             let msgtype = "0"
@@ -626,12 +630,155 @@ export default {
             await this.refreshChatReply(this.msgList, listMsg);
             await this.scrollAtTop();
         },
+        textInputEvent(e) {
+            let that = this;
+            let textArea = e.target;
+            var inputHeight = that.textInputHeight;
+            let reduceH = that.reduceH;
+            var textAreaAddHeight; //输入框增加的高度
+            // 将高度重置为自动，以便根据内容计算高度
+            // textArea.style.height = "auto";
+            // 获取行数,表示是否有换行符，为1表示没有，换行符为0，后面就根据换行符来计算增加高度
+            let currentLines = textArea.value.split("\n").length;
+            textAreaAddHeight = (currentLines - 1) * 24;
+            textArea.style.height = inputHeight + textAreaAddHeight + `px`;
+            that.chatBoxHeight = that.windowHeight - (textAreaAddHeight + reduceH);
+            // 如果行数超过最大行数，则设置最大高度
+            if (currentLines > 8) {
+                textAreaAddHeight = 8 * 24;
+                textArea.style.height = inputHeight + textAreaAddHeight + `px`;
+                that.chatBoxHeight = that.windowHeight - (textAreaAddHeight + reduceH);
+                //textarea.style.height = `${textarea.scrollHeight}px`;
+            }else if(currentLines==1){
+                textArea.style.height = inputHeight + `px`;
+                that.chatBoxHeight = that.windowHeight - reduceH;
+            }
+        },
+        keyDownEvent(e) {
+            let keyC = window.event.keyCode || e.keyCode; //这里是键盘的ASCLL码值，13为回车值
+            //let key = window.event.key || event.key;//新的key时表示为键盘的具体值
+            //只有在移动和平板设备上(<992px)才无法使用enter直接发送
+            //而在桌面(>=992)，使用非shift键和enter键在能发送，否则就是换行
+            if (this.windowWidth >= 992) {
+                if (keyC == 13 && !e.shiftKey) {
+                    //只有enter没有shift，或进行你的其他逻辑
+                    e.preventDefault(); // 阻止默认行为，即不换行
+                    // 13是enter键的键盘码 如果等于13 就调用click的登录方法
+                    this.handleMsg();
+                }
+            }
+            // else if(keyC == 13 && e.shiftKey){
+            //     // 这里实现换行
+            //     //document.getElementById("a").value += "\n";
+            //     console.log(this.inputChat.length);
+            //     if(this.inputChat!='' && this.inputChat.length > 0){
+            //         this.inputChat+="\n";
+            //     }
+            //     console.log(this.inputChat);
+            // }
+        },
+        //上传文件事件
+        async uploadDataFileEvent(e) {
+            var file = null;
+            //this.formData.append("file", file.file);
+            const items = e.target.files;
+            if (items && items.length) {
+                // for (let i = 0; i < items.length; i++) {}
+                file = items[0];
+                var URL = window.URL || window.webkitURL;
+                // // 通过 file 生成目标 url。URL.createObjectURL(file);
+                var tempURL = URL.createObjectURL(file);
+                // 创建FileReader读取文件
+                // const reader = new FileReader();
+                // reader.onload = (e) => {
+                //     const base64 = e.target.result;
+                //     this.chatMsgData.mediaData = base64;
+                //     console.log(base64)
+                //     // 在这里处理base64数据
+                //     //let baseArr=base64.split(",");
+                //     // 拿到文件对象后，先上传或先展示都行，这里以图片进行举例
+                //     // 如果是直接上传服务器，那可以拿到图片地址直接使用
+                //     // 如果不进行上传，先展示，等点击确定在上传，那就自己创建一个链接进行使用
+                //     // const windowURL = window.URL || window.webkitURL
+                //     tempURL = URL.createObjectURL(file);
+                // };
+                // reader.readAsDataURL(file);
+                this.chatMsgData.mediaData = await this.fileToBase64(file);
+                if (file.type.indexOf('image') !== -1) {
+                    this.tempFileUrl = tempURL;
+                    let tempImg = '<img src="' + tempURL + '" />';
+                    document.getElementById("fileData").innerHTML = tempImg;
+                    $('#chatDataModal').modal();
+                } else if ((file.type.indexOf('json') !== -1 || file.type.indexOf('xml') !== -1)) {
+                    this.tempFileUrl = tempURL;
+                    let domObject = '<object data="' + tempURL + '" type="application/pdf" width="100%" height="100%">该浏览器不支持PDF.请点击查看:<a href="' + tempURL + '">Download PDF</a>.</p></object>';
+                    //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
+                    document.getElementById("fileData").innerHTML = domObject;
+                    $('#chatDataModal').modal();
+                } else if ((file.type.indexOf('application/vnd') !== -1 || file.type.indexOf('application/ms') !== -1)) {
+                    this.tempFileUrl = tempURL;
+                    let domObject = '<embed src="' + tempURL + '" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="' + tempURL + '">Download Office File</a>.</p></embed>';
+                    //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
+                    document.getElementById("fileData").innerHTML = domObject;
+                    $('#chatDataModal').modal();
+                } else if ((file.type.indexOf('audio') !== -1 || file.type.indexOf('video') !== -1)) {
+                    this.tempFileUrl = tempURL;
+                    // 在这里处理base64数据
+                    //let baseArr=base64.split(",");
+                    var tempFile = '<video controls height="50" width="100%" data="' + tempURL + '">' +
+                        '<source src="' + tempURL + '" type="audio/mpeg">' +
+                        '<source src="' + tempURL + '" type="audio/ogg">' +
+                        '<embed height="50" width="100" src="' + tempURL + '">' +
+                        //'<object height="50" width="100" data="'+tempURL+'"></object>'+
+                        '</video>';
+                    document.getElementById("fileData").innerHTML = tempFile;
+                    $('#chatDataModal').modal();
+                } else if (file.type.indexOf('text') !== -1) {
+                    this.tempFileUrl = tempURL;
+                    // 在这里处理base64数据
+                    //let baseArr=base64.split(",");
+                    var tempFile = '<object controls height="100%" width="100%" data="' + tempURL + '">' +
+                        '<source src="' + tempURL + '" type="audio/mpeg">' +
+                        '<source src="' + tempURL + '" type="audio/ogg">' +
+                        '<embed height="50" width="100" src="' + tempURL + '">' +
+                        //'<object height="50" width="100" data="'+tempURL+'"></object>'+
+                        '</object>';
+                    document.getElementById("fileData").innerHTML = tempFile;
+                    // document.getElementById("fileData").append();
+                    $('#chatDataModal').modal();
+                } else{
+                    this.$toasted.show("不支持的文件类型！仅支持支持图片，视频，音频，文本等", {
+                        position: "top-center",
+                        duration: 3000,
+                        theme: "bubble",
+                    });
+                }
+            }
+            //const imageUrl = 上传七牛云后返回来的一串在线链接
+            // if (e.target.files.length == 1) {
+            //     let file = e.target.files[0];
+            //     //var file=document.querySelector("#uploadFile")[0].value;
+            //     let formData = new FormData();
+            //     formData.append("file", file);
+            // } else {
+            //     let fileList = e.target.files;
+            //     for (var i = 0; i < fileList.length; i++) {
+            //         let formData = new FormData();
+            //         var elFile = fileList[i];
+            //         formData.append("file", elFile);
+            //         //formData.append("file", new Blob(file)); //this.fileList[0].raw);//拿到存在fileList的文件存放到formData中
+            //         //下面数据是我自己设置的数据,可自行添加数据到formData(使用键值对方式存储)
+            //         // 解析上传的文件
+            //         //let file = this.fileList[0]
+            //     }
+            // }
+        },
         //输入框粘贴事件处理函数
         pastingData(event) {
             //let txt=event.clipboardData.getData('Text');
             // 输入框粘贴
             //let excelArr = ['text/plain', "text/html", "text/rtf", "image/png"];//excel格式
-            let file = null
+            let file = null;
             // 获取剪切板图片、视频、文件、文件夹
             const items = (event.clipboardData || window.clipboardData).items
             // if(typeof(txt) === 'string') {
@@ -643,7 +790,7 @@ export default {
                 // const item = items[0];
                 // if (item.kind === 'file' && item.type.startsWith('image/'))
                 for (let i = 0; i < items.length; i++) {
-                    //console.log(items[i].type);
+                    // console.log(items[i]);
                     if (items[i].kind === 'file' && items[i].type.indexOf('image') !== -1) {
                         file = items[i].getAsFile();
                         //console.log(file)
@@ -652,14 +799,14 @@ export default {
                         reader.onload = (e) => {
                             const base64 = e.target.result;
                             this.chatMsgData.mediaData = base64;
-                            const fileData = this.base64ToBlob(base64);
+                            // const fileData = this.base64ToBlob(base64);
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
                             // 拿到文件对象后，先上传或先展示都行，这里以图片进行举例
                             // 如果是直接上传服务器，那可以拿到图片地址直接使用
                             // 如果不进行上传，先展示，等点击确定在上传，那就自己创建一个链接进行使用
                             // const windowURL = window.URL || window.webkitURL
-                            const tempUrl = URL.createObjectURL(fileData);
+                            const tempUrl = URL.createObjectURL(file);
                             // let clip = new CropImg({width: 300, height:220}) // 设置裁剪的比例
                             // clip.init(fileData, res => { // 需要将裁剪的图片文件传入，既可以触发裁剪
                             //     // 裁剪按钮 点击后会触发此函数，传入的res是裁剪后的文件,可以上传，也可以自己手动转成url显示
@@ -703,7 +850,6 @@ export default {
                         break;
                     } else if (items[i].kind === 'file' && (items[i].type.indexOf('json') !== -1 || items[i].type.indexOf('xml') !== -1)) {
                         file = items[i].getAsFile();
-                        //console.log(file);
                         // 创建FileReader读取图片
                         const reader = new FileReader();
                         reader.readAsDataURL(file);
@@ -711,7 +857,7 @@ export default {
                             const base64 = e.target.result;
                             this.chatMsgData.mediaData = base64;
                             //console.log(this.base64ToBlob(base64));
-                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            const tempUrl = URL.createObjectURL(file);
                             this.tempFileUrl = tempUrl;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
@@ -729,7 +875,6 @@ export default {
                         break;
                     } else if (items[i].kind === 'file' && (items[i].type.indexOf('application/vnd') !== -1 || items[i].type.indexOf('application/ms') !== -1)) {
                         file = items[i].getAsFile();
-                        //console.log(file);
                         // 创建FileReader读取图片
                         const reader = new FileReader();
                         reader.readAsDataURL(file);
@@ -737,7 +882,7 @@ export default {
                             const base64 = e.target.result;
                             this.chatMsgData.mediaData = base64;
                             //console.log(this.base64ToBlob(base64));
-                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            const tempUrl = URL.createObjectURL(file);
                             this.tempFileUrl = tempUrl;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
@@ -755,13 +900,12 @@ export default {
                         break;
                     } else if (items[i].kind === 'file' && (items[i].type.indexOf('audio') !== -1 || items[i].type.indexOf('video') !== -1)) {
                         file = items[i].getAsFile();
-                        //console.log(file);
                         // 创建FileReader读取图片
                         const reader = new FileReader();
                         reader.onload = (e) => {
                             const base64 = e.target.result;
                             this.chatMsgData.mediaData = base64;
-                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            const tempUrl = URL.createObjectURL(file);
                             this.tempFileUrl = tempUrl;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
@@ -779,13 +923,12 @@ export default {
                         break;
                     } else if (items[i].kind === 'file' && items[i].type.indexOf('text') !== -1) {
                         file = items[i].getAsFile();
-                        //console.log(file);
                         // 创建FileReader读取图片
                         const reader = new FileReader();
                         reader.onload = (e) => {
                             const base64 = e.target.result;
                             this.chatMsgData.mediaData = base64;
-                            const tempUrl = URL.createObjectURL(this.base64ToBlob(base64));
+                            const tempUrl = URL.createObjectURL(file);
                             this.tempFileUrl = tempUrl;
                             // 在这里处理base64数据
                             //let baseArr=base64.split(",");
@@ -800,6 +943,13 @@ export default {
                             $('#chatDataModal').modal();
                         };
                         reader.readAsDataURL(file);
+                        break;
+                    }else {
+                        this.$toasted.show("不支持的文件类型！仅支持支持图片，视频，音频，文本等", {
+                            position: "top-center",
+                            duration: 3000,
+                            theme: "bubble",
+                        });
                         break;
                     }
                 }
@@ -1469,7 +1619,6 @@ export default {
       }
     } */
 
-@import 'cropperjs/dist/cropper.css';
 body {
     background-color: rgba(239, 239, 239, 0.98);
     margin: 0 auto;
@@ -1480,6 +1629,7 @@ body {
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
+    background: var(--color-container-bg);
 }
 
 .fade-enter-active,
@@ -1650,21 +1800,12 @@ body {
     margin-left: 7px;
 }
 
-.multiline {
-    line-height: 20px;
-    resize: none;
-    white-space: pre-wrap;
-    /* 允许自动换行 */
-    overflow-wrap: break-word;
-    /* 单词超出边界时自动换行 */
-}
-
 .chatBoxFooter {
     position: relative;
     bottom: 0px;
     left: 0px;
     width: 100%;
-    margin: 5px 0 5px 0;
+    margin: 0 auto;
 }
 
 .chatBoxFooterBtn {
@@ -1674,6 +1815,7 @@ body {
     justify-content: space-between;
     /* background-color: #83a097; */
     background: var(--color-background, #ffffff00);
+    font-family: auto;
 }
 
 .chatBoxFooterBtn .chat_btn_left a {
