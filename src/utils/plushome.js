@@ -279,6 +279,30 @@ export function getHtmlValue(value) {
     //     words.add(matcher.group(3));
     // }
 }
+//获取图片的原始尺寸
+export function getImageNaturalDimensions(oImgSrc, callback) {
+    var oImg = new Image();
+    oImg.onload = function(){
+        var nWidth, nHeight;
+        if (!oImg.naturalWidth) {
+            nWidth = oImg.naturalWidth;
+            nHeight = oImg.naturalHeight;
+            callback(oImg,{ w: nWidth, h: nHeight });
+        } else {
+            var nImg = new Image();
+            nImg.onload = function () {
+                var nWidth = nImg.width,
+                    nHeight = nImg.height;
+                callback(oImg,{ w: nWidth, h: nHeight });
+            }
+            nImg.src = oImg.src;
+        }
+    };
+    oImg.onerror = function(){
+        callback(null);
+    }
+    oImg.src = oImgSrc;
+}
 
 //输入一个整数，返回他从1开始的随机数，需要加1，否则就是返回从0开始到length-1
 export function someNumberCount(length) {
@@ -788,3 +812,4 @@ var a_idx = 0;
     }
     },100); */
 // });
+// export default plushome;

@@ -73,7 +73,7 @@
                                         </button>
                             </div>
                             <div class="textarea-container">
-                                <textarea placeholder="请输入消息..." class="onlyoneline" id="inputContentText" name="inputChat" autocomplete="off" rows="1" v-model="inputChat" :disabled="statusDisabled" :autofocus="false" @keydown="keyDownEvent" @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
+                                <textarea placeholder="请输入消息..." class="onlyoneline" id="inputContentText" name="inputChat" autocomplete="off" rows="1" v-model="inputChat" :autofocus="false" @keydown="keyDownEvent" @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
                                 <label for="file-upload" class="upload-button">
                                     <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
                                         <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
@@ -154,7 +154,7 @@
                                 </div> -->
                         <div class="input-container">
                             <div class="textarea-container">
-                                <textarea placeholder="请输入消息..." class="onlyoneline" id="inputContentText" name="inputChat" autocomplete="off" rows="1" :autofocus="false" v-model="inputChat" :disabled="statusDisabled" v-on:keydown="keyDownEvent" v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
+                                <textarea placeholder="请输入消息..." class="onlyoneline" id="inputContentText" name="inputChat" autocomplete="off" rows="1" :autofocus="false" v-model="inputChat" v-on:keydown="keyDownEvent" v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
                                 <label for="file-upload" class="upload-button">
                                     <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
                                         <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
@@ -168,8 +168,8 @@
                             </div>
                             <div class="button-container">
                                 <button type="button" class="send-button" @keydown.enter="handleMsg" @click="handleMsg" :disabled="statusDisabled">
-                                            <span class="glyphicon glyphicon-send"></span>
-                                        </button>
+                                    <span class="glyphicon glyphicon-send"></span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -179,21 +179,20 @@
         </div>
         <!-- <el-dialog :visible.sync="visible" title="对话框"> -->
         <!-- </el-dialog> -->
+        <!-- <div class="plus-dialog-overlay">
+        </div> -->
         <div class="modal fade" id="chatDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div role="document" class="plus-dialog">
                 <div class="plus-dialog-main">
                     <div class="plus-dialog-container">
                         <div class="chat_extra_data" id="fileData">
-                            <!-- <img-cropper :imgFile="tempFileUrl" :autoCropHeight="200" :autoCropWidth="200" /> -->
                         </div>
                     </div>
-                    <textarea name="inputChatDialog" v-model="chatMsgData.chatData" v-focus="dialogInputIsFocus" class="plus-form-textarea" placeholder="请输入聊天内容" rows="1"></textarea>
+                    <textarea name="inputChatDialog" v-model="chatMsgData.chatData" v-focus="dialogInputIsFocus" class="plus-form-textarea" placeholder="请输入消息..." rows="1"></textarea>
                     <div class="plus-dialog-footer">
                         <div class="pdf-left-btn">
                             <span class="cancel_btn" data-dismiss="modal" aria-label="Close">
-                                                取消
-                                                <!-- <span  aria-hidden="true">&times;</span> -->
-                            <!-- <font-awesome-icon :icon="['fas', 'times']" /> -->
+                                取消
                             </span>
                         </div>
                         <span class="split-line"></span>
@@ -210,15 +209,16 @@
 <script>
 import axios from 'axios'
 import Recorder from 'js-audio-recorder'
-// import CropImg from "@/utils/pluscrop.js"
-// import ImgCropper from "@/components/cropImage/ImgCropper.vue"
-// import { marked } from "marked"//9.1.6
+import ImageCropper from "@/utils/ImageCropper.js"
+import { getImageNaturalDimensions } from "@/utils/plushome.js"
+import PlusDialog from '@/utils/PlusDialog.js'
+import {showToast} from '@/utils/PlusToast.js'
+// import marked from "marked"//9.1.6
 const marked = require('marked'); //9.1.6
 import { testProcess, getchatgpt, chatgpttest, geminiAI, geminiAIChat, getHistoryMessage, getTTSChinese } from "@/api/chatbot/chatbot"
 
 export default {
     name: "ChatBot",
-    // components: { ImgCropper },
     data() {
         return {
             visible: false,
@@ -258,10 +258,8 @@ export default {
             cropper: null
         };
     },
-    //data:{},
     created: function() {
         this.getHistoryMag("guest");
-        // this.beforeLoadDocument();
     },
     beforeMount() {
         this.beforeLoadDocument();
@@ -285,16 +283,17 @@ export default {
                     that.textInputHeight = that.textAreaInput.offsetHeight;
                     //that.chatBtnPcDisplay = false;
                     that.chatdisplay = true;
+                    that.scrollAtTop();
                 } else {
                     that.textAreaInput = document.querySelector("#inputContentText");
                     that.textInputHeight = that.textAreaInput.offsetHeight;
                     //that.chatBtnPcDisplay = true;
                     that.chatdisplay = false;
+                    that.scrollAtTop();
                 }
                 //console.log("页面高度：" + that.windowHeight)
                 //document.getElementById("bigChatBox").offsetHeight = (that.windowHeight - 100) + "px";
                 that.chatBoxHeight = that.windowHeight - that.reduceH;
-                // that.scrollAtTop();
                 if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
                     window.setTimeout(function() {
                         if ('scrollIntoView' in document.activeElement) {
@@ -310,10 +309,8 @@ export default {
             //在IOS下document.body.scrollTop 一直为0，要用document.documentElement.scrollTop
             var scrollTopDis = document.documentElement.scrollTop || document.body.scrollTop;
             // console.log(document.body.scrollHeight)
-            //console.log(scrollTopDis)
             this.chatBoxHeaderTop = scrollTopDis;
         }
-        // textArea.addEventListener("input", (e) => {});
         // textarea.addEventListener("keydown", (e) => {});
         //shown是在显示之后，show是在显示的同时
         $('#chatDataModal').on('show.bs.modal', function(e) {
@@ -328,17 +325,15 @@ export default {
     },
     watch: {
         windowHeight(val) {
-            // let that = this;
-            //console.log("实时屏幕高度：", val, that.windowHeight);
+            //console.log("实时屏幕高度：", val, this.windowHeight);
         },
         windowWidth(val) {
-            // let that = this;
-            // if (val < 768) {
-            //     that.chatBtnPcDisplay = false;
+            // if (val < 992) {
+            //     this.chatBtnPcDisplay = false;
             // } else {
-            //     that.chatBtnPcDisplay = true;
+            //     this.chatBtnPcDisplay = true;
             // }
-            //console.log("实时屏幕宽度：", val, that.windowHeight);
+            //console.log("实时屏幕宽度：", val, this.windowHeight);
         }
     },
     methods: {
@@ -434,7 +429,6 @@ export default {
         },
         getReplyMsg() {
             let that = this;
-            that.statusDisabled = true;
             // {
             /** if(this.openAiKey==''||this.openAiKey==null){
               this.$message({message:'请先输入你的openAiKey',type:'error',duration:2500})
@@ -524,6 +518,7 @@ export default {
         },
         sendMessage(dataParams) {
             let that = this;
+            that.statusDisabled = true;
             //链式编程
             // new Promise((resolve, reject) => {
             //     //第一次网络请求
@@ -559,6 +554,7 @@ export default {
         },
         sendMessageChat(dataParams) {
             let that = this;
+            that.statusDisabled = true;
             geminiAIChat(dataParams)
                 .then(async (response) => {
                     //console.log(response);
@@ -679,7 +675,7 @@ export default {
         },
         //上传文件事件
         async uploadDataFileEvent(e) {
-            var file = null;
+            let file = null;
             //this.formData.append("file", file.file);
             const items = e.target.files;
             if (items && items.length) {
@@ -703,21 +699,39 @@ export default {
                 //     tempURL = URL.createObjectURL(file);
                 // };
                 // reader.readAsDataURL(file);
+                // if ((file.type.indexOf('application/vnd') !== -1 || file.type.indexOf('application/ms') !== -1)) {
+                //     this.tempFileUrl = tempURL;
+                //     let domObject = '<embed src="' + tempURL + '" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="' + tempURL + '">Download Office File</a>.</p></embed>';
+                //     //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
+                //     document.getElementById("fileData").innerHTML = domObject;
+                //     $('#chatDataModal').modal();
+                // }
                 this.chatMsgData.mediaData = await this.fileToBase64(file);
-                if (file.type.indexOf('image') !== -1) {
+                if (file.type.indexOf('image') !== -1 && file.type.indexOf('adobe') === -1) {
                     this.tempFileUrl = tempURL;
-                    let tempImg = '<img src="' + tempURL + '" />';
-                    document.getElementById("fileData").innerHTML = tempImg;
-                    $('#chatDataModal').modal();
+                    let tempImg = '';
+                    const cropper = new ImageCropper({
+                        imageSrc: tempURL, // 替换为你的图片地址
+                        onCrop: (croppedImageDataURL) => {
+                            //console.log('裁切后的图片数据：', croppedImageDataURL);
+                            // 可以在这里将图片数据上传到服务器或进行其他操作
+                            this.chatMsgData.mediaData = croppedImageDataURL;
+                            URL.revokeObjectURL(tempURL);
+                            this.tempFileUrl = URL.createObjectURL(this.base64ToBlob(croppedImageDataURL));;
+                        },
+                        onHide: () => {
+                            tempImg = '<img src="' + this.tempFileUrl + '" />';
+                            document.getElementById("fileData").innerHTML = tempImg;
+                            $('#chatDataModal').modal();
+                        },
+                        onShow: () => {
+                            //console.log("显示事件回调函数！")
+                        }
+                    });
+                    cropper.show();
                 } else if ((file.type.indexOf('json') !== -1 || file.type.indexOf('xml') !== -1)) {
                     this.tempFileUrl = tempURL;
                     let domObject = '<object data="' + tempURL + '" type="application/pdf" width="100%" height="100%">该浏览器不支持PDF.请点击查看:<a href="' + tempURL + '">Download PDF</a>.</p></object>';
-                    //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
-                    document.getElementById("fileData").innerHTML = domObject;
-                    $('#chatDataModal').modal();
-                } else if ((file.type.indexOf('application/vnd') !== -1 || file.type.indexOf('application/ms') !== -1)) {
-                    this.tempFileUrl = tempURL;
-                    let domObject = '<embed src="' + tempURL + '" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="' + tempURL + '">Download Office File</a>.</p></embed>';
                     //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
                     document.getElementById("fileData").innerHTML = domObject;
                     $('#chatDataModal').modal();
@@ -728,6 +742,8 @@ export default {
                     var tempFile = '<video controls height="50" width="100%" data="' + tempURL + '">' +
                         '<source src="' + tempURL + '" type="audio/mpeg">' +
                         '<source src="' + tempURL + '" type="audio/ogg">' +
+                        '<source src="' + tempURL + '" type="video/mpeg">' +
+                        '<source src="' + tempURL + '" type="video/ogg">' +
                         '<embed height="50" width="100" src="' + tempURL + '">' +
                         //'<object height="50" width="100" data="'+tempURL+'"></object>'+
                         '</video>';
@@ -772,26 +788,21 @@ export default {
             //         //let file = this.fileList[0]
             //     }
             // }
+            e.target.value = '';
         },
         //输入框粘贴事件处理函数
         pastingData(event) {
-            //let txt=event.clipboardData.getData('Text');
             // 输入框粘贴
             //let excelArr = ['text/plain', "text/html", "text/rtf", "image/png"];//excel格式
             let file = null;
             // 获取剪切板图片、视频、文件、文件夹
-            const items = (event.clipboardData || window.clipboardData).items
-            // if(typeof(txt) === 'string') {
-            //     if (txt.length > 1048570) {
-            //         return false;
-            //     }
-            // }
+            const items = (event.clipboardData || window.clipboardData).items;
             if (items && items.length) {
                 // const item = items[0];
                 // if (item.kind === 'file' && item.type.startsWith('image/'))
                 for (let i = 0; i < items.length; i++) {
                     // console.log(items[i]);
-                    if (items[i].kind === 'file' && items[i].type.indexOf('image') !== -1) {
+                    if (items[i].kind === 'file' && (items[i].type.indexOf('image') !== -1 && items[i].type.indexOf('adobe') === -1)) {
                         file = items[i].getAsFile();
                         //console.log(file)
                         // 创建FileReader读取图片
@@ -806,7 +817,7 @@ export default {
                             // 如果是直接上传服务器，那可以拿到图片地址直接使用
                             // 如果不进行上传，先展示，等点击确定在上传，那就自己创建一个链接进行使用
                             // const windowURL = window.URL || window.webkitURL
-                            const tempUrl = URL.createObjectURL(file);
+                            this.tempFileUrl = URL.createObjectURL(file);
                             // let clip = new CropImg({width: 300, height:220}) // 设置裁剪的比例
                             // clip.init(fileData, res => { // 需要将裁剪的图片文件传入，既可以触发裁剪
                             //     // 裁剪按钮 点击后会触发此函数，传入的res是裁剪后的文件,可以上传，也可以自己手动转成url显示
@@ -839,12 +850,22 @@ export default {
                             // // Round
                             // roundedCanvas = this.getRoundedCanvas(croppedCanvas);
                             //tempUrl = this.cropper.getCroppedCanvas().toDataURL();
-                            this.tempFileUrl = tempUrl;
-                            let tempImg = '<img src="' + tempUrl + '" />';
-                            //let tempImg = '<img-cropper :imgFile="'+tempUrl+'" :autoCropHeight="200" :autoCropWidth="200" />';
-                            document.getElementById("fileData").innerHTML = tempImg;
-                            // document.getElementById("fileData").appendChild(this.convertBase64ToImage(base64));
-                            $('#chatDataModal').modal();
+                            const cropper = new ImageCropper({
+                                imageSrc: this.tempFileUrl, // 替换为你的图片地址
+                                onCrop: (croppedImageDataURL) => {
+                                    //console.log('裁切后的图片数据：', croppedImageDataURL);
+                                    // 可以在这里将图片数据上传到服务器或进行其他操作
+                                    this.chatMsgData.mediaData = croppedImageDataURL;
+                                    URL.revokeObjectURL(this.tempFileUrl);
+                                    this.tempFileUrl=URL.createObjectURL(this.base64ToBlob(croppedImageDataURL));
+                                },
+                                onHide: () => {
+                                    let tempImg = '<img src="' + this.tempFileUrl + '" />';
+                                    document.getElementById("fileData").innerHTML = tempImg;
+                                    $('#chatDataModal').modal();
+                                }
+                            });
+                            cropper.show();
                         };
                         reader.readAsDataURL(file);
                         break;
@@ -873,31 +894,6 @@ export default {
                             $('#chatDataModal').modal();
                         };
                         break;
-                    } else if (items[i].kind === 'file' && (items[i].type.indexOf('application/vnd') !== -1 || items[i].type.indexOf('application/ms') !== -1)) {
-                        file = items[i].getAsFile();
-                        // 创建FileReader读取图片
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = (e) => {
-                            const base64 = e.target.result;
-                            this.chatMsgData.mediaData = base64;
-                            //console.log(this.base64ToBlob(base64));
-                            const tempUrl = URL.createObjectURL(file);
-                            this.tempFileUrl = tempUrl;
-                            // 在这里处理base64数据
-                            //let baseArr=base64.split(",");
-                            // var pdfIframe = document.createElement('iframe');
-                            //pdfIframe.style.height="100%";
-                            // pdfIframe.style.width="100%";
-                            // pdfIframe.src = tempUrl;
-                            let domObject = '<embed src="' + tempUrl + '" type="application/*" width="100%" height="100%">该浏览器不支持office.请点击查看:<a href="' + tempUrl + '">Download Office File</a>.</p></embed>';
-                            //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
-                            document.getElementById("fileData").innerHTML = domObject;
-                            //document.getElementById("fileData").remove();
-                            //document.getElementById("fileData").appendChild(pdfIframe);
-                            $('#chatDataModal').modal();
-                        };
-                        break;
                     } else if (items[i].kind === 'file' && (items[i].type.indexOf('audio') !== -1 || items[i].type.indexOf('video') !== -1)) {
                         file = items[i].getAsFile();
                         // 创建FileReader读取图片
@@ -912,6 +908,8 @@ export default {
                             var tempFile = '<video controls height="50" width="100%" data="' + tempUrl + '">' +
                                 '<source src="' + tempUrl + '" type="audio/mpeg">' +
                                 '<source src="' + tempUrl + '" type="audio/ogg">' +
+                                '<source src="' + tempUrl + '" type="video/mpeg">' +
+                                '<source src="' + tempUrl + '" type="video/ogg">' +
                                 '<embed height="50" width="100" src="' + tempUrl + '">' +
                                 //'<object height="50" width="100" data="'+tempUrl+'"></object>'+
                                 '</video>';
@@ -945,11 +943,12 @@ export default {
                         reader.readAsDataURL(file);
                         break;
                     }else {
-                        this.$toasted.show("不支持的文件类型！仅支持支持图片，视频，音频，文本等", {
-                            position: "top-center",
-                            duration: 3000,
-                            theme: "bubble",
-                        });
+                        let txt=event.clipboardData.getData('Text');
+                        if(typeof(txt) === 'string') {
+                            if (txt.length > 9048570) {
+                                return false;
+                            }
+                        }
                         break;
                     }
                 }
@@ -1381,43 +1380,34 @@ export default {
                 "<div style='text-align: center;'>AI助手小提示：</div>" +
                 "<div>新增图片，视频，音频，文本等文件粘贴发送：复制一个图片或音视频等文件，粘贴到发送消息框中，即可对文件进行分析！</div>" +
                 "<div>增加语音回复与语音输入：(默认关闭语音回复)启用请发送”开启语音“，关闭发送“关闭语音”，发送“暂停播放”、“暂停”、“stop”实现停止播放语音，发送“继续播放”、“继续”、“play”可继续播放语音。左下角语音输入功能已更新！点击语音，然后结束！就可以发送语音文字！</div></div>";
-            this.$toasted.show(msgContent, {
-                position: "top-center",
-                duration: 5000,
-                theme: "toasted-primary",
-            });
+            showToast(msgContent,{duration: 4000});
+            // this.$toasted.show(msgContent, {
+            //     position: "top-center",
+            //     duration: 5000,
+            //     theme: "toasted-primary",
+            // });
         },
-        setOpenAiKey() {
-            this.$prompt('请输入openAiKey', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                inputPattern: /^sk-[\w]+$/,
-                inputErrorMessage: 'openAiKey格式不正确'
-            }).then(({ value }) => {
-                // this.$message({
-                //     type: 'success',
-                //     message: '你的openAiKey是: ' + value,
-                //     duration: 2500
-                // });
-                this.$toasted.success('你的openAiKey是: ' + value, {
-                    position: "top-center",
-                    duration: 3000,
-                    theme: "toasted-primary",
-                });
-                this.openAiKey = value;
-            }).catch(() => {
-                // this.$message({
-                //     type: 'info',
-                //     message: '取消输入',
-                //     duration: 2000
-                // });
-                this.$toasted.info("取消输入", {
-                    position: "top-center",
-                    duration: 3000,
-                    theme: "bubble",
-                });
-            });
-        },
+        // setOpenAiKey() {
+        //     this.$prompt('请输入openAiKey', '提示', {
+        //         confirmButtonText: '确定',
+        //         cancelButtonText: '取消',
+        //         inputPattern: /^sk-[\w]+$/,
+        //         inputErrorMessage: 'openAiKey格式不正确'
+        //     }).then(({ value }) => {
+        //         this.$toasted.success('你的openAiKey是: ' + value, {
+        //             position: "top-center",
+        //             duration: 3000,
+        //             theme: "toasted-primary",
+        //         });
+        //         this.openAiKey = value;
+        //     }).catch(() => {
+        //         this.$toasted.info("取消输入", {
+        //             position: "top-center",
+        //             duration: 3000,
+        //             theme: "bubble",
+        //         });
+        //     });
+        // },
         convertBase64ToImage: (data) => {
             // 创建一个新的图片元素
             //var img = document.createElement('img');
@@ -1546,6 +1536,11 @@ export default {
             }
             this.preChatData = tempMessage;
             // this.preChatData = JSON.stringify(tempMessage);
+        },
+        getImageWH(imgSrc){
+            getImageNaturalDimensions(imgSrc, (oImg, imgWH) => {
+                return imgWH;
+            });
         },
         // 定义一个函数，将Markdown转换为HTML，并去除多余的空行
         markdownToHtmlWithoutExtraLines(markdown) {
