@@ -11,6 +11,7 @@
       onHide: () => { } //隐藏事件回调函数，隐藏的监听回调
     }, options);
     this.init();
+    this.show();
   }
   ImageCropper.prototype.init = function () {
     this.isDragging = false; // 是否正在拖动裁剪框

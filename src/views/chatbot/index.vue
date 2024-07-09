@@ -717,7 +717,7 @@ export default {
                             // 可以在这里将图片数据上传到服务器或进行其他操作
                             this.chatMsgData.mediaData = croppedImageDataURL;
                             URL.revokeObjectURL(tempURL);
-                            this.tempFileUrl = URL.createObjectURL(this.base64ToBlob(croppedImageDataURL));;
+                            this.tempFileUrl = URL.createObjectURL(this.base64ToBlob(croppedImageDataURL));
                         },
                         onHide: () => {
                             tempImg = '<img src="' + this.tempFileUrl + '" />';
@@ -728,7 +728,6 @@ export default {
                             //console.log("显示事件回调函数！")
                         }
                     });
-                    cropper.show();
                 } else if ((file.type.indexOf('json') !== -1 || file.type.indexOf('xml') !== -1)) {
                     this.tempFileUrl = tempURL;
                     let domObject = '<object data="' + tempURL + '" type="application/pdf" width="100%" height="100%">该浏览器不支持PDF.请点击查看:<a href="' + tempURL + '">Download PDF</a>.</p></object>';
@@ -865,7 +864,6 @@ export default {
                                     $('#chatDataModal').modal();
                                 }
                             });
-                            cropper.show();
                         };
                         reader.readAsDataURL(file);
                         break;
