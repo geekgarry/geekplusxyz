@@ -1,119 +1,172 @@
 <template>
-    <!-- mkplus HEADER -->
-    <header :class="'mkplus-header mkplus-header-aligned-left '+navBarStyle" role="banner">
-        <div class="mkplus-container mkplus-flex mkplus-align-middle mkplus-align-justify">
-
-            <!-- MOBILE MENU TOGGLE -->
-            <div class="mkplus-menu-toggler mkplus-mobile-only">
-                <label for="mkplus-NAV">
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <!-- mkplus HEADER -->
+  <header
+    :class="'mkplus-header mkplus-header-aligned-left ' + navBarStyle"
+    role="banner"
+  >
+    <div
+      class="mkplus-container mkplus-flex mkplus-align-middle mkplus-align-justify"
+    >
+      <!-- MOBILE MENU TOGGLE -->
+      <div class="mkplus-menu-toggler mkplus-mobile-only">
+        <label for="mkplus-NAV">
+          <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
                         <path d="M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z"></path>
                         <path fill="none" d="M0 0h24v24H0V0z"></path>
                     </svg> -->
-                    <!-- <font-awesome-icon :icon="['fa', 'bars']" /> -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1109 1024" version="1.1">
-                      <path d="M938.666667 725.333333v85.333334H85.333333v-85.333334h853.333334z m0-256v85.333334H85.333333v-85.333334h853.333334z m0-256v85.333334H85.333333V213.333333h853.333334z"></path>
-                    </svg>
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
+          <!-- <font-awesome-icon :icon="['fa', 'bars']" /> -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 1109 1024"
+            version="1.1"
+          >
+            <path
+              d="M938.666667 725.333333v85.333334H85.333333v-85.333334h853.333334z m0-256v85.333334H85.333333v-85.333334h853.333334z m0-256v85.333334H85.333333V213.333333h853.333334z"
+            ></path>
+          </svg>
+          <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
                       <path d="M65.012178 128.544655 65.012178 230.875275 959.381795 230.875275 959.381795 128.544655 65.012178 128.544655Z"></path>
                       <path d="M64.729745 563.201126 959.269231 563.201126 959.269231 460.870506 64.729745 460.870506 64.729745 563.201126Z"></path>
                       <path d="M64.729745 895.525953 959.269231 895.525953 959.269231 793.195334 64.729745 793.195334 64.729745 895.525953Z"></path>
                     </svg> -->
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024" version="1.1" >
+          <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024" version="1.1" >
                       <path d="M128 469.333333m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533334l0 4.266666q0 40.533333-40.533333 40.533334l-686.933334 0q-40.533333 0-40.533333-40.533334l0-4.266666q0-40.533333 40.533333-40.533334Z" ></path>
                       <path d="M128 682.666667m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533333l0 4.266667q0 40.533333-40.533333 40.533333l-686.933334 0q-40.533333 0-40.533333-40.533333l0-4.266667q0-40.533333 40.533333-40.533333Z" ></path>
                       <path d="M128 256m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533333l0 4.266667q0 40.533333-40.533333 40.533333l-686.933334 0q-40.533333 0-40.533333-40.533333l0-4.266667q0-40.533333 40.533333-40.533333Z" ></path>
                     </svg> -->
+        </label>
+      </div>
+      <!-- MOBILE MENU TOGGLE END -->
+
+      <!-- MOBILE/DESKTOP LOGO -->
+      <div class="mkplus-logo flex-row-1 hidden-lg hidden-md">
+        <h1>
+          <router-link to="/" title="极客普拉斯">
+            <!-- <img v-lazy="require('@/assets/logo.png')" alt="极客普拉斯" class="mkplus-logo-light"> -->
+            <!-- <img v-lazy="require('@/assets/logo.png')" alt="极客普拉斯" class="mkplus-logo-dark"> -->
+            <span>极客普拉斯</span>
+          </router-link>
+          <!-- <span class="mkplus-logo-text">极客普拉斯</span> -->
+        </h1>
+      </div>
+      <!-- MOBILE/DESKTOP LOGO END -->
+
+      <div class="mkplus-flex mkplus-align-middle lg:mkplus-flex-auto">
+        <input
+          type="checkbox"
+          id="mkplus-NAV"
+          class="mkplus-menu-monitor mkplus-hidden"
+        />
+        <label for="mkplus-NAV" class="mkplus-menu-overlay"></label>
+
+        <!-- mkplus MENU -->
+        <nav class="mkplus-menu" role="navigation">
+          <ul class="mkplus-menu-title">
+            <li>
+              <!-- MOBILE MENU TOGGLE -->
+              <div class="mkplus-menu-toggler">
+                <label for="mkplus-NAV">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewbox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z"
+                    ></path>
+                    <path fill="none" d="M0 0h24v24H0V0z"></path>
+                  </svg>
                 </label>
-            </div>
-            <!-- MOBILE MENU TOGGLE END -->
+              </div>
+              <!-- MOBILE MENU TOGGLE END -->
 
-            <!-- MOBILE/DESKTOP LOGO -->
-            <div class="mkplus-logo flex-row-1 hidden-lg hidden-md">
+              <!-- MOBILE LOGO -->
+              <div class="mkplus-logo">
                 <h1>
-                    <router-link to="/" title="极客普拉斯">
-                        <!-- <img v-lazy="require('@/assets/logo.png')" alt="极客普拉斯" class="mkplus-logo-light"> -->
-                        <!-- <img v-lazy="require('@/assets/logo.png')" alt="极客普拉斯" class="mkplus-logo-dark"> -->
-                        <span>极客普拉斯</span>
-                    </router-link>
-                    <!-- <span class="mkplus-logo-text">极客普拉斯</span> -->
+                  <router-link to="/" title="极客普拉斯">
+                    <!-- <a href="" title="极客普拉斯"> -->
+                    <img
+                      v-lazy="require('@/assets/logo.png')"
+                      alt="极客普拉斯"
+                      class="mkplus-logo-light"
+                    />
+                    <img
+                      v-lazy="require('@/assets/logo.png')"
+                      alt="极客普拉斯"
+                      class="mkplus-logo-dark"
+                    />
+                    <span>极客普拉斯</span>
+                    <!-- </a> -->
+                  </router-link>
                 </h1>
-            </div>
-            <!-- MOBILE/DESKTOP LOGO END -->
-
-            <div class="mkplus-flex mkplus-align-middle lg:mkplus-flex-auto">
-                <input type="checkbox" id="mkplus-NAV" class="mkplus-menu-monitor mkplus-hidden">
-                <label for="mkplus-NAV" class="mkplus-menu-overlay"></label>
-
-                <!-- mkplus MENU -->
-                <nav class="mkplus-menu" role="navigation">
-                    <ul class="mkplus-menu-title">
-                        <li>
-
-                            <!-- MOBILE MENU TOGGLE -->
-                            <div class="mkplus-menu-toggler">
-                                <label for="mkplus-NAV">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
-                                        <path d="M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z"></path>
-                                        <path fill="none" d="M0 0h24v24H0V0z"></path>
-                                    </svg>
-                                </label>
-                            </div>
-                            <!-- MOBILE MENU TOGGLE END -->
-
-                            <!-- MOBILE LOGO -->
-                            <div class="mkplus-logo">
-                            <h1>
-                              <router-link to="/" title="极客普拉斯">
-                                <!-- <a href="" title="极客普拉斯"> -->
-                                <img v-lazy="require('@/assets/logo.png')" alt="极客普拉斯" class="mkplus-logo-light">
-                                <img v-lazy="require('@/assets/logo.png')" alt="极客普拉斯" class="mkplus-logo-dark">
-                                <span>极客普拉斯</span>
-                                <!-- </a> -->
-                              </router-link>
-                            </h1>
-                            </div>
-                            <!-- MOBILE LOGO END -->
-
-                        </li>
-                    </ul>
-                    <ul class="mkplus-menu-body">
-                        <!-- <li class="mkplus-menu-item mkplus-menu-active">
+              </div>
+              <!-- MOBILE LOGO END -->
+            </li>
+          </ul>
+          <ul class="mkplus-menu-body">
+            <!-- <li class="mkplus-menu-item mkplus-menu-active">
                             <router-link to="/">
                                 <span>测试</span>
                             </router-link>
                         </li> -->
-                        <li :class="keyPath == '/' ? 'mkplus-menu-item mkplus-menu-active' : 'mkplus-menu-item '">
-                            <router-link to="/">
-                                <!-- <i class="fa fa-home"></i> -->
-                                <span>首页</span>
-                            </router-link>
-                        </li>
-                        <li :class="keyPath == item.path ? 'mkplus-menu-item mkplus-menu-active' : 'mkplus-menu-item '" 
-                            v-for="(item, index) in menuList"
-                            :key="index">
-                            <router-link v-if="item.children.length == 0" :to="item.path">
-                                <!-- <i class="fas fa-shipping-fast"></i> -->
-                                <span>{{ item.meta.title }}</span>
-                            </router-link>
-                            <router-link v-if="item.children.length != 0" to="">
-                                <span>{{ item.meta.title }}</span>
-                                <span class="mkplus-menu-arrow"></span>
-                            </router-link>
-                            <ul v-if="item.children.length != 0"><!-- DROPDOWN MENU -->
-                                <li :class="keyPath == item.path + '/' + subitem.path ?
-                                    'mkplus-menu-item mkplus-menu-active' : 'mkplus-menu-item '"
-                                    v-for="(subitem, index) in item.children"
-                                    :key="index">
-                                    <router-link v-if="subitem.children.length == 0" :to="item.path + '/' + subitem.path">
-                                        <!-- <i class="fas fa-fingerprint"></i> -->
-                                        <span>{{ subitem.meta.title }}</span>
-                                        <span v-if="subitem.children.length != 0" class="mkplus-menu-arrow"></span>
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- <li class="mkplus-menu-item">
+            <li
+              :class="
+                keyPath == '/'
+                  ? 'mkplus-menu-item mkplus-menu-active'
+                  : 'mkplus-menu-item '
+              "
+            >
+              <router-link to="/">
+                <!-- <i class="fa fa-home"></i> -->
+                <span>首页</span>
+              </router-link>
+            </li>
+            <li
+              :class="
+                keyPath == item.path
+                  ? 'mkplus-menu-item mkplus-menu-active'
+                  : 'mkplus-menu-item '
+              "
+              v-for="(item, index) in menuList"
+              :key="index"
+            >
+              <router-link v-if="item.children.length == 0" :to="item.path">
+                <!-- <i class="fas fa-shipping-fast"></i> -->
+                <span>{{ item.meta.title }}</span>
+              </router-link>
+              <router-link v-if="item.children.length != 0" to="">
+                <span>{{ item.meta.title }}</span>
+                <span class="mkplus-menu-arrow"></span>
+              </router-link>
+              <ul v-if="item.children.length != 0">
+                <!-- DROPDOWN MENU -->
+                <li
+                  :class="
+                    keyPath == item.path + '/' + subitem.path
+                      ? 'mkplus-menu-item mkplus-menu-active'
+                      : 'mkplus-menu-item '
+                  "
+                  v-for="(subitem, index) in item.children"
+                  :key="index"
+                >
+                  <router-link
+                    v-if="subitem.children.length == 0"
+                    :to="item.path + '/' + subitem.path"
+                  >
+                    <!-- <i class="fas fa-fingerprint"></i> -->
+                    <span>{{ subitem.meta.title }}</span>
+                    <span
+                      v-if="subitem.children.length != 0"
+                      class="mkplus-menu-arrow"
+                    ></span>
+                  </router-link>
+                </li>
+              </ul>
+            </li>
+            <!-- <li class="mkplus-menu-item">
                             <a href="#">
                                 <i class="fas fa-shipping-fast"></i>
                                 <span>Veritatis Tatum</span>
@@ -134,246 +187,287 @@
                                 </li>
                             </ul>
                         </li> -->
-                        <li :class="keyPath == '/leaveMessage' ? 'mkplus-menu-item mkplus-menu-active' : 'mkplus-menu-item '">
-                            <router-link to="/leaveMessage">
-                              <span href="javascript:void(0)">给我留言</span>
-                            </router-link>
-                        </li>
-                        <li :class="keyPath == '/about' ? 'mkplus-menu-item mkplus-menu-active' : 'mkplus-menu-item '">
-                            <router-link to="/about">
-                              <span href="javascript:void(0)">关于</span>
-                            </router-link>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- mkplus MENU END -->
-                <div class="mkplus-menu-right-section" @submit.prevent="searchResult()">
-                  <div class="header-toolbar">
-                    <button class="toolbar-button" data-toggle="modal" data-target="#myModal">
-                      <font-awesome-icon :icon="['fas', 'user']" />
-                    </button>
-                  </div>
-                  <div class="header-toolbar">
-                    <button class="toolbar-button" @click="setUpTheme">
-                      <font-awesome-icon v-if="lightTheme" :icon="['fas', 'moon']" />
-                      <font-awesome-icon v-else :icon="['fas', 'sun']" />
-                    </button>
-                  </div>
-                    <!-- mkplus MENU SEARCH -->
-                    <form class="mkplus-menu-search" >
-                        <input class="mkplus-hidden" id="mkplus-SEARCH" type="checkbox">
-                        <label class="mkplus-transparent-overlay" for="mkplus-SEARCH"></label>
-                        <label class="mkplus-pointer mkplus-flex js-mkplus-menu-search-icon" for="mkplus-SEARCH">
-                            <svg class="mkplus-search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewbox="0 0 24 24">
-                                <path
-                                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
-                                </path>
-                                <path d="M0 0h24v24H0z" fill="none"></path>
-                            </svg>
-                        </label>
-                        <div class="mkplus-menu-search-field">
-                            <div class="mkplus-container">
-                                <div class="mkplus-menu-search-field-inner">
-                                    <label class="mkplus-flex mkplus-pointer" for="mkplus-SEARCH">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewbox="0 0 24 24">
-                                            <path d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"></path>
-                                        </svg>
-                                    </label>
-                                    <input class="js-mkplus-menu-search-field" type="search" placeholder="搜索..." v-model="keywords"
-                                        name="keywords" autocapitalize="off" autocomplete="off" @keyup.enter="searchResult()">
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- mkplus MENU SEARCH END -->
+            <li
+              :class="
+                keyPath == '/leaveMessage'
+                  ? 'mkplus-menu-item mkplus-menu-active'
+                  : 'mkplus-menu-item '
+              "
+            >
+              <router-link to="/leaveMessage">
+                <span href="javascript:void(0)">给我留言</span>
+              </router-link>
+            </li>
+            <li
+              :class="
+                keyPath == '/about'
+                  ? 'mkplus-menu-item mkplus-menu-active'
+                  : 'mkplus-menu-item '
+              "
+            >
+              <router-link to="/about">
+                <span href="javascript:void(0)">关于</span>
+              </router-link>
+            </li>
+          </ul>
+        </nav>
+        <!-- mkplus MENU END -->
+        <div class="mkplus-menu-right-section" @submit.prevent="searchResult()">
+          <div class="header-toolbar">
+            <button
+              class="toolbar-button"
+              data-toggle="modal"
+              data-target="#myModal"
+            >
+              <font-awesome-icon :icon="['fas', 'user']" />
+            </button>
+          </div>
+          <div class="header-toolbar">
+            <button class="toolbar-button" @click="setUpTheme">
+              <font-awesome-icon v-if="lightTheme" :icon="['fas', 'moon']" />
+              <font-awesome-icon v-else :icon="['fas', 'sun']" />
+            </button>
+          </div>
+          <!-- mkplus MENU SEARCH -->
+          <form class="mkplus-menu-search">
+            <input class="mkplus-hidden" id="mkplus-SEARCH" type="checkbox" />
+            <label
+              class="mkplus-transparent-overlay"
+              for="mkplus-SEARCH"
+            ></label>
+            <label
+              class="mkplus-pointer mkplus-flex js-mkplus-menu-search-icon"
+              for="mkplus-SEARCH"
+            >
+              <svg
+                class="mkplus-search-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewbox="0 0 24 24"
+              >
+                <path
+                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                ></path>
+                <path d="M0 0h24v24H0z" fill="none"></path>
+              </svg>
+            </label>
+            <div class="mkplus-menu-search-field">
+              <div class="mkplus-container">
+                <div class="mkplus-menu-search-field-inner">
+                  <label class="mkplus-flex mkplus-pointer" for="mkplus-SEARCH">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewbox="0 0 24 24"
+                    >
+                      <path d="M0 0h24v24H0z" fill="none"></path>
+                      <path
+                        d="M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"
+                      ></path>
+                    </svg>
+                  </label>
+                  <input
+                    class="js-mkplus-menu-search-field"
+                    type="search"
+                    placeholder="搜索..."
+                    v-model="keywords"
+                    name="keywords"
+                    autocapitalize="off"
+                    autocomplete="off"
+                    @keyup.enter="searchResult()"
+                  />
                 </div>
+              </div>
             </div>
+          </form>
+          <!-- mkplus MENU SEARCH END -->
         </div>
-    </header>
+      </div>
+    </div>
+  </header>
 </template>
 
 <script>
-import $ from "jquery"
-// import { _setLocalStore,_getLocalStore } from '@/utils/cookie';
 export default {
-    name:'NavBar',
-    props:{
-        navBarStyle:{
-          type:String,
-        },
-        menuList:{
-          type:Array,
-        }
+  name: 'NavBar',
+  props: {
+    navBarStyle: {
+      type: String,
     },
-    data(){
-        return{
-            keywords:'',
-            lightTheme:true
-        }
+    menuList: {
+      type: Array,
+    }
+  },
+  data() {
+    return {
+      keywords: '',
+      lightTheme: true
+    }
+  },
+  computed: {
+    keyPath() {
+      // console.log(this.$route.path);
+      return this.$route.path;
     },
-    computed: {
-        keyPath() {
-            // console.log(this.$route.path);
-            return this.$route.path;
-        },
-    },
-    created(){
-      let themeMode=this.getLocalStore('theme-mode');//||"light"
-      if(themeMode){
-        this.lightTheme=themeMode=='light';
-      }else{
-        if(this.isLightDay()){
-          this.lightTheme=true;
-        }else{
-          this.lightTheme=false;
-        }
+  },
+  created() {
+    let themeMode = this.getLocalStore("theme-mode");//||"light"
+    if (themeMode) {
+      this.lightTheme = themeMode == 'light';
+    } else {
+      if (this.isLightDay()) {
+        this.lightTheme = true;
+      } else {
+        this.lightTheme = false;
+      }
+    }
+  },
+  mounted() {
+    window.KnoxMenu = (function () {
+      /*
+      * MOBILE MENU TOGGLE
+      * */
+      var menu_monitor = document.querySelector(".mkplus-menu-monitor");
+
+      if (menu_monitor) {
+        menu_monitor.onchange = function (event) {
+          if (event.target.checked) {
+            //console.log(document.body.c)
+            document.body.style.overflowY = "hidden";
+            // document.documentElement.classList.add("mkplus-no-scroll");
+          } else {
+            document.body.style.overflowY = "scroll";
+            // document.documentElement.classList.remove("mkplus-no-scroll");
+          }
+        };
+      }
+
+      /*
+      * MOBILE SUBMENU TOGGLE
+      * */
+      Array.prototype.slice.call(document.querySelectorAll(".mkplus-menu-arrow")).forEach(function (item) {
+        item.onclick = function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          var item = event.target.parentNode.parentNode;
+
+          if (item.classList.contains("mkplus-submenu-open")) {
+            item.classList.remove("mkplus-submenu-open");
+          } else {
+            item.classList.add("mkplus-submenu-open");
+          }
+        };
+      });
+
+      /*
+      * STICKY HEADER
+      * */
+      // var window_last_position = -1;
+      // var body = document.body;
+      // var node_monitor = document.querySelector(".mkplus-header");
+      // if (node_monitor) {
+      //     var stop = node_monitor.offsetTop + 320;
+      //     var scroll = window.requestAnimationFrame ||
+      //         window.webkitRequestAnimationFrame ||
+      //         window.mozRequestAnimationFrame ||
+      //         window.msRequestAnimationFrame ||
+      //         window.oRequestAnimationFrame ||
+      //         // IE Fallback, you can even fallback to onscroll
+      //         function (callback) { window.setTimeout(callback, 1000 / 60) };
+
+      //     function loop() {
+      //         // avoid calculations if not needed
+      //         if (window_last_position === window.pageYOffset) {
+      //             scroll(loop);
+      //             return false;
+      //         } else {
+      //             window_last_position = window.pageYOffset;
+      //         }
+
+      //         //... calculations
+      //         if (window_last_position > stop) {
+      //             // stick the header
+      //             if (!body.classList.contains("mkplus-header-not-on-top")) {
+      //                 body.classList.add("mkplus-header-not-on-top");
+      //             }
+      //         } else {
+      //             // release the header
+      //             if (body.classList.contains("mkplus-header-not-on-top")) {
+      //                 body.classList.remove("mkplus-header-not-on-top");
+      //             }
+      //         }
+
+      //         scroll(loop);
+      //     }
+
+      //     // call the loop for the first time
+      //     loop();
+      // }
+
+      /*
+      * SEARCH FIELD FOCUS/ESCAPE
+      * */
+      var searchIcons = document.querySelectorAll(".js-mkplus-menu-search-icon");
+      var searchField = document.querySelector(".js-mkplus-menu-search-field");
+
+      if (searchIcons.length > 0 && searchField) {
+        Array.prototype.slice.call(searchIcons).forEach(function (search) {
+          search.onclick = function () {
+            searchField.focus();
+          };
+        });
+
+        searchField.onkeydown = function (event) {
+          if (event.keyCode === 27) {
+            if (event.target.value.length > 0) {
+              event.target.value = "";
+            } else {
+              searchIcons[0].click();
+              searchField.blur();
+            }
+          }
+        };
+      }
+    });
+    window.KnoxMenu();
+  },
+  methods: {
+    // changeTheme(color){
+    //      // 切换主题方式1：修改全局CSS变量
+    //   document.documentElement.style.setProperty("--pl-con-white", color);
+    //   document.documentElement.style.setProperty("--pl-con-text", color);
+    // },
+    setUpTheme() {
+      // console.log(this.getLocalStore("theme-mode"));
+      if (this.lightTheme==true) {
+        this.lightTheme = false;
+        document.body.setAttribute("theme-mode", "dark");
+        this.setLocalStore("theme-mode","","dark");
+        // this.setCookieStorage("theme-mode", "dark", { expires: 17 });
+
+      } else {
+        this.lightTheme = true;
+        document.body.setAttribute("theme-mode", "light");
+        this.setLocalStore("theme-mode","","light");
+        // this.setCookieStorage("theme-mode", "light", { expires: 17 });
       }
     },
-    mounted(){
-        window.KnoxMenu = (function () {
-            /*
-            * MOBILE MENU TOGGLE
-            * */
-            var menu_monitor = document.querySelector(".mkplus-menu-monitor");
-
-            if (menu_monitor) {
-                menu_monitor.onchange = function (event) {
-                    if (event.target.checked) {
-                      //console.log(document.body.c)
-                      document.body.style.overflowY="hidden";
-                      // document.documentElement.classList.add("mkplus-no-scroll");
-                    } else {
-                      document.body.style.overflowY="scroll";
-                      // document.documentElement.classList.remove("mkplus-no-scroll");
-                    }
-                };
-            }
-
-            /*
-            * MOBILE SUBMENU TOGGLE
-            * */
-            Array.prototype.slice.call(document.querySelectorAll(".mkplus-menu-arrow")).forEach(function (item) {
-                item.onclick = function (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    var item = event.target.parentNode.parentNode;
-
-                    if (item.classList.contains("mkplus-submenu-open")) {
-                        item.classList.remove("mkplus-submenu-open");
-                    } else {
-                        item.classList.add("mkplus-submenu-open");
-                    }
-                };
-            });
-
-            /*
-            * STICKY HEADER
-            * */
-            // var window_last_position = -1;
-            // var body = document.body;
-            // var node_monitor = document.querySelector(".mkplus-header");
-            // if (node_monitor) {
-            //     var stop = node_monitor.offsetTop + 320;
-            //     var scroll = window.requestAnimationFrame ||
-            //         window.webkitRequestAnimationFrame ||
-            //         window.mozRequestAnimationFrame ||
-            //         window.msRequestAnimationFrame ||
-            //         window.oRequestAnimationFrame ||
-            //         // IE Fallback, you can even fallback to onscroll
-            //         function (callback) { window.setTimeout(callback, 1000 / 60) };
-
-            //     function loop() {
-            //         // avoid calculations if not needed
-            //         if (window_last_position === window.pageYOffset) {
-            //             scroll(loop);
-            //             return false;
-            //         } else {
-            //             window_last_position = window.pageYOffset;
-            //         }
-
-            //         //... calculations
-            //         if (window_last_position > stop) {
-            //             // stick the header
-            //             if (!body.classList.contains("mkplus-header-not-on-top")) {
-            //                 body.classList.add("mkplus-header-not-on-top");
-            //             }
-            //         } else {
-            //             // release the header
-            //             if (body.classList.contains("mkplus-header-not-on-top")) {
-            //                 body.classList.remove("mkplus-header-not-on-top");
-            //             }
-            //         }
-
-            //         scroll(loop);
-            //     }
-
-            //     // call the loop for the first time
-            //     loop();
-            // }
-
-            /*
-            * SEARCH FIELD FOCUS/ESCAPE
-            * */
-            var searchIcons = document.querySelectorAll(".js-mkplus-menu-search-icon");
-            var searchField = document.querySelector(".js-mkplus-menu-search-field");
-
-            if (searchIcons.length > 0 && searchField) {
-                Array.prototype.slice.call(searchIcons).forEach(function (search) {
-                    search.onclick = function () {
-                        searchField.focus();
-                    };
-                });
-
-                searchField.onkeydown = function (event) {
-                    if (event.keyCode === 27) {
-                        if (event.target.value.length > 0) {
-                            event.target.value = "";
-                        } else {
-                            searchIcons[0].click();
-                            searchField.blur();
-                        }
-                    }
-                };
-            }
+    searchResult() {
+      if (this.keywords !== "") {
+        //this.$router.push("/search?keayword="+this.keywords);
+        this.$router.push({
+          path: "/search",
+          query: { keyword: this.keywords },
         });
-        window.KnoxMenu();
+      }
+      this.keywords = "";
     },
-    methods:{
-        // changeTheme(color){
-        //      // 切换主题方式1：修改全局CSS变量
-        //   document.documentElement.style.setProperty("--pl-con-white", color);
-        //   document.documentElement.style.setProperty("--pl-con-text", color);
-        // },
-        setUpTheme(){
-          if(this.lightTheme==true){
-            this.lightTheme=false;
-            document.body.setAttribute("theme-mode", "dark");
-            this.setLocalStore("theme-mode","","dark");
-            // console.log(_getLocalStore("theme-mode"));
-          }else{
-            this.lightTheme=true;
-            document.body.setAttribute("theme-mode", "light");
-            this.setLocalStore("theme-mode","","light");
-            // console.log(_getLocalStore("theme-mode"));
-          }
-        },
-        searchResult() {
-            if (this.keywords !== "") {
-                //this.$router.push("/search?keayword="+this.keywords);
-                this.$router.push({
-                path: "/search",
-                query: { keyword: this.keywords },
-                });
-            }
-            this.keywords = "";
-        },
-    },
-    destroyed(){
+  },
+  destroyed() {
 
-    }
+  }
 };
 </script>
 
@@ -389,102 +483,106 @@ export default {
 
 element.style {
 }
-body, input, textarea, button, select {
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+body,
+input,
+textarea,
+button,
+select {
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 body {
-    color: #151918;
-    color: var(--color-black, #151918);
-    background-color: #FFFFFF;
-    background-color: var(--color-white, #FFFFFF);
-    font-family: Helvetica, "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
-    font-weight: normal;
-    font-style: normal;
-    line-height: 1.45;
+  color: #151918;
+  color: var(--color-black, #151918);
+  background-color: #ffffff;
+  background-color: var(--color-white, #ffffff);
+  font-family: Helvetica, "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.45;
 }
-.navbar-fixed-top{
-  background-attachment:fixed;
-  transform:translateZ(0);
-  -webkit-transform:translateZ(0);
-  top:-1px
+.navbar-fixed-top {
+  background-attachment: fixed;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  top: -1px;
 }
 /*-------------------------------*/
 /*       Hamburger-Cross         */
 /*-------------------------------*/
 .hamburger {
-    background: transparent;
-    border: none;
-    display: block;
-    height: 32px;
-    margin-left: 15px;
-    position: fixed;
-    top: 20px;
-    width: 32px;
-    z-index: 999;
+  background: transparent;
+  border: none;
+  display: block;
+  height: 32px;
+  margin-left: 15px;
+  position: fixed;
+  top: 20px;
+  width: 32px;
+  z-index: 999;
 }
 
 .hamburger:hover {
-    outline: none;
+  outline: none;
 }
 
 .hamburger:focus {
-    outline: none;
+  outline: none;
 }
 
 .hamburger:active {
-    outline: none;
+  outline: none;
 }
 
 .hamburger.is-closed:before {
-    -webkit-transform: translate3d(0, 0, 0);
-    -webkit-transition: all 0.35s ease-in-out;
-    color: #ffffff;
-    content: '';
-    display: block;
-    font-size: 14px;
-    line-height: 32px;
-    opacity: 0;
-    text-align: center;
-    width: 100px;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: all 0.35s ease-in-out;
+  color: #ffffff;
+  content: "";
+  display: block;
+  font-size: 14px;
+  line-height: 32px;
+  opacity: 0;
+  text-align: center;
+  width: 100px;
 }
 
 .hamburger.is-closed:hover before {
-    -webkit-transform: translate3d(-100px, 0, 0);
-    -webkit-transition: all 0.35s ease-in-out;
-    display: block;
-    opacity: 1;
+  -webkit-transform: translate3d(-100px, 0, 0);
+  -webkit-transition: all 0.35s ease-in-out;
+  display: block;
+  opacity: 1;
 }
 
 .hamburger.is-closed:hover .hamb-top {
-    -webkit-transition: all 0.35s ease-in-out;
-    top: 0;
+  -webkit-transition: all 0.35s ease-in-out;
+  top: 0;
 }
 
 .hamburger.is-closed:hover .hamb-bottom {
-    -webkit-transition: all 0.35s ease-in-out;
-    bottom: 0;
+  -webkit-transition: all 0.35s ease-in-out;
+  bottom: 0;
 }
 
 .hamburger.is-closed .hamb-top {
-    -webkit-transition: all 0.35s ease-in-out;
-    background-color: rgba(255, 255, 255, 0.7);
-    top: 5px;
+  -webkit-transition: all 0.35s ease-in-out;
+  background-color: rgba(255, 255, 255, 0.7);
+  top: 5px;
 }
 
 .hamburger.is-closed .hamb-middle {
-    background-color: rgba(255, 255, 255, 0.7);
-    margin-top: -2px;
-    top: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-top: -2px;
+  top: 50%;
 }
 
 .hamburger.is-closed .hamb-bottom {
-    -webkit-transition: all 0.35s ease-in-out;
-    background-color: rgba(255, 255, 255, 0.7);
-    bottom: 5px;
+  -webkit-transition: all 0.35s ease-in-out;
+  background-color: rgba(255, 255, 255, 0.7);
+  bottom: 5px;
 }
 
 .hamburger.is-closed .hamb-top,
@@ -493,67 +591,67 @@ body {
 .hamburger.is-open .hamb-top,
 .hamburger.is-open .hamb-middle,
 .hamburger.is-open .hamb-bottom {
-    height: 4px;
-    left: 0;
-    position: absolute;
-    width: 100%;
+  height: 4px;
+  left: 0;
+  position: absolute;
+  width: 100%;
 }
 
 .hamburger.is-open .hamb-top {
-    -webkit-transform: rotate(45deg);
-    -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.73, 1, 0.28, 0.08);
-    background-color: #ffffff;
-    margin-top: -2px;
-    top: 50%;
+  -webkit-transform: rotate(45deg);
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.73, 1, 0.28, 0.08);
+  background-color: #ffffff;
+  margin-top: -2px;
+  top: 50%;
 }
 
 .hamburger.is-open .hamb-middle {
-    background-color: #ffffff;
-    display: none;
+  background-color: #ffffff;
+  display: none;
 }
 
 .hamburger.is-open .hamb-bottom {
-    -webkit-transform: rotate(-45deg);
-    -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.73, 1, 0.28, 0.08);
-    background-color: #ffffff;
-    margin-top: -2px;
-    top: 50%;
+  -webkit-transform: rotate(-45deg);
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.73, 1, 0.28, 0.08);
+  background-color: #ffffff;
+  margin-top: -2px;
+  top: 50%;
 }
 
 .hamburger.is-open:before {
-    -webkit-transform: translate3d(0, 0, 0);
-    -webkit-transition: all 0.35s ease-in-out;
-    color: #ffffff;
-    content: '';
-    display: block;
-    font-size: 14px;
-    line-height: 32px;
-    opacity: 0;
-    text-align: center;
-    width: 100px;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: all 0.35s ease-in-out;
+  color: #ffffff;
+  content: "";
+  display: block;
+  font-size: 14px;
+  line-height: 32px;
+  opacity: 0;
+  text-align: center;
+  width: 100px;
 }
 
 .hamburger.is-open:hover before {
-    -webkit-transform: translate3d(-100px, 0, 0);
-    -webkit-transition: all 0.35s ease-in-out;
-    display: block;
-    opacity: 1;
+  -webkit-transform: translate3d(-100px, 0, 0);
+  -webkit-transition: all 0.35s ease-in-out;
+  display: block;
+  opacity: 1;
 }
 
 /*-------------------------------*/
 /*          Dark Overlay         */
 /*-------------------------------*/
 .overlay {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1;
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 /**html {
   -webkit-box-sizing: border-box;
@@ -704,8 +802,8 @@ body {
 }
 
 @media (max-width: 991px) {
-  .mkplus-menu-item .mkplus-menu-active{
-    color: #89B4CA;
+  .mkplus-menu-item .mkplus-menu-active {
+    color: #89b4ca;
   }
   .mkplus-desktop-only {
     display: none !important;
@@ -1047,12 +1145,12 @@ body {
   height: 70px;
 }
 .mkplus-logo img.mkplus-logo-light {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 .mkplus-logo img.mkplus-logo-dark {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 .mkplus-header-not-on-top .mkplus-logo.mkplus-logo-top {
   display: none;
@@ -1976,11 +2074,11 @@ a.mkplus-media-title {
   display: -ms-flexbox;
   display: flex;
 }
-.flex-row-1{
+.flex-row-1 {
   flex-direction: row;
   flex: 1;
 }
-.mkplus-logo-text{
+.mkplus-logo-text {
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -2003,7 +2101,7 @@ a.mkplus-media-title {
   text-transform: uppercase;
   padding: 0;
 }
-.mkplus-logo h1 a span{
+.mkplus-logo h1 a span {
   font-size: 1.6rem;
 }
 .mkplus-logo h1 a img + span {
@@ -2091,7 +2189,7 @@ a.mkplus-media-title {
 }
 .mkplus-header:before {
   /* background-color: #ffffff; */
-  background-color: var(--color-header, #ffffff); 
+  background-color: var(--color-header, #ffffff);
 }
 @media (max-width: 991px) {
   .mkplus-header .mkplus-menu,
@@ -3403,7 +3501,7 @@ a.mkplus-media-title:hover {
     color: var(--color-header-text, #151918); */
     color: #2786de;
     color: var(--color-primary, #2786de);
-  } 
+  }
   .mkplus-menu:hover .mkplus-menu-active > a > i {
     opacity: 0.5;
   }

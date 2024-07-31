@@ -8,24 +8,6 @@ export function testProcess() {
     })
 }
 
-//调用chagpt3.5的接口
-export function getchatgpt(data) {
-    return request({
-      url: '/AIBot/getchatgpt',
-      method: 'post',
-      data: data
-    })
-}
-
-//调用chagpt3.5的接口，测试版
-export function chatgpttest(data) {
-    return request({
-      url: '/AIBot/chatgpttest',
-      method: 'post',
-      data: data
-    })
-}
-
 //调用Google Gemini AI的接口
 export function getHistoryMessage(query) {
   return request({
@@ -50,6 +32,16 @@ export function geminiAIChat(data) {
     url: '/AIBot/getGeminiChat',
     method: 'post',
     data: data
+  })
+}
+
+//调用Google Gemini AI的接口,采用对话模式
+export function geminiAIWithFile(data) {
+  return request({
+    url: '/AIBot/getGeminiWithFile',
+    method: 'post',
+    data: data,
+    headers:{'Content-Type': 'multipart/form-data'}
   })
 }
 

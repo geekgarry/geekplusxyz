@@ -428,8 +428,8 @@
             */
             const handleDragImageMove = (e) => {
                 e.stopPropagation();
-                var mouseX = Math.max(this.cropingImage.offsetLeft, this.getTouchClientX(e) - this.cropingImage.offsetLeft);
-                var mouseY = Math.max(this.cropingImage.offsetTop, this.getTouchClientY(e) - this.cropingImage.offsetTop);
+                var mouseX = Math.max(0, this.getTouchClientX(e));
+                var mouseY = Math.max(0, this.getTouchClientY(e));
                 if (!this.isImageDragging) return;
                 var ptX = mouseX - this.startPoint.diffX;
                 var ptY = mouseY - this.startPoint.diffY;
@@ -693,6 +693,11 @@
             }
             ctx.translate(canvas.width / 2, canvas.height / 2); // 将canvas原点移动到中心
             ctx.rotate(angleDegress * Math.PI / 180); // 旋转canvas
+            this.transform = {
+                scale: 1,
+                rotation: 0,
+                translates: [0, 0]
+            };
             this.cropingImage.style.transform = 'rotate(0deg)';
             ctx.drawImage(image, -image.naturalWidth / 2, -image.naturalHeight / 2); // 绘制图片
             this.cropingImage.src = canvas.toDataURL(); // 更新图片src

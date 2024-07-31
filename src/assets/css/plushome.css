@@ -4,7 +4,8 @@
   font-family: 思源黑体 CN;
 }
 
-html, body {
+html,
+body {
   /*background: linear-gradient(
     to top,
     #ffffff 0%,
@@ -256,7 +257,7 @@ a::-webkit-selection{
   line-height: 150px;
   margin: 0 auto;
   /*background: rgb(138, 179, 202);*/
-  background: var(--top-banner-bg-img,url("@/assets/img/topBanner3.jpeg") no-repeat center center);
+  background: var(--top-banner-bg-img, url("@/assets/img/topBanner3.jpeg") no-repeat center center);
   background-size: cover;
   /* background-image: linear-gradient(186deg, black, #3d858e); */
   padding: 0 0;
@@ -497,11 +498,12 @@ nav ul {
 .navbar-brand-logo-text {
   font-size: 1.5rem;
 }
+
 /*****************************自定义表单控制样式，给input等输入单元添加央视******************************/
-.plus-form-textarea{
+.plus-form-textarea {
   display: block;
   width: 100%;
-  height:35px;
+  height: 35px;
   border-radius: 0;
   border-left: 0;
   border-right: 0;
@@ -516,15 +518,16 @@ nav ul {
   color: var(--color-main-container-text-1);
 }
 
-.plus-form-control{
+.plus-form-control {
   display: block;
   width: 100%;
-  height:35px;
+  height: 35px;
   border-radius: 0;
   line-height: 29px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
+
 /*****************************导航条和面包屑breadcrumb******************************/
 /* .banner_bar {
   width: 100%;
@@ -1035,14 +1038,15 @@ ol {
   height: auto;
   margin: 0 auto;
 }
-.plus-dialog-main{
+
+.plus-dialog-main {
   background: var(--color-article-container, #353434);
   border-radius: 6px;
   height: auto;
   width: 100%;
 }
 
-.chat_extra_data{
+.chat_extra_data {
   width: auto;
   margin: 0 auto;
   text-align: center;
@@ -1057,11 +1061,11 @@ ol {
   left: 50%; */
 }
 
-.plus-dialog-container{
+.plus-dialog-container {
   padding: 7px;
 }
 
-.plus-dialog-footer{
+.plus-dialog-footer {
   /* border-top: var(--color-border-2,#9f9e9e) 1px solid; */
   display: flex;
   flex-direction: row;
@@ -1069,12 +1073,12 @@ ol {
   align-items: center;
 }
 
-.plus-dialog-footer .pdf-left-btn{
+.plus-dialog-footer .pdf-left-btn {
   flex: 1;
   color: var(--color-article-container-text-2, #fefdfd);
 }
 
-.plus-dialog-footer .pdf-right-btn{
+.plus-dialog-footer .pdf-right-btn {
   flex: 1;
   color: var(--color-article-container-text-2, #fefdfd);
 }
@@ -1082,8 +1086,9 @@ ol {
 .split-line {
   width: 1px;
   height: 35px;
-  background: var(--color-border-2,#9f9e9e);
+  background: var(--color-border-2, #9f9e9e);
 }
+
 /*********自定义输入和按钮组合，用于发送框等*********/
 .input-container {
   display: flex;
@@ -1094,24 +1099,26 @@ ol {
   font-size: inherit;
   line-height: inherit;
   padding: 7px;
-  background: var(--color-main-container-bg-1,#ecedee);
+  background: var(--color-main-container-bg-1, #ecedee);
 }
 
 .textarea-container {
   position: relative;
   display: inline-block;
-  width: 100%; /* 默认宽度占满父元素 */
+  width: 100%;
+  /* 默认宽度占满父元素 */
   /* max-width: 400px; 最大宽度 */
-  box-sizing: border-box; /* 包含内边距和边框 */
+  box-sizing: border-box;
+  /* 包含内边距和边框 */
   margin: 0 5px;
 }
 
 .textarea-container textarea {
   width: 100%;
   padding: 5px 36px 5px 5px;
-  border: 1px solid var(--color-border-3,#ececec);
-  background: var(--color-input-bg,#fefefe);
-  color: var(--color-input-txt,#242424);
+  border: 1px solid var(--color-border-3, #ececec);
+  background: var(--color-input-bg, #fefefe);
+  color: var(--color-input-txt, #242424);
   border-radius: 5px;
   resize: vertical;
   box-sizing: border-box;
@@ -1137,8 +1144,8 @@ ol {
   cursor: pointer;
   border-radius: 5px;
   /* background-color: #4CAF50; */
-  background-color: var(--color-button-bg,#ccd0cc);
-  color: var(--color-button-txt,#424242);
+  background-color: var(--color-button-bg, #ccd0cc);
+  color: var(--color-button-txt, #424242);
   margin: 0 auto;
   line-height: inherit;
 }
@@ -1146,7 +1153,7 @@ ol {
 .upload-button:hover,
 .send-button:hover {
   /* background-color: #3e8e41; */
-  background: var(--color-button-bg-ho,#dbe0db);
+  background: var(--color-button-bg-ho, #dbe0db);
 }
 
 .upload-button {
@@ -1185,30 +1192,41 @@ ol {
 /* 媒体查询，针对小屏幕设备 */
 @media screen and (max-width: 500px) {
   .textarea-container {
-    max-width: 100%; /* 小屏幕下，宽度占满父元素 */
+    max-width: 100%;
+    /* 小屏幕下，宽度占满父元素 */
   }
 }
 /*********自定义样式按钮，可以添加到span，a等标签上*********/
-.plus_btn, .plus_btn:visited {
+.plus_btn,
+.plus_btn:visited {
   border: 1px solid var(--color-border-2, #c0c9cbb3);
   background: inherit;
-  text-decoration: none; /* 去除下划线样式 */
-  color: initial; /* 继承父元素的字体颜色 */
-  cursor: pointer; /* 可选：改变鼠标悬停时的样式为手型 */
+  text-decoration: none;
+  /* 去除下划线样式 */
+  color: initial;
+  /* 继承父元素的字体颜色 */
+  cursor: pointer;
+  /* 可选：改变鼠标悬停时的样式为手型 */
   /*color: var(--color-main-container-text, #2f3030) !important;*/
   box-shadow: none !important;
 }
+
 .plus_btn:hover {
   border: 1px solid var(--color-border-2, #c0c9cbb3);
   background: inherit;
-  text-decoration: none; /* 去除下划线样式 */
-  color: initial; /* 继承父元素的字体颜色 */
-  cursor: pointer; /* 可选：改变鼠标悬停时的样式为手型 */
+  text-decoration: none;
+  /* 去除下划线样式 */
+  color: initial;
+  /* 继承父元素的字体颜色 */
+  cursor: pointer;
+  /* 可选：改变鼠标悬停时的样式为手型 */
   /*color: var(--color-main-container-text, #2f3030) !important;*/
   box-shadow: none !important;
   opacity: 0.95;
 }
-.cancel_btn, .confirm_btn{
+
+.cancel_btn,
+.confirm_btn {
   display: block;
   height: 35px;
   text-align: center;
@@ -1216,6 +1234,7 @@ ol {
   cursor: pointer;
 
 }
+
 /*********自定义弹出对话框关闭按钮*********/
 .close_dialog {
   display: block;
@@ -1231,6 +1250,7 @@ ol {
   line-height: 25px;
   margin: 0 auto;
 }
+
 /**********************************特别推荐的文章排布样式*******************************/
 .special-recommend-list {
   width: 100%;
@@ -2444,14 +2464,15 @@ ol {
   color: var(--color-main-container-text) !important;
   border-color: var(--color-main-container-border, #ccc) !important;
 }
+
 /******输入框右边按钮与输入框为一体（默认）****/
-.search-input-group .input-group-addon{
+.search-input-group .input-group-addon {
   background: var(--color-container, rgb(244, 247, 247)) !important;
   padding: 0px 3px;
   border: 1px solid var(--color-input-border, #ccc) !important;
 }
 
-.search-input-group .input-group-addon button{
+.search-input-group .input-group-addon button {
   color: rgb(121, 197, 202) !important;
   height: 32px;
   width: 44px;
@@ -3491,7 +3512,9 @@ footer .footer_content p:nth-child(2) {
   font-size: 1.1em;
 }
 
-.article-container p img, video, audio {
+.article-container p img,
+video,
+audio {
   /* width: auto; */
   display: block;
   height: auto;
@@ -3500,10 +3523,11 @@ footer .footer_content p:nth-child(2) {
   margin: 2px auto;
 }
 
-.article-container .article-content .donate-image-code{
+.article-container .article-content .donate-image-code {
   width: 100%;
   height: auto;
 }
+
 .article-container .plus-article-toolbar {
   border-top: var(--color-article-container-text-2, #bbbcbc) 1px dashed;
   text-align: right;

@@ -47,7 +47,7 @@
             <div
               class="article-content"
               v-if="articleInfo.articleContent"
-              v-html="articleInfo.articleContent"
+              v-html="renderMdHtml(articleInfo.articleContent)"
               v-viewer
               v-highlight
             ></div>
@@ -884,7 +884,7 @@ export default {
     // window.onresize = () => {};
     // let _this = this;
     // this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
-    $(function () {
+    (function () {
       $('[data-toggle="popover"]').popover({
         html: true,
         placement: "top",
@@ -1180,7 +1180,7 @@ export default {
           "【" + this.articleInfo.articleTitle + "】  \r\n" + this.windowUrl;
         // 使text area不在viewport，同时设置不可见
         document.body.appendChild(textArea);
-        textArea.focus();
+        // textArea.focus();//会导致页面滚动到底部
         textArea.select();
         return new Promise((resolve, reject) => {
           // 执行复制命令并移除文本框
@@ -1404,6 +1404,12 @@ export default {
         });
       });
     },
+    renderMdHtml(html){
+      this.$nextTick(() => {
+        this.copyCode();
+      });
+      return html;
+    }
   },
   destroyed() {
     //this.modifyLikeCount();

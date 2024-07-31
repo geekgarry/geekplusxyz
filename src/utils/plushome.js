@@ -222,10 +222,10 @@ export function getOnlyYearMonthDay(val) {
     return appointDate;
 }
 //判断是否为json对象
-export function objectIsJson(obj){
-    if(typeof(data) == "object" &&
-    Object.prototype.toString.call(data).toLowerCase() == "[object object]" && !data.length){
-    return true;
+export function objectIsJson(obj) {
+    if (typeof (data) == "object" &&
+        Object.prototype.toString.call(data).toLowerCase() == "[object object]" && !data.length) {
+        return true;
     }
     return false;
 }
@@ -242,9 +242,9 @@ export function checkObjectExists3(json, key) {
 }
 export function checkObjectExists4(json, key) {
     try {
-      return json[key] !== null;
+        return json[key] !== null;
     } catch (error) {
-      return false;
+        return false;
     }
 }
 /**
@@ -282,23 +282,23 @@ export function getHtmlValue(value) {
 //获取图片的原始尺寸
 export function getImageNaturalDimensions(oImgSrc, callback) {
     var oImg = new Image();
-    oImg.onload = function(){
+    oImg.onload = function () {
         var nWidth, nHeight;
         if (!oImg.naturalWidth) {
             nWidth = oImg.naturalWidth;
             nHeight = oImg.naturalHeight;
-            callback(oImg,{ w: nWidth, h: nHeight });
+            callback(oImg, { w: nWidth, h: nHeight });
         } else {
             var nImg = new Image();
             nImg.onload = function () {
                 var nWidth = nImg.width,
                     nHeight = nImg.height;
-                callback(oImg,{ w: nWidth, h: nHeight });
+                callback(oImg, { w: nWidth, h: nHeight });
             }
             nImg.src = oImg.src;
         }
     };
-    oImg.onerror = function(){
+    oImg.onerror = function () {
         callback(null);
     }
     oImg.src = oImgSrc;
@@ -310,15 +310,15 @@ export function someNumberCount(length) {
 }
 
 //标准时间转换为时间戳
-export function getDateTimeStamp(dateStr){
-    return Date.parse(dateStr.replace(/-/gi,"/"));
+export function getDateTimeStamp(dateStr) {
+    return Date.parse(dateStr.replace(/-/gi, "/"));
 }
-   
+
 //dateTimeStamp是一个时间毫秒，注意时间戳是秒的形式，在这个毫秒的基础上
 //除以1000，就是十位数的时间戳。13位数的都是时间毫秒。dateTimeStamp
-export function dateTimeAgo(dateStr){  
-    var dateTimeStamp=Date.parse(dateStr.replace(/-/gi,"/"));
-    var result='';
+export function dateTimeAgo(dateStr) {
+    var dateTimeStamp = Date.parse(dateStr.replace(/-/gi, "/"));
+    var result = '';
     var minute = 1000 * 60;      //把分，时，天，周，半个月，一个月用毫秒表示
     var hour = minute * 60;
     var day = hour * 24;
@@ -330,33 +330,33 @@ export function dateTimeAgo(dateStr){
     // console.log(now)
     var diffValue = now - dateTimeStamp;//时间差
 
-    if(diffValue < 0){
+    if (diffValue < 0) {
         return;
     }
-    var minC = diffValue/minute;  //计算时间差的分，时，天，周，月
-    var hourC = diffValue/hour;
-    var dayC = diffValue/day;
-    var weekC = diffValue/week;
-    var monthC = diffValue/month;
-    var yearC = diffValue/year;
+    var minC = diffValue / minute;  //计算时间差的分，时，天，周，月
+    var hourC = diffValue / hour;
+    var dayC = diffValue / day;
+    var weekC = diffValue / week;
+    var monthC = diffValue / month;
+    var yearC = diffValue / year;
 
-    if(yearC >= 1 && yearC <= 4){
+    if (yearC >= 1 && yearC <= 4) {
         result = " " + parseInt(yearC) + "年前"
-    }else if(monthC >= 6 && monthC <= 12){
+    } else if (monthC >= 6 && monthC <= 12) {
         result = " " + "半年前"
-    }else if(monthC >= 1 && monthC <= 6){
+    } else if (monthC >= 1 && monthC <= 6) {
         result = " " + parseInt(monthC) + "月前"
-    }else if(weekC >= 1 && weekC < 5){
+    } else if (weekC >= 1 && weekC < 5) {
         result = " " + parseInt(weekC) + "周前"
-    }else if(dayC >= 1 && dayC <= 7){
+    } else if (dayC >= 1 && dayC <= 7) {
         result = " " + parseInt(dayC) + "天前"
-    }else if(hourC >= 1 && hourC <= 24){
+    } else if (hourC >= 1 && hourC <= 24) {
         result = " " + parseInt(hourC) + "小时前"
-    }else if(minC >= 1 && minC <= 60){
-        result =" " + parseInt(minC) + "分钟前"
-    }else if(diffValue >= 0 && diffValue <= minute){
+    } else if (minC >= 1 && minC <= 60) {
+        result = " " + parseInt(minC) + "分钟前"
+    } else if (diffValue >= 0 && diffValue <= minute) {
         result = "刚刚"
-    }else {
+    } else {
         var datetime = new Date();
         datetime.setTime(dateTimeStamp);
         var Nyear = datetime.getFullYear();
@@ -371,44 +371,44 @@ export function dateTimeAgo(dateStr){
 }
 
 //js判断一天的时间段
-export function getTimeState(){
+export function getTimeState() {
     // 获取当前时间
     let timeNow = new Date();
     // 获取当前小时
     let hours = timeNow.getHours();
     // 设置默认文字
-    let state= ``;
+    let state = ``;
     // 判断当前时间段
     if (hours >= 7 && hours < 11) {
         state = `早上好!`;
     } else if (hours >= 11 && hours < 14) {
-        state= `中午好!`;
+        state = `中午好!`;
     } else if (hours >= 14 && hours < 18) {
-        state= `下午好!`;
+        state = `下午好!`;
     } else if (hours >= 18 && hours < 24) {
-        state= `晚上好!`;
+        state = `晚上好!`;
     } else if (hours >= 0 && hours < 7) {
-        state= `凌晨好!`;
+        state = `凌晨好!`;
     }
     return state;
 }
 
 //白天或晚上
-export function isLightDay(){
+export function isLightDay() {
     // 获取当前时间
     let timeNow = new Date();
     // 获取当前小时
     let hours = timeNow.getHours();
     // 设置默认文字
-    var state= true;
+    var state = true;
     // 判断当前时间段,白天或黑夜
     if (hours >= 6 && hours < 18) {
         state = true;
     } else if (hours >= 18 && hours < 24) {
-        state= false;
+        state = false;
     } else if (hours >= 0 && hours < 6) {
-        state= false;
-    } 
+        state = false;
+    }
     return state;
 }
 
@@ -514,6 +514,93 @@ export function getNowDate() {
     return year + "-" + month + "-" + day + " " + hour + sign2 + minutes + sign2 + seconds;
 }
 
+//添加复制代码按钮
+export function copyCode() {
+    var codeBlocks = document.querySelectorAll('pre');
+    var codeContainer = document.querySelectorAll(".code-container");
+    if (codeBlocks && codeContainer.length === 0) {
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('span');
+            copyButton.className = 'copy';
+            copyButton.textContent = '复制代码';
+            // 创建包裹代码块和按钮的容器元素
+            var container = document.createElement('div');
+            container.className = 'code-container';
+            // 将按钮添加到容器元素内
+            container.appendChild(copyButton);
+            // 将容器元素插入到代码块之前
+            codeBlock.parentNode.insertBefore(container, codeBlock);
+            // 设置容器元素样式，使其定位为相对定位（position: relative）
+            container.style.position = 'relative';
+            // 设置复制按钮样式，使其绝对定位于容器元素的右上角
+            copyButton.style.position = 'absolute';
+            copyButton.style.top = '3px';
+            copyButton.style.right = '6px';
+
+            copyButton.addEventListener('click', function () {
+                // 获取代码块的文本内容textContent
+                var code = codeBlock.innerText;
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    try {
+                      navigator.clipboard.writeText(code).then(() => {
+                        // 修改复制按钮文本为“已复制”
+                        this.textContent = '复制成功';
+                      }).catch(() => {
+                        this.textContent = '复制失败';
+                      });
+                    } catch (err) {
+                      this.textContent = '复制失败';
+                    }
+                }else {
+                    // 创建一个临时的textarea元素，并将代码块的内容设置为其值
+                    var textarea = document.createElement('textarea');
+                    textarea.value = code;
+                    // 将textarea元素追加到body中
+                    document.body.appendChild(textarea);
+                    // 选中textarea中的文本
+                    textarea.select();
+                    // 执行复制操作
+                    document.execCommand('copy');
+                    // 移除临时的textarea元素
+                    document.body.removeChild(textarea);
+                    this.textContent = '复制成功';
+                }
+                //一定时间后吧按钮名改回来
+                setTimeout(() => {
+                    this.textContent = "复制代码";
+                }, 1800);
+            });
+        });
+    }
+
+    if (document.getElementById("copy-code-styles")) return; // 避免重复添加样式
+    const css = `
+    .code-wrapper {
+    position: relative;
+    }
+
+    .code-block {
+    position: relative;
+    }
+
+    .copy {
+    font-size: 13px;
+    transition: color 0.1s;
+    color: hsl(165.03deg 10.98% 91.73% / 83%);
+    background: #3357bfde;
+    padding: 0 3px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 1;
+    }
+      `;
+    const style = document.createElement("style");
+    style.id = "copy-code-styles";
+    style.textContent = css;
+    document.head.appendChild(style);
+};
 /***********************------全局复制携带网站信息-------************************* */
 export function addLink() {
     var body_element = document.body;
@@ -801,8 +888,8 @@ var a_idx = 0;
 //     // 全局监听
 // })
 // window.addEventListener('copy',() => {
-    //swal("复制成功！", "若要转载请务必保留原文链接，申明来源，谢谢合作！By:梦极客园","success");
-    // addLink();
+//swal("复制成功！", "若要转载请务必保留原文链接，申明来源，谢谢合作！By:梦极客园","success");
+// addLink();
 /* setTimeout( function () {
     //window.event.returnValue = false;
     var text = window.clipboardData.getData("text");
