@@ -520,6 +520,22 @@ export function copyCode() {
     var codeContainer = document.querySelectorAll(".code-container");
     if (codeBlocks && codeContainer.length === 0) {
         codeBlocks.forEach(function (codeBlock) {
+            // 创建新的ol元素
+            // const ol = document.createElement('ol');
+            // // 获取所有<code>标签中的文本行
+            // const codeLines = codeBlock.textContent.split('\n');
+            // // 移除<pre>中的所有内容
+            // codeBlock.innerHTML = '';
+            // // 为每行代码添加序号并重新添加到<pre>中
+            // codeLines.forEach((line, index) => {
+            //     const lineNumber = index + 1;
+            //     const lineElement = document.createElement('li');
+            //     lineElement.textContent = `${line}`;//${lineNumber}. 
+            //     ol.appendChild(lineElement);
+            //     // codeBlock.innerHTML = `<ol><li>${codeBlock.innerHTML.replace(/\n/g,`</li><li class="line">`)}</li></ol>`;
+            // });
+            // codeBlock.appendChild(ol);
+
             var copyButton = document.createElement('span');
             copyButton.className = 'copy';
             copyButton.textContent = '复制代码';
@@ -535,7 +551,7 @@ export function copyCode() {
             // 设置复制按钮样式，使其绝对定位于容器元素的右上角
             copyButton.style.position = 'absolute';
             copyButton.style.top = '3px';
-            copyButton.style.right = '6px';
+            copyButton.style.right = '4px';
 
             copyButton.addEventListener('click', function () {
                 // 获取代码块的文本内容textContent
@@ -587,8 +603,8 @@ export function copyCode() {
     .copy {
     font-size: 13px;
     transition: color 0.1s;
-    color: hsl(165.03deg 10.98% 91.73% / 83%);
-    background: #3357bfde;
+    color: hsl(9.96deg 88.32% 47.38% / 97%);
+    background: #dfe8e6;
     padding: 0 3px;
     border: none;
     border-radius: 4px;

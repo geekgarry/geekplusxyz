@@ -23,7 +23,7 @@
                                     <div class="chat_extra_data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
                                         <span v-html="item.mediaDiv"></span>
                                     </div>
-                                    <span v-highlight v-html="item.text"></span>
+                                    <span v-html="item.text"></span>
                                 </span>
                                 <span>
                                     <img class="chatUserIcon" v-lazy="'https://www.geekplus.xyz/imgs/mai.png'"
@@ -35,7 +35,7 @@
                                         alt="极客普拉斯" />
                                 </span>
                                 <span class="listChatItemContent" v-if="item">
-                                    <span v-highlight v-html="markdownToHtml(item.text)"></span>
+                                    <span v-html="markdownToHtml(item.text)"></span>
                                     <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
                                     <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                                 </span>
@@ -122,14 +122,14 @@
                                             <a :href="item.extraData" target="_blank">查看</a>
                                         </object> -->
                                     </div>
-                                    <span v-highlight v-html="item.text"></span>
+                                    <span v-html="item.text"></span>
                                 </span>
                                 <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/mai.png" alt="麦壳" />
                             </span>
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
                                 <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/logo.png" alt="极客普拉斯" />
                                 <span class="pcChatTextSpan" v-if="item && item.link == ''">
-                                    <span v-highlight v-html="markdownToHtml(item.text)"></span>
+                                    <span v-html="markdownToHtml(item.text)"></span>
                                     <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
                                     <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                                 </span>
