@@ -514,27 +514,97 @@ export function getNowDate() {
     return year + "-" + month + "-" + day + " " + hour + sign2 + minutes + sign2 + seconds;
 }
 
+/*字符串转dom对象*/
+export function loadXMLString(xmlStr) {
+    var xmlDoc = null;
+    try //Internet Explorer
+    {
+        // xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+        // xmlDoc.async = "false";
+        // xmlDoc.loadXML(xmlStr);
+        // //alert('IE');
+        // return xmlDoc;
+        const range = document.createRange();
+        xmlDoc = range.createContextualFragment(xmlStr);
+    }
+    catch (e) {
+        try //Firefox, Mozilla, Opera, etc.
+        {
+            const parser = new DOMParser();
+            xmlDoc = parser.parseFromString(xmlStr, "text/html");
+            //alert('FMO');
+            return xmlDoc;
+        }
+        catch (e) {
+            // xmlDoc =e.message;
+            const template = document.createElement('template');
+            template.innerHTML = xmlStr;
+            xmlDoc = template.content;
+        }
+    }
+    return xmlDoc;
+}
+
 //添加复制代码按钮
 export function copyCode() {
-    var codeBlocks = document.querySelectorAll('pre');
-    var codeContainer = document.querySelectorAll(".code-container");
-    if (codeBlocks && codeContainer.length === 0) {
-        codeBlocks.forEach(function (codeBlock) {
-            // 创建新的ol元素
-            // const ol = document.createElement('ol');
-            // // 获取所有<code>标签中的文本行
-            // const codeLines = codeBlock.textContent.split('\n');
-            // // 移除<pre>中的所有内容
-            // codeBlock.innerHTML = '';
-            // // 为每行代码添加序号并重新添加到<pre>中
-            // codeLines.forEach((line, index) => {
-            //     const lineNumber = index + 1;
-            //     const lineElement = document.createElement('li');
-            //     lineElement.textContent = `${line}`;//${lineNumber}. 
-            //     ol.appendChild(lineElement);
-            //     // codeBlock.innerHTML = `<ol><li>${codeBlock.innerHTML.replace(/\n/g,`</li><li class="line">`)}</li></ol>`;
-            // });
-            // codeBlock.appendChild(ol);
+    //在这里使用需要判断样式是否不存在，不存在则开始添加到head中，避免了使用return导致函数出现终止执行问题
+    if (!document.getElementById("copy-code-styles")) {
+        //这里就是添加css样式表到head的主要代码
+        const css = `
+        .code-wrapper {
+        position: relative;
+        }
+
+        .code-block {
+        position: relative;
+        }
+
+        .copy {
+        font-size: 13px;
+        transition: color 0.1s;
+        color: hsl(9.96deg 88.32% 47.38% / 97%);
+        background: #dfe8e6;
+        padding: 0 3px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        z-index: 1;
+        }
+        `;
+        const style = document.createElement("style");
+        style.id = "copy-code-styles";
+        style.textContent = css;
+        document.head.appendChild(style);
+    }
+
+    const codeBlocks = document.querySelectorAll('pre');
+    const codeContainer = document.querySelectorAll(".code-container");
+    if (codeBlocks) {
+        codeBlocks.forEach(function (codeBlock, cbIndex) {
+            //这段注释的代码是给代码添加行数，便于结构化代码显示
+            //判断当前代码块不存在行数显示标签ol时，才创建新的ol
+            // if (!codeBlock.querySelectorAll('ol')) {
+            //     // 创建新的ol元素
+            //     const ol = document.createElement('ol');
+            //     // 获取所有<code>标签中的文本行
+            //     const codeLines = codeBlock.textContent.split('\n');
+            //     // 移除<pre>中的所有内容
+            //     codeBlock.innerHTML = '';
+            //     // 为每行代码添加序号并重新添加到<pre>中
+            //     codeLines.forEach((line, index) => {
+            //         // const lineNumber = index + 1;
+            //         const lineElement = document.createElement('li');
+            //         lineElement.textContent = `${line}`;//${lineNumber}. 
+            //         ol.appendChild(lineElement);
+            //         // codeBlock.innerHTML = `<ol><li>${codeBlock.innerHTML.replace(/\n/g,`</li><li class="line">`)}</li></ol>`;
+            //     });
+            //     codeBlock.appendChild(ol);
+            // }
+
+            //判断当前代码块的索引序号是否小于或等于复制按钮容器数，为true表示没有新的代码块显示，返回终止函数
+            if (codeContainer && cbIndex+1 <= codeContainer.length) {
+                return;
+            }
 
             var copyButton = document.createElement('span');
             copyButton.className = 'copy';
@@ -559,16 +629,16 @@ export function copyCode() {
 
                 if (navigator.clipboard && window.isSecureContext) {
                     try {
-                      navigator.clipboard.writeText(code).then(() => {
-                        // 修改复制按钮文本为“已复制”
-                        this.textContent = '复制成功';
-                      }).catch(() => {
-                        this.textContent = '复制失败';
-                      });
+                        navigator.clipboard.writeText(code).then(() => {
+                            // 修改复制按钮文本为“已复制”
+                            this.textContent = '复制成功';
+                        }).catch(() => {
+                            this.textContent = '复制失败';
+                        });
                     } catch (err) {
-                      this.textContent = '复制失败';
+                        this.textContent = '复制失败';
                     }
-                }else {
+                } else {
                     // 创建一个临时的textarea元素，并将代码块的内容设置为其值
                     var textarea = document.createElement('textarea');
                     textarea.value = code;
@@ -582,7 +652,7 @@ export function copyCode() {
                     document.body.removeChild(textarea);
                     this.textContent = '复制成功';
                 }
-                //一定时间后吧按钮名改回来
+                //一定时间后把按钮名改回来
                 setTimeout(() => {
                     this.textContent = "复制代码";
                 }, 1800);
@@ -590,32 +660,9 @@ export function copyCode() {
         });
     }
 
-    if (document.getElementById("copy-code-styles")) return; // 避免重复添加样式
-    const css = `
-    .code-wrapper {
-    position: relative;
-    }
-
-    .code-block {
-    position: relative;
-    }
-
-    .copy {
-    font-size: 13px;
-    transition: color 0.1s;
-    color: hsl(9.96deg 88.32% 47.38% / 97%);
-    background: #dfe8e6;
-    padding: 0 3px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    z-index: 1;
-    }
-      `;
-    const style = document.createElement("style");
-    style.id = "copy-code-styles";
-    style.textContent = css;
-    document.head.appendChild(style);
+    // if (document.getElementById("copy-code-styles")) return; // 避免重复添加样式
+    //如果要使用这种方法，需要把上面的判断样式不存在中的添加css的代码转移到下面，
+    //因为return;会终止当前函数，也就是下面的不会再执行了，所以添加到head的方法移到下面
 };
 /***********************------全局复制携带网站信息-------************************* */
 export function addLink() {

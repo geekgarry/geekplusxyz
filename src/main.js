@@ -133,7 +133,7 @@ Vue.use(VueQuillEditor);
 import {
   getNowDate, checkHtml, getHtmlValue, randomRGB, color16, numFormatKWM, addLink, someColor, 
   getOnlyYearMonthDay, getHtmlPlainText, someNumberCount, backToTop, isLightDay,
-  getDateTimeStamp, dateTimeAgo, checkObjectExists2, copyCode} from '@/utils/plushome'
+  getDateTimeStamp, dateTimeAgo, checkObjectExists2, loadXMLString, copyCode} from '@/utils/plushome'
 import { _setLocalStore, _getLocalStore, _setCookieStorage, _getCookieStorage,
   dispatchSetLocalStore, _setSessionStorage, _getSessionStorage
 } from './utils/storage'
@@ -181,6 +181,7 @@ Vue.prototype.setSessionStorage = _setSessionStorage;
 Vue.prototype.getSessionStorage = _getSessionStorage;
 Vue.prototype.setCookieStorage = _setCookieStorage;
 Vue.prototype.getCookieStorage = _getCookieStorage;
+Vue.prototype.loadXMLString = loadXMLString;
 Vue.prototype.copyCode = copyCode;
 Vue.prototype.AppPage = new Vue();
 //Vue.use($)

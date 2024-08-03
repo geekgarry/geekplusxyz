@@ -35,7 +35,7 @@
                                         alt="极客普拉斯" />
                                 </span>
                                 <span class="listChatItemContent" v-if="item">
-                                    <span v-html="markdownToHtml(item.text)"></span>
+                                    <span v-html="renderMdHtml(item.text)"></span>
                                     <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
                                     <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                                 </span>
@@ -129,7 +129,7 @@
                             <span class="listChatItemL" v-if="item && item.align == 'left'">
                                 <img class="chatUserIcon" src="https://www.geekplus.xyz/imgs/logo.png" alt="极客普拉斯" />
                                 <span class="pcChatTextSpan" v-if="item && item.link == ''">
-                                    <span v-html="markdownToHtml(item.text)"></span>
+                                    <span v-html="renderMdHtml(item.text)"></span>
                                     <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
                                     <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                                 </span>
@@ -394,7 +394,6 @@ export default {
                 media.load();  // 重新加载媒体元素
             });
         }
-        // that.copyCode();
     },
     watch: {
         windowHeight(val) {
@@ -406,7 +405,12 @@ export default {
             // } else {
             //     this.chatBtnPcDisplay = true;
             // }
-            //console.log("实时屏幕宽度：", val, this.windowHeight);
+            //console.log("实时屏幕宽度：", val, this.windowWidth);
+        },
+        msgList(mList) {
+            if(mList.length - this.msgList.length ===2){
+                // console.log("消息更新");
+            }
         }
     },
     methods: {
@@ -1675,7 +1679,7 @@ export default {
             return codeAsString;
         },
         // 定义一个函数，将Markdown转换为HTML，并去除多余的空行
-        markdownToHtml(markdown) {
+        renderMdHtml(markdown) {
             //let html = converter.makeHtml(markdown); // 将Markdown转换为HTML
             //breaks会把单个换行符变为<br>
             let html = marked.parse(markdown, { breaks: true }); // 将Markdown转换为HTML
