@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+       http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+
+<url>
+ <loc>http://www.xxx.xx/</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/programDevelopment/java</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/programDevelopment/linuxServer</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/programDevelopment/frontWeb</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/programDevelopment/python</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/welfareResource/networkResource</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/welfareResource/beautyPicture</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/welfareResource/webSoftware</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/essayJournal/personalEssay</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/essayJournal/studyNote</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/leaveMessage</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+<url>
+ <loc>http://www.xxx.xx/about</loc>
+ <priority>0.3</priority>
+ <lastmod>2023-04-13</lastmod>
+ <changefreq>weekly</changefreq>
+</url>
+
+</urlset>

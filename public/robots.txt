@@ -1,0 +1,5 @@
+User-agent: Googlebot
+Disallow: http://www.xxx.xx
+
+User-agent: *
+Allow: /

@@ -1,0 +1,143 @@
+/* 定义全局的css变量 */
+/* 定义基础色值，方便 UI 后期替换*/
+:root {
+  --pl-con-white: #fffefd;
+  --pl-con-black: #202020;
+  --pl-main-white: #F2F4F6;
+  --pl-main-black: #252627;
+  --pl-article-list-white:#fefefe;
+  --pl-article-list-black:#343434;
+  --pl-article-list-text-white-1:#c5c5c5;
+  --pl-article-list-text-black-1:#1e1e1f;
+  --pl-article-list-text-white-2:#e6e6e6;
+  --pl-article-list-text-black-2:#3b3b3b;
+  --pl-con-primary: rgb(109, 170, 144);
+  --pl-general-text-white:#D1D1D1;
+  
+  --pl-link-color-white:#D1D1D1;
+  --pl-link-color-black:#1f1f1f;
+  --pl-header-primary:#499bb2;
+  --pl-header-text-white-1:#151918;
+  --pl-c-text-white-1: #333;
+  --pl-c-text-white-2: #666;
+  --pl-header-text-black-1:#dddddd;
+  --pl-c-text-black-1: var(--pl-general-text-white);
+  --pl-c-text-black-2: rgba(235, 235, 235, 0.64);
+}
+/* Light 默认主题色*/
+:root body[theme-mode="light"]{
+  --top-banner-bg-img: url("@/assets/img/topBanner1.jpeg") no-repeat center center;
+  --color-primary:#2786de;
+  --color-chatHeader-bg:rgb(118, 164, 219);
+  --color-primary-tips: #f0f4ed;
+  --color-content-bg: #dfe2e2e6;
+  --color-button-bg: #ccd0cc;
+  --color-button-bg-ho: #dbe0db;
+  --color-button-txt: #424242;
+  --color-input-bg: #fefefe;
+  --color-input-txt: #242424;
+  --color-container-bg: #fbfbfb;
+  --color-background: var(--pl-con-white);
+  --color-header: var(--pl-con-white);
+  --color-header-text: var(--pl-header-text-white-1);
+  --color-container: var(--pl-main-white);
+  --color-container-txt: #121212;
+  --color-article-list:var(--pl-article-list-white);
+  --color-main-container-bg:#f0efef;
+  --color-main-container-bg-1:#eceeee;
+  --color-main-container-bg-2:#eff0f0;
+  --color-main-container-text:#2f3030;
+  --color-main-container-text-1:#333535;
+  --color-main-container-text-2:#3d484e;
+  --color-main-container-border:#ccc;
+  --color-main-container-shadow:#ccc;
+  --color-article-container:#fefdfd;
+  --color-article-container-bg-1:#e8e8e8;
+  --color-article-container-bg-2:#f6f7f8;
+  --color-article-breadcrumb:#fdfdfd;
+  --color-article-breadcrumb-border:#fdfdfdfb;
+  --color-article-pre:#2c2d2e;
+  --color-article-pre-text:#b3b8c1;
+  --color-article-container-content-text:#3d3e3f;
+  --color-article-topic:#2b2925;
+  --color-article-container-text-1:#333333;
+  --color-article-container-text-2:#424242;
+  --color-article-container-text-3:#383838;
+  --color-text: var(--pl-c-text-white-1);
+  --color-text-2: var(--pl-c-text-white-2);
+  --color-link-text:var(--pl-link-color-black);
+  --color-input:#fefeff;
+  --color-input-border:#ccc;
+  --color-form:#f6f4f4;
+  --color-border-1:#dadcdd;/**通用边框样式**/
+  --color-border-2:#c0c9cbb3;
+  --color-border-3:#e7e7e7;
+  --color-border-4:#c5c5c5;
+  --color-border-bg:#f7f6f5;/**评论样式**/
+  --color-comment-bg:#FDFCFF;
+  --color-hot-comment:#fbf9f9fe;/**热门留言**/
+  --color-main-footer:#86B1C1;/****网站底部样式*****/
+  --color-main-footer-text:#3a3c3d;
+}
+/* Dark主题颜色*/
+:root body[theme-mode="dark"]{
+  --top-banner-bg-img: url("@/assets/img/topBanner2.jpeg") no-repeat center center;
+  --color-primary:#139F95;
+  --color-chatHeader-bg:rgb(118, 164, 219);
+  --color-primary-tips: #8DE78D;
+  --color-content-bg: #353434;
+  --color-button-bg: #666766;
+  --color-button-bg-ho: #7b7c7b;
+  --color-button-txt: #f1f1f1;
+  --color-input-bg: #383838;
+  --color-input-txt: #efeded;
+  --color-container-bg: #191919;
+  --color-background: var(--pl-con-black);
+  --color-header: var(--pl-con-black);
+  --color-header-text: var(--pl-header-text-black-1);
+  --color-container: var(--pl-main-black);
+  --color-container-txt: #e1e8e2;
+  --color-article-list:var(--pl-article-list-black);
+  --color-main-container-bg:#212020;
+  --color-main-container-bg-1:#2b2c2c;
+  --color-main-container-bg-2:#3a3a3a;
+  --color-main-container-text:#eff3f3;
+  --color-main-container-text-1:#e8ecec;
+  --color-main-container-text-2:#b0c9d7;
+  --color-main-container-border:#333;
+  --color-main-container-shadow:#333;
+  --color-article-container:#353434;
+  --color-article-container-bg-1:#414040;
+  --color-article-container-bg-2:#333738;
+  --color-article-breadcrumb:#2d2d2d;
+  --color-article-breadcrumb-border:#2f2f2ffb;
+  --color-article-pre:#28292a;
+  --color-article-pre-text:#bcc0c7;
+  --color-article-container-content-text:#D1D1D1;
+  --color-article-topic:#f9f0da;
+  --color-article-container-text-1:#dddedd;
+  --color-article-container-text-2:#e7e5e5;
+  --color-article-container-text-3:#dedcdc;
+  --color-text: var(--pl-c-text-black-1);
+  --color-text-2: var(--pl-c-text-black-2);
+  --color-link-text:var(--pl-link-color-white);
+  --color-input:#2f2e2e;
+  --color-input-border:#535353;
+  --color-form:#2f2e2e;
+  --color-border-1:#303030;/**通用边框样式**/
+  --color-border-2:#5f6263b3;
+  --color-border-3:#2e2e2e;
+  --color-border-4:#515151;
+  --color-border-bg:#111110;/**评论样式**/
+  --color-comment-bg:#2a2929;
+  --color-hot-comment:#303032fd;/**热门留言**/
+  --color-main-footer:#383a3a;/****网站底部样式*****/
+  --color-main-footer-text:#a4a7a7;
+  /********只在黑暗模式有改变*********/
+  --color-alert-info-1:#2e3644;/*******网站通知框**********/
+  --color-alert-info-2:#798292;
+  --color-alert-info-text:#ced6e3;
+  --color-alert-info-border:#435471;
+  --color-aside-panel:#343434;/*******网站侧边文章面板**********/
+  --color-aside-panel-text:#f7f4f4;
+}

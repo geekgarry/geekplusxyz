@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>广告</title>
+</head>
+<body style="text-align: center; margin:0 auto; display:flex; justify-content:center; align-items:center;">
+    <script type="text/javascript">
+        var jd_union_pid= "";
+        var jd_union_euid= "";
+        window.onmessage = function(event){
+            var result = event.data;
+            //console.log("从vue中获得的数据: ", result.params);
+            // 定义一个变量去接收,然后就可以获得vue传过来的数据
+            <!-- console.log('event === ', result); -->
+            jd_union_pid = result.params;
+            if(jd_union_pid==undefined || jd_union_pid== ''){
+                //console.log("从vue中获得的数据: ", jd_union_pid);
+            }else{
+                let script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://ads-union.jd.com/static/js/union.js";
+                document.body.appendChild(script);
+            }
+        };
+        /**window.addEventListener("message", function (event) {
+            var result = event.data;
+            //console.log("从vue中获得的数据: ", result.params);
+            // 定义一个变量去接收,然后就可以获得vue传过来的数据
+            jd_union_pid = result.params;
+            if(jd_union_pid==undefined || jd_union_pid== ''){
+                console.log("从vue中获得的数据: ", jd_union_pid);
+            }else{
+                let script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://ads-union.jd.com/static/js/union.js";
+                document.body.appendChild(script);
+            }
+        }, '*')**/
+    </script>
+    <!-- <script type="text/javascript" src="//ads-union.jd.com/static/js/union.js"></script> -->
+</body>
+    <!-- <script type="text/javascript">var jd_union_pid="";var jd_union_euid="";</script>
+    <script type="text/javascript" src="//ads-union.jd.com/static/js/union.js"></script> -->
+    <!-- <script type="text/javascript">var jd_union_pid="";var jd_union_euid="";</script>
+    <script type="text/javascript" src="//ads-union.jd.com/static/js/union.js"></script> -->
+    <!-- <script type="text/javascript">var jd_union_pid="";var jd_union_euid="";</script>
+    <script type="text/javascript" src="//ads-union.jd.com/static/js/union.js"></script> -->
+    <!-- <script type="text/javascript">var jd_union_pid="";var jd_union_euid="";</script>
+    <script type="text/javascript" src="//ads-union.jd.com/static/js/union.js"></script> -->
+</html>
