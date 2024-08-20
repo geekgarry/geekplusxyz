@@ -586,7 +586,7 @@ export function copyCode() {
         `;
         const style = document.createElement("style");
         style.id = "copy-code-styles";
-        style.textContent = css;
+        style.innerHTML = css;
         document.head.appendChild(style);
     }
 
@@ -600,14 +600,14 @@ export function copyCode() {
             //     // 创建新的ol元素
             //     const ol = document.createElement('ol');
             //     // 获取所有<code>标签中的文本行
-            //     const codeLines = codeBlock.textContent.split('\n');
+            //     const codeLines = codeBlock.innerText.split('\n');
             //     // 移除<pre>中的所有内容
             //     codeBlock.innerHTML = '';
             //     // 为每行代码添加序号并重新添加到<pre>中
             //     codeLines.forEach((line, index) => {
             //         // const lineNumber = index + 1;
             //         const lineElement = document.createElement('li');
-            //         lineElement.textContent = `${line}`;//${lineNumber}. 
+            //         lineElement.innerText = `${line}`;//${lineNumber}. 
             //         ol.appendChild(lineElement);
             //         // codeBlock.innerHTML = `<ol><li>${codeBlock.innerHTML.replace(/\n/g,`</li><li class="line">`)}</li></ol>`;
             //     });
@@ -633,7 +633,7 @@ export function copyCode() {
             //创建一个复制按钮
             var copyButton = document.createElement('span');
             copyButton.className = "copy-btn";
-            copyButton.textContent = '复制';
+            copyButton.innerText = '复制';
             // 将按钮添加到容器元素内
             toolContainer.appendChild(copyButton);
 
@@ -650,19 +650,19 @@ export function copyCode() {
             preAllWrapperNew.insertBefore(codeBlock,toolContainer);
 
             copyButton.addEventListener('click', function (e) {
-                // 获取代码块的文本内容textContent
+                // 获取代码块的文本内容innerText
                 var code = codeBlock.innerText;
 
                 if (navigator.clipboard && window.isSecureContext) {
                     try {
                         navigator.clipboard.writeText(code).then(() => {
                             // 修改复制按钮文本为“已复制”
-                            this.textContent = '复制成功';
+                            this.innerText = '复制成功';
                         }).catch(() => {
-                            this.textContent = '复制失败';
+                            this.innerText = '复制失败';
                         });
                     } catch (err) {
-                        this.textContent = '复制失败';
+                        this.innerText = '复制失败';
                     }
                 } else {
                     // 创建一个临时的textarea元素，并将代码块的内容设置为其值
@@ -676,11 +676,11 @@ export function copyCode() {
                     document.execCommand('copy');
                     // 移除临时的textarea元素
                     document.body.removeChild(textarea);
-                    this.textContent = '复制成功';
+                    this.innerText = '复制成功';
                 }
                 //一定时间后把按钮名改回来
                 setTimeout(() => {
-                    this.textContent = "复制";
+                    this.innerText = "复制";
                 }, 1800);
             });
 

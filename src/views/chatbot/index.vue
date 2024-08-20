@@ -1,216 +1,240 @@
 <template>
-    <div id="chat_app_container" @click="outSideCloseMenu">
-        <div class="container-fluid">
-            <div class="row" v-if="mobileChatdisplay">
-                <!-- <div class="col-sm-1 col-md-1 col-lg-2">
-                                        </div> -->
-                <!-- <div class="col-xs-12 col-sm-10 col-md-10 col-lg-8">
-                                        </div> -->
-                <div class="chat-main-content">
-                    <div class="chatBoxHeader" :style="{ top: chatBoxHeaderTop + `px` }">
-                        <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> $router.push({path:'/'})-->
-                        <div @click="toggleMenu">
-                            <span class="gplus-icon">
-                                <svg t="1723616704150" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6277" width="24" height="24" class="icon"><path data-v-00771e96="" d="M844.8 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 864 864 883.2 844.8 883.2zM844.8 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 460.8 864 480 844.8 480zM435.2 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 864 460.8 883.2 435.2 883.2zM435.2 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 460.8 460.8 480 435.2 480z" fill="currentColor" p-id="6278"></path></svg>
-                            </span>
-                        </div>
-                        <span>AI智能助手</span>
-                        <div @click="openMsg">
-                            <span class="gplus-icon">
-                                <svg t="1723618948778" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="28131" width="24" height="24" class="icon"><path data-v-00771e96="" d="M512.001 928.997c230.524 0 418.076-187.552 418.075-418.077 0-230.527-187.552-418.077-418.075-418.077s-418.077 187.55-418.077 418.077c0 230.525 187.552 418.077 418.077 418.077zM512 301.88c28.86 0 52.26 23.399 52.26 52.263 0 28.858-23.399 52.257-52.26 52.257s-52.26-23.399-52.26-52.257c0-28.863 23.399-52.263 52.26-52.263zM459.74 510.922c0-28.86 23.399-52.26 52.26-52.26s52.26 23.399 52.26 52.26l0 156.775c0 28.86-23.399 52.26-52.26 52.26s-52.26-23.399-52.26-52.26l0-156.775z" fill="currentColor" p-id="28132"></path></svg>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="bigChatBox" id="bigChatBox" :style="{ height: chatBoxHeight + 'px' }" >
-                        <div v-for="(item, index) in msgList" v-bind:key="index" class="listChatMsg">
-                            <div v-show="item.time" class="chat_date_time">{{ getChatDateTime(item.time) }}</div>
-                            <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                <span class="listChatItemContent">
-                                    <div class="chat_extra_data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
-                                        <span v-html="item.mediaDiv"></span>
-                                    </div>
-                                    <span v-text="item.text"></span>
-                                </span>
-                                <span>
-                                    <img class="chatUserIcon" v-lazy="'/imgs/mai.png'"
-                                        alt="麦壳" />
-                                </span>
-                            </span>
-                            <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                <span><img class="chatUserIcon" v-lazy="'/imgs/logo.png'"
-                                        alt="极客普拉斯" />
-                                </span>
-                                <span class="listChatItemContent" v-if="item">
-                                    <span v-html="renderMdHtml(item.text)"></span>
-                                    <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
-                                    <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
-                                </span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="chatBoxFooter">
-                        <!-- <div class="chatBoxFooterBtn">
-                                    <span class="chat_btn_left"><a class="btn btn-default" href="#" role="button"
-                                                          @click="startAndStopRecording" >{{recordingTxt}}
-                                                        </a>
-                                                        </span>
-                                    <textarea placeholder="请输入聊天内容" v-model="inputChatMsg" id="inputContentText" class="form-control onlyoneline" :disabled="statusDisabled" :autofocus="false" rows="1" 
-                                    @keydown="keyDownEvent" @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
-                                    <span class="chat_btn_right">
-                                                <a class="btn btn-default" href="#" role="button" 
-                                                @click="handleMsg">发送</a>
-                                            </span>
-                                </div> -->
-                        <div class="input-container">
-                            <div class="button-container">
-                                <button type="button" class="send-button" @click="startAndStopRecording">
-                                    {{ recordingTxt }}
-                                </button>
-                            </div>
-                            <div class="textarea-container">
-                                <textarea placeholder="请输入消息..." class="plus-text-input onlyoneline" id="inputContentText"
-                                    name="inputChatMsg" autocomplete="off" rows="1" v-model="inputChatMsg" :autofocus="false"
-                                    @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
-                                <label for="file-upload" class="upload-button">
-                                    <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
-                                        <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
-                                    </svg> -->
-                                    <svg t="1720279770597" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" p-id="10853" id="mx_n_1720279770598"
-                                        width="20" height="20">
-                                        <path d="M0 0h1024v1024H0z" fill="currentColor" opacity=".01" p-id="10854"></path>
-                                        <path
-                                            d="M533.312 128a21.312 21.312 0 0 1 21.376 21.312v320h320a21.312 21.312 0 0 1 21.312 21.376v42.624a21.312 21.312 0 0 1-21.312 21.376h-320v320a21.312 21.312 0 0 1-21.376 21.312h-42.624a21.312 21.312 0 0 1-21.376-21.312v-320h-320A21.312 21.312 0 0 1 128 533.312v-42.624a21.312 21.312 0 0 1 21.312-21.376h320v-320A21.312 21.312 0 0 1 490.688 128h42.624z"
-                                            fill="currentColor" fill-opacity=".7" p-id="10855"></path>
-                                    </svg>
-                                    <input type="file" id="file-upload" ref="file-upload-ref" accept="*"
-                                        @change="uploadDataFileEvent($event)" style="display: none;">
-                                </label>
-                            </div>
-                            <div class="button-container">
-                                <button type="button" class="send-button" @click="handleMsg" :disabled="statusDisabled">
-                                    发送
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div id="chat_app_container">
+        <div class="chatBoxHeader" :style="{ top: chatBoxHeaderTop + `px` }">
+            <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> $router.push({path:'/'})-->
+            <div class="plus-drawer-toggle" data-target="#my-plus-drawer" data-side="left">
+                <span class="gplus-icon">
+                    <svg t="1723616704150" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        p-id="6277" width="24" height="24" class="icon">
+                        <path data-v-00771e96=""
+                            d="M844.8 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 864 864 883.2 844.8 883.2zM844.8 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 460.8 864 480 844.8 480zM435.2 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 864 460.8 883.2 435.2 883.2zM435.2 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 460.8 460.8 480 435.2 480z"
+                            fill="currentColor" p-id="6278"></path>
+                    </svg>
+                </span>
             </div>
-            <!--事件的native修饰符只能在UI组件或自定义组件上使用，原生的html标签是不能使用的,入div，input等-->
-            <!-- <button type="button" class="btn btn-info" @click="visibleDialog" v-show="chatBtnPcDisplay">打开ChatGpt聊天框</button> -->
-            <div class="row" v-else>
-                <div class="chatBoxHeader">
-                    <div @click="toggleMenu">
-                        <span class="gplus-icon">
-                            <svg t="1723616704150" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6277" width="24" height="24" class="icon"><path data-v-00771e96="" d="M844.8 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 864 864 883.2 844.8 883.2zM844.8 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 460.8 864 480 844.8 480zM435.2 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 864 460.8 883.2 435.2 883.2zM435.2 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 460.8 460.8 480 435.2 480z" fill="currentColor" p-id="6278"></path></svg>
-                        </span>
-                    </div>
-                    <span>AI聊天助手</span>
-                    <div @click="openMsg">
-                        <span class="gplus-icon">
-                            <svg t="1723618948778" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="28131" width="24" height="24" class="icon"><path data-v-00771e96="" d="M512.001 928.997c230.524 0 418.076-187.552 418.075-418.077 0-230.527-187.552-418.077-418.075-418.077s-418.077 187.55-418.077 418.077c0 230.525 187.552 418.077 418.077 418.077zM512 301.88c28.86 0 52.26 23.399 52.26 52.263 0 28.858-23.399 52.257-52.26 52.257s-52.26-23.399-52.26-52.257c0-28.863 23.399-52.263 52.26-52.263zM459.74 510.922c0-28.86 23.399-52.26 52.26-52.26s52.26 23.399 52.26 52.26l0 156.775c0 28.86-23.399 52.26-52.26 52.26s-52.26-23.399-52.26-52.26l0-156.775z" fill="currentColor" p-id="28132"></path></svg>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-2 col-lg-3"></div>
-                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 chat-main-content">
-                    <div class="bigChatBox" id="bigChatBox-desktop" :style="{ height: chatBoxHeight + 'px' }">
-                        <!-- :style="{textAlign: item.align}" -->
-                        <div v-for="(item, index) in msgList" :key="index" class="listChatMsg">
-                            <div v-show="item.time" class="chat_date_time">{{ getChatDateTime(item.time) }}</div>
-                            <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                <span class="pcChatTextSpan">
-                                    <div class="chat_extra_data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
-                                        <span v-html="item.mediaDiv"></span>
-                                        <!-- <object :data="item.extraData" style="width: 95%;" height="100%">
-                                            <embed :src="item.extraData" style="width: 100%;" >
-                                            <audio controls height="50" width="100%" :data="item.extraData">
-                                            </audio>
-                                            <video controls height="50" width="100%" :data="item.extraData">
-                                                <source :src="item.extraData" type="audio/mpeg">
-                                                <source :src="item.extraData" type="audio/ogg">
-                                                <source :src="item.extraData" type="video/mp4">
-                                                <source :src="item.extraData" type="video/ogg">
-                                            </video>
-                                            <a :href="item.extraData" target="_blank">查看</a>
-                                        </object> -->
-                                    </div>
-                                    <span v-text="item.text"></span>
-                                </span>
-                                <img class="chatUserIcon" src="/imgs/mai.png" alt="麦壳" />
-                            </span>
-                            <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                <img class="chatUserIcon" src="/imgs/logo.png" alt="极客普拉斯" />
-                                <span class="pcChatTextSpan" v-if="item && item.link == ''">
-                                    <span v-html="renderMdHtml(item.text)"></span>
-                                    <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
-                                    <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
-                                </span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="chatBoxFooter">
-                        <!-- <div class="input-group search-input-group">
-                                    <textarea id="inputContentText" name="inputChatMsg" autocomplete="off" :autofocus="false" v-model="inputChatMsg" :disabled="statusDisabled" class="form-control onlyoneline" 
-                                    placeholder="请输入聊天内容" rows="1" v-on:keydown="keyDownEvent" v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
-                                    <span class="input-group-addon">
-                                                <button type="button" @keydown.enter="handleMsg" @click="handleMsg" :disabled="statusDisabled">
-                                                    <span class="glyphicon glyphicon-send"></span>
-                                    </button>
-                                    </span>
-                                </div> -->
-                        <div class="input-container">
-                            <div class="textarea-container">
-                                <textarea placeholder="请输入消息..." class="plus-text-input onlyoneline" id="inputContentText"
-                                    name="inputChatMsg" autocomplete="off" rows="1" :autofocus="false" v-model="inputChatMsg"
-                                    v-on:keydown="keyDownEvent" v-on:input="textInputEvent"
-                                    v-on:paste.capture.passive="pastingData"></textarea>
-                                <label for="file-upload" class="upload-button">
-                                    <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
-                                        <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
-                                    </svg> -->
-                                    <svg t="1720279770597" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" p-id="10853" id="mx_n_1720279770598"
-                                        width="20" height="20">
-                                        <path d="M0 0h1024v1024H0z" fill="currentColor" opacity=".01" p-id="10854"></path>
-                                        <path
-                                            d="M533.312 128a21.312 21.312 0 0 1 21.376 21.312v320h320a21.312 21.312 0 0 1 21.312 21.376v42.624a21.312 21.312 0 0 1-21.312 21.376h-320v320a21.312 21.312 0 0 1-21.376 21.312h-42.624a21.312 21.312 0 0 1-21.376-21.312v-320h-320A21.312 21.312 0 0 1 128 533.312v-42.624a21.312 21.312 0 0 1 21.312-21.376h320v-320A21.312 21.312 0 0 1 490.688 128h42.624z"
-                                            fill="currentColor" fill-opacity=".7" p-id="10855"></path>
-                                    </svg>
-                                    <input type="file" id="file-upload" ref="file-upload-ref" accept="*"
-                                        @change="uploadDataFileEvent($event)" style="display: none;">
-                                </label>
-                            </div>
-                            <div class="button-container">
-                                <button type="button" class="send-button" @keydown.enter="handleMsg" @click="handleMsg"
-                                    :disabled="statusDisabled">
-                                    <span class="glyphicon glyphicon-send"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-lg-3"></div>
+            <span>AI智能助手</span>
+            <div @click="openMsg">
+                <span class="gplus-icon">
+                    <svg t="1723618948778" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        p-id="28131" width="24" height="24" class="icon">
+                        <path data-v-00771e96=""
+                            d="M512.001 928.997c230.524 0 418.076-187.552 418.075-418.077 0-230.527-187.552-418.077-418.075-418.077s-418.077 187.55-418.077 418.077c0 230.525 187.552 418.077 418.077 418.077zM512 301.88c28.86 0 52.26 23.399 52.26 52.263 0 28.858-23.399 52.257-52.26 52.257s-52.26-23.399-52.26-52.257c0-28.863 23.399-52.263 52.26-52.263zM459.74 510.922c0-28.86 23.399-52.26 52.26-52.26s52.26 23.399 52.26 52.26l0 156.775c0 28.86-23.399 52.26-52.26 52.26s-52.26-23.399-52.26-52.26l0-156.775z"
+                            fill="currentColor" p-id="28132"></path>
+                    </svg>
+                </span>
             </div>
         </div>
-        <div class="menu-drawer" :class="{ open: menuOpen }">
-            <div class="menu-drawer-header">
-                <div class="menu-btn" @click="toggleMenu">
+        <div class="chat-main-content" v-if="mobileChatdisplay">
+            <div class="bigChatBox" id="bigChatBox" :style="{ height: chatBoxHeight + 'px' }">
+                <div v-for="(item, index) in msgList" v-bind:key="index" class="listChatMsg">
+                    <div v-show="item.time" class="chat_date_time">{{ getChatDateTime(item.time) }}</div>
+                    <span class="listChatItemR" v-if="item && item.align == 'right'">
+                        <span class="listChatItemContent">
+                            <div class="chat_extra_data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
+                                <span v-html="item.mediaDiv"></span>
+                            </div>
+                            <span v-text="item.text"></span>
+                        </span>
+                        <span>
+                            <img class="chatUserIcon" v-lazy="'/imgs/mai.png'" alt="麦壳" />
+                        </span>
+                    </span>
+                    <span class="listChatItemL" v-if="item && item.align == 'left'">
+                        <span><img class="chatUserIcon" v-lazy="'/imgs/logo.png'" alt="极客普拉斯" />
+                        </span>
+                        <span class="listChatItemContent" v-if="item">
+                            <span v-html="renderMdHtml(item.text)"></span>
+                            <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
+                            <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="chatBoxFooter">
+                <!-- <div class="chatBoxFooterBtn">
+                    <span class="chat_btn_left">
+                        <a class="btn btn-default" href="#" role="button" @click="startAndStopRecording">{{recordingTxt}}
+                        </a>
+                    </span>
+                    <textarea placeholder="请输入聊天内容" v-model="inputChatMsg" id="inputContentText" class="form-control onlyoneline" 
+                    :disabled="statusDisabled" :autofocus="false" rows="1" @keydown="keyDownEvent" @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
+                    <span class="chat_btn_right">
+                        <a class="btn btn-default" href="#" role="button" @click="handleMsg">发送
+                        </a>
+                    </span>
+                </div> -->
+                <div class="input-container">
+                    <div class="button-container">
+                        <button type="button" class="send-button" @click="startAndStopRecording">
+                            {{ recordingTxt }}
+                        </button>
+                    </div>
+                    <div class="textarea-container">
+                        <textarea placeholder="请输入消息..." class="plus-text-input onlyoneline" id="inputContentText"
+                            name="inputChatMsg" autocomplete="off" rows="1" v-model="inputChatMsg" :autofocus="false"
+                            @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
+                        <label for="file-upload" class="upload-button">
+                            <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
+                                <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
+                            </svg> -->
+                            <svg t="1720279770597" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" p-id="10853" id="mx_n_1720279770598" width="20"
+                                height="20">
+                                <path d="M0 0h1024v1024H0z" fill="currentColor" opacity=".01" p-id="10854"></path>
+                                <path
+                                    d="M533.312 128a21.312 21.312 0 0 1 21.376 21.312v320h320a21.312 21.312 0 0 1 21.312 21.376v42.624a21.312 21.312 0 0 1-21.312 21.376h-320v320a21.312 21.312 0 0 1-21.376 21.312h-42.624a21.312 21.312 0 0 1-21.376-21.312v-320h-320A21.312 21.312 0 0 1 128 533.312v-42.624a21.312 21.312 0 0 1 21.312-21.376h320v-320A21.312 21.312 0 0 1 490.688 128h42.624z"
+                                    fill="currentColor" fill-opacity=".7" p-id="10855"></path>
+                            </svg>
+                            <input type="file" id="file-upload" ref="file-upload-ref" accept="*"
+                                @change="uploadDataFileEvent($event)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" class="send-button" @click="handleMsg" :disabled="statusDisabled">
+                            发送
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <!-- <div class="chatBoxHeader">
+                <div @click="toggleMenu">
                     <span class="gplus-icon">
-                        <svg t="1723619078616" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="29225" width="24" height="24" class="icon"><path data-v-00771e96="" d="M382.083 103.466c-63.464-1.533-127.026-1.561-190.487 0.056-53.88 1.372-85.947 33.283-87.526 87.481-1.798 61.735-1.627 123.592-0.105 185.34 1.405 57.042 33.666 88.862 89.987 91.055 30.847 1.2 61.778 0.214 92.673 0.214v0.084c29.177 0 58.354 0.006 87.532-0.01 3.43 0 6.875 0.043 10.292-0.216 48.928-3.716 81.464-31.602 83.804-80.677 3.181-66.767 3.15-133.886 0.34-200.68-2.194-52.18-34.273-81.385-86.51-82.647z m0.727 223.135c-1.853 39.629-13.76 53.399-51.558 55.395-30.725 1.622-61.703 1.765-92.399-0.15-32.22-2.01-46.292-15.941-48.33-48.552-2.025-32.392-2.108-65.126 0.084-97.498 2.219-32.758 16.121-45.288 49.214-46.935 29.033-1.446 58.217-1.13 87.29-0.204 42.456 1.353 53.884 13.188 55.727 55.78 0.592 13.67 0.092 27.387 0.092 41.083-0.02 13.695 0.518 27.415-0.12 41.081zM468.883 657.431c-4.914-60.1-41.873-98.957-102.147-102.763-52.991-3.346-106.533-3.413-159.516-0.013-61.945 3.977-100.908 45.842-103.178 107.37-1.834 49.716-1.806 99.605 0 149.324 2.232 61.528 42.13 104.63 102.68 108.128 53.034 3.063 106.506 2.894 159.565 0.06 58.998-3.15 97.39-42.913 102.53-102.565 2.2-25.551 0.367-51.451 0.367-77.191l0.08-0.001c0-27.46 1.85-55.071-0.381-82.349zM382.676 782.81c-2.191 34.758-12.473 47.623-45.629 49.797-34.02 2.23-68.343 1.291-102.466-0.024-25.612-0.987-42.22-15.758-43.434-41.638-1.677-35.784-2.509-71.85 0.088-107.519 2.16-29.666 15.98-40.487 47.82-41.924 30.705-1.386 61.557-1.324 92.274-0.118 37.12 1.456 48.88 13.204 51.308 49.153 1.033 15.313 0.173 30.753 0.173 46.135 0.027 15.382 0.832 30.817-0.134 46.138zM638.575 466.817c66.85 2.183 133.883 2.232 200.728-0.029 48.107-1.626 78.502-34.315 80.95-82.898 1.64-32.522 0.314-65.193 0.314-97.798h0.18c0-29.173 0.002-58.345-0.006-87.518 0-3.433 0.093-6.874-0.12-10.295-3.237-51.777-32.66-83.203-84.46-84.65-65.155-1.824-130.44-1.78-195.6 0.026-49.255 1.363-81.717 31.976-83.38 80.049-2.312 66.843-2.187 133.87-0.181 200.732 1.448 48.3 33.485 80.811 81.575 82.38zM741.2 188.405c93.184 0.015 94.452 1.293 94.464 95.22 0.013 96.831-1.987 98.873-96.789 98.868-94.393-0.003-95.62-3.049-97.83-98.688-2.4-103.803 20.564-97.124 100.155-95.4zM920.572 648.267c-1.48-60.79-30.968-91.401-92.039-94.662-29.17-1.558-58.49-0.269-87.743-0.269v0.082c-30.974 0-61.945-0.023-92.918 0.034-3.43 0.005-6.883 0.302-10.287 0.754-49.282 6.534-79.299 35.872-80.674 84.647a3477.609 3477.609 0 0 0 0.02 196.134c1.362 48.254 32.605 80.758 80.595 84.46 35.921 2.77 72.291 2.164 108.32 0.313 28.821-1.48 47.916-22.114 46.583-45.146-1.247-21.556-18.569-37.536-46.166-40.082-18.794-1.733-37.942 0.3-56.714-1.548-33.033-3.254-45.768-15.985-47.505-49.427a897.595 897.595 0 0 1 0.012-92.884c1.76-33.962 14.537-47.378 47.042-49.022 32.61-1.65 65.425-1.604 98.043-0.06 33.31 1.575 45.544 14.444 48.07 47.957 1.42 18.832-0.68 37.952 1.06 56.734 2.577 27.82 18.189 42.528 42.153 42.564 24.261 0.037 40.096-14.295 41.679-42.527 1.828-32.595 1.266-65.38 0.47-98.052z" p-id="29226" fill="currentColor"></path></svg>
+                        <svg t="1723616704150" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6277" width="24" height="24" class="icon"><path data-v-00771e96="" d="M844.8 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 864 864 883.2 844.8 883.2zM844.8 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 460.8 864 480 844.8 480zM435.2 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 864 460.8 883.2 435.2 883.2zM435.2 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 460.8 460.8 480 435.2 480z" fill="currentColor" p-id="6278"></path></svg>
+                    </span>
+                </div>
+                <span>AI聊天助手</span>
+                <div @click="openMsg">
+                    <span class="gplus-icon">
+                        <svg t="1723618948778" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="28131" width="24" height="24" class="icon"><path data-v-00771e96="" d="M512.001 928.997c230.524 0 418.076-187.552 418.075-418.077 0-230.527-187.552-418.077-418.075-418.077s-418.077 187.55-418.077 418.077c0 230.525 187.552 418.077 418.077 418.077zM512 301.88c28.86 0 52.26 23.399 52.26 52.263 0 28.858-23.399 52.257-52.26 52.257s-52.26-23.399-52.26-52.257c0-28.863 23.399-52.263 52.26-52.263zM459.74 510.922c0-28.86 23.399-52.26 52.26-52.26s52.26 23.399 52.26 52.26l0 156.775c0 28.86-23.399 52.26-52.26 52.26s-52.26-23.399-52.26-52.26l0-156.775z" fill="currentColor" p-id="28132"></path></svg>
+                    </span>
+                </div>
+            </div> -->
+            <!--事件的native修饰符只能在UI组件或自定义组件上使用，原生的html标签是不能使用的,入div，input等-->
+            <!-- <button type="button" class="btn btn-info" @click="visibleDialog" v-show="chatBtnPcDisplay">打开ChatGpt聊天框</button> -->
+            <div class="container-fluid">
+                <div class="row row-no-gutters">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
+                        <div class="bigChatBox" id="bigChatBox-desktop" :style="{ height: chatBoxHeight + 'px' }">
+                            <!-- :style="{textAlign: item.align}" -->
+                            <div v-for="(item, index) in msgList" :key="index" class="listChatMsg">
+                                <div v-show="item.time" class="chat_date_time">{{ getChatDateTime(item.time) }}</div>
+                                <span class="listChatItemR" v-if="item && item.align == 'right'">
+                                    <span class="pcChatTextSpan">
+                                        <div class="chat_extra_data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
+                                            <span v-html="item.mediaDiv"></span>
+                                            <!-- <object :data="item.extraData" style="width: 95%;" height="100%">
+                                                <embed :src="item.extraData" style="width: 100%;" >
+                                                <audio controls height="50" width="100%" :data="item.extraData">
+                                                </audio>
+                                                <video controls height="50" width="100%" :data="item.extraData">
+                                                    <source :src="item.extraData" type="audio/mpeg">
+                                                    <source :src="item.extraData" type="audio/ogg">
+                                                    <source :src="item.extraData" type="video/mp4">
+                                                    <source :src="item.extraData" type="video/ogg">
+                                                </video>
+                                                <a :href="item.extraData" target="_blank">查看</a>
+                                            </object> -->
+                                        </div>
+                                        <span v-text="item.text"></span>
+                                    </span>
+                                    <img class="chatUserIcon" src="/imgs/mai.png" alt="麦壳" />
+                                </span>
+                                <span class="listChatItemL" v-if="item && item.align == 'left'">
+                                    <img class="chatUserIcon" src="/imgs/logo.png" alt="极客普拉斯" />
+                                    <span class="pcChatTextSpan" v-if="item && item.link == ''">
+                                        <span v-html="renderMdHtml(item.text)"></span>
+                                        <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
+                                        <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="chatBoxFooter">
+                            <!-- <div class="input-group search-input-group">
+                                <textarea id="inputContentText" name="inputChatMsg" autocomplete="off" :autofocus="false" v-model="inputChatMsg" :disabled="statusDisabled" class="form-control onlyoneline" 
+                                  placeholder="请输入聊天内容" rows="1" v-on:keydown="keyDownEvent" v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
+                                <span class="input-group-addon">
+                                    <button type="button" @keydown.enter="handleMsg" @click="handleMsg" :disabled="statusDisabled">
+                                        <span class="glyphicon glyphicon-send"></span>
+                                    </button>
+                                </span>
+                            </div> -->
+                            <div class="input-container">
+                                <div class="textarea-container">
+                                    <textarea placeholder="请输入消息..." class="plus-text-input onlyoneline"
+                                        id="inputContentText" name="inputChatMsg" autocomplete="off" rows="1"
+                                        :autofocus="false" v-model="inputChatMsg" v-on:keydown="keyDownEvent"
+                                        v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
+                                    <label for="file-upload" class="upload-button">
+                                        <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
+                                            <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
+                                        </svg> -->
+                                        <svg t="1720279770597" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg" p-id="10853" id="mx_n_1720279770598"
+                                            width="20" height="20">
+                                            <path d="M0 0h1024v1024H0z" fill="currentColor" opacity=".01" p-id="10854">
+                                            </path>
+                                            <path
+                                                d="M533.312 128a21.312 21.312 0 0 1 21.376 21.312v320h320a21.312 21.312 0 0 1 21.312 21.376v42.624a21.312 21.312 0 0 1-21.312 21.376h-320v320a21.312 21.312 0 0 1-21.376 21.312h-42.624a21.312 21.312 0 0 1-21.376-21.312v-320h-320A21.312 21.312 0 0 1 128 533.312v-42.624a21.312 21.312 0 0 1 21.312-21.376h320v-320A21.312 21.312 0 0 1 490.688 128h42.624z"
+                                                fill="currentColor" fill-opacity=".7" p-id="10855"></path>
+                                        </svg>
+                                        <input type="file" id="file-upload" ref="file-upload-ref" accept="*"
+                                            @change="uploadDataFileEvent($event)" style="display: none;">
+                                    </label>
+                                </div>
+                                <div class="button-container">
+                                    <button type="button" class="send-button" @keydown.enter="handleMsg"
+                                        @click="handleMsg" :disabled="statusDisabled">
+                                        <span class="glyphicon glyphicon-send"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="my-plus-drawer" class="plus-drawer">
+            <div class="menu-drawer-header">
+                <div class="menu-btn plus-drawer-toggle" data-target="#my-plus-drawer" data-side="left">
+                    <span class="gplus-icon">
+                        <svg t="1723619078616" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            p-id="29225" width="24" height="24" class="icon">
+                            <path data-v-00771e96=""
+                                d="M382.083 103.466c-63.464-1.533-127.026-1.561-190.487 0.056-53.88 1.372-85.947 33.283-87.526 87.481-1.798 61.735-1.627 123.592-0.105 185.34 1.405 57.042 33.666 88.862 89.987 91.055 30.847 1.2 61.778 0.214 92.673 0.214v0.084c29.177 0 58.354 0.006 87.532-0.01 3.43 0 6.875 0.043 10.292-0.216 48.928-3.716 81.464-31.602 83.804-80.677 3.181-66.767 3.15-133.886 0.34-200.68-2.194-52.18-34.273-81.385-86.51-82.647z m0.727 223.135c-1.853 39.629-13.76 53.399-51.558 55.395-30.725 1.622-61.703 1.765-92.399-0.15-32.22-2.01-46.292-15.941-48.33-48.552-2.025-32.392-2.108-65.126 0.084-97.498 2.219-32.758 16.121-45.288 49.214-46.935 29.033-1.446 58.217-1.13 87.29-0.204 42.456 1.353 53.884 13.188 55.727 55.78 0.592 13.67 0.092 27.387 0.092 41.083-0.02 13.695 0.518 27.415-0.12 41.081zM468.883 657.431c-4.914-60.1-41.873-98.957-102.147-102.763-52.991-3.346-106.533-3.413-159.516-0.013-61.945 3.977-100.908 45.842-103.178 107.37-1.834 49.716-1.806 99.605 0 149.324 2.232 61.528 42.13 104.63 102.68 108.128 53.034 3.063 106.506 2.894 159.565 0.06 58.998-3.15 97.39-42.913 102.53-102.565 2.2-25.551 0.367-51.451 0.367-77.191l0.08-0.001c0-27.46 1.85-55.071-0.381-82.349zM382.676 782.81c-2.191 34.758-12.473 47.623-45.629 49.797-34.02 2.23-68.343 1.291-102.466-0.024-25.612-0.987-42.22-15.758-43.434-41.638-1.677-35.784-2.509-71.85 0.088-107.519 2.16-29.666 15.98-40.487 47.82-41.924 30.705-1.386 61.557-1.324 92.274-0.118 37.12 1.456 48.88 13.204 51.308 49.153 1.033 15.313 0.173 30.753 0.173 46.135 0.027 15.382 0.832 30.817-0.134 46.138zM638.575 466.817c66.85 2.183 133.883 2.232 200.728-0.029 48.107-1.626 78.502-34.315 80.95-82.898 1.64-32.522 0.314-65.193 0.314-97.798h0.18c0-29.173 0.002-58.345-0.006-87.518 0-3.433 0.093-6.874-0.12-10.295-3.237-51.777-32.66-83.203-84.46-84.65-65.155-1.824-130.44-1.78-195.6 0.026-49.255 1.363-81.717 31.976-83.38 80.049-2.312 66.843-2.187 133.87-0.181 200.732 1.448 48.3 33.485 80.811 81.575 82.38zM741.2 188.405c93.184 0.015 94.452 1.293 94.464 95.22 0.013 96.831-1.987 98.873-96.789 98.868-94.393-0.003-95.62-3.049-97.83-98.688-2.4-103.803 20.564-97.124 100.155-95.4zM920.572 648.267c-1.48-60.79-30.968-91.401-92.039-94.662-29.17-1.558-58.49-0.269-87.743-0.269v0.082c-30.974 0-61.945-0.023-92.918 0.034-3.43 0.005-6.883 0.302-10.287 0.754-49.282 6.534-79.299 35.872-80.674 84.647a3477.609 3477.609 0 0 0 0.02 196.134c1.362 48.254 32.605 80.758 80.595 84.46 35.921 2.77 72.291 2.164 108.32 0.313 28.821-1.48 47.916-22.114 46.583-45.146-1.247-21.556-18.569-37.536-46.166-40.082-18.794-1.733-37.942 0.3-56.714-1.548-33.033-3.254-45.768-15.985-47.505-49.427a897.595 897.595 0 0 1 0.012-92.884c1.76-33.962 14.537-47.378 47.042-49.022 32.61-1.65 65.425-1.604 98.043-0.06 33.31 1.575 45.544 14.444 48.07 47.957 1.42 18.832-0.68 37.952 1.06 56.734 2.577 27.82 18.189 42.528 42.153 42.564 24.261 0.037 40.096-14.295 41.679-42.527 1.828-32.595 1.266-65.38 0.47-98.052z"
+                                p-id="29226" fill="currentColor"></path>
+                        </svg>
                     </span>
                 </div>
                 <div class="menu-btn">
                     <a href="javascript:;">
                         <span class="gplus-icon">
-                            <svg t="1723621240837" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="82245" width="24" height="24" class="icon"><path data-v-00771e96="" d="M512 0C229.248 0 0 229.248 0 512c0 282.816 229.248 512 512 512s512-229.184 512-512C1024 229.248 794.752 0 512 0zM512 960c-247.36 0-448-200.512-448-448 0-247.424 200.64-448 448-448s448 200.576 448 448C960 759.488 759.36 960 512 960z" p-id="82246" fill="currentColor"></path><path data-v-00771e96="" d="M645.632 544.96c60.224-41.792 99.904-111.232 99.904-189.824 0-127.424-103.68-231.04-231.104-231.04s-231.104 103.616-231.104 231.04c0 78.656 39.616 148.032 99.904 189.824-126.656 51.968-216.192 176.384-216.192 321.408 0 18.624 15.04 33.6 33.6 33.6 18.496 0 33.536-14.976 33.536-33.6 0-154.432 125.696-280.128 280.256-280.128s280.256 125.696 280.256 280.128c0 18.624 15.04 33.6 33.536 33.6 18.56 0 33.536-14.976 33.536-33.6C861.76 721.344 772.224 596.864 645.632 544.96zM350.528 355.072c0-90.368 73.472-163.968 163.904-163.968s163.968 73.536 163.968 163.968c0 90.432-73.536 163.904-163.968 163.904S350.528 445.504 350.528 355.072z" p-id="82247" fill="currentColor"></path></svg>
+                            <svg t="1723621240837" viewBox="0 0 1024 1024" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" p-id="82245" width="24" height="24" class="icon">
+                                <path data-v-00771e96=""
+                                    d="M512 0C229.248 0 0 229.248 0 512c0 282.816 229.248 512 512 512s512-229.184 512-512C1024 229.248 794.752 0 512 0zM512 960c-247.36 0-448-200.512-448-448 0-247.424 200.64-448 448-448s448 200.576 448 448C960 759.488 759.36 960 512 960z"
+                                    p-id="82246" fill="currentColor"></path>
+                                <path data-v-00771e96=""
+                                    d="M645.632 544.96c60.224-41.792 99.904-111.232 99.904-189.824 0-127.424-103.68-231.04-231.104-231.04s-231.104 103.616-231.104 231.04c0 78.656 39.616 148.032 99.904 189.824-126.656 51.968-216.192 176.384-216.192 321.408 0 18.624 15.04 33.6 33.6 33.6 18.496 0 33.536-14.976 33.536-33.6 0-154.432 125.696-280.128 280.256-280.128s280.256 125.696 280.256 280.128c0 18.624 15.04 33.6 33.536 33.6 18.56 0 33.536-14.976 33.536-33.6C861.76 721.344 772.224 596.864 645.632 544.96zM350.528 355.072c0-90.368 73.472-163.968 163.904-163.968s163.968 73.536 163.968 163.968c0 90.432-73.536 163.904-163.968 163.904S350.528 445.504 350.528 355.072z"
+                                    p-id="82247" fill="currentColor"></path>
+                            </svg>
                         </span>
                     </a>
                 </div>
                 <div class="menu-btn">
                     <a href="/" target="_blank">
                         <span class="gplus-icon">
-                            <svg t="1723621020266" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="76353" width="24" height="24" class="icon"><path data-v-00771e96="" d="M824 405.4L530.7 192.7c-1-0.7-2.1-0.9-3.2-1.4l-0.4-0.2c-3-1.7-6.3-2.8-9.7-3.4-1.7-0.3-3.4-0.2-5.2-0.2-1.7 0-3.4-0.1-5.2 0.2-3.4 0.6-6.8 1.8-9.8 3.5l-0.2 0.1c-1.1 0.6-2.2 0.8-3.2 1.5L200.6 405.4c-13.8 9.4-17.3 28-7.7 41.5 9.5 13.6 28.5 16.9 42.3 7.6l1.2-0.9 12.5-9.1v229.7c0 38.4 31.9 69.6 70.9 69.6h152v-13.3h0.3c0-0.6-0.3-1-0.3-1.6V609.6c0-22 18.1-39.8 40.5-39.8s40.5 17.8 40.5 39.8v119.3c0 0.6-0.3 1-0.3 1.6h0.3v13.3h152c39.1 0 70.9-31.2 70.9-69.6V444.6l12.4 9c13.6 9.7 32.6 6.8 42.5-6.5s7-32-6.6-41.7zM715 674.2c0 5.5-4.5 9.9-10.1 9.9h-91.2v-74.6c0-54.9-45.4-99.4-101.3-99.4S411 554.7 411 609.6v74.6h-91.2c-5.6 0-10.1-4.5-10.1-9.9V400.5l202.7-146.9 202.7 147-0.1 273.6z" fill="currentColor" p-id="76354"></path><path data-v-00771e96="" d="M511 1022C228.8 1022 0 793.2 0 511S228.8 0 511 0s511 228.8 511 511-228.8 511-511 511z m0-92.9c230.9 0 418.1-187.2 418.1-418.1S741.9 92.9 511 92.9 92.9 280.1 92.9 511 280.1 929.1 511 929.1z" fill="currentColor" p-id="76355"></path></svg>
+                            <svg t="1723621020266" viewBox="0 0 1024 1024" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" p-id="76353" width="24" height="24" class="icon">
+                                <path data-v-00771e96=""
+                                    d="M824 405.4L530.7 192.7c-1-0.7-2.1-0.9-3.2-1.4l-0.4-0.2c-3-1.7-6.3-2.8-9.7-3.4-1.7-0.3-3.4-0.2-5.2-0.2-1.7 0-3.4-0.1-5.2 0.2-3.4 0.6-6.8 1.8-9.8 3.5l-0.2 0.1c-1.1 0.6-2.2 0.8-3.2 1.5L200.6 405.4c-13.8 9.4-17.3 28-7.7 41.5 9.5 13.6 28.5 16.9 42.3 7.6l1.2-0.9 12.5-9.1v229.7c0 38.4 31.9 69.6 70.9 69.6h152v-13.3h0.3c0-0.6-0.3-1-0.3-1.6V609.6c0-22 18.1-39.8 40.5-39.8s40.5 17.8 40.5 39.8v119.3c0 0.6-0.3 1-0.3 1.6h0.3v13.3h152c39.1 0 70.9-31.2 70.9-69.6V444.6l12.4 9c13.6 9.7 32.6 6.8 42.5-6.5s7-32-6.6-41.7zM715 674.2c0 5.5-4.5 9.9-10.1 9.9h-91.2v-74.6c0-54.9-45.4-99.4-101.3-99.4S411 554.7 411 609.6v74.6h-91.2c-5.6 0-10.1-4.5-10.1-9.9V400.5l202.7-146.9 202.7 147-0.1 273.6z"
+                                    fill="currentColor" p-id="76354"></path>
+                                <path data-v-00771e96=""
+                                    d="M511 1022C228.8 1022 0 793.2 0 511S228.8 0 511 0s511 228.8 511 511-228.8 511-511 511z m0-92.9c230.9 0 418.1-187.2 418.1-418.1S741.9 92.9 511 92.9 92.9 280.1 92.9 511 280.1 929.1 511 929.1z"
+                                    fill="currentColor" p-id="76355"></path>
+                            </svg>
                         </span>
                     </a>
                 </div>
@@ -222,15 +246,28 @@
                         历史消息：
                         <a href="javascript:;" @click="getAllHistoryChatMsg(chatDataPrompt.username)">
                             <span class="gplus-icon">
-                                <svg t="1723963058338" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4576" width="20" height="20"><path d="M710.4 249.6l76.8-76.8c2.133333-2.133333 4.266667-4.266667 6.4-2.133333 2.133333 0 2.133333 4.266667 2.133333 6.4v204.8c0 4.266667-2.133333 8.533333-4.266666 10.666666s-6.4 4.266667-10.666667 4.266667h-204.8c-4.266667 0-6.4 0-6.4-2.133333s0-4.266667 2.133333-6.4l76.8-76.8c-42.666667-27.733333-87.466667-42.666667-136.533333-42.666667-44.8 0-85.333333 10.666667-121.6 32s-66.133333 51.2-87.466667 87.466667-32 78.933333-32 121.6h-85.333333c0-44.8 8.533333-87.466667 25.6-128 17.066667-40.533333 40.533333-74.666667 70.4-104.533334s64-53.333333 104.533333-70.4c40.533333-17.066667 83.2-25.6 128-25.6 70.4 2.133333 136.533333 25.6 196.266667 68.266667z m44.8 262.4h85.333333c0 44.8-8.533333 87.466667-25.6 128-17.066667 40.533333-40.533333 74.666667-70.4 104.533333-29.866667 29.866667-64 53.333333-104.533333 70.4-40.533333 17.066667-83.2 25.6-128 25.6-72.533333 0-138.666667-21.333333-198.4-66.133333l-76.8 76.8c-2.133333 2.133333-4.266667 4.266667-6.4 2.133333-2.133333 0-2.133333-4.266667-2.133333-6.4V642.133333c0-4.266667 2.133333-8.533333 4.266666-10.666666 2.133333-2.133333 6.4-4.266667 10.666667-4.266667h204.8c4.266667 0 6.4 0 6.4 2.133333s0 4.266667-2.133333 6.4l-74.666667 74.666667c42.666667 29.866667 87.466667 42.666667 136.533333 42.666667 44.8 0 85.333333-10.666667 121.6-32 38.4-21.333333 66.133333-51.2 87.466667-87.466667s32-76.8 32-121.6z" p-id="4577" fill="currentColor"></path></svg>
+                                <svg t="1723963058338" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" p-id="4576" width="20" height="20">
+                                    <path
+                                        d="M710.4 249.6l76.8-76.8c2.133333-2.133333 4.266667-4.266667 6.4-2.133333 2.133333 0 2.133333 4.266667 2.133333 6.4v204.8c0 4.266667-2.133333 8.533333-4.266666 10.666666s-6.4 4.266667-10.666667 4.266667h-204.8c-4.266667 0-6.4 0-6.4-2.133333s0-4.266667 2.133333-6.4l76.8-76.8c-42.666667-27.733333-87.466667-42.666667-136.533333-42.666667-44.8 0-85.333333 10.666667-121.6 32s-66.133333 51.2-87.466667 87.466667-32 78.933333-32 121.6h-85.333333c0-44.8 8.533333-87.466667 25.6-128 17.066667-40.533333 40.533333-74.666667 70.4-104.533334s64-53.333333 104.533333-70.4c40.533333-17.066667 83.2-25.6 128-25.6 70.4 2.133333 136.533333 25.6 196.266667 68.266667z m44.8 262.4h85.333333c0 44.8-8.533333 87.466667-25.6 128-17.066667 40.533333-40.533333 74.666667-70.4 104.533333-29.866667 29.866667-64 53.333333-104.533333 70.4-40.533333 17.066667-83.2 25.6-128 25.6-72.533333 0-138.666667-21.333333-198.4-66.133333l-76.8 76.8c-2.133333 2.133333-4.266667 4.266667-6.4 2.133333-2.133333 0-2.133333-4.266667-2.133333-6.4V642.133333c0-4.266667 2.133333-8.533333 4.266666-10.666666 2.133333-2.133333 6.4-4.266667 10.666667-4.266667h204.8c4.266667 0 6.4 0 6.4 2.133333s0 4.266667-2.133333 6.4l-74.666667 74.666667c42.666667 29.866667 87.466667 42.666667 136.533333 42.666667 44.8 0 85.333333-10.666667 121.6-32 38.4-21.333333 66.133333-51.2 87.466667-87.466667s32-76.8 32-121.6z"
+                                        p-id="4577" fill="currentColor"></path>
+                                </svg>
                             </span>
                         </a>
                     </div>
                     <div class="history-msg-list-container">
                         <div class="history-msg-list-item" v-for="(item, index) in historyChatMsgList" :key="index">
-                            <span class="ellipsis" @click="getOneHistoryChatMsg(item.historyMsgKey)">{{JSON.parse(item.historyMsg).text.substring(0, 45)}}</span>
-                            <span class="history-msg-list-item-close" @click="deleteOneHistoryChatMsg(item.historyMsgKey)">
-                                <svg t="1723863901472" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5956" width="20" height="20"><path d="M572.16 512l183.466667-183.04a42.666667 42.666667 0 1 0-60.586667-60.586667L512 451.84l-183.04-183.466667a42.666667 42.666667 0 0 0-60.586667 60.586667l183.466667 183.04-183.466667 183.04a42.666667 42.666667 0 0 0 0 60.586667 42.666667 42.666667 0 0 0 60.586667 0l183.04-183.466667 183.04 183.466667a42.666667 42.666667 0 0 0 60.586667 0 42.666667 42.666667 0 0 0 0-60.586667z" fill="currentColor" p-id="5957"></path></svg>
+                            <span class="ellipsis" @click="getOneHistoryChatMsg(item.historyMsgKey)">
+                                {{ JSON.parse(item.historyMsg).text.substring(0,45) }}
+                            </span>
+                            <span class="history-msg-list-item-close"
+                                @click="deleteOneHistoryChatMsg(item.historyMsgKey)">
+                                <svg t="1723863901472" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" p-id="5956" width="20" height="20">
+                                    <path
+                                        d="M572.16 512l183.466667-183.04a42.666667 42.666667 0 1 0-60.586667-60.586667L512 451.84l-183.04-183.466667a42.666667 42.666667 0 0 0-60.586667 60.586667l183.466667 183.04-183.466667 183.04a42.666667 42.666667 0 0 0 0 60.586667 42.666667 42.666667 0 0 0 60.586667 0l183.04-183.466667 183.04 183.466667a42.666667 42.666667 0 0 0 60.586667 0 42.666667 42.666667 0 0 0 0-60.586667z"
+                                        fill="currentColor" p-id="5957"></path>
+                                </svg>
                             </span>
                         </div>
                     </div>
@@ -243,7 +280,7 @@
                     </label>
                 </div>
                 <div class="menu-tool">
-                     语音模式：
+                    语音模式：
                     <label class="switch">
                         <input type="checkbox" :checked="isTextVoice" @change="setTextVoice" />
                         <span class="slider"></span>
@@ -258,6 +295,8 @@
                 </div>
             </div>
         </div>
+        <!-- 另一种抽屉滑动菜单，使用toggleMenu方法滑出显示menu-drawer，outSideCloseMenu方法点击菜单以外任意地方隐藏menu-drawer -->
+        <!-- <div class="menu-drawer" :class="{ open: menuOpen }"></div> -->
         <!-- <el-dialog :visible.sync="visible" title="对话框"></el-dialog> -->
         <!-- <div class="plus-dialog-overlay"></div> -->
         <div class="modal fade" id="chatDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -296,6 +335,7 @@ import PlusCropper from "@/utils/PlusCropper.js"
 import { isMobile, isPC, isIOS, isAndroid, browser } from '@/utils/PlusDeviceOS.js'
 import PlusDialog from '@/utils/PlusDialog.js'
 import PlusToast from '@/utils/PlusToast.js'
+import PlusDrawer from '@/utils/plus-drawer.js'
 //import { marked } from 'marked';//9.1.6
 const marked = require('marked'); //9.1.6
 import { testProcess, getchatgpt, chatgpttest, geminiAI, geminiAIChat, getHistoryMessage, getAllHistoryMessage, getOneHistoryMessage, deleteOneHistoryMessage, getTTSChinese } from "@/api/chatbot/chatbot"
@@ -362,20 +402,20 @@ export default {
     },
     created() {
         var localUsername = localStorage.getItem("username")
-        if(localUsername){
+        if (localUsername) {
             this.chatDataPrompt.username = localUsername;
         }
         this.getHistoryMag(this.chatDataPrompt.username);
         this.getAllHistoryChatMsg(this.chatDataPrompt.username);
         localStorage.setItem("username", this.chatDataPrompt.username);
-        let themeMode=this.getLocalStore("theme-mode");//||"light"
-        if(themeMode){
-            this.lightTheme=themeMode=='light';
-        }else{
-            if(this.isLightDay()){
-            this.lightTheme=true;
-            }else{
-            this.lightTheme=false;
+        let themeMode = this.getLocalStore("theme-mode");//||"light"
+        if (themeMode) {
+            this.lightTheme = themeMode == 'light';
+        } else {
+            if (this.isLightDay()) {
+                this.lightTheme = true;
+            } else {
+                this.lightTheme = false;
             }
         }
         this.beforeLoadedDocument();
@@ -383,10 +423,12 @@ export default {
     mounted() {
         // 创建一个新的可拖动组件
         const myComponent = new DraggableComponent({
-        initialPosition: "right", // 初始位置为右边
-        buoyContent: '<svg t="1722832996386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12854" width="25" height="25"><path d="M682.666667 384 682.666667 298.666667 512 298.666667 512 533.333333C494.08 520.106667 472.32 512 448 512 389.12 512 341.333333 559.786667 341.333333 618.666667 341.333333 677.546667 389.12 725.333333 448 725.333333 506.88 725.333333 554.666667 677.546667 554.666667 618.666667L554.666667 384 682.666667 384M512 85.333333C747.52 85.333333 938.666667 276.48 938.666667 512 938.666667 747.52 747.52 938.666667 512 938.666667 276.48 938.666667 85.333333 747.52 85.333333 512 85.333333 276.48 276.48 85.333333 512 85.333333Z" p-id="12855" fill="#fcfcfc"></path></svg>', // 设置箭头内容为 Font Awesome 图标
-        //content: "<h1>Hello, world!</h1>", // 设置组件内容
+            initialPosition: "right", // 初始位置为右边
+            buoyContent: '<svg t="1722832996386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12854" width="25" height="25"><path d="M682.666667 384 682.666667 298.666667 512 298.666667 512 533.333333C494.08 520.106667 472.32 512 448 512 389.12 512 341.333333 559.786667 341.333333 618.666667 341.333333 677.546667 389.12 725.333333 448 725.333333 506.88 725.333333 554.666667 677.546667 554.666667 618.666667L554.666667 384 682.666667 384M512 85.333333C747.52 85.333333 938.666667 276.48 938.666667 512 938.666667 747.52 747.52 938.666667 512 938.666667 276.48 938.666667 85.333333 747.52 85.333333 512 85.333333 276.48 276.48 85.333333 512 85.333333Z" p-id="12855" fill="#fcfcfc"></path></svg>', // 设置箭头内容为 Font Awesome 图标
+            //content: "<h1>Hello, world!</h1>", // 设置组件内容
         });
+        //调用滑出抽屉菜单，closeButton: false不使用默认的关闭按钮
+        PlusDrawer.init({ closeButton: false });
         const that = this;
         that.textAreaInput = document.querySelector("#inputContentText");
         that.textInputHeight = this.textAreaInput.offsetHeight;
@@ -398,7 +440,7 @@ export default {
             //e.target.innerHeight 和 window.innerHeight会随着我拖拽窗口而变化，这里计算文档与窗口的交集，而不是真的世纪文档的高度
             window.fullHeight = document.documentElement.clientHeight || document.body.clientHeight;// 高
             window.fullWidth = document.documentElement.clientWidth || document.body.clientWidth;// 宽
-            that.windowHeight  = window.fullHeight; 
+            that.windowHeight = window.fullHeight;
             that.windowWidth = window.fullWidth;
             // if (e.target.innerWidth < 992) {
             //     //that.chatBtnPcDisplay = false;
@@ -411,13 +453,13 @@ export default {
             // }
             // 监听orientationchange事件
             // if (('onorientationchange' in window)) {
-                // if (window.orientation === 90 || window.orientation === -90) {
-                //     // 横屏模式
-                //     console.log("横评模式")
-                // } else if (window.orientation === 0 || window.orientation === 180) {
-                //     // 竖屏模式
-                //     console.log("书评模式")
-                // }
+            // if (window.orientation === 90 || window.orientation === -90) {
+            //     // 横屏模式
+            //     console.log("横评模式")
+            // } else if (window.orientation === 0 || window.orientation === 180) {
+            //     // 竖屏模式
+            //     console.log("书评模式")
+            // }
             // }
             // if ((screen.availHeight > screen.availWidth)) {
             //     console.log("竖屏了1");
@@ -425,7 +467,6 @@ export default {
             //     console.log("横屏了2");
             // }
             that.adjustLayout();
-            //document.getElementById("bigChatBox").offsetHeight = (that.windowHeight - 100) + "px";
         });
         window.onscroll = () => {
             //在IOS下document.body.scrollTop 一直为0，要用document.documentElement.scrollTop
@@ -439,19 +480,13 @@ export default {
                         document.activeElement.scrollIntoViewIfNeeded();
                     }
                 }, 300);
-            }else {
-                setTimeout(async ()=> {
+            } else {
+                setTimeout(async () => {
                     that.chatBoxHeaderTop = 0;
                 }, 0);
                 // this.smoothScrollToTop()
             }
         }
-        //最新已经被淘汰使用了，都包含在resize事件里了
-        // window.addEventListener("orientationchange", (e) => {
-        //     that.windowHeight  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;// 宽
-        //     that.windowWidth = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;//高
-        //     that.adjustLayout();
-        // });
         // 设置显示回调函数
         PlusCropper.onShow(() => {
             // console.log("Plus裁剪框已显示");
@@ -498,11 +533,11 @@ export default {
             // console.log("实时屏幕宽度：", val, this.windowWidth);
         },
         msgList(mList) {
-            if(mList.length - this.msgList.length ===2){
+            if (mList.length - this.msgList.length === 2) {
                 // console.log("消息更新");
             }
         },
-        inputChatMsg(val){
+        inputChatMsg(val) {
             this.chatDataPrompt.chatMsg = val;
         }
     },
@@ -519,7 +554,7 @@ export default {
             //     //this.chatBtnPcDisplay = true;
             //     this.mobileChatdisplay = false;
             // }
-            if(!isMobile()){
+            if (!isMobile()) {
                 this.mobileChatdisplay = false;
             }
             //document.getElementById("bigChatBox").offsetHeight = (this.windowHeight - 100) + "px";
@@ -654,39 +689,39 @@ export default {
                 }).catch(function (error) {
                     // console.log(error);
                     PlusToast.error(error);
-            });
+                });
         },
         //获取所有聊天记录列表
-        getAllHistoryChatMsg(name){
-            getAllHistoryMessage({username: name})
-            .then(res => {
-                this.historyChatMsgList = res.data;
-            }).catch(error => {
-                PlusToast.error(error);
-            });
+        getAllHistoryChatMsg(name) {
+            getAllHistoryMessage({ username: name })
+                .then(res => {
+                    this.historyChatMsgList = res.data;
+                }).catch(error => {
+                    PlusToast.error(error);
+                });
         },
         //根据keyValue获取其中一条聊天消息
-        getOneHistoryChatMsg(keyValue){
-            getOneHistoryMessage({historyMsgKey: keyValue})
-            .then(res => {
-                this.msgList = [];
-                this.historyListToMsgList(res.data);
-            }).catch(error => {
-                PlusToast.error(error);
-            })
+        getOneHistoryChatMsg(keyValue) {
+            getOneHistoryMessage({ historyMsgKey: keyValue })
+                .then(res => {
+                    this.msgList = [];
+                    this.historyListToMsgList(res.data);
+                }).catch(error => {
+                    PlusToast.error(error);
+                })
         },
         // 根据keyValue删除一条聊天记录
-        deleteOneHistoryChatMsg(keyValue){
-            deleteOneHistoryMessage({historyMsgKey: keyValue})
-            .then(res => {
-                PlusToast.success(res.msg);
-                this.historyChatMsgList = this.removeArrayOneByKey(this.historyChatMsgList, "historyMsgKey", keyValue);
-                if(Array.isArray(this.historyChatMsgList) && this.historyChatMsgList.length === 0){
-                    this.msgList = [];
-                }
-            }).catch(error => {
-                PlusToast.error(error);
-            })
+        deleteOneHistoryChatMsg(keyValue) {
+            deleteOneHistoryMessage({ historyMsgKey: keyValue })
+                .then(res => {
+                    PlusToast.success(res.msg);
+                    this.historyChatMsgList = this.removeArrayOneByKey(this.historyChatMsgList, "historyMsgKey", keyValue);
+                    if (Array.isArray(this.historyChatMsgList) && this.historyChatMsgList.length === 0) {
+                        this.msgList = [];
+                    }
+                }).catch(error => {
+                    PlusToast.error(error);
+                })
         },
         //发送消息和文件
         async sendWithFile() {
@@ -851,7 +886,7 @@ export default {
                 textArea.style.height = inputHeight + textAreaAddHeight + `px`;
                 //textarea.style.height = `${textarea.scrollHeight}px`;
             } else if (currentLines == 1) {
-                textArea.style.height = inputHeight+"px";
+                textArea.style.height = inputHeight + "px";
             }
             that.textInputHeightAdd = textAreaAddHeight;
             that.adjustLayout();
@@ -880,7 +915,7 @@ export default {
             // }
         },
         //重置文件数据为空，防止发送普通文本消息时携带
-        resetPromptFileData(){
+        resetPromptFileData() {
             this.chatDataPrompt.mediaData = null;
             this.chatDataPrompt.mediaMimeType = null;
             this.chatDataPrompt.mediaFileName = null;
@@ -1261,30 +1296,30 @@ export default {
                 this.menuOpen = false;
             }
         },
-        setHistoryChat(){
-            if(this.isHistory){
-                this.isHistory=false;
-            }else{
-                this.isHistory=true;
+        setHistoryChat() {
+            if (this.isHistory) {
+                this.isHistory = false;
+            } else {
+                this.isHistory = true;
             }
         },
-        setTextVoice(){
-            if(this.isTextVoice){
-                this.isTextVoice=false;
-            }else{
-                this.isTextVoice=true;
+        setTextVoice() {
+            if (this.isTextVoice) {
+                this.isTextVoice = false;
+            } else {
+                this.isTextVoice = true;
             }
         },
-        setTheme(){
-            if(this.lightTheme){
-                this.lightTheme=false;
+        setTheme() {
+            if (this.lightTheme) {
+                this.lightTheme = false;
                 document.body.setAttribute("theme-mode", "dark");
-                this.setLocalStore("theme-mode","","dark");
+                this.setLocalStore("theme-mode", "", "dark");
                 // this.setCookieStorage("theme-mode","dark",{ expires: 17 });
-            }else{
-                this.lightTheme=true;
+            } else {
+                this.lightTheme = true;
                 document.body.setAttribute("theme-mode", "light");
-                this.setLocalStore("theme-mode","","light");
+                this.setLocalStore("theme-mode", "", "light");
                 // this.setCookieStorage("theme-mode","light",{ expires: 17 });
             }
         },
@@ -1415,15 +1450,15 @@ export default {
             // document.querySelector('.content').style.height = `calc(100vh - ${headerHeight}px - ${footerHeight}px)`;
             //this.windowHeight代表窗体高度，inputAddHeight是输入框增加的高度
             //(this.textInputHeight+14)是footer输入部分的高度，this.reduceH是固定的header高度(由于设置了顶部headerposition:fixed固定，所以不需要再减了)
-            this.chatBoxHeight = this.windowHeight - inputAddHeight - (this.textInputHeight+14);
+            this.chatBoxHeight = this.windowHeight - inputAddHeight - (this.textInputHeight + 14);
         },
-        domObserverEvent(targetNode){
+        domObserverEvent(targetNode) {
             // 选择目标节点
             //const targetNode = document.getElementById('my-div');
-            
+
             // 创建一个观察者对象
-            const observer = new MutationObserver(function(mutationsList, observer) {
-                for(let mutation of mutationsList) {
+            const observer = new MutationObserver(function (mutationsList, observer) {
+                for (let mutation of mutationsList) {
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach(node => {
                             // console.log('新创建的节点: ', node);
@@ -1434,10 +1469,10 @@ export default {
                     }
                 }
             });
-            
+
             // 观察者的配置（观察目标节点的子节点的变化）
             const config = { attributes: false, childList: true, subtree: false };
-            
+
             // 传入目标节点和观察选项并开始观察
             observer.observe(targetNode, config);
         },
@@ -1445,73 +1480,73 @@ export default {
         smoothScrollToTop(element, duration, topPosition = null) {
             // 获取当前的top值
             const startPosition = element.scrollTop;
-            if(!topPosition){
+            if (!topPosition) {
                 //不存在具体滚动的位置，默认滚动到元素顶部
                 topPosition = -startPosition;
             }
             const startTime = performance.now();
-        
+
             const easeInOutQuad = (t, b, c, d) => {
                 t /= d / 2;
                 if (t < 1) return c / 2 * t * t + b;
                 t--;
                 return -c / 2 * (t * (t - 2) - 1) + b;
             };
-        
+
             const animateScroll = () => {
                 const currentTime = performance.now();
                 const time = Math.min(currentTime - startTime, duration);
                 const newTop = easeInOutQuad(time, startPosition, topPosition, duration);
-        
+
                 element.scrollTop = newTop;
-        
+
                 if (time < duration) {
                     window.requestAnimationFrame(animateScroll);
                 }
             };
-        
+
             window.requestAnimationFrame(animateScroll);
         },
         //内容顺滑滚动到底部,或接近底部任意一处
         smoothScrollToBottom(element, duration, endPosition = null) {
             // 获取当前的top值
             const startPosition = element.scrollTop;
-            if(!endPosition){
+            if (!endPosition) {
                 //不存在滚动到什么位置，默认就往下滚动到元素最底部，也就元素的scrollHeight
                 endPosition = element.scrollHeight;
             }
             const startTime = performance.now();
-        
+
             const easeInOutQuad = (t, b, c, d) => {
                 t /= d / 2;
                 if (t < 1) return c / 2 * t * t + b;
                 t--;
                 return -c / 2 * (t * (t - 2) - 1) + b;
             };
-        
+
             const animateScroll = () => {
                 const currentTime = performance.now();
                 const time = Math.min(currentTime - startTime, duration);
                 const newScrollHeight = easeInOutQuad(time, startPosition, endPosition, duration);
-        
+
                 element.scrollTop = newScrollHeight;
-        
+
                 if (time < duration) {
                     window.requestAnimationFrame(animateScroll);
                 }
             };
-        
+
             window.requestAnimationFrame(animateScroll);
         },
         // 处理滚动条一直保持最上方,也就让内容处于最底部contentAtBottom
         async scrollEleSmoothTop(isSmooth = false) {
             let div = document.getElementById("bigChatBox");
-            if(!div){
+            if (!div) {
                 div = document.getElementById("bigChatBox-desktop");
             }
-            if(isSmooth){
+            if (isSmooth) {
                 this.smoothScrollToBottom(div, 1000);
-            }else{
+            } else {
                 div.scrollTop = div.scrollHeight;
             }
             // let distanceY = window.scrollY;
@@ -1850,7 +1885,7 @@ export default {
             });
         },
         //根据key和值移除一个数组项
-        removeArrayOneByKey(array, key, keyValue){
+        removeArrayOneByKey(array, key, keyValue) {
             return array.filter(item => item[key] !== keyValue);
         },
         //遍历数组，把里面的每一条消息记录添加显示在消息页面中的msgList
@@ -1888,11 +1923,11 @@ export default {
                     // var temp = JSON.parse(msgArr[i]);
                     // this.msgList.push(temp);
                     if (msgArr[i].align == "right") {
-                        historyMessage.push({role: "user", parts: [{text: msgArr[i].text}]});
+                        historyMessage.push({ role: "user", parts: [{ text: msgArr[i].text }] });
                         //historyMessage += "{\"role\": \"user\",\"parts\": [{\"text\": \"" + msgArr[i].text + "\"}]},";
                         // historyMessage += JSON.stringify({ role: "user", parts: [{ text: msgArr[i].text }] }) + ",";
                     } else if (msgArr[i].align == "left") {
-                        historyMessage.push({role: "model", parts: [{text: msgArr[i].text}]});
+                        historyMessage.push({ role: "model", parts: [{ text: msgArr[i].text }] });
                         //historyMessage += "{\"role\": \"model\",\"parts\": [{\"text\": \"" + msgArr[i].text + "\"}]},";
                         // historyMessage += JSON.stringify({ role: "model", parts: [{ text: msgArr[i].text }] }) + ",";
                     }
@@ -2123,18 +2158,17 @@ body {
 }
 
 .listChatItemL .listChatItemContent {
-    border-radius: 5px;
+    margin-right: 49px;
     border-width: 1px;
-    border-color: mediumaquamarine;
+    border-color: #66cdaa;
     background-color: #66CEAA;
     color: black;
+    border-radius: 5px;
     padding: 5px;
     /* word-break: normal;
-    display: block;
     white-space: pre-wrap;*/
     word-wrap: break-word;
     overflow-x: scroll;
-    margin-right: 49px;
 }
 
 .listChatItemL .listChatItemContent::-webkit-scrollbar {
@@ -2142,16 +2176,14 @@ body {
 }
 
 .listChatItemR .listChatItemContent {
-    border-radius: 5px;
+    margin-left: 49px;
     border-width: 1px;
     border-color: #355CBF;
     background-color: #4c65b8;
-    padding: 5px;
     color: #f0efef;
-    margin-left: 49px;
+    border-radius: 5px;
+    padding: 5px;
     white-space: pre-wrap;
-    /* word-break: break-all; */
-    /* word-wrap: break-word; */
     overflow-x: scroll;
 }
 
@@ -2165,6 +2197,7 @@ body {
     border:7px solid transparent;
     border-left-color: #4c65b8;
 }*/
+
 //对话框指向箭头,小箭头左右
 .message-right-arrow {
     width: 0;
@@ -2186,13 +2219,15 @@ body {
 
 .listChatItemL .pcChatTextSpan {
     /*color:#252020;
-    border-color: mediumaquamarine;
     background-color: var(--color-content-bg, #353434);
     color: var(--color-article-container-content-text, #d3d1d1);*/
     background-color: #66CEAA;
     color: #131212;
     border-radius: 5px;
     padding: 5px;
+    /* word-break: normal;
+    white-space: pre-wrap;*/
+    word-wrap: break-word;
     overflow-x: scroll;
 }
 
@@ -2208,23 +2243,21 @@ body {
     border-radius: 5px;
     padding: 5px;
     white-space: pre-wrap;
-    overflow-y: scroll;
+    overflow-X: scroll;
 }
 
 .chatUserIcon {
     width: 35px;
     height: 35px;
-    border-radius: 50%;
-    /* padding-right: 10px;
-    padding-left: 10px; */
+    border-radius: 100%;
     margin-right: 7px;
     margin-left: 7px;
 }
 
 .chatBoxFooter {
-    /*position: relative;*/
+    /*position: relative;
     bottom: 0px;
-    left: 0px;
+    left: 0px;*/
     width: 100%;
     margin: 0 auto;
 }
@@ -2242,13 +2275,15 @@ body {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: nowrap;
-    z-index: 9; /* 确保抽屉在内容上方 */
+    z-index: 9;
+    /* 确保抽屉在内容上方 */
 }
 
 .menu-drawer.open {
     top: 0;
     left: 0;
 }
+
 .menu-drawer-header {
     width: 100%;
     display: inline-flex;
@@ -2257,6 +2292,7 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
 .menu-drawer-container {
     flex: 1 1 auto;
     width: 100%;
@@ -2267,7 +2303,8 @@ body {
     flex-wrap: nowrap;
     overflow-y: auto;
 }
-.menu-btn{
+
+.menu-btn {
     width: 40px;
     height: 40px;
     text-align: center;
@@ -2275,6 +2312,7 @@ body {
     display: grid;
     align-content: center;
 }
+
 .history-msg-list {
     width: 100%;
     padding: 0;
@@ -2282,26 +2320,31 @@ body {
     flex: 1 1 auto;
     font-size: 16px;
 }
-.history-msg-list-header{
+
+.history-msg-list-header {
     padding: 4px;
     display: flex;
     align-items: center;
     flex-direction: row;
     flex-wrap: nowrap;
 }
-.history-msg-list-container{
+
+.history-msg-list-container {
     padding: 8px 4px;
     display: grid;
     place-items: center;
 }
+
 .history-msg-list-item {
     display: inherit;
     cursor: pointer;
     position: relative;
 }
-.history-msg-list-item:hover .history-msg-list-item-close{
+
+.history-msg-list-item:hover .history-msg-list-item-close {
     display: block;
 }
+
 .history-msg-list-item-close {
     position: absolute;
     top: 1px;
@@ -2314,6 +2357,7 @@ body {
     background: hsl(0deg 4% 82% / 90%);
     color: #141414;
 }
+
 ul {
     list-style: none;
     padding: 0;
@@ -2326,6 +2370,7 @@ li {
     border-bottom: 1px solid var(--color-border-2, #c0c9cbb3);
     color: #131312;
 }
+
 .menu-tool {
     display: inline-flex;
     flex-direction: row;
@@ -2333,6 +2378,7 @@ li {
     flex-wrap: nowrap;
     align-items: center;
 }
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;
@@ -2395,6 +2441,7 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
+/******************（没有用到的样式）********************/
 .chatBoxFooterBtn {
     display: flex;
     width: 100%;

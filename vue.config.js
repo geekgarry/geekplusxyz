@@ -59,9 +59,11 @@ module.exports = defineConfig({
       //   }
       // }
     },
-    // client: {
-    //     webSocketURL: 'ws://0.0.0.0:8898/ws'
-    // }
+    client: {
+      // webSocketURL: 'ws://0.0.0.0:8898/ws',
+      progress: true,
+      overlay: false,
+    }
   },
   configureWebpack: {
     name: name,
