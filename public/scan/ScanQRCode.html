@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>扫一扫</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .scan-area {
+      border: 3px solid yellow;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 30%;
+    }
+
+    .btn-group {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+    }
+
+    button {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<video id="video" autoplay></video>
+<canvas id="overlay" hidden></canvas>
+
+<div class="scan-area"></div>
+
+<div class="btn-group">
+  <button id="manualInputBtn">手动输入</button>
+  <button id="flashBtn">闪光灯</button>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script>
+  const video = document.getElementById('video');
+  const overlay = document.getElementById('overlay');
+  const manualInputBtn = document.getElementById('manualInputBtn');
+  const flashBtn = document.getElementById('flashBtn');
+  const scanArea = document.querySelector('.scan-area');
+
+  let stream;
+  let scanning = false;
+  let flashEnabled = false;
+
+  // 获取媒体方法（旧方法）
+  navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMeddia || navigator.msGetUserMedia;
+  if (navigator.getMedia) {
+    navigator.getMedia({
+        video: { facingMode: "environment" },
+    }, function(stream) {
+        mediaStreamTrack = stream.getTracks()[0];
+
+        // 兼容性监测
+        if( 'srcObject' in video ) {
+          video.srcObject = stream
+        } else {
+          // 在支持srcObject的浏览器上，不再支持使用这种方式
+          video.src = (window.URL || window.webkitURL).createObjectURL(stream)
+        }
+        video.play();
+
+        // 开始扫描
+        requestAnimationFrame(scan);
+    }, function(err) {
+        console.log(err);
+    });
+  }else {
+    // 获取摄像头权限并开始播放视频流{ video: { facingMode: "environment" } }
+    navigator.mediaDevices.getUserMedia(
+    {
+      video: { facingMode: "environment" },
+    }
+    ).then(function(s) {
+      stream = s;
+      mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[1];
+      // 兼容性监测
+      if( 'srcObject' in video ) {
+        video.srcObject = stream
+      } else {
+        // 在支持srcObject的浏览器上，不再支持使用这种方式
+        video.src = (window.URL || window.webkitURL).createObjectURL(stream)
+      }
+      video.play();
+
+      // 开始扫描
+      requestAnimationFrame(scan);
+    })
+    .catch(function(err) {
+      console.error("无法访问摄像头：", err);
+    });
+  }
+  
+
+  // 扫描二维码
+  function scan() {
+    if (scanning) {
+      const canvas = overlay.getContext('2d');
+      const videoWidth = video.videoWidth;
+      const videoHeight = video.videoHeight;
+
+      // 设置画布大小
+      overlay.width = videoWidth;
+      overlay.height = videoHeight;
+
+      // 将视频帧绘制到画布上
+      canvas.drawImage(video, 0, 0, videoWidth, videoHeight);
+
+      // 获取扫描区域的坐标和尺寸
+      const scanAreaRect = scanArea.getBoundingClientRect();
+      const scanAreaX = scanAreaRect.left;
+      const scanAreaY = scanAreaRect.top;
+      const scanAreaWidth = scanAreaRect.width;
+      const scanAreaHeight = scanAreaRect.height;
+
+      // 获取扫描区域的图像数据
+      const imageData = canvas.getImageData(scanAreaX, scanAreaY, scanAreaWidth, scanAreaHeight);
+
+      // 使用 jsQR 库解码二维码
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+      // 如果成功解码，则停止扫描并处理结果
+      if (code) {
+        scanning = false;
+        handleScanResult(code.data);
+      } else {
+        requestAnimationFrame(scan);
+      }
+    }
+  }
+
+  // 处理扫描结果
+  function handleScanResult(data) {
+    alert("扫描结果：" + data);
+
+    // 这里可以根据扫描结果进行相应的操作，例如跳转到链接或显示信息
+  }
+
+  // 手动输入按钮点击事件
+  manualInputBtn.addEventListener('click', function() {
+    const input = prompt("请输入二维码内容：");
+    if (input) {
+      handleScanResult(input);
+    }
+  });
+
+  // 闪光灯按钮点击事件
+  flashBtn.addEventListener('click', function() {
+    if ('torch' in navigator.mediaDevices.getUserMedia({ video: true })) {
+      flashEnabled = !flashEnabled;
+      stream.getVideoTracks()[0].applyConstraints({
+        advanced: [{ torch: flashEnabled }]
+      });
+
+      // 更新按钮文本
+      flashBtn.textContent = flashEnabled ? '关闭闪光灯' : '闪光灯';
+    } else {
+      alert('您的设备不支持闪光灯功能。');
+    }
+  });
+  // 开始扫描
+  scanning = true;
+</script>
+
+</body>
+</html>

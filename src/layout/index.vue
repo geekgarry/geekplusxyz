@@ -50,7 +50,7 @@
             ><i class="gcfont"></i><span>返回顶部</span></a
           >
         </div>
-      </div> -->
+    </div> -->
 
     <back-to-top
       class="hidden-xs"
@@ -63,7 +63,6 @@
 
     <!-- <wave-item></wave-item> -->
 
-    <!-- <div :style="navBarStyle"> -->
     <!-- <div class="container" v-if="getPath() !== '/'">
         <ol class="gp_breadcrumb">
           <li><a href="#">Home</a></li>
@@ -136,7 +135,6 @@
     </div>
     <!---网站主页面组件app-main--->
     <app-main />
-    <!-- </div> -->
     <!-- <div class="gc-slide" v-if="isBackTop">
         <div class="gc_hand_top" id="backToTop">
           <a
@@ -154,7 +152,7 @@
             <i class="gcfont"></i><span>返回顶部</span>
           </a>
         </div>
-      </div> -->
+    </div> -->
     <div class="friendlink_container">
       <div class="container">
         <div class="row">
@@ -177,7 +175,8 @@
         </div>
       </div>
     </div>
-    <div class="custom_footer" :style="{paddingBottom: paddingBottomN+'px'}">
+    <!-- 网站页脚信息区域，包括版权，网址，联系等 -->
+    <div class="custom_footer">
       <div class="container">
         <div class="row">
           <div
@@ -215,7 +214,7 @@
               >提供技术支持
             </p>
             <p>
-              © 2019－2023 geekplus, all rights reserved &nbsp;<a
+              © 2019-present geekplus, all rights reserved &nbsp;<a
                 href="http://beian.miit.gov.cn"
                 target="_blank"
                 >苏ICP备0000000号</a
@@ -235,61 +234,59 @@
     <div class="draggable-component">
       <gp-player></gp-player>
     </div>
-    <nav
-      :class="'navbar navbar-default ' + bottomNavBarFixed + ' visible-xs'"
+    <!-- 移动端底部导航菜单，类似于APP中的底部Tab菜单 -->
+    <div
+      class="visible-xs navigation-bar-fixed-bottom animate__animated animate__slideInUp"
       style="
         background: var(--color-main-container-bg-2, #eff0f0);
         color: var(--color-main-container-text-1, #333535);
         border-radius: 0;
       "
     >
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-3 col-sm-3 text-center">
-            <!-- 行内跳转方式(同样可以传参)： -->
-            <div class="bg-secondary" @click="$router.push('/')">
-              <div class="">
-                <span class="glyphicon glyphicon-home"></span>
-              </div>
-              <div class="navbar-fixed-text-size">
-                <small>主页</small>
-              </div>
-            </div>
+      <div class="navigation-tab-container">
+        <!-- 行内跳转方式(同样可以传参)： -->
+        <div class="navigation-tab-content" @click="$router.push('/')">
+          <div class="navigation-tab-header">
+            <span class="glyphicon glyphicon-home"></span>
           </div>
-          <div class="col-xs-3 col-sm-3 text-center">
-            <div class="bg-secondary" @click="$router.push('/write4me')">
-              <div class="">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </div>
-              <div class="navbar-fixed-text-size">
-                <small>投稿</small>
-              </div>
-            </div>
+          <div class="navigation-tab-footer navbar-fixed-text-size">
+            <small>主页</small>
           </div>
-          <div class="col-xs-3 col-sm-3 text-center">
-            <!-- @click="$router.push('/leaveMessage')" -->
-            <div class="bg-secondary" @click="$router.push('/leaveMessage')">
-              <div class="">
-                <span class="glyphicon glyphicon-comment"></span>
-              </div>
-              <div class="navbar-fixed-text-size">
-                <small>留言</small>
-              </div>
-            </div>
+        </div>
+        <div class="navigation-tab-content" @click="$router.push('/write4me')">
+          <div class="navigation-tab-header">
+            <span class="glyphicon glyphicon-pencil"></span>
           </div>
-          <div class="col-xs-3 col-sm-3 text-center">
-            <div class="bg-secondary" @click="backToTopBtn">
-              <div class="">
-                <span class="glyphicon glyphicon-menu-up"></span>
-              </div>
-              <div class="navbar-fixed-text-size">
-                <small>顶部</small>
-              </div>
+          <div class="navigation-tab-footer navbar-fixed-text-size">
+            <small>投稿</small>
+          </div>
+        </div>
+        <div class="navigation-tab-content center-tab">
+          <a href="/scan/ScanQRCode.html" target="_blank">
+            <div class="navigation-tab-header">
+              <span class="glyphicon glyphicon-plus-sign"></span>
             </div>
+          </a>
+        </div>
+        <!-- @click="$router.push('/leaveMessage')" -->
+        <div class="navigation-tab-content" @click="$router.push('/leaveMessage')">
+          <div class="navigation-tab-header">
+            <span class="glyphicon glyphicon-comment"></span>
+          </div>
+          <div class="navigation-tab-footer navbar-fixed-text-size">
+            <small>留言</small>
+          </div>
+        </div>
+        <div class="navigation-tab-content" @click="backToTopBtn">
+          <div class="navigation-tab-header">
+            <span class="glyphicon glyphicon-menu-up"></span>
+          </div>
+          <div class="navigation-tab-footer navbar-fixed-text-size">
+            <small>顶部</small>
           </div>
         </div>
       </div>
-    </nav>
+    </div>
   </div>
 </template>
   
@@ -352,8 +349,7 @@ export default {
       GCLogo: require("@/assets/logo.png"),
       MKLogo: maiLogo,
       topNavBarFixed: "",//"navbar navbar-default navbar-static-top",
-      bottomNavBarFixed: "navbar-fixed-bottom",
-      paddingBottomN: 0,//为了不挡住底部footer网站信息内容区域，在移动端正常显示，需要设置为底部的tab导航的高
+      // bottomNavBarFixed: "navbar-fixed-bottom", //移动端底部导航菜单
       navBarStyle: "",//导航栏固定顶部，导致内容被遮挡的问题，设置margin或padding
       keywords: "", //搜索关键词
       subParentCategoryList: [],
@@ -379,10 +375,9 @@ export default {
     if (this.windowWidth <= 767) {
       this.topNavBarFixed =
         "navbar-fixed-top animate__animated animate__slideInDown";//mkplus-header-not-on-top
-      this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
+      // this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
       window.document.body.style.paddingTop = "70px";
       // window.document.body.style.paddingBottom = "50px";
-      this.paddingBottomN = 50;
     }else{
       this.getOneRandomFamousWords();
     }
@@ -434,20 +429,17 @@ export default {
           this.topNavBarFixed =
             "navbar-static-top";
           window.document.body.style.paddingTop = "0";
-          // window.document.body.style.paddingBottom = "0";
         } else if (this.contentScrollTop >= 200 && this.windowWidth > 767) {
           window.document.body.style.paddingTop = "0";
           if (scroll > 0) {
             this.topNavBarFixed =
               "navbar-static-top animate__animated animate__slideInUp";
-            //that.navBarStyle = "margin-top:75px;";
             window.document.body.style.paddingTop = "0";
             //console.log("up");
             //添加你想要的事件
           } else {
             this.topNavBarFixed =
               "navbar-fixed-top animate__animated animate__slideInDown";
-            //that.navBarStyle = "margin-top:75px;";
             window.document.body.style.paddingTop = "70px";
             //添加你想要的事件
             //console.log("down");
@@ -456,14 +448,11 @@ export default {
           this.topNavBarFixed =
             "navbar-fixed-top";
           window.document.body.style.paddingTop = "70px";
-          // window.document.body.style.paddingBottom = "50px";
-          this.paddingBottomN = 50;
         } else if (this.contentScrollTop >= 200 && this.windowWidth <= 767) {
-          this.paddingBottomN = 50;
           if (scroll > 0) {
             window.document.body.style.paddingTop = "0";
             this.topNavBarFixed = "navbar-static-top";
-            this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
+            // this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
             //this.navBarStyle = "mkplus-header-overlay-dark-bg";
             //console.log("up");
             //添加你想要的事件
@@ -475,13 +464,13 @@ export default {
           } else {
             window.document.body.style.paddingTop = "70px";
             this.topNavBarFixed = "navbar-fixed-top animate__animated animate__slideInDown";
-            this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
+            // this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
             // this.navBarStyle = "mkplus-header-overlay-light-bg";
             //添加你想要的事件
-            if (bodyClientHeight + this.contentScrollTop === scrollHeight) {
-              // this.topNavBarFixed = "navbar-fixed-top animate__animated animate__slideInDown";
-              this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
-            }
+            // if (bodyClientHeight + this.contentScrollTop === scrollHeight) {
+            //   // this.topNavBarFixed = "navbar-fixed-top animate__animated animate__slideInDown";
+            //   this.bottomNavBarFixed = "navbar-fixed-bottom animate__animated animate__slideInUp";
+            // }
           }
         }
 

@@ -9,16 +9,18 @@
        <li>4</li>
        <li>5</li></ol>
     </div> -->
-    <!-- <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <div class="banner_slider">
-      <div class="container">
-        <div class="animate__animated animate__bounceInLeft">
-          <slide-swiper
-            :carouselParams="carouselSlideParams"
-            :swiperList="swiperImgList"
-          ></slide-swiper>
-        </div>
+      <!-- <div class="animate__animated animate__bounceInLeft">
+        <slide-swiper
+          :carouselParams="carouselSlideParams"
+          :slideList="swiperImgList"
+        ></slide-swiper>
+      </div> -->
+      <div id="SlideSwiper" class="animate__animated animate__bounceInDown">
+        <slide-banner
+          :slideList="swiperImgList">
+        </slide-banner>
       </div>
     </div>
     <div class="my-blog-advertise">
@@ -887,7 +889,7 @@
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <a
                   title=""
-                  href="https://mubu.com/inv/44164"
+                  href="https://mubu.com"
                   target="_blank"
                   data-original-title="注册地址"
                   class="alert-link"
@@ -1315,8 +1317,8 @@
 
 <script>
 // @ is an alias to /src
-//import HelloWorld from '@/components/HelloWorld.vue'
 import SlideSwiper from "@/components/carousel/SlideSwiper";
+import SlideBanner from "@/components/carousel/SlideBanner";
 import mofang from "@/assets/icon/loading.gif";
 import {
   getHomeViewData,
@@ -1337,8 +1339,8 @@ import {
 export default {
   name: "HomeView",
   components: {
-    //HelloWorld,
     SlideSwiper,
+    SlideBanner
   },
   data() {
     return {

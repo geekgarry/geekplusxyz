@@ -1,6 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 
-// 预渲染插件
+// 预渲染插件，把vue转为静态网页
 const PrerenderSPAPlugin = require('prerender-spa-plugin-next')
 // const renderer = PrerenderSPAPlugin.PuppeteerRenderer;
 // 可选
@@ -39,13 +39,22 @@ module.exports = defineConfig({
     //disableHostCheck: true,
     allowedHosts: "all",
     proxy: {
+      //配置后端的跨域访问，重写API路径
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
         target: `https://localhost:8008`,//后端URI地址
-        changeOrigin: true,
-        secure: false,
+        changeOrigin: true,// 是否改变源地址
+        secure: false,//确保使用https，在使用https时可以选择开启
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
+        }// 重写路径
+      },
+      //再配置后端静态资源的跨域访问，/profile为后端配置静态资源映射的虚拟路径
+      '/profile': {
+        target: `https://localhost:8008`,//后端URI地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/profile': '/profile'
         }
       },
       //配置多个代理服务器时，要把process.env.VUE_APP_BASE_API设置为 /,

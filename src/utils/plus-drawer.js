@@ -48,7 +48,7 @@ const PlusDrawer = {
                 /* align-items: center; */
                 background-color: inherit;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
-                transition: transform 0.3s ease; 
+                transition: transform 0.3s ease-in-out; 
                 z-index: 100; 
             }
             

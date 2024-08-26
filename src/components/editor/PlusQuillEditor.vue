@@ -423,7 +423,7 @@ export default {
       if (length) {
         let images = document.querySelectorAll(".ql-editor img");
         images.forEach((item) => {
-          tempImageList.push({ filePath: this.getServerFilePath(item.src) });
+          tempImageList.push({ filePath: item.src });
         });
       }
       deleteImages = this.allImageList.filter((item) => {
@@ -516,10 +516,8 @@ export default {
       uploadAllFile(formData)
         .then((response) => {
           //console.log(response);
-          var serverUrl = response.url;
+          const serverUrl = response.url;
           let uploadSuccess = {};
-          const imageUrl =
-            this.baseApi + serverUrl;
           // this.$message({
           //   message: "上传" + response.msg,
           //   type: "success",
@@ -528,7 +526,7 @@ export default {
           let quill = this.$refs.gpTextEditor.quill;
           let length = quill.getSelection().index;
           // 插入图片
-          quill.insertEmbed(length, "image", imageUrl);
+          quill.insertEmbed(length, "image", serverUrl);
           //const num = file.filestoredname && file.filestoredname.length || 0
           quill.insertText(length+1, "\r\n",true);
           // 调整光标到最后
@@ -552,10 +550,8 @@ export default {
       uploadAllFile(formData)
         .then((response) => {
           //console.log(response);
-          var serverUrl = response.url;
+          const serverUrl = response.url;
           //let uploadSuccess = {};
-          const fileUrl =
-            this.baseApi + serverUrl;
           const originalFileName = response.originalFileName;
           // this.$message({
           //   message: "上传" + response.msg,
@@ -566,7 +562,7 @@ export default {
           let length = quill.getSelection().index;
           // 插入a标签
           //quill.insertEmbed(length, "image", imageUrl);
-          quill.insertEmbed(length, 'link', {href: fileUrl, innerText: originalFileName})
+          quill.insertEmbed(length, 'link', {href: serverUrl, innerText: originalFileName})
         // quill.setSelection(length + fileNameLength)
           //const num = file.filestoredname && file.filestoredname.length || 0
           // quill.insertText(length, "\r\n",true);

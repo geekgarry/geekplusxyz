@@ -9,7 +9,7 @@
     :data-interval="carouselParams.dataInterval"
   >
     <!-- 轮播(Carousel)指标 -->
-    <!-- <ol class="carousel-indicators"  v-for="(item,index) in swiperList" :key="index">
+    <!-- <ol class="carousel-indicators"  v-for="(item,index) in slideList" :key="index">
       <li data-target="#SlideSwiper" :data-slide-to="index" :class="index===0?'active':''"></li>
       <li data-target="#SlideSwiper" data-slide-to="1"></li>
       <li data-target="#SlideSwiper" data-slide-to="2"></li>
@@ -17,7 +17,7 @@
     <!-- 轮播(Carousel)指标 -->
     <ol class="carousel-indicators">
       <li 
-        v-for="(item, index) in swiperList"
+        v-for="(item, index) in slideList"
         :key="index"
         :data-slide-to="index"
         :class="index == 0 ?'active':''"
@@ -29,7 +29,7 @@
     <!-- 轮播(Carousel)项目 -->
     <div class="carousel-inner">
       <div
-        v-for="(item, index) in swiperList"
+        v-for="(item, index) in slideList"
         :key="index"
         :class="
           index == 0
@@ -140,7 +140,7 @@ export default {
       },
     },
     //首页轮播图数据
-    swiperList: {
+    slideList: {
       type: [Array, Object],
       default: function () {
         return this.imgList;
