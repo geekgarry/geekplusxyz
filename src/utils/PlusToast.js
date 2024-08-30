@@ -3,9 +3,10 @@ class PlusToast {
     constructor(options = {}) {
         this.options = {
             message: "",
-            duration: 3000,
+            duration: 4000,
             icon: "",//内置提供success，error，warning，info四个，也可以自定义图标，直接传入icon图标的svg或img
-            type: "light",// 设置黑暗/成功等显示类型：dark，success，error，warning，info，默认为light，light只是表明初始的样式是明亮主题
+            type: "",// 表示消息显示类型：success，error，warning，info
+            theme: "", //主体样式，light，dark，bubble主题样式
             closable: false,
             position: "top",
             animation: "slide", // 动画效果：'slide', 'fade',  'bounce'
@@ -200,19 +201,89 @@ class PlusToast {
                 }
                 .plus-toast.success {
                     background-color: #F0F9EB;
-                    color: #67C23A;
+                    color: #4caf50;
+                }
+                .plus-toast.success.bubble {
+                    background-color: #F0F9EB;
+                    color: #4caf50;
+                    border-radius: 40px;
+                }
+                .plus-toast.success.light {
+                    background-color: #4caf50;
+                    color: #fefefe;
+                    border-radius: 40px;
+                }
+                .plus-toast.success.dark {
+                    background-color: rgba(0, 0, 0, 0.8);
+                    color: #4caf50;
+                    border-radius: 40px;
                 }
                 .plus-toast.error {
                     background-color: #FEF0EF;
                     color: #ed5455;
                 }
+                .plus-toast.error.bubble {
+                    background-color: #FEF0EF;
+                    color: #ed5455;
+                    border-radius: 40px;
+                }
+                .plus-toast.error.light {
+                    background-color: #ed5455;
+                    color: #fefefe;
+                    border-radius: 40px;
+                }
+                .plus-toast.error.dark {
+                    background-color: rgba(0, 0, 0, 0.8);
+                    color: #ed5455;
+                    border-radius: 40px;
+                }
                 .plus-toast.warning {
                     background-color: #faf5ed;
                     color: #df9928;
                 }
+                .plus-toast.warning.bubble {
+                    background-color: #faf5ed;
+                    color: #df9928;
+                    border-radius: 40px;
+                }
+                .plus-toast.warning.light {
+                    background-color: #df9928;
+                    color: #fefefe;
+                    border-radius: 40px;
+                }
+                .plus-toast.warning.dark {
+                    background-color: rgba(0, 0, 0, 0.8);
+                    color: #df9928;
+                    border-radius: 40px;
+                }
                 .plus-toast.info {
                     background-color: #d0dded;
                     color: #3377d7;
+                }
+                .plus-toast.info.bubble {
+                    background-color: #d0dded;
+                    color: #3377d7;
+                    border-radius: 40px;
+                }
+                .plus-toast.info.light {
+                    background-color: #3377d7;
+                    color: #fefefe;
+                    border-radius: 40px;
+                }
+                .plus-toast.info.dark {
+                    background-color: rgba(0, 0, 0, 0.8);
+                    color: #3377d7;
+                    border-radius: 40px;
+                }
+                .plus-toast.bubble {
+                    background-color: #ff7043;
+                    color: #fff;
+                    border-radius: 40px;
+                }
+                .plus-toast.light {
+                    background-color: #3f51b5;
+                    color: #fff;
+                    border-radius: 40px;
                 }
                 .plus-toast.dark {
                     background-color: rgba(0, 0, 0, 0.8);
@@ -229,6 +300,11 @@ class PlusToast {
                     cursor: pointer;
                     align-self: flex-start;
                     font-size: 1.5rem;
+                }
+                .plus-toast-container.top-center {
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
                 }
                 .plus-toast-container.top {
                     top: 20px;
@@ -325,10 +401,17 @@ class PlusToast {
         }
         // 创建 toast 元素
         this.toast = document.createElement("div");
-        this.toast.classList.add(
-            toastEle,
-            this.currentOptions.type
-        );
+        this.toast.className = toastEle;
+        if(this.currentOptions.type !== ""){
+            this.toast.classList.add(
+                this.currentOptions.type
+            );
+        }
+        if(this.currentOptions.theme !== ""){
+            this.toast.classList.add(
+                this.currentOptions.theme
+            );
+        }
         // if(this.currentOptions.theme === "dark"){
         //     this.toast.style.cssText +=``;
         // }
@@ -343,12 +426,20 @@ class PlusToast {
         this.toast.appendChild(this.toastMain);
 
         // 添加图标
-        const iconMap = {
+        var iconMap = {
             success: '<svg t="1721053091579" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="27348" width="20" height="20"><path d="M0 512c0 282.784 229.184 512 512 512 282.784 0 512-229.216 512-512 0-282.816-229.216-512-512-512C229.184 0 0 229.184 0 512z m440.896 85.024l254.4-254.4a32 32 0 0 1 45.248 0l22.624 22.624a32 32 0 0 1 0 45.248l-294.144 294.176a31.904 31.904 0 0 1-21.952 9.344 32 32 0 0 1-32.672-7.744l-135.776-135.776a32 32 0 0 1 0-45.248l22.624-22.624a32 32 0 0 1 45.248 0l94.4 94.4z" fill="#34C724" p-id="27349"></path></svg>',
             error: '<svg t="1721052201965" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6613" width="20" height="20"><path d="M512 0C229.376 0 0 229.376 0 512s229.376 512 512 512 512-229.376 512-512S794.624 0 512 0z m218.624 672.256c15.872 15.872 15.872 41.984 0 57.856-8.192 8.192-18.432 11.776-29.184 11.776s-20.992-4.096-29.184-11.776L512 569.856l-160.256 160.256c-8.192 8.192-18.432 11.776-29.184 11.776s-20.992-4.096-29.184-11.776c-15.872-15.872-15.872-41.984 0-57.856L454.144 512 293.376 351.744c-15.872-15.872-15.872-41.984 0-57.856 15.872-15.872 41.984-15.872 57.856 0L512 454.144l160.256-160.256c15.872-15.872 41.984-15.872 57.856 0 15.872 15.872 15.872 41.984 0 57.856L569.856 512l160.768 160.256z" fill="#CF3736" p-id="6614"></path></svg>',
             warning: '<svg t="1721053964256" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9064" width="20" height="20"><path d="M512 65C265.13 65 65 265.13 65 512s200.13 447 447 447 447-200.13 447-447S758.87 65 512 65z m-40 187a40 40 0 0 1 80 0v336.67a40 40 0 1 1-80 0z m93.87 506.13A53.87 53.87 0 0 1 512 812a53.87 53.87 0 0 1-53.87-53.87A53.87 53.87 0 0 1 512 704.26a53.87 53.87 0 0 1 53.87 53.87z" fill="#F9A825" p-id="9065"></path></svg>',
             info: '<svg t="1721052326591" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="22656" width="20" height="20"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z m32 640c0 17.6-14.4 32-32 32s-32-14.4-32-32V480c0-17.6 14.4-32 32-32s32 14.4 32 32v224z m-32-320c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48z" fill="#1875F0" p-id="22657"></path></svg>',
         };
+        if(!this.checkSVGSupport()) {
+            iconMap ={
+                success: "&#x2705;",
+                error: "&#x274C;",
+                warning: "&#x26A0;",
+                info: "&#x26A0;"
+            }
+        }
 
         //添加消息图标
         if (this.currentOptions.icon) {
@@ -441,10 +532,21 @@ class PlusToast {
             this.hideToast(plusToast);
         }, delay);
     }
+    //检测是否支持svg
+    checkSVGSupport() {
+        // 检查SVG是否在DOM中可用
+        if (typeof SVGRect !== 'function') {
+            // 在这里执行相关的文字符号逻辑
+            return false;
+        } else {
+            // 在这里执行相关的SVG逻辑
+            return true;
+        }
+    }
     //通用显示方法
     show(message, options = {}) {
         // 合并options，将传入的options覆盖到this.currentOptions上
-        this.currentOptions = { ...this.options, ...options };
+        this.currentOptions = { ...this.options, theme: "light", ...options };
         this.createToast(message);
         this.showToast();
         if (!this.currentOptions.closable || this.currentOptions.duration > 0) {
@@ -481,6 +583,42 @@ class PlusToast {
     //消息特定显示
     info(message, options = {}) {
         this.currentOptions = { ...this.options, type: "info", icon: "info", ...options, };
+        this.createToast(message);
+        this.showToast();
+        if (!this.currentOptions.closable || this.currentOptions.duration > 0) {
+            this.hideToastAfter(this.currentOptions.duration, this.toast);
+        }
+    }
+    //成功特定显示，移动端
+    successM(message, options = {}) {
+        this.currentOptions = { ...this.options, type: "success", theme: "light", ...options };
+        this.createToast(message);
+        this.showToast();
+        if (!this.currentOptions.closable || this.currentOptions.duration > 0) {
+            this.hideToastAfter(this.currentOptions.duration, this.toast);
+        }
+    }
+    //失败或错误特定显示，移动端
+    errorM(message, options = {}) {
+        this.currentOptions = { ...this.options, type: "error", theme: "light", ...options };
+        this.createToast(message);
+        this.showToast();
+        if (!this.currentOptions.closable || this.currentOptions.duration > 0) {
+            this.hideToastAfter(this.currentOptions.duration, this.toast);
+        }
+    }
+    //警告特定显示，移动端
+    warningM(message, options = {}) {
+        this.currentOptions = { ...this.options, type: "warning", theme: "light", ...options };
+        this.createToast(message);
+        this.showToast();
+        if (!this.currentOptions.closable || this.currentOptions.duration > 0) {
+            this.hideToastAfter(this.currentOptions.duration, this.toast);
+        }
+    }
+    //消息特定显示，移动端
+    infoM(message, options = {}) {
+        this.currentOptions = { ...this.options, type: "info", theme: "light", ...options };
         this.createToast(message);
         this.showToast();
         if (!this.currentOptions.closable || this.currentOptions.duration > 0) {

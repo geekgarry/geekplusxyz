@@ -183,7 +183,9 @@ Vue.use(VueLazyload, {
   ],
 })
 Vue.config.productionTip = false;
+import PlusToast from '@/utils/PlusToast.js'
 //Vue.use(WaveItem);
+Vue.prototype.$PlusToast = PlusToast;
 Vue.prototype.checkObjectExistsJson=checkObjectExists2;
 Vue.prototype.getNowDate = getNowDate;
 Vue.prototype.checkHtml = checkHtml;

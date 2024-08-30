@@ -75,7 +75,7 @@
                 <span class="glyphicon glyphicon-gift"></span>
                 赞助
               </button> -->
-              <plus-tool-tip :maxWidth="240">
+              <!-- <plus-tool-tip :maxWidth="240">
               <template #title>
                 <div class='popover-container' >
                   <img :src='alipayImg' width='100px' height='100px'>&nbsp;
@@ -88,7 +88,18 @@
                 <span class="glyphicon glyphicon-gift"></span>
                 赞助
               </button>
-              </plus-tool-tip>
+              </plus-tool-tip> -->
+              <div class="plus-popover-wrapper">
+                <button class="toolbar-button plus-popover-trigger" data-placement="auto">
+                  <span class="glyphicon glyphicon-gift"></span>赞助
+                </button>
+                <div class="plus-popover-tip">
+                  <div class='popover-container' style="display: flex; flex-direction: row;">
+                    <img :src='alipayImg' width='100px' height='100px'>&nbsp;
+                    <img :src='wxpayImg' width='100px' height='100px'>
+                  </div>
+                </div>
+              </div>
               <button
                 class="toolbar-button"
                 type="button"
@@ -635,7 +646,7 @@ import ReplyMessageBox from "@/components/comment/ReplyMessageBox.vue"
 import PlusToolTip from '@/components/tooltip/PlusToolTip.vue';
 
 // 引入插件
-import $ from "jquery";
+import PlusPopoverTip from '@/utils/PlusPopoverTip.js'
 
 // import 'viewerjs/dist/viewer.css'
 // import Viewer from 'v-viewer'
@@ -787,6 +798,7 @@ export default {
     }
   },
   mounted() {
+    PlusPopoverTip.initPopoverTip();
     var height = document.getElementById("comment-left").offsetHeight - 50;
     document.getElementsByClassName("Input_text")[0].style.height = height + "px";
     // window.onscroll = function() {
@@ -863,14 +875,14 @@ export default {
     // window.onresize = () => {};
     // let _this = this;
     // this.iframeAdsWin = this.$refs.iframeAds.contentWindow;
-    (function () {
-      $('[data-toggle="popover"]').popover({
-        html: true,
-        placement: "top",
-        content:
-          "<div class='popover-container' ><img src='' width='100px' height='100px'>&nbsp;<img src='' width='100px' height='100px'></div>",
-      });
-    });
+    // (function () {
+    //   $('[data-toggle="popover"]').popover({
+    //     html: true,
+    //     placement: "top",
+    //     content:
+    //       "<div class='popover-container' ><img src='' width='100px' height='100px'>&nbsp;<img src='' width='100px' height='100px'></div>",
+    //   });
+    // });
     //setTimeout(() => {
     // console.log(this.articleInfo);
     //}, 1000);
@@ -958,10 +970,8 @@ export default {
           // console.log(this.articleDetail);
         })
         .catch((error) => {
-          this.$toasted.error(error.msg, {
-            position: "top-center",
-            duration: 3000,
-            theme: "bubble",
+          this.$PlusToast.errorM(error.msg, {
+            theme: "light",
           });
         });
     },
@@ -974,10 +984,8 @@ export default {
         })
         .catch((error) => {
           //console.log(error.msg)
-          this.$toasted.error(error.msg, {
-            position: "top-center",
-            duration: 3000,
-            theme: "bubble",
+          this.$PlusToast.errorM(error.msg, {
+            theme: "light",
           });
         });
     },
@@ -995,10 +1003,8 @@ export default {
       //     this.allCategoryList = response.data;
       //   })
       //   .catch((error) => {
-      //     this.$toasted.error(error.msg, {
-      //       position: "top-center",
-      //       duration: 3000,
-      //       theme: "bubble",
+      //     this.$PlusToast.errorM(error.msg, {
+      //       theme: "light",
       //     });
       //   });
     },
@@ -1022,10 +1028,8 @@ export default {
           this.allTagArticleCount = response.data;
         })
         .catch((error) => {
-          this.$toasted.error(error.msg, {
-            position: "top-center",
-            duration: 3000,
-            theme: "bubble",
+          this.$PlusToast.errorM(error.msg, {
+            theme: "light",
           });
         });
     },
@@ -1139,17 +1143,12 @@ export default {
             "【" + this.articleInfo.articleTitle + "】  \r\n" + this.windowUrl
           )
           .then(() => {
-            this.$toasted.info("复制成功", {
-              position: "top-center",
-              duration: 3000,
-              theme: "bubble",
+            this.$PlusToast.successM("复制成功", {
+              theme: "light"
             });
-          })
-          .catch(() => {
-            this.$toasted.error("复制失败", {
-              position: "top-center",
-              duration: 3000,
-              theme: "bubble",
+          }).catch(() => {
+            this.$PlusToast.errorM("复制失败", {
+              theme: "light"
             });
           });
       } else {
@@ -1169,17 +1168,13 @@ export default {
           textArea.remove();
         }).then(
           () => {
-            this.$toasted.info("复制成功", {
-              position: "top-center",
-              duration: 3000,
-              theme: "bubble",
+            this.$PlusToast.successM("复制成功", {
+              theme: "light",
             });
           },
           () => {
-            this.$toasted.error("复制失败", {
-              position: "top-center",
-              duration: 3000,
-              theme: "bubble",
+            this.$PlusToast.errorM("复制失败", {
+              theme: "light",
             });
           }
         );
@@ -1262,9 +1257,8 @@ export default {
         data.name == ""
       ) {
         //console.log("不为空！")
-        this.$toasted.error("*必填项不能为空！", {
-          position: "top-center",
-          duration: 3000,
+        this.$PlusToast.errorM("*必填项不能为空！", {
+          theme: "light"
         });
       } else {
         sendArticleComment(this.userMessage)
@@ -1272,16 +1266,14 @@ export default {
             //console.log(response);
             this.closeReplyBox();
             this.getUserCommentMessage();
-            this.$toasted.success("留言成功！", {
-              position: "top-center",
-              duration: 2000,
+            this.$PlusToast.successM("留言成功！", {
+              theme: "light"
             });
           })
           .catch((error) => {
             //console.log(error);
-            this.$toasted.error(error.msg, {
-              position: "top-center",
-              duration: 3000,
+            this.$PlusToast.errorM(error.msg, {
+              theme: "light"
             });
           });
         this.reset();
@@ -1310,9 +1302,8 @@ export default {
         data.name == ""
       ) {
         //console.log("不为空！")
-        this.$toasted.error("*必填项不能为空！", {
-          position: "top-center",
-          duration: 3000,
+        this.$PlusToast.errorM("*必填项不能为空！", {
+          theme: "light"
         });
       } else {
         sendArticleComment(replyMsg)
@@ -1320,15 +1311,13 @@ export default {
             //console.log(response);
             this.closeReplyBox();
             this.getUserCommentMessage();
-            this.$toasted.success("回复留言成功", {
-              position: "top-center",
-              duration: 2000,
+            this.$PlusToast.successM("回复留言成功", {
+              theme: "light"
             });
           })
           .catch((error) => {
-            this.$toasted.error(error.msg, {
-              position: "top-center",
-              duration: 3000,
+            this.$PlusToast.errorM(error.msg, {
+              theme: "light"
             });
           });
       }
@@ -1366,9 +1355,8 @@ export default {
       getCurrentPrevArticle().then((response) => {
 
       }).catch((error) => {
-        this.$toasted.error(error.msg, {
-          position: "top-center",
-          duration: 3000,
+        this.$PlusToast.errorM(error.msg, {
+          theme: "light"
         });
       });
     },
@@ -1377,9 +1365,8 @@ export default {
       getCurrentNextArticle().then((response) => {
 
       }).catch((error) => {
-        this.$toasted.error(error.msg, {
-          position: "top-center",
-          duration: 3000,
+        this.$PlusToast.errorM(error.msg, {
+          theme: "light"
         });
       });
     },

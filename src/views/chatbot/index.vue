@@ -298,19 +298,19 @@
         <!-- 另一种抽屉滑动菜单，使用toggleMenu方法滑出显示menu-drawer，outSideCloseMenu方法点击菜单以外任意地方隐藏menu-drawer -->
         <!-- <div class="menu-drawer" :class="{ open: menuOpen }"></div> -->
         <!-- <el-dialog :visible.sync="visible" title="对话框"></el-dialog> -->
-        <!-- <div class="plus-dialog-overlay"></div> -->
-        <div class="modal fade" id="chatDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div role="document" class="plus-dialog">
-                <div class="plus-dialog-main">
-                    <div class="plus-dialog-container">
+        <div class="plus-dialog-overlay">
+            <div class="plus-dialog-main-body">
+                <div class="file-preview-send-main">
+                    <div class="file-preview-send-container">
                         <div class="chat_extra_data" id="fileData">
                         </div>
                     </div>
                     <textarea name="inputChatMsgDialog" v-model="chatDataPrompt.chatMsg" v-focus="dialogInputIsFocus"
                         class="plus-form-textarea" placeholder="请输入消息..." rows="1"></textarea>
-                    <div class="plus-dialog-footer">
+                    <div class="file-preview-send-footer">
                         <div class="pdf-left-btn">
-                            <span class="cancel_btn" data-dismiss="modal" aria-label="Close">
+                            <!-- <span class="cancel_btn" data-dismiss="modal" aria-label="Close"></span> -->
+                            <span class="cancel_btn" data-cancel="plus-dialog" aria-label="Close">
                                 取消
                             </span>
                         </div>
@@ -322,6 +322,9 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="modal fade" id="chatDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div role="document" class="plus-dialog"></div>
+        </div> -->
         <div class="draggable-component">
             <gp-player></gp-player>
         </div>
@@ -334,7 +337,6 @@ import Recorder from 'js-audio-recorder'
 import PlusCropper from "@/utils/PlusCropper.js"
 import { isMobile, isPC, isIOS, isAndroid, browser } from '@/utils/PlusDeviceOS.js'
 import PlusDialog from '@/utils/PlusDialog.js'
-import PlusToast from '@/utils/PlusToast.js'
 import PlusDrawer from '@/utils/plus-drawer.js'
 //import { marked } from 'marked';//9.1.6
 const marked = require('marked'); //9.1.6
@@ -496,15 +498,18 @@ export default {
             // console.log("Plus裁剪框已隐藏");
             var tempImg = '<img src="' + this.tempFileUrl + '" />';
             document.getElementById("fileData").innerHTML = tempImg;
-            $('#chatDataModal').modal();
+            //$('#chatDataModal').modal();
+            PlusDialog.show({onlyCloseBtn: true});
         });
         // textarea.addEventListener("keydown", (e) => {});
         //shown是在显示之后，show是在显示的同时
-        $('#chatDataModal').on('show.bs.modal', function (e) {
+        // $('#chatDataModal').on('show.bs.modal', function (e) {
+        PlusDialog.onShow(() =>  {
             that.dialogInputIsFocus = true;
         });
         //hidden是在隐藏之后，hide是在隐藏的同时
-        $('#chatDataModal').on('hidden.bs.modal', function (e) {
+        // $('#chatDataModal').on('hidden.bs.modal', function (e) {
+        PlusDialog.onHide(() =>  {
             //URL.revokeObjectURL(that.tempFileUrl); // 释放url
             that.dialogInputIsFocus = false;
             stopAllMedia();
@@ -520,11 +525,6 @@ export default {
     },
     watch: {
         // textAreaInput(val){
-        //     if(val !== this.textAreaInput){
-        //         this.textAreaInput = val;
-        //         this.textInputHeight = val.offsetHeight;
-        //         this.adjustLayout();
-        //     }
         // },
         windowHeight(val) {
             // console.log("实时屏幕高度：", val, this.windowHeight);
@@ -570,7 +570,7 @@ export default {
         async handleMsg() {
             // if (this.inputChatMsg === "关闭语音") {
             //     this.isTextVoice = false;
-            //     PlusToast.show("关闭语音回复功能", { type: "dark" });
+            //     this.$PlusToast.show("关闭语音回复功能", { type: "dark" });
             //     /*
             //      * 模拟信息返回
             //      */
@@ -587,22 +587,16 @@ export default {
             //     // }, 1000);
             // } else if (this.inputChatMsg === "开启语音") {
             //     this.isTextVoice = true;
-            //     PlusToast.success("开启语音回复功能", { type: "dark", duration: 4000 });
-            // } else if (this.inputChatMsg === "聊天模式" || this.inputChatMsg === "开启聊天模式" || this.inputChatMsg === "开启对话模式" || this.inputChatMsg === "开启记忆对话" || this.inputChatMsg === "对话模式") {
-            //     this.isHistory = true;
-            //     PlusToast.success("开启聊天对话模式");
-            // } else if (this.inputChatMsg === "取消历史记忆" || this.inputChatMsg === "关闭对话模式" || this.inputChatMsg === "关闭聊天模式" || this.inputChatMsg === "关闭记忆对话") {
-            //     this.isHistory = false;
-            //     PlusToast.show("取消聊天对话模式");
+            //     this.$PlusToast.success("开启语音回复功能", { type: "dark", duration: 4000 });
             // } else 
             if (this.inputChatMsg === "停止语音" || this.inputChatMsg === "停止播放" || this.inputChatMsg === "暂停播放" || this.inputChatMsg === "暂停回复语音" || this.inputChatMsg === "pause") {
                 this.pauseTextAudio();
                 //this.loading = false;
-                PlusToast.info("停止回复语音");
+                this.$PlusToast.info("停止回复语音");
             } else if (this.inputChatMsg === "继续语音" || this.inputChatMsg === "继续播放" || this.inputChatMsg === "继续回复语音" || this.inputChatMsg === "play") {
                 this.playTextAudio();
                 //this.loading = false;
-                PlusToast.info("播放回复语音");
+                this.$PlusToast.info("播放回复语音");
             } else if ((this.inputChatMsg && this.inputChatMsg.trim().length > 0)) { //!this.isOnlyNewlines(this.inputChatMsg)
                 //this.loading = true;
                 //在发送普通文本消息前把文件相关数据清空
@@ -688,7 +682,7 @@ export default {
                     }, 300);
                 }).catch(function (error) {
                     // console.log(error);
-                    PlusToast.error(error);
+                    this.$PlusToast.error(error);
                 });
         },
         //获取所有聊天记录列表
@@ -697,7 +691,7 @@ export default {
                 .then(res => {
                     this.historyChatMsgList = res.data;
                 }).catch(error => {
-                    PlusToast.error(error);
+                    this.$PlusToast.error(error);
                 });
         },
         //根据keyValue获取其中一条聊天消息
@@ -707,21 +701,30 @@ export default {
                     this.msgList = [];
                     this.historyListToMsgList(res.data);
                 }).catch(error => {
-                    PlusToast.error(error);
+                    this.$PlusToast.error(error);
                 })
         },
         // 根据keyValue删除一条聊天记录
         deleteOneHistoryChatMsg(keyValue) {
-            deleteOneHistoryMessage({ historyMsgKey: keyValue })
-                .then(res => {
-                    PlusToast.success(res.msg);
-                    this.historyChatMsgList = this.removeArrayOneByKey(this.historyChatMsgList, "historyMsgKey", keyValue);
-                    if (Array.isArray(this.historyChatMsgList) && this.historyChatMsgList.length === 0) {
-                        this.msgList = [];
-                    }
-                }).catch(error => {
-                    PlusToast.error(error);
-                })
+            const that = this;
+            this.$PlusToast.confirm("确定要删除吗？", {
+                onConfirm: () => {
+                    // 用户点击确认后的操作
+                    deleteOneHistoryMessage({ historyMsgKey: keyValue })
+                    .then(res => {
+                        this.$PlusToast.success(res.msg);
+                        this.historyChatMsgList = this.removeArrayOneByKey(this.historyChatMsgList, "historyMsgKey", keyValue);
+                        if (Array.isArray(this.historyChatMsgList) && this.historyChatMsgList.length === 0) {
+                            this.msgList = [];
+                        }
+                    }).catch(error => {
+                        this.$PlusToast.error(error);
+                    });
+                },
+                onCancel: () => {
+                    // 用户点击取消后的操作
+                }
+            });
         },
         //发送消息和文件
         async sendWithFile() {
@@ -752,7 +755,8 @@ export default {
             // for(const key in this.chatDataPrompt) {
             //     formData.append(`${[key]}`, this.chatDataPrompt[key]);
             // }
-            $('#chatDataModal').modal('hide');
+            // $('#chatDataModal').modal('hide');
+            PlusDialog.hide();
             //重置临时文件数据
             //this.tempFileData = null;
             this.chatDataPrompt.chatMsg = "";
@@ -780,13 +784,11 @@ export default {
                     //if (response.code == 200) {
                     await that.handleResultTask(response);
                     //}
-                    //this.loading = false;
                 })
                 .catch(function (error) {
                     //reject(error);
                     //console.log(error);
-                    PlusToast.error(error);
-                    //this.loading = false;
+                    this.$PlusToast.error(error);
                 });
         },
         sendMessageChat(dataParams) {
@@ -798,13 +800,11 @@ export default {
                     //if (response.code == 200) {
                     await that.handleResultTask(response);
                     //}
-                    //this.loading = false;
                 })
                 .catch(function (error) {
                     //reject(error);
                     //console.log(error);
-                    PlusToast.error(error);
-                    //this.loading = false;
+                    this.$PlusToast.error(error);
                 });
             // return new Promise((resolve, reject) => {
             //     // 执行耗时操作
@@ -932,7 +932,7 @@ export default {
                 // let fileSize = file.size / 1024 / 1024; // 将文件大小从字节转换为MB
                 // fileSize = Math.round(fileSize * 100) / 100; // 保留两位小数
                 // if(fileSize > 100){
-                //     PlusToast.error("文件超过100MB！");
+                //     this.$PlusToast.error("文件超过100MB！");
                 //     return;
                 // }
                 this.chatDataPrompt.mediaMimeType = file.type;
@@ -1003,7 +1003,8 @@ export default {
                     //let domObject = '<object data="' + tempURL + '" type="application/pdf" width="100%" height="100%">该浏览器不支持PDF.请点击查看:<a href="' + tempURL + '">Download PDF</a>.</p></object>';
                     //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
                     document.getElementById("fileData").innerHTML = domObject;
-                    $('#chatDataModal').modal();
+                    // $('#chatDataModal').modal();
+                    PlusDialog.show({onlyCloseBtn: true});
                 } else if ((file.type.indexOf('audio') !== -1 || file.type.indexOf('video') !== -1)) {
                     this.chatDataPrompt.mediaData = await this.fileToBase64(file);
                     this.tempFileUrl = tempURL;
@@ -1018,9 +1019,10 @@ export default {
                         //'<object height="50" width="100" data="'+tempURL+'"></object>'+
                         '</video>';
                     document.getElementById("fileData").innerHTML = tempFile;
-                    $('#chatDataModal').modal();
+                    // $('#chatDataModal').modal();
+                    PlusDialog.show({onlyCloseBtn: true});
                 } else {
-                    PlusToast.show("不支持的文件类型！仅支持支持图片，视频，音频，文本等", {
+                    this.$PlusToast.show("不支持的文件类型！仅支持支持图片，视频，音频，文本等", {
                         type: "dark",
                     });
                 }
@@ -1061,7 +1063,7 @@ export default {
                     // let fileSize = file.size / 1024 / 1024; // 将文件大小从字节转换为MB
                     // fileSize = Math.round(fileSize * 100) / 100; // 保留两位小数
                     // if(fileSize > 100){
-                    //     PlusToast.error("文件超过100MB！");
+                    //     this.$PlusToast.error("文件超过100MB！");
                     //     return;
                     // }
                     this.chatDataPrompt.mediaMimeType = items[i].type;
@@ -1138,7 +1140,8 @@ export default {
                             document.getElementById("fileData").innerHTML = domObject;
                             //document.getElementById("fileData").remove();
                             //document.getElementById("fileData").appendChild(pdfIframe);
-                            $('#chatDataModal').modal();
+                            // $('#chatDataModal').modal();
+                            PlusDialog.show({onlyCloseBtn: true});
                         };
                         break;
                     } else if (items[i].kind === 'file' && (items[i].type.indexOf('audio') !== -1 || items[i].type.indexOf('video') !== -1)) {
@@ -1161,7 +1164,8 @@ export default {
                                 '</video>';
                             document.getElementById("fileData").innerHTML = tempFile;
                             // document.getElementById("fileData").append();
-                            $('#chatDataModal').modal();
+                            // $('#chatDataModal').modal();
+                            PlusDialog.show({onlyCloseBtn: true});
                         };
                         reader.readAsDataURL(file);
                         break;
@@ -1343,7 +1347,7 @@ export default {
          * */
         getPermission() {
             Recorder.getPermission().then(() => {
-                PlusToast.success('获取权限成功')
+                this.$PlusToast.success('获取权限成功')
             }, (error) => {
                 console.log(`${error.name} : ${error.message}`);
             });
@@ -1356,9 +1360,9 @@ export default {
                     this.recorder.start(); // 开始录音
                 },
                 (error) => {
-                    // PlusToast.info("请先允许该网页使用麦克风");
+                    // this.$PlusToast.info("请先允许该网页使用麦克风");
                     console.log(`${error.name} : ${error.message}`);
-                    PlusToast.info("请先允许该网页使用麦克风", {
+                    this.$PlusToast.info("请先允许该网页使用麦克风", {
                         type: "dark",
                     });
                 }
@@ -1696,7 +1700,7 @@ export default {
                     that.handleMsg()
                 }).catch(function (error) {
                     // console.log(error);
-                    PlusToast.error(error);
+                    this.$PlusToast.error(error);
                 });
         },
         // 播放文字转语音的按钮
@@ -1743,13 +1747,13 @@ export default {
             //const h = this.$createElement;
             //var message = h('i', { style: 'color: teal' }, '这里是提示消息');
             //三种主题:toasted-primary,bubble,outline
-            let msgContent = "<div style='color: var(--color-primary-tips,#8DE78D);'>" +
+            let msgContent = "<div style='color: #eaebec;'>" +
                 "<div style='text-align: center;'>AI助手小提示：</div>" +
                 "<div>新增图片，视频，音频，文本等文件粘贴发送：复制一个图片或音视频等文件，粘贴到发送消息框中，即可对文件进行分析！</div>" +
                 "<div>增加语音回复与语音输入：(默认关闭语音回复)启用请发送”开启语音“，关闭发送“关闭语音”，发送“暂停播放”、“暂停”、“stop”实现停止播放语音，发送“继续播放”、“继续”、“play”可继续播放语音。左下角语音输入功能已更新！点击语音，然后结束！就可以发送语音文字！</div></div>";
-            PlusToast.show(msgContent, { type: "dark", duration: 4000 });
+            this.$PlusToast.show(msgContent);
             // 显示确认取消消息框使用方法
-            // PlusToast.confirm("确定要删除吗？", {
+            // this.$PlusToast.confirm("确定要删除吗？", {
             //     icon: "success",//主要有success，error，warning，info四个
             //     type: "success",//消息显示样式类型，success，error，warning，info，dark，light
             //     onConfirm: () => {
@@ -1771,13 +1775,13 @@ export default {
         //         inputPattern: /^sk-[\w]+$/,
         //         inputErrorMessage: 'openAiKey格式不正确'
         //     }).then(({ value }) => {
-        //         PlusToast.success('你的openAiKey是: ' + value, {
+        //         this.$PlusToast.success('你的openAiKey是: ' + value, {
         //             duration: 3000,
         //             type: "dark",
         //         });
         //         this.openAiKey = value;
         //     }).catch(() => {
-        //         PlusToast.info("取消输入", {
+        //         this.$PlusToast.info("取消输入", {
         //             duration: 3000,
         //             type: "dark",
         //         });

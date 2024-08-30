@@ -8,6 +8,7 @@
         options: {
             container: document.body,
             imageSrc: "",
+            closableBtn: true,//默认通过右上角按钮关闭裁剪的界面
             cropAreaWidth: 150,
             cropAreaHeight: 100,
         },
@@ -19,8 +20,8 @@
         isDragging: false, // 是否正在拖动裁剪框
         isResizing: false, // 是否正在调整裁剪框大小
         resizeDirection: '',
-        cropAreaX: 50,
-        cropAreaY: 50,
+        cropAreaX: 0,
+        cropAreaY: 0,
         startX: 0,
         startY: 0,
         // 图片缩放程度，旋转角度,位移位置坐标
@@ -56,7 +57,8 @@
             if (this.overlay) {
                 this.overlay.remove();
             }
-
+            this.cropAreaX = 0;
+            this.cropAreaY = 0;
             this.createElements();
             this.bindEvents();
             this.overlay.style.display = "flex";
@@ -112,6 +114,28 @@
             };
             this.cropingImage.style.cssText = `width: 100%; height: 100%; object-fit: cover;`;
             //`transform: rotate(${this.transform.rotation}deg) translate(${this.transform.translates[0]}px, ${this.transform.translates[1]}px) scale(${this.transform.scale})`;
+            // 根据closableBtn是否创建关闭按钮
+            if(this.options.closableBtn){
+                // this.closeBtnContainer = document.createElement('div');
+                // this.closeBtnContainer.id = 'closeCropperBtnContainer';
+                // this.closeBtnContainer.style.cssText = `
+                //     display: flex;
+                //     justify-content: space-around;
+                //     align-self: flex-end;
+                // `;
+                this.closeBtn = document.createElement("button");
+                if(this.checkSVGSupport()){
+                    this.closeBtn.innerHTML = '<svg t="1724780707138" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5255" width="20" height="20"><path d="M818.1 872.1c-15.4 0-30.7-5.9-42.4-17.6l-613-612.9c-23.4-23.4-23.4-61.4 0-84.9 23.4-23.4 61.4-23.4 84.9 0l612.9 612.9c23.4 23.4 23.4 61.4 0 84.9a59.914 59.914 0 0 1-42.4 17.6z" fill="currentColor" p-id="5256"></path><path d="M205.1 872.1c-15.4 0-30.7-5.9-42.4-17.6-23.4-23.4-23.4-61.4 0-84.9l612.9-612.9c23.4-23.4 61.4-23.4 84.9 0 23.4 23.4 23.4 61.4 0 84.9L247.6 854.5c-11.7 11.7-27.1 17.6-42.5 17.6z" fill="currentColor" p-id="5257"></path><path d="M818.1 872.1c-15.4 0-30.7-5.9-42.4-17.6l-613-612.9c-23.4-23.4-23.4-61.4 0-84.9 23.4-23.4 61.4-23.4 84.9 0l612.9 612.9c23.4 23.4 23.4 61.4 0 84.9a59.914 59.914 0 0 1-42.4 17.6z" fill="currentColor" p-id="5258"></path><path d="M205.1 872.1c-15.4 0-30.7-5.9-42.4-17.6-23.4-23.4-23.4-61.4 0-84.9l612.9-612.9c23.4-23.4 61.4-23.4 84.9 0 23.4 23.4 23.4 61.4 0 84.9L247.6 854.5c-11.7 11.7-27.1 17.6-42.5 17.6z" fill="currentColor" p-id="5259"></path><path d="M818.1 872.1c-15.4 0-30.7-5.9-42.4-17.6l-613-612.9c-23.4-23.4-23.4-61.4 0-84.9 23.4-23.4 61.4-23.4 84.9 0l612.9 612.9c23.4 23.4 23.4 61.4 0 84.9a59.914 59.914 0 0 1-42.4 17.6z" fill="currentColor" p-id="5260"></path><path d="M205.1 872.1c-15.4 0-30.7-5.9-42.4-17.6-23.4-23.4-23.4-61.4 0-84.9l612.9-612.9c23.4-23.4 61.4-23.4 84.9 0 23.4 23.4 23.4 61.4 0 84.9L247.6 854.5c-11.7 11.7-27.1 17.6-42.5 17.6z" fill="currentColor" p-id="5261"></path><path d="M818.1 872.1c-15.4 0-30.7-5.9-42.4-17.6l-613-612.9c-23.4-23.4-23.4-61.4 0-84.9 23.4-23.4 61.4-23.4 84.9 0l612.9 612.9c23.4 23.4 23.4 61.4 0 84.9a59.914 59.914 0 0 1-42.4 17.6z" fill="currentColor" p-id="5262"></path><path d="M205.1 872.1c-15.4 0-30.7-5.9-42.4-17.6-23.4-23.4-23.4-61.4 0-84.9l612.9-612.9c23.4-23.4 61.4-23.4 84.9 0 23.4 23.4 23.4 61.4 0 84.9L247.6 854.5c-11.7 11.7-27.1 17.6-42.5 17.6z" fill="currentColor" p-id="5263"></path></svg>';
+                }else {
+                    this.closeBtn.innerText = '×';
+                }
+                this.closeBtn.style.cssText = `
+                z-index: 2026; position: absolute; right: 5px; top: 5px; background-color: rgba(64, 66, 68, 0.87); padding: 0px;
+                color: #f3f1f0; border: none; width: 30px; height: 30px; line-height: 1; display: grid; place-content: center;
+                /* margin: 5px; */`;
+                // this.closeBtnContainer.appendChild(this.closeBtn);
+                this.overlay.appendChild(this.closeBtn);
+            }
             // 创建裁切区域, overflow可以不需要使用，注释掉，可以完全显示五个缩放点，更精确拖拉裁切框
             this.cropArea = document.createElement('div');
             this.cropArea.id = 'imageCropperArea';
@@ -561,12 +585,20 @@
                 }
             });
 
-            // --- 点击蒙版或裁切框以外区域关闭裁切框 ---
-            this.overlay.addEventListener('click', (e) => {
-                if (e.target === this.overlay) {// || e.target === this.cropArea
+            //根据closableBtn判断，如果为true，表示只能通过按钮关闭
+            if(this.options.closableBtn){
+                //添加关闭按钮事件
+                this.closeBtn.addEventListener('click', (e) => {
                     this.hide();
-                }
-            });
+                });
+            }else {
+                // --- 点击蒙版或裁切框以外区域关闭裁切框，这里因为裁切区域显示层位于overlay之上，所以只判断点击区域是否等于overlay ---
+                this.overlay.addEventListener('click', (e) => {
+                    if (e.target === this.overlay) {
+                        this.hide();
+                    }
+                });
+            }
         },
         // 显示裁剪框
         // show: function () {
@@ -797,6 +829,17 @@
             this.cropArea.style.width = this.cropAreaWidth + 'px';
             this.cropArea.style.height = this.cropAreaHeight + 'px';
         },
+        //检测是否支持使用svg
+        checkSVGSupport() {
+            // 检查SVG是否在DOM中可用
+            if (typeof SVGRect !== 'function') {
+                // 在这里执行相关的文字符号逻辑
+                return false;
+            } else {
+                // 在这里执行相关的SVG逻辑
+                return true;
+            }
+        }
     };
     // 将 PlusCropper 对象暴露给全局对象
     _global = (function () { return this || (0, eval)('this'); }());

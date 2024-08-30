@@ -548,7 +548,7 @@ nav ul {
   font-size: 1.5rem;
 }
 
-/*****************************自定义表单控制样式，给input等输入单元添加央视******************************/
+/*****************************自定义表单控制样式，给input等输入单元添加样式******************************/
 .plus-form-textarea {
   display: block;
   width: 100%;
@@ -1088,20 +1088,20 @@ ol {
   margin: 0 auto;
 }
 
-.plus-dialog-main {
+.file-preview-send-main {
   background: var(--color-article-container, #353434);
-  border-radius: 6px;
+  border-radius: inherit;
   height: auto;
   width: 100%;
 }
 
-.chat_extra_data {
+.file-preview-send-main .chat_extra_data {
   width: auto;
   margin: 0 auto;
   text-align: center;
 }
 
-.chat_extra_data img {
+.file-preview-send-main .chat_extra_data img {
   width: 100%;
   height: auto;
   /* transform: translate(-50%, -50%);
@@ -1110,11 +1110,11 @@ ol {
   left: 50%; */
 }
 
-.plus-dialog-container {
+.file-preview-send-container {
   padding: 7px;
 }
 
-.plus-dialog-footer {
+.file-preview-send-footer {
   /* border-top: var(--color-border-2,#9f9e9e) 1px solid; */
   display: flex;
   flex-direction: row;
@@ -1122,12 +1122,12 @@ ol {
   align-items: center;
 }
 
-.plus-dialog-footer .pdf-left-btn {
+.file-preview-send-footer .pdf-left-btn {
   flex: 1;
   color: var(--color-article-container-text-2, #fefdfd);
 }
 
-.plus-dialog-footer .pdf-right-btn {
+.file-preview-send-footer .pdf-right-btn {
   flex: 1;
   color: var(--color-article-container-text-2, #fefdfd);
 }
@@ -3591,10 +3591,11 @@ audio {
 .article-container .plus-article-toolbar {
   border-top: var(--color-article-container-text-2, #bbbcbc) 1px dashed;
   text-align: right;
+  padding: 5px 0;
 }
 
 .plus-article-toolbar .toolbar-button {
-  margin: 5px 6px 5px 0;
+  margin: 0 5px;
   height: 30px;
   line-height: 30px;
   font-size: 1rem;
