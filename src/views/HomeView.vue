@@ -11,17 +11,17 @@
     </div> -->
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <div class="banner_slider">
-      <!-- <div class="animate__animated animate__bounceInLeft">
-        <slide-swiper
+      <div class="animate__animated animate__bounceInLeft">
+        <!-- <slide-swiper
           :carouselParams="carouselSlideParams"
           :slideList="swiperImgList"
-        ></slide-swiper>
-      </div> -->
-      <div id="SlideSwiper" class="animate__animated animate__bounceInDown">
+        ></slide-swiper> -->
         <slide-banner
           :slideList="swiperImgList">
         </slide-banner>
       </div>
+      <!-- <div id="SlideSwiper" class="animate__animated animate__bounceInDown">
+      </div> -->
     </div>
     <div class="my-blog-advertise">
       <div>

@@ -231,7 +231,7 @@
         </div>
       </div>
     </div>
-    <div class="draggable-component">
+    <div class="plus-draggable-component">
       <gp-player></gp-player>
     </div>
     <!-- 移动端底部导航菜单，类似于APP中的底部Tab菜单 -->

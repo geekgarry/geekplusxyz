@@ -310,7 +310,7 @@
                     <div class="file-preview-send-footer">
                         <div class="pdf-left-btn">
                             <!-- <span class="cancel_btn" data-dismiss="modal" aria-label="Close"></span> -->
-                            <span class="cancel_btn" data-cancel="plus-dialog" aria-label="Close">
+                            <span class="cancel_btn" data-cancel="plus-dialog">
                                 取消
                             </span>
                         </div>
@@ -325,7 +325,7 @@
         <!-- <div class="modal fade" id="chatDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div role="document" class="plus-dialog"></div>
         </div> -->
-        <div class="draggable-component">
+        <div class="plus-draggable-component">
             <gp-player></gp-player>
         </div>
     </div>
@@ -428,6 +428,7 @@ export default {
             initialPosition: "right", // 初始位置为右边
             buoyContent: '<svg t="1722832996386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12854" width="25" height="25"><path d="M682.666667 384 682.666667 298.666667 512 298.666667 512 533.333333C494.08 520.106667 472.32 512 448 512 389.12 512 341.333333 559.786667 341.333333 618.666667 341.333333 677.546667 389.12 725.333333 448 725.333333 506.88 725.333333 554.666667 677.546667 554.666667 618.666667L554.666667 384 682.666667 384M512 85.333333C747.52 85.333333 938.666667 276.48 938.666667 512 938.666667 747.52 747.52 938.666667 512 938.666667 276.48 938.666667 85.333333 747.52 85.333333 512 85.333333 276.48 276.48 85.333333 512 85.333333Z" p-id="12855" fill="#fcfcfc"></path></svg>', // 设置箭头内容为 Font Awesome 图标
             //content: "<h1>Hello, world!</h1>", // 设置组件内容
+            buoyShape: "round"
         });
         //调用滑出抽屉菜单，closeButton: false不使用默认的关闭按钮
         PlusDrawer.init({ closeButton: false });

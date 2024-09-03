@@ -11,6 +11,7 @@ class DraggableComponent {
                 buoyContainerWidth: 30, // 悬浮标记指示容器长度
                 buoyContainerHeight: 30, // 悬浮标记指示容器高度
                 buoyContent: null, // 悬浮标记指示内容，可以是 HTML 字符串、DOM 元素或图片 URL
+                buoyShape: "square", //表示浮标的边框是圆还是方，round or square
                 resizable: false, // 是否允许调整大小 (暂未实现)
             },
             options
@@ -19,17 +20,17 @@ class DraggableComponent {
         //初始化创建style样式
         this.initialStyle();
 
-        // 查找已存在的 .draggable-component 元素
-        this.dragContainer = document.querySelector(".draggable-component");
+        // 查找已存在的 .plus-draggable-component 元素
+        this.dragContainer = document.querySelector(".plus-draggable-component");
 
         // 如果不存在，则创建新的容器
         if (!this.dragContainer) {
             // 创建组件容器
             // this.dragContainer = document.createElement("div");
-            // this.dragContainer.classList.add("draggable-component");
+            // this.dragContainer.classList.add("plus-draggable-component");
             // this.dragContainer.style.position = "fixed";
             this.dragContainer = document.createElement("div");
-            this.dragContainer.className = "draggable-component";
+            this.dragContainer.className = "plus-draggable-component";
             document.body.appendChild(this.dragContainer);
 
             // 设置初始内容
@@ -52,9 +53,11 @@ class DraggableComponent {
             justify-content: center;
             align-items: center;
             touch-action: none; /* 禁止浏览器默认行为，如滚动 */
+            user-select: none; /* 防止选中文本 */
             /* 过渡动画的使用 */
             /*transition:  opacity 1.5s linear 0s;*/
             transition: transform 0.3s ease 0s;
+            /*transition: top 0.01s, left 0.01s;  添加平滑动画 */
       `;
 
         // 初始化折叠状态和计时器
@@ -64,24 +67,45 @@ class DraggableComponent {
         // 添加展开的浮标记号
         // 创建浮标容器
         this.buoyContainer = document.createElement("div");
-        this.buoyContainer.classList.add("draggable-component-buoy-dragContainer");
+        this.buoyContainer.classList.add("draggable-component-buoy-container");
         this.buoyContainer.style.cssText = `
-        z-index: 9999;
-        position: fixed;
-        width: ${this.options.buoyContainerWidth}px;
-        height: ${this.options.buoyContainerHeight}px;
-        cursor: pointer;
-        background-color: rgb(50 50 50 / 50%);
-        border-radius: 3px;
-        display: inline-flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        color: inherit;
-        / * 简单动画变换 */
-        transition: transform 0.3s ease 0s;
-      `;
+            line-height: 1;
+            z-index: 9999;
+            position: fixed;
+            width: ${this.options.buoyContainerWidth}px;
+            height: ${this.options.buoyContainerHeight}px;
+            cursor: pointer;
+            background-color: rgb(50 50 50 / 50%);
+            border-radius: 3px;
+            display: inline-flex;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            color: inherit;
+            / * 简单动画变换 */
+            transition: transform 0.3s ease 0s;
+        `;
+        if(this.options.buoyShape === "round"){
+            this.buoyContainer.style.cssText = `
+                line-height: 1;
+                z-index: 9999;
+                position: fixed;
+                width: ${this.options.buoyContainerWidth}px;
+                height: ${this.options.buoyContainerHeight}px;
+                cursor: pointer;
+                background-color: rgb(50 50 50 / 50%);
+                display: inline-flex;
+                flex-wrap: nowrap;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                color: inherit;
+                / * 简单动画变换 */
+                transition: transform 0.3s ease 0s;
+                border-radius: ${this.options.buoyContainerHeight}px;
+            `;
+        }
         document.body.appendChild(this.buoyContainer);
 
         //初始隐藏
@@ -122,18 +146,18 @@ class DraggableComponent {
     //初始化一些css样式
     initialStyle() {
         // 创建<style>元素并添加到<head>中
-        if (document.getElementById("draggable-component-styles")) return;
+        if (document.getElementById("plus-draggable-component-styles")) return;
         const style = document.createElement('style');
-        style.id = "draggable-component-styles";
+        style.id = "plus-draggable-component-styles";
         style.textContent = `
         .open-blooming {
             transition: transform 0.3s ease 0s;
         }
-        .draggable-component.hideDrag {
+        .plus-draggable-component.hideDrag {
             display: none; /* 初始隐藏拖拽容器 visibility: hidden; */
             transform: scale(0);
         }
-        .draggable-component-buoy-dragContainer.hideBuoy {
+        .draggable-component-buoy-container.hideBuoy {
             display: none; /* 初始隐藏浮标/按钮 visibility: hidden; */
             transform: scale(0);
         }
@@ -301,7 +325,7 @@ class DraggableComponent {
             //阻止事件冒泡，防止影响别的事件
             this.stopPropaga(e);
             // 确保只在组件上触发拖拽
-            if (!e.target.closest('.draggable-component') && !e.target.closest('.draggable-component-buoy-dragContainer')) return;
+            if (!e.target.closest('.plus-draggable-component') && !e.target.closest('.draggable-component-buoy-container')) return;
 
             this.isDragging = true;
             startX = e.clientX;
@@ -321,6 +345,10 @@ class DraggableComponent {
 
             const deltaX = e.clientX - startX;
             const deltaY = e.clientY - startY;
+
+            // const dragX = initialX + deltaX + Math.round(this.dragContainer.offsetWidth / 2);
+            // const dragY = initialY + deltaY + Math.round(this.dragContainer.offsetHeight / 2);
+            // this.setTranslate(dragX, dragY, this.dragContainer);
 
             // 通过修改 dragContainer样式的 left 和 top 属性
             this.dragContainer.style.left = `${initialX + deltaX}px`;
@@ -352,7 +380,7 @@ class DraggableComponent {
             //阻止事件冒泡，防止影响别的事件
             this.stopPropaga(e);
             // 确保只在组件上触发拖拽
-            if (!e.target.closest('.draggable-component') && !e.target.closest('.draggable-component-buoy-dragContainer')) return;
+            if (!e.target.closest('.plus-draggable-component') && !e.target.closest('.draggable-component-buoy-container')) return;
             // if(e.target !== this.dragContainer) return;
 
             this.isDragging = true;
@@ -740,6 +768,10 @@ class DraggableComponent {
             //点击之后如果没有任何操作时，则重新调用clingToWindowEdge();
             this.clingToWindowEdge();
         }
+    }
+    
+    setTranslate(xPos, yPos, el) {
+        el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
     }
 }
 

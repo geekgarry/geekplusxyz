@@ -3,21 +3,31 @@
   <div class="plus-banner">
     <div class="plus-banner-container">
         <!-- 轮播(Carousel)项目 -->
-        <div
-            v-for="(item, index) in slideList"
-            :key="index"
-            class="item plus-banner-content no-active"
-            :style="{ backgroundImage: 'url('+ item.carouselImg + ')' }"
-            >
-            <!-- <img :src="item.carouselImg" :alt="item.carouselTitle"> -->
-            <a target="_blank" :href="item.carouselLink">
-                <div class="plus-banner-caption">
-                <h5 class="hidden-sm hidden-xs">
-                    {{ item.carouselInfo ? item.carouselInfo : "设计轮播图效果" }}
-                </h5>
-                <p>{{ item.carouselTitle }}</p>
-                </div>
-            </a>
+        <ol class="plus-banner-indicators">
+            <li 
+                v-for="(item, index) in slideList"
+                :key="index"
+                class="plus-banner-point no-active"
+                :data-slide-to="index"
+            ></li>
+        </ol>
+        <div class="plus-banner-content-inner">
+            <div
+                v-for="(item, index) in slideList"
+                :key="index"
+                class="plus-banner-content no-active"
+                :style="{ backgroundImage: 'url('+ item.carouselImg + ')' }"
+                >
+                <!-- <img :src="item.carouselImg" :alt="item.carouselTitle"> -->
+                <a target="_blank" :href="item.carouselLink">
+                    <div class="plus-banner-caption">
+                    <h5 class="hidden-sm hidden-xs">
+                        {{ item.carouselInfo ? item.carouselInfo : "设计轮播图效果" }}
+                    </h5>
+                    <p>{{ item.carouselTitle }}</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
     <span class="plus-banner-arrow plus-banner-arrow-left">
@@ -71,31 +81,60 @@ export default {
 
     },
     mounted(){
+        //轮播图容器
         const bannerContainer = document.querySelector('.plus-banner-container');
+        //轮播图内部容器
+        const bannerImgInner = document.querySelector('.plus-banner-content-inner');
+        //所有轮播图
         const bannerImages = document.querySelectorAll('.plus-banner-content');
+        //轮播提示，也就是轮播图下面的变换点
+        const pointsContainer = document.querySelector('.plus-banner-indicators');
+        //所有的轮播指示点
+        const bannerPoints = document.querySelectorAll('.plus-banner-point');
+        //轮播左滑箭头
         const arrowLeft = document.querySelector('.plus-banner-arrow-left');
+        //轮播右滑箭头
         const arrowRight = document.querySelector('.plus-banner-arrow-right');
+        //当前轮播图索引序号
         let currentImageIndex = 0;
 
         // 定义一个标志变量来控制是否继续执行
         let intervalSlideId;
+        //是否正在滑动轮播图
         let isSlideRunning = false;
 
-        // 设置初始 translateX 值
+        // 设置初始轮播图
         updateBanner();
 
+        //开始定时轮播
         startIntervalSlide();
+
+        //点击轮播点，切换轮播图
+        bannerPoints.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                // bannerPoints[currentImageIndex].classList.add("no-active");
+                // bannerImages[currentImageIndex].classList.add("no-active");
+                // currentImageIndex = index;
+                toRightSlideBanner(index);
+                updateBanner();
+            });
+        });
 
         // 处理左右箭头点击事件
         arrowLeft.addEventListener('click', () => {
-            bannerImages[currentImageIndex].classList.add("no-active");
-            currentImageIndex = (currentImageIndex - 1 + bannerImages.length) % bannerImages.length;
+            // 这里是定期执行的代码
+            // bannerPoints[currentImageIndex].classList.add("no-active");
+            // bannerImages[currentImageIndex].classList.add("no-active");
+            // currentImageIndex = (currentImageIndex - 1 + bannerImages.length) % bannerImages.length;
+            toLeftSlideBanner();
             updateBanner();
         });
 
         arrowRight.addEventListener('click', () => {
-            bannerImages[currentImageIndex].classList.add("no-active");
-            currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+            // bannerPoints[currentImageIndex].classList.add("no-active");
+            // bannerImages[currentImageIndex].classList.add("no-active");
+            // currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+            toRightSlideBanner();
             updateBanner();
         });
 
@@ -113,11 +152,15 @@ export default {
 
             if (Math.abs(deltaX) > 50) {
                 if (deltaX > 0) {
-                    bannerImages[currentImageIndex].classList.add("no-active");
-                    currentImageIndex = (currentImageIndex - 1 + bannerImages.length) % bannerImages.length;
+                    // bannerPoints[currentImageIndex].classList.add("no-active");
+                    // bannerImages[currentImageIndex].classList.add("no-active");
+                    // currentImageIndex = (currentImageIndex - 1 + bannerImages.length) % bannerImages.length;
+                    toLeftSlideBanner();
                 } else {
-                    bannerImages[currentImageIndex].classList.add("no-active");
-                    currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+                    // bannerPoints[currentImageIndex].classList.add("no-active");
+                    // bannerImages[currentImageIndex].classList.add("no-active");
+                    // currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+                    toRightSlideBanner();
                 }
                 updateBanner();
             }
@@ -137,11 +180,15 @@ export default {
 
             if (Math.abs(deltaX) > 50) {
                 if (deltaX > 0) {
-                    bannerImages[currentImageIndex].classList.add("no-active");
-                    currentImageIndex = (currentImageIndex - 1 + bannerImages.length) % bannerImages.length;
+                    // bannerPoints[currentImageIndex].classList.add("no-active");
+                    // bannerImages[currentImageIndex].classList.add("no-active");
+                    // currentImageIndex = (currentImageIndex - 1 + bannerImages.length) % bannerImages.length;
+                    toLeftSlideBanner();
                 } else {
-                    bannerImages[currentImageIndex].classList.add("no-active");
-                    currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+                    // bannerPoints[currentImageIndex].classList.add("no-active");
+                    // bannerImages[currentImageIndex].classList.add("no-active");
+                    // currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+                    toRightSlideBanner();
                 }
                 updateBanner();
             }
@@ -153,24 +200,53 @@ export default {
             intervalSlideId = setInterval(function() {
                 if (isSlideRunning) {
                     // 这里是定期执行的代码
-                    bannerImages[currentImageIndex].classList.add("no-active");
-                    currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+                    // bannerPoints[currentImageIndex].classList.add("no-active");
+                    // bannerImages[currentImageIndex].classList.add("no-active");
+                    // currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+                    toRightSlideBanner();
                     updateBanner();
                 }
             }, 5000); // 间隔时间为4000毫秒
         }
         
-        // 暂停执行
+        // 暂停执行定时轮播
         function stopIntervalSlide() {
             isSlideRunning = false;
             clearInterval(intervalSlideId);
         }
 
-        // 更新轮播图
+        //向左滑动更新图片和索引
+        function toLeftSlideBanner(index = null) {
+            // 这里是定期执行的代码
+            bannerPoints[currentImageIndex].classList.add("no-active");
+            bannerImages[currentImageIndex].classList.add("no-active");
+            currentImageIndex = (currentImageIndex - 1 + bannerImages.length) % bannerImages.length;
+            if(index != null && typeof index == 'number') {
+                currentImageIndex = index;
+            }
+        }
+
+        //向右滑动更新图片和索引
+        function toRightSlideBanner(index = null) {
+            // 这里是定期执行的代码
+            bannerPoints[currentImageIndex].classList.add("no-active");
+            bannerImages[currentImageIndex].classList.add("no-active");
+            currentImageIndex = (currentImageIndex + 1) % bannerImages.length;
+            if(index != null && typeof index == 'number') {
+                currentImageIndex = index;
+            }
+        }
+
+        // 更新轮播图，添加css类，包括动画等
         function updateBanner() {
+            bannerPoints[currentImageIndex].classList.remove("no-active");
+            // bannerPoints[currentImageIndex].style.transform = `translateX(-${currentImageIndex * 20}px)`;
             // bannerImages[currentImageIndex].style.left = `${currentImageIndex * 100}%`;
             bannerImages[currentImageIndex].classList.remove("no-active");
-            // bannerContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+            // var transformDis= Math.round(100%bannerImages.length);
+            bannerImgInner.style.transform = `translateX(-${bannerImages[currentImageIndex].offsetLeft}px)`;
+            // bannerImgInner.style.transform = `translateX(-${currentImageIndex * transformDis}%)`;
+            // bannerImgInner.style.transform = `translateX(-${currentImageIndex * 100}%)`;
             // bannerContainer.style.transform = "translate3d(0, 0, 0)";
             // bannerContainer.style.transition = "transform 0.6s ease-in-out";
         }
@@ -180,6 +256,14 @@ export default {
 
 <style scoped>
 /* 轮播图 */
+@keyframes slide {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
 
 .plus-banner {
     width: 100%;
@@ -191,17 +275,89 @@ export default {
 .plus-banner img {
     width: 100%;
     height: 100%;
+    pointer-events: none;
 }
 
 .plus-banner-container {
     position: relative;
     width: 100%;
     overflow: hidden;
+    -ms-touch-action: pan-Y;
+    touch-action: manipulation;
+}
+
+.plus-banner-content-inner {
+    user-select: none;
+    transition: transform 0.5s ease-in-out;
+    overflow: hidden;
+}
+
+.plus-banner-indicators{
+    background: transparent;
+    position: absolute;
+    bottom: 10px;
+    z-index: 15;
+    width: 100%;
+    padding-left: 0;
+    text-align: center;
+    list-style: none;
+    margin: 0;
+}
+
+.plus-banner-indicators .plus-banner-point {
+    list-style: inside;
+    width: 20px;
+    height: 10px;
+    margin: 1px 2px;
+    background-color: #fff;
+    display: inline-block;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    transition: transform 0.3s ease 0s;
+}
+
+.plus-banner-indicators .plus-banner-point.no-active {
+    list-style: circle;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px 2px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #000 \9;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #fff;
+    border-radius: 10px;
+    transition: transform 0.3s ease 0s;
+}
+
+@media screen and (min-width: 1300px) {
+    .plus-banner-content-inner {
+        height: 520px;
+    }
+}
+@media screen and (min-width: 768px) {
+    .plus-banner-content-inner {
+        height: 380px;
+    }
+}
+@media screen and (max-width: 767px)  {
+    .plus-banner-content-inner {
+        height: 300px;
+    }
+}
+@media screen and (max-width: 520px)  {
+    .plus-banner-content-inner {
+        height: 170px;
+    }
 }
 
 .plus-banner-content{
+    position: relative;
+    display: inline-block;
     width: 100%;
     height: 100%;
+    /* padding-bottom: 43%;*/ /* 设置padding-bottom为宽度的20%，保持宽高比 */
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -210,10 +366,22 @@ export default {
     object-position: center;
     -o-object-fit: cover;
     object-fit: cover;
+    transition: all 0.3s ease-in-out;
 }
 
 .plus-banner-content.no-active {
     display: none;
+    /* position: absolute;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; */
+}
+
+.plus-banner-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
 }
 
 .plus-banner-caption {
@@ -227,6 +395,12 @@ export default {
     color: #fff;
     text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+    font-size: 13px;
+}
+
+.plus-banner-caption p {
+    margin: 0;
+    padding: 0;
 }
 
 .plus-banner-arrow {
