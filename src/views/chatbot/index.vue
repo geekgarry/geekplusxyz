@@ -1,7 +1,6 @@
 <template>
-    <div id="chat_app_container">
-        <div class="chatBoxHeader" :style="{ top: chatBoxHeaderTop + `px` }">
-            <!-- <div><el-tooltip class="item" effect="dark" content="输入你的openAiKey" placement="bottom-start"><i class="el-icon-key" @click="setOpenAiKey"></i></el-tooltip></div> $router.push({path:'/'})-->
+    <div class="chat-app-container">
+        <div class="chat-box-header" :style="{ top: chatBoxHeaderTop + `px` }">
             <div class="plus-drawer-toggle" data-target="#my-plus-drawer" data-side="left">
                 <span class="gplus-icon">
                     <svg t="1723616704150" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -25,38 +24,58 @@
             </div>
         </div>
         <div class="chat-main-content" v-if="mobileChatdisplay">
-            <div class="bigChatBox" id="bigChatBox" :style="{ height: chatBoxHeight + 'px' }">
-                <div v-for="(item, index) in msgList" v-bind:key="index" class="listChatMsg">
-                    <div v-show="item.time" class="chat_date_time">{{ getChatDateTime(item.time) }}</div>
-                    <span class="listChatItemR" v-if="item && item.align == 'right'">
-                        <span class="listChatItemContent">
-                            <div class="chat_extra_data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
-                                <span v-html="item.mediaDiv"></span>
-                            </div>
-                            <span v-text="item.text"></span>
-                        </span>
+            <div class="big-chat-box" id="big-chat-box" :style="{ height: chatBoxHeight + 'px' }">
+                <div v-for="(item, index) in msgList" v-bind:key="index" class="list-chat-msg">
+                    <div v-show="item.time" class="chat-date-time">{{ getChatDateTime(item.time) }}</div>
+                    <div :class="item && item.align === 'right' ? 'list-chat-item-right' : 'list-chat-item-left'">
                         <span>
-                            <img class="chatUserIcon" v-lazy="'/imgs/mai.png'" alt="麦壳" />
+                            <img class="chat-user-icon" :src="item.align == 'right' ? '/imgs/mai.png' : '/imgs/logo.png'" :alt="item.align == 'right' ? '麦壳' : '极客普拉斯'" />
                         </span>
-                    </span>
-                    <span class="listChatItemL" v-if="item && item.align == 'left'">
-                        <span><img class="chatUserIcon" v-lazy="'/imgs/logo.png'" alt="极客普拉斯" />
-                        </span>
-                        <span class="listChatItemContent" v-if="item">
-                            <span v-html="renderMdHtml(item.text)"></span>
+                        <span class="list-chat-item-content">
+                            <!-- <div class="chat-msg-media-data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
+                                <span v-html="item.mediaDiv"></span>
+                            </div> -->
+                            <div v-if="item.type === 'text'">
+                                <!-- <span v-if="item && item.align == 'right'" v-text="item.text"></span> -->
+                                <span v-html="item.align === 'right' ? item.text : renderMdHtml(item.text)"></span>
+                            </div>
+                            <div v-else-if="item.type === 'image'">
+                                <span>{{item.text}}</span>
+                                <div class="chat-msg-media-data">
+                                    <img :src="item.mediaData" :alt="item.mediaFileName" />
+                                </div>
+                                <div>{{item.mediaFileName}}</div>
+                            </div>
+                            <div v-else>
+                                <span>{{item.text}}</span>
+                                <div class="chat-msg-media-data">
+                                    <object :data="item.mediaData" style="width: 95%;" height="100%">
+                                        <embed :src="item.mediaData" style="width: 100%;" >
+                                        <audio controls height="50" width="100%" :data="item.mediaData">
+                                        </audio>
+                                        <video controls height="50" width="100%" :data="item.mediaData">
+                                            <source :src="item.mediaData" type="audio/mpeg">
+                                            <source :src="item.mediaData" type="audio/ogg">
+                                            <source :src="item.mediaData" type="video/mp4">
+                                            <source :src="item.mediaData" type="video/ogg">
+                                        </video>
+                                        <a :href="item.mediaData" target="_blank">查看</a>
+                                    </object>
+                                </div>
+                                <div>{{item.mediaFileName}}</div>
+                            </div>
                             <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
-                            <!-- v-if="item.type=='1'" <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                         </span>
-                    </span>
+                    </div>
                 </div>
             </div>
-            <div class="chatBoxFooter">
-                <!-- <div class="chatBoxFooterBtn">
+            <div class="chat-box-footer">
+                <!-- <div class="chat-box-footer-btn">
                     <span class="chat_btn_left">
                         <a class="btn btn-default" href="#" role="button" @click="startAndStopRecording">{{recordingTxt}}
                         </a>
                     </span>
-                    <textarea placeholder="请输入聊天内容" v-model="inputChatMsg" id="inputContentText" class="form-control onlyoneline" 
+                    <textarea placeholder="请输入聊天内容" v-model="inputChatMsg" id="plus-input-content-text" class="form-control onlyoneline" 
                     :disabled="statusDisabled" :autofocus="false" rows="1" @keydown="keyDownEvent" @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
                     <span class="chat_btn_right">
                         <a class="btn btn-default" href="#" role="button" @click="handleMsg">发送
@@ -70,13 +89,10 @@
                         </button>
                     </div>
                     <div class="textarea-container">
-                        <textarea placeholder="请输入消息..." class="plus-text-input onlyoneline" id="inputContentText"
+                        <textarea placeholder="请输入消息..." class="plus-text-input onlyoneline" id="plus-input-content-text"
                             name="inputChatMsg" autocomplete="off" rows="1" v-model="inputChatMsg" :autofocus="false"
                             @input="textInputEvent" @paste.capture.passive="pastingData"></textarea>
                         <label for="file-upload" class="upload-button">
-                            <!-- <svg t="1720277146152" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5064" width="20" height="20">
-                                <path d="M899.437541 570.198493 568.89122 570.198493l0 330.508459c0 32.216749-26.103518 58.397015-58.341756 58.397015-32.216749 0-58.283428-26.180266-58.283428-58.397015L452.266036 570.198493 121.718691 570.198493c-32.217772 0-58.359152-26.121937-58.359152-58.340733s26.14138-58.284451 58.359152-58.284451l330.547345 0L452.266036 122.969683c0-32.17991 26.066679-58.340733 58.283428-58.340733 32.238238 0 58.341756 26.160823 58.341756 58.340733L568.89122 453.573309l330.547345 0c32.218796 0 58.359152 26.065655 58.359152 58.284451S931.656337 570.198493 899.437541 570.198493" p-id="5065" fill="#484747"></path>
-                            </svg> -->
                             <svg t="1720279770597" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" p-id="10853" id="mx_n_1720279770598" width="20"
                                 height="20">
@@ -98,7 +114,7 @@
             </div>
         </div>
         <div v-else>
-            <!-- <div class="chatBoxHeader">
+            <!-- <div class="chat-box-header">
                 <div @click="toggleMenu">
                     <span class="gplus-icon">
                         <svg t="1723616704150" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6277" width="24" height="24" class="icon"><path data-v-00771e96="" d="M844.8 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 864 864 883.2 844.8 883.2zM844.8 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C883.2 460.8 864 480 844.8 480zM435.2 883.2l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 864 460.8 883.2 435.2 883.2zM435.2 480l-256 0c-19.2 0-38.4-19.2-38.4-38.4l0-256c0-19.2 19.2-38.4 38.4-38.4l256 0c19.2 0 38.4 19.2 38.4 38.4l0 256C480 460.8 460.8 480 435.2 480z" fill="currentColor" p-id="6278"></path></svg>
@@ -112,48 +128,58 @@
                 </div>
             </div> -->
             <!--事件的native修饰符只能在UI组件或自定义组件上使用，原生的html标签是不能使用的,入div，input等-->
-            <!-- <button type="button" class="btn btn-info" @click="visibleDialog" v-show="chatBtnPcDisplay">打开ChatGpt聊天框</button> -->
             <div class="container-fluid">
                 <div class="row row-no-gutters">
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
-                        <div class="bigChatBox" id="bigChatBox-desktop" :style="{ height: chatBoxHeight + 'px' }">
+                        <div class="big-chat-box" id="big-chat-box-desktop" :style="{ height: chatBoxHeight + 'px' }">
                             <!-- :style="{textAlign: item.align}" -->
-                            <div v-for="(item, index) in msgList" :key="index" class="listChatMsg">
-                                <div v-show="item.time" class="chat_date_time">{{ getChatDateTime(item.time) }}</div>
-                                <span class="listChatItemR" v-if="item && item.align == 'right'">
-                                    <span class="pcChatTextSpan">
-                                        <div class="chat_extra_data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
+                            <div v-for="(item, index) in msgList" :key="index" class="list-chat-msg">
+                                <div v-show="item.time" class="chat-date-time">{{ getChatDateTime(item.time) }}</div>
+                                <div :class="item && item.align === 'right' ? 'list-chat-item-right' : 'list-chat-item-left'">
+                                    <span>
+                                        <img class="chat-user-icon" :src="item.align == 'right' ? '/imgs/mai.png' : '/imgs/logo.png'" :alt="item.align == 'right' ? '麦壳' : '极客普拉斯'" />
+                                    </span>
+                                    <span class="pc-chat-item-span">
+                                        <!-- <div class="chat-msg-media-data" v-if="checkObjectExistsJson(item, 'mediaDiv')">
                                             <span v-html="item.mediaDiv"></span>
-                                            <!-- <object :data="item.extraData" style="width: 95%;" height="100%">
-                                                <embed :src="item.extraData" style="width: 100%;" >
-                                                <audio controls height="50" width="100%" :data="item.extraData">
-                                                </audio>
-                                                <video controls height="50" width="100%" :data="item.extraData">
-                                                    <source :src="item.extraData" type="audio/mpeg">
-                                                    <source :src="item.extraData" type="audio/ogg">
-                                                    <source :src="item.extraData" type="video/mp4">
-                                                    <source :src="item.extraData" type="video/ogg">
-                                                </video>
-                                                <a :href="item.extraData" target="_blank">查看</a>
-                                            </object> -->
+                                        </div> -->
+                                        <div v-if="item.type === 'text'">
+                                            <!-- <span v-if="item.align == 'right'" v-text="item.text"></span> -->
+                                            <span v-html="item.align === 'right' ? item.text : renderMdHtml(item.text)"></span>
                                         </div>
-                                        <span v-text="item.text"></span>
-                                    </span>
-                                    <img class="chatUserIcon" src="/imgs/mai.png" alt="麦壳" />
-                                </span>
-                                <span class="listChatItemL" v-if="item && item.align == 'left'">
-                                    <img class="chatUserIcon" src="/imgs/logo.png" alt="极客普拉斯" />
-                                    <span class="pcChatTextSpan" v-if="item && item.link == ''">
-                                        <span v-html="renderMdHtml(item.text)"></span>
+                                        <div v-else-if="item.type === 'image'">
+                                            <span>{{item.text}}</span>
+                                            <div class="chat-msg-media-data">
+                                                <img :src="item.mediaData" :alt="item.mediaFileName" />
+                                            </div>
+                                            <div>{{item.mediaFileName}}</div>
+                                        </div>
+                                        <div v-else>
+                                            <span>{{item.text}}</span>
+                                            <div class="chat-msg-media-data">
+                                                <object :data="item.mediaData" style="width: 95%;" height="100%">
+                                                    <embed :src="item.mediaData" style="width: 100%;" >
+                                                    <audio controls height="50" width="100%" :data="item.mediaData">
+                                                    </audio>
+                                                    <video controls height="50" width="100%" :data="item.mediaData">
+                                                        <source :src="item.mediaData" type="audio/mpeg">
+                                                        <source :src="item.mediaData" type="audio/ogg">
+                                                        <source :src="item.mediaData" type="video/mp4">
+                                                        <source :src="item.mediaData" type="video/ogg">
+                                                    </video>
+                                                    <a :href="item.mediaData" target="_blank">查看</a>
+                                                </object>
+                                            </div>
+                                            <div>{{item.mediaFileName}}</div>
+                                        </div>
                                         <div v-show="item.link"><a :href="item.link" target="_blank">链接</a></div>
-                                        <!--v-if="item.type=='1'"  <span v-if="item.type=='0'" v-text="item.text">{{item.text}}</span> -->
                                     </span>
-                                </span>
+                                </div>
                             </div>
                         </div>
-                        <div class="chatBoxFooter">
+                        <div class="chat-box-footer">
                             <!-- <div class="input-group search-input-group">
-                                <textarea id="inputContentText" name="inputChatMsg" autocomplete="off" :autofocus="false" v-model="inputChatMsg" :disabled="statusDisabled" class="form-control onlyoneline" 
+                                <textarea id="plus-input-content-text" name="inputChatMsg" autocomplete="off" :autofocus="false" v-model="inputChatMsg" :disabled="statusDisabled" class="form-control onlyoneline" 
                                   placeholder="请输入聊天内容" rows="1" v-on:keydown="keyDownEvent" v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
                                 <span class="input-group-addon">
                                     <button type="button" @keydown.enter="handleMsg" @click="handleMsg" :disabled="statusDisabled">
@@ -164,7 +190,7 @@
                             <div class="input-container">
                                 <div class="textarea-container">
                                     <textarea placeholder="请输入消息..." class="plus-text-input onlyoneline"
-                                        id="inputContentText" name="inputChatMsg" autocomplete="off" rows="1"
+                                        id="plus-input-content-text" name="inputChatMsg" autocomplete="off" rows="1"
                                         :autofocus="false" v-model="inputChatMsg" v-on:keydown="keyDownEvent"
                                         v-on:input="textInputEvent" v-on:paste.capture.passive="pastingData"></textarea>
                                     <label for="file-upload" class="upload-button">
@@ -257,7 +283,7 @@
                     </div>
                     <div class="history-msg-list-container">
                         <div class="history-msg-list-item" v-for="(item, index) in historyChatMsgList" :key="index">
-                            <span class="ellipsis" @click="getOneHistoryChatMsg(item.historyMsgKey)">
+                            <span class="text-ellipsis" @click="getOneHistoryChatMsg(item.historyMsgKey)">
                                 {{ JSON.parse(item.historyMsg).text.substring(0,45) }}
                             </span>
                             <span class="history-msg-list-item-close"
@@ -297,26 +323,24 @@
         </div>
         <!-- 另一种抽屉滑动菜单，使用toggleMenu方法滑出显示menu-drawer，outSideCloseMenu方法点击菜单以外任意地方隐藏menu-drawer -->
         <!-- <div class="menu-drawer" :class="{ open: menuOpen }"></div> -->
-        <!-- <el-dialog :visible.sync="visible" title="对话框"></el-dialog> -->
         <div class="plus-dialog-overlay">
             <div class="plus-dialog-main-body">
                 <div class="file-preview-send-main">
                     <div class="file-preview-send-container">
-                        <div class="chat_extra_data" id="fileData">
+                        <div class="chat-extra-data" id="fileData">
                         </div>
                     </div>
                     <textarea name="inputChatMsgDialog" v-model="chatDataPrompt.chatMsg" v-focus="dialogInputIsFocus"
                         class="plus-form-textarea" placeholder="请输入消息..." rows="1"></textarea>
                     <div class="file-preview-send-footer">
                         <div class="pdf-left-btn">
-                            <!-- <span class="cancel_btn" data-dismiss="modal" aria-label="Close"></span> -->
-                            <span class="cancel_btn" data-cancel="plus-dialog">
+                            <span class="cancel-btn" data-cancel="plus-dialog" aria-label="Close">
                                 取消
                             </span>
                         </div>
                         <span class="split-line"></span>
                         <div class="pdf-right-btn">
-                            <span class="confirm_btn" v-on:click="sendWithFile">发送</span>
+                            <span class="confirm-btn" v-on:click="sendWithFile">发送</span>
                         </div>
                     </div>
                 </div>
@@ -335,7 +359,6 @@
 import axios from 'axios'
 import Recorder from 'js-audio-recorder'
 import PlusCropper from "@/utils/PlusCropper.js"
-import { isMobile, isPC, isIOS, isAndroid, browser } from '@/utils/PlusDeviceOS.js'
 import PlusDialog from '@/utils/PlusDialog.js'
 import PlusDrawer from '@/utils/plus-drawer.js'
 //import { marked } from 'marked';//9.1.6
@@ -379,7 +402,7 @@ export default {
             isTextVoice: false, //是否语音朗读
             isHistory: true, //是否采用有历史记忆的聊天
             tempFileUrl: "", //临时二进制数据Blob文件地址
-            openAiKey: '',//未使用，用户自己使用自己的apikey
+            // openAiKey: '',//未使用，用户自己使用自己的apikey
             //封装一个聊天消息，里面自己添加具体的内容，可以携带媒体数据mediaData
             chatDataPrompt: {
                 userId: null,//用户ID
@@ -391,6 +414,7 @@ export default {
                 mediaFileName: null,//文件名称
             },
             historyChatMsgList: [],//历史消息记录，从redis中查询，包含redisKey和每一个聊天记录的最后一条消息
+            webProtocol: window.location.protocol,
             baseHost: window.location.host,//当前的网址url
             baseApi: process.env.VUE_APP_BASE_API,//获取系统的api初始头URL
             textAreaInput: null,//获取底部输入框input，textarea
@@ -428,15 +452,15 @@ export default {
             initialPosition: "right", // 初始位置为右边
             buoyContent: '<svg t="1722832996386" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12854" width="25" height="25"><path d="M682.666667 384 682.666667 298.666667 512 298.666667 512 533.333333C494.08 520.106667 472.32 512 448 512 389.12 512 341.333333 559.786667 341.333333 618.666667 341.333333 677.546667 389.12 725.333333 448 725.333333 506.88 725.333333 554.666667 677.546667 554.666667 618.666667L554.666667 384 682.666667 384M512 85.333333C747.52 85.333333 938.666667 276.48 938.666667 512 938.666667 747.52 747.52 938.666667 512 938.666667 276.48 938.666667 85.333333 747.52 85.333333 512 85.333333 276.48 276.48 85.333333 512 85.333333Z" p-id="12855" fill="#fcfcfc"></path></svg>', // 设置箭头内容为 Font Awesome 图标
             //content: "<h1>Hello, world!</h1>", // 设置组件内容
-            buoyShape: "round"
+            //buoyShape: "round"
         });
         //调用滑出抽屉菜单，closeButton: false不使用默认的关闭按钮
         PlusDrawer.init({ closeButton: false });
         const that = this;
-        that.textAreaInput = document.querySelector("#inputContentText");
+        that.textAreaInput = document.querySelector("#plus-input-content-text");
         that.textInputHeight = this.textAreaInput.offsetHeight;
         that.adjustLayout();
-        //that.setOpenAiKey()
+        // this.$nextTick(() => {this.$refs.serachBox.focus();});
         // <!--把window.onresize事件挂在到mounted函数上-->
         // window.onresize = (e) => {return (() => {})();};
         window.addEventListener('resize', (e) => {
@@ -525,8 +549,6 @@ export default {
         }
     },
     watch: {
-        // textAreaInput(val){
-        // },
         windowHeight(val) {
             // console.log("实时屏幕高度：", val, this.windowHeight);
         },
@@ -555,18 +577,11 @@ export default {
             //     //this.chatBtnPcDisplay = true;
             //     this.mobileChatdisplay = false;
             // }
-            if (!isMobile()) {
+            if (!this.isMobile()) {
                 this.mobileChatdisplay = false;
             }
-            //document.getElementById("bigChatBox").offsetHeight = (this.windowHeight - 100) + "px";
             // testProcess().then(res=>{console.log(res);})
         },
-        // visibleDialog() {
-        //     this.visible = true;
-        //     this.$nextTick(() => {
-        //         this.$refs.serachBox.focus();
-        //     });
-        // },
         //处理发送消息
         async handleMsg() {
             // if (this.inputChatMsg === "关闭语音") {
@@ -604,7 +619,7 @@ export default {
                 this.resetPromptFileData();
                 //msgListToChatPromptList方法是在调用发送消息到后端前把之前所有的消息构造一个json作为历史消息记录
                 this.msgListToChatPromptList(this.msgList);
-                await this.showChatMsgList(this.msgList, { align: "right", text: this.inputChatMsg, time: Date.now() });
+                await this.showChatMsgList(this.msgList, { align: "right", text: this.inputChatMsg, type: "text", time: Date.now() });
                 await this.scrollEleSmoothTop(true);
                 this.getReplyMsg();
             }
@@ -615,46 +630,14 @@ export default {
         },
         //发送消息后获取消息回复
         getReplyMsg() {
-            /** if(this.openAiKey==''||this.openAiKey==null){
-              this.$message({message:'请先输入你的openAiKey',type:'error',duration:2500})
-            }else{
-              // 处理自己的接口请求 返回需要的数据
-            axios.post("/getchatgpt",//openai的api
-              { username:"You", data: this.inputChatMsg,openAiKey:this.openAiKey })
-              .then(async (response) => {
-              console.log(response);
-              if (response.status == 200) {
-                console.log("返回响应信息")
-                console.log(response.data)
-                let msg="消息";
-                let msgtype="0"
-                if(response.data.code==500){
-                  msg="返回信息错误可能由于以下原因:\n1.你发送的信息中包含不安全和不合法的内容！（如色情，暴力，恐怖，或是违反互联网一般行为规范和道德法律等）。\n2.你的服务因为一些原因无法完成请求过程，也许是网络问题，也许是服务器出现服务过载或超时延迟。\n3.由于服务器出现未知原因导致数据无法安全传递";
-                  msgtype="0";
-                }else if(response.data.code==200){
-                  // 自行处理需要的数据
-                  msg = response.data.data.msg_data;
-                  msgtype = response.data.data.msg_type;
-                }
-                let listMsg = {
-                align: "left",
-                text: msg,
-                link: "",
-                type: msgtype
-                };
-                if(this.isTextVoice===true){
-                  this.startTTS(msg);
-                }
-                await this.msgList.push(listMsg);
-                await this.scrollEleSmoothTop();
-              }
-              this.loading = false;
-              })
-              .catch(function (error) {
-              console.log(error);
-              this.loading = false;
-              });
-            } */
+            // axios处理自己的接口请求 返回需要的数据
+            // axios.post("/getchatgpt",{ username:"You", data: this.inputChatMsg })
+            //   .then(async (response) => {
+            //   console.log(response);
+            //   if (response.status == 200) {
+            //   }
+            //   }).catch(function (error) {
+            // });
             //发送消息后显示消息加载中...
             this.beforeGetReplyRes();
             if (this.isHistory === false) {
@@ -664,10 +647,8 @@ export default {
                 // }
                 this.chatDataPrompt.historyChatData = null;
                 this.sendMessage(this.chatDataPrompt)
-                // .then(res => {}, error => {});
             } else {
                 this.chatDataPrompt.historyChatData = this.historyChatData;
-                // let dataParams = { username: "guest", chatData: this.inputChatMsg, preChatData: this.preChatData };
                 this.sendMessageChat(this.chatDataPrompt)
             }
         },
@@ -729,23 +710,29 @@ export default {
         },
         //发送消息和文件
         async sendWithFile() {
+            var chatMsgObj = null;
             var mediaEle = "";
             if (this.chatDataPrompt.mediaMimeType.indexOf("image") !== -1) {
-                mediaEle = "<img src='" + this.tempFileUrl + "' >";
-            } else if (this.chatDataPrompt.mediaMimeType.indexOf("audio") !== -1 || this.chatDataPrompt.mediaMimeType.indexOf("video") !== -1) {
-                mediaEle = `<video controls height="50" width="100%" :data="${this.tempFileUrl}">
-                    <source :src="${this.tempFileUrl}" type="audio/mpeg">
-                    <source :src="${this.tempFileUrl}" type="audio/ogg">
-                    <source :src="${this.tempFileUrl}" type="video/mp4">
-                    <source :src="${this.tempFileUrl}" type="video/ogg">
-                </video>`
-            } else {
-                mediaEle = "<a target='_blank' href='" + this.tempFileUrl + "'>" + this.chatDataPrompt.mediaFileName + "</a>"
+                //mediaEle = "<img src='" + this.tempFileUrl + "' >";
+                chatMsgObj = { align: "right", text: this.chatDataPrompt.chatMsg, type: "image", mediaData: this.tempFileUrl, mediaFileName: this.chatDataPrompt.mediaFileName, mediaMimeType: this.chatDataPrompt.mediaMimeType, time: Date.now() };
+            } else if (this.chatDataPrompt.mediaMimeType.indexOf("video") !== -1) {
+                // mediaEle = `<video controls height="50" width="100%" :data="${this.tempFileUrl}">
+                //     <source :src="${this.tempFileUrl}" type="audio/mpeg">
+                //     <source :src="${this.tempFileUrl}" type="audio/ogg">
+                //     <source :src="${this.tempFileUrl}" type="video/mp4">
+                //     <source :src="${this.tempFileUrl}" type="video/ogg">
+                // </video>`;
+                chatMsgObj = { align: "right", text: this.chatDataPrompt.chatMsg, type: "video", mediaData: this.tempFileUrl, mediaFileName: this.chatDataPrompt.mediaFileName, mediaMimeType: this.chatDataPrompt.mediaMimeType, time: Date.now() };
+            } else if(this.chatDataPrompt.mediaMimeType.indexOf("audio") !== -1) {
+                chatMsgObj = { align: "right", text: this.chatDataPrompt.chatMsg, type: "audio", mediaData: this.tempFileUrl, mediaFileName: this.chatDataPrompt.mediaFileName, mediaMimeType: this.chatDataPrompt.mediaMimeType, time: Date.now() };
+            }else {
+                //mediaEle = "<a target='_blank' href='" + this.tempFileUrl + "'>" + this.chatDataPrompt.mediaFileName + "</a>"
+                chatMsgObj = { align: "right", text: this.chatDataPrompt.chatMsg, type: "file", mediaData: this.tempFileUrl, mediaFileName: this.chatDataPrompt.mediaFileName, mediaMimeType: this.chatDataPrompt.mediaMimeType, time: Date.now() };
             }
             //let imgDiv=document.createElement("div").appendChild(this.convertBase64ToImage("base64Str")); this.chatDataPrompt.mediaData
             //msgListToChatPromptList方法是在调用发送消息到后端前把之前所有的消息构造一个json作为历史消息记录
             this.msgListToChatPromptList(this.msgList);
-            await this.showChatMsgList(this.msgList, { align: "right", text: this.chatDataPrompt.chatMsg, mediaDiv: mediaEle, time: Date.now() });
+            await this.showChatMsgList(this.msgList, chatMsgObj);
             await this.scrollEleSmoothTop(true);
             this.getReplyMsg();
             // const formData =new FormData();
@@ -763,7 +750,7 @@ export default {
             this.chatDataPrompt.chatMsg = "";
         },
         sendMessage(dataParams) {
-            let that = this;
+            const that = this;
             that.statusDisabled = true;
             //链式编程
             // new Promise((resolve, reject) => {
@@ -789,11 +776,11 @@ export default {
                 .catch(function (error) {
                     //reject(error);
                     //console.log(error);
-                    this.$PlusToast.error(error);
+                    that.$PlusToast.error(error);
                 });
         },
         sendMessageChat(dataParams) {
-            let that = this;
+            const that = this;
             that.statusDisabled = true;
             geminiAIChat(dataParams)
                 .then(async (response) => {
@@ -804,8 +791,7 @@ export default {
                 })
                 .catch(function (error) {
                     //reject(error);
-                    //console.log(error);
-                    this.$PlusToast.error(error);
+                    that.$PlusToast.error(error);
                 });
             // return new Promise((resolve, reject) => {
             //     // 执行耗时操作
@@ -827,7 +813,7 @@ export default {
         //在获取消息回复之前的临时等待或加载中，类似于进度条或加载转动圈
         beforeGetReplyRes() {
             //在获取请求响应前，设置一个临时加载显示的消息
-            let listMsgTemp = { align: "left", text: "回复中，请稍后...", link: "", type: 9, time: Date.now() };
+            let listMsgTemp = { align: "left", text: "回复中，请稍后...", link: "", type: 'text', time: Date.now() };
             //推送到消息列表中
             this.showChatMsgList(this.msgList, listMsgTemp);
             //延迟一秒等内容已经包含在div消息列表框中，然后在进行滑动到底部
@@ -898,7 +884,7 @@ export default {
             //let key = window.event.key || event.key;//新的key时表示为键盘的具体值
             //只有在移动和平板设备上(<992px)才无法使用enter直接发送
             //而在桌面(this.windowWidth >= 992)，使用非shift键和enter键在能发送，否则就是换行
-            if (!isMobile()) {
+            if (!this.isMobile()) {
                 if (keyC == 13 && !e.shiftKey) {
                     //只有enter没有shift，或进行你的其他逻辑
                     e.preventDefault(); // 阻止默认行为，即不换行
@@ -908,7 +894,6 @@ export default {
             }
             // else if(keyC == 13 && e.shiftKey){
             //     // 这里实现换行
-            //     //document.getElementById("a").value += "\n";
             //     console.log(this.inputChatMsg.length);
             //     if(this.inputChatMsg!='' && this.inputChatMsg.length > 0){
             //         this.inputChatMsg+="\n";
@@ -923,7 +908,8 @@ export default {
         },
         //上传文件事件
         async uploadDataFileEvent(e) {
-            let file = null;
+            const URL = window.URL || window.webkitURL;
+            var file = null;
             //this.formData.append("file", file.file);
             const items = e.target.files;
             if (items && items.length) {
@@ -938,9 +924,10 @@ export default {
                 // }
                 this.chatDataPrompt.mediaMimeType = file.type;
                 this.chatDataPrompt.mediaFileName = file.name;
-                var URL = window.URL || window.webkitURL;
                 // // 通过 file 生成目标 url。URL.createObjectURL(file);
-                var tempURL = URL.createObjectURL(file);
+                const tempURL = URL.createObjectURL(file);
+                this.tempFileUrl = tempURL;
+                // 在这里处理base64数据
                 // 创建FileReader读取文件
                 // const reader = new FileReader();
                 // reader.onload = (e) => {
@@ -965,8 +952,7 @@ export default {
                 // }
                 if (file.type.indexOf('image') !== -1 && file.type.indexOf('adobe') === -1) {
                     this.chatDataPrompt.mediaData = await this.fileToBase64(file);
-                    this.tempFileUrl = tempURL;
-                    //let tempImg = '';
+                    // this.tempFileUrl = tempURL;
                     // 显示裁剪框，传入配置选项
                     PlusCropper.show({
                         imageSrc: tempURL
@@ -980,22 +966,10 @@ export default {
                         URL.revokeObjectURL(this.tempFileUrl);
                         this.tempFileUrl = URL.createObjectURL(this.base64ToBlob(croppedImageDataURL));
                     });
-                    // const cropper = new ImageCropper({
-                    //     imageSrc: tempURL, // 替换为你的图片地址
-                    //     onCrop: (croppedImageDataURL) => {
-                    //         //console.log('裁切后的图片数据：', croppedImageDataURL);
-                    //     },
-                    //     onHide: () => {
-                    //         // console.log("隐藏事件回调函数！")
-                    //     },
-                    //     onShow: () => {
-                    //         // console.log("显示事件回调函数！")
-                    //     }
-                    // });
                 } else if ((file.type.indexOf('json') !== -1 || file.type.indexOf('xml') !== -1 || file.type.indexOf('text') !== -1)) {
                     this.chatDataPrompt.mediaData = await this.fileToBase64(file);
-                    this.tempFileUrl = tempURL;
-                    var domObject = '<object controls height="100%" width="100%" data="' + tempURL + '">' +
+                    // this.tempFileUrl = tempURL;
+                    const domObject = '<object controls height="100%" width="100%" data="' + tempURL + '">' +
                         '<source src="' + tempURL + '" type="audio/mpeg">' +
                         '<source src="' + tempURL + '" type="audio/ogg">' +
                         '<embed height="50" width="100" src="' + tempURL + '">' +
@@ -1008,16 +982,13 @@ export default {
                     PlusDialog.show({onlyCloseBtn: true});
                 } else if ((file.type.indexOf('audio') !== -1 || file.type.indexOf('video') !== -1)) {
                     this.chatDataPrompt.mediaData = await this.fileToBase64(file);
-                    this.tempFileUrl = tempURL;
-                    // 在这里处理base64数据
-                    //let baseArr=base64.split(",");
-                    var tempFile = '<video controls height="50" width="100%" data="' + tempURL + '">' +
+                    // this.tempFileUrl = tempURL;
+                    const tempFile = '<video controls height="50" width="100%" data="' + tempURL + '">' +
                         '<source src="' + tempURL + '" type="audio/mpeg">' +
                         '<source src="' + tempURL + '" type="audio/ogg">' +
                         '<source src="' + tempURL + '" type="video/mpeg">' +
                         '<source src="' + tempURL + '" type="video/ogg">' +
                         '<embed height="50" width="100" src="' + tempURL + '">' +
-                        //'<object height="50" width="100" data="'+tempURL+'"></object>'+
                         '</video>';
                     document.getElementById("fileData").innerHTML = tempFile;
                     // $('#chatDataModal').modal();
@@ -1050,9 +1021,10 @@ export default {
         },
         //输入框粘贴事件处理函数
         pastingData(event) {
+            const URL = window.URL || window.webkitURL
             // 输入框粘贴
             //let excelArr = ['text/plain', "text/html", "text/rtf", "image/png"];//excel格式
-            let file = null;
+            var file = null;
             // 获取剪切板图片、视频、文件、文件夹
             const items = (event.clipboardData || window.clipboardData).items;
             if (items && items.length) {
@@ -1063,33 +1035,26 @@ export default {
                     file = items[i].getAsFile();
                     // let fileSize = file.size / 1024 / 1024; // 将文件大小从字节转换为MB
                     // fileSize = Math.round(fileSize * 100) / 100; // 保留两位小数
-                    // if(fileSize > 100){
-                    //     this.$PlusToast.error("文件超过100MB！");
-                    //     return;
-                    // }
+                    // if(fileSize > 100){ this.$PlusToast.error("文件超过100MB！"); return; }
+                    // 拿到文件对象后，先上传或先展示都行，这里以图片进行举例
+                    // 如果是直接上传服务器，那可以拿到图片地址直接使用
+                    // 如果不进行上传，先展示，等点击确定在上传，那就自己创建一个链接进行使用
+                    const tempUrl = URL.createObjectURL(file);
+                    this.tempFileUrl = tempUrl;
                     this.chatDataPrompt.mediaMimeType = items[i].type;
                     this.chatDataPrompt.mediaFileName = items[i].name;
                     if (items[i].kind === 'file' && (items[i].type.indexOf('image') !== -1 && items[i].type.indexOf('adobe') === -1)) {
                         // 创建FileReader读取图片
                         const reader = new FileReader();
                         reader.onload = (e) => {
+                            // 在这里处理base64数据
                             const base64 = e.target.result;
                             this.chatDataPrompt.mediaData = base64;
                             // const fileData = this.base64ToBlob(base64);
-                            // 在这里处理base64数据
-                            //let baseArr=base64.split(",");
-                            // 拿到文件对象后，先上传或先展示都行，这里以图片进行举例
-                            // 如果是直接上传服务器，那可以拿到图片地址直接使用
-                            // 如果不进行上传，先展示，等点击确定在上传，那就自己创建一个链接进行使用
-                            // const windowURL = window.URL || window.webkitURL
-                            this.tempFileUrl = URL.createObjectURL(file);
                             // let clip = new CropImg({width: 300, height:220}) // 设置裁剪的比例
                             // clip.init(fileData, res => { // 需要将裁剪的图片文件传入，既可以触发裁剪
                             //     // 裁剪按钮 点击后会触发此函数，传入的res是裁剪后的文件,可以上传，也可以自己手动转成url显示
                             //     var tempUrl = URL.createObjectURL(res)
-                            //     this.tempFileUrl = tempUrl
-                            //     let tempImg = '<img src="' + tempUrl + '" style=""/>';
-                            //     document.getElementById("fileData").innerHTML = tempImg;
                             // })
                             // 重新绘制图片，自定义长宽
                             // this.resizeImage(tempUrl, 300, 200, function(resizedImgSrc) {
@@ -1119,28 +1084,17 @@ export default {
                         const reader = new FileReader();
                         reader.readAsDataURL(file);
                         reader.onload = (e) => {
+                            // 在这里处理base64数据
                             const base64 = e.target.result;
                             this.chatDataPrompt.mediaData = base64;
-                            //console.log(this.base64ToBlob(base64));
-                            const tempUrl = URL.createObjectURL(file);
-                            this.tempFileUrl = tempUrl;
-                            // 在这里处理base64数据
-                            //let baseArr=base64.split(",");
-                            // var pdfIframe = document.createElement('iframe');
-                            //pdfIframe.style.height="100%";
-                            // pdfIframe.style.width="100%";
-                            // pdfIframe.src = tempUrl;
-                            let domObject = '<object controls height="100%" width="100%" data="' + tempUrl + '">' +
+                            const domObject = '<object controls height="100%" width="100%" data="' + tempUrl + '">' +
                                 '<source src="' + tempUrl + '" type="audio/mpeg">' +
                                 '<source src="' + tempUrl + '" type="audio/ogg">' +
                                 '<embed height="50" width="100" src="' + tempUrl + '">' +
-                                //'<object height="50" width="100" data="'+tempUrl+'"></object>'+
                                 '</object>';
                             //let domObject = '<object data="' + tempUrl + '" type="application/pdf" width="100%" height="100%">该浏览器不支持PDF.请点击查看:<a href="' + tempUrl + '">Download PDF</a>.</p></object>';
                             //let domObject='<embed src="'+base64+'" width="100%" height="100%" type="application/pdf"></embed>'
                             document.getElementById("fileData").innerHTML = domObject;
-                            //document.getElementById("fileData").remove();
-                            //document.getElementById("fileData").appendChild(pdfIframe);
                             // $('#chatDataModal').modal();
                             PlusDialog.show({onlyCloseBtn: true});
                         };
@@ -1149,13 +1103,10 @@ export default {
                         // 创建FileReader读取图片
                         const reader = new FileReader();
                         reader.onload = (e) => {
+                            // 在这里处理base64数据
                             const base64 = e.target.result;
                             this.chatDataPrompt.mediaData = base64;
-                            const tempUrl = URL.createObjectURL(file);
-                            this.tempFileUrl = tempUrl;
-                            // 在这里处理base64数据
-                            //let baseArr=base64.split(",");
-                            var tempFile = '<video controls height="50" width="100%" data="' + tempUrl + '">' +
+                            const tempFile = '<video controls height="50" width="100%" data="' + tempUrl + '">' +
                                 '<source src="' + tempUrl + '" type="audio/mpeg">' +
                                 '<source src="' + tempUrl + '" type="audio/ogg">' +
                                 '<source src="' + tempUrl + '" type="video/mpeg">' +
@@ -1164,14 +1115,13 @@ export default {
                                 //'<object height="50" width="100" data="'+tempUrl+'"></object>'+
                                 '</video>';
                             document.getElementById("fileData").innerHTML = tempFile;
-                            // document.getElementById("fileData").append();
                             // $('#chatDataModal').modal();
                             PlusDialog.show({onlyCloseBtn: true});
                         };
                         reader.readAsDataURL(file);
                         break;
                     } else {
-                        let txt = event.clipboardData.getData('Text');
+                        const txt = event.clipboardData.getData('Text');
                         if (typeof (txt) === 'string') {
                             if (txt.length > 9048570) {
                                 return false;
@@ -1291,13 +1241,13 @@ export default {
             })
         },
         toggleMenu() {
-            //var menuDrawer = document.getElementById("menuDrawer");
+            // const menuDrawer = document.getElementById("menuDrawer");
             // menuDrawer.classList.toggle("open");
             this.menuOpen = !this.menuOpen;
         },
         outSideCloseMenu(e) {
             // 判断点击区域是否在 menu-drawer 之外
-            if (this.menuOpen && (!this.$el.querySelector('.menu-drawer').contains(e.target) && !this.$el.querySelector('.chatBoxHeader').contains(e.target))) {
+            if (this.menuOpen && (!this.$el.querySelector('.menu-drawer').contains(e.target) && !this.$el.querySelector('.chat-box-header').contains(e.target))) {
                 this.menuOpen = false;
             }
         },
@@ -1459,7 +1409,7 @@ export default {
         },
         domObserverEvent(targetNode) {
             // 选择目标节点
-            //const targetNode = document.getElementById('my-div');
+            //const targetNode = document.getElementById('id_target');
 
             // 创建一个观察者对象
             const observer = new MutationObserver(function (mutationsList, observer) {
@@ -1545,9 +1495,9 @@ export default {
         },
         // 处理滚动条一直保持最上方,也就让内容处于最底部contentAtBottom
         async scrollEleSmoothTop(isSmooth = false) {
-            let div = document.getElementById("bigChatBox");
+            var div = document.getElementById("big-chat-box");
             if (!div) {
-                div = document.getElementById("bigChatBox-desktop");
+                div = document.getElementById("big-chat-box-desktop");
             }
             if (isSmooth) {
                 this.smoothScrollToBottom(div, 1000);
@@ -1735,8 +1685,6 @@ export default {
             var msg = new SpeechSynthesisUtterance();
             var voicePack = speechSynthesis.getVoices();
             speechSynthesis.cancel();
-            // console.log('开始播放')
-            //console.log(voicePack)
             msg.text = txt
             msg.volume = 1 //音量
             msg.rate = 1 //语速
@@ -1895,38 +1843,37 @@ export default {
         },
         //遍历数组，把里面的每一条消息记录添加显示在消息页面中的msgList
         historyListToMsgList(msgArr) {
-            let _this = this;
-            var len = msgArr.length;
+            const _this = this;
+            const len = msgArr.length;
             for (var i = 0; i < len; i++) {
-                let oneMsg = JSON.parse(msgArr[i]);
-                if (_this.checkObjectExistsJson(oneMsg, "mediaData")) {
-                    let mediaFileUrl = "https://" + _this.baseHost + _this.baseApi + oneMsg.mediaData;
-                    if (oneMsg.mediaMimeType.indexOf("image") !== -1) {
-                        oneMsg.mediaDiv = "<img src='" + mediaFileUrl + "' >";
-                    } else if (oneMsg.mediaMimeType.indexOf("audio") !== -1 || oneMsg.mediaMimeType.indexOf("video") !== -1) {
-                        oneMsg.mediaDiv = `<video controls height="50" width="100%" data="${mediaFileUrl}">
-                            <source src="${mediaFileUrl}" type="audio/mpeg">
-                            <source src="${mediaFileUrl}" type="audio/ogg">
-                            <source src="${mediaFileUrl}" type="video/mp4">
-                            <source src="${mediaFileUrl}" type="video/ogg">
-                        </video>`
-                    } else {
-                        oneMsg.mediaDiv = "<a href='" + mediaFileUrl + "'>查看文件</a>"
-                    }
-                }
+                var oneMsg = JSON.parse(msgArr[i]);
+                // if (oneMsg.mediaData || _this.checkObjectExistsJson(oneMsg, "mediaData")) {
+                //     const mediaFileUrl = _this.webProtocol + _this.baseHost + oneMsg.mediaData;
+                //     oneMsg.mediaData = mediaFileUrl;
+                //     if (oneMsg.mediaMimeType.indexOf("image") !== -1) {
+                //         oneMsg.mediaDiv = "<img src='" + mediaFileUrl + "' >";
+                //     } else if (oneMsg.mediaMimeType.indexOf("audio") !== -1 || oneMsg.mediaMimeType.indexOf("video") !== -1) {
+                //         oneMsg.mediaDiv = `<video controls height="50" width="100%" data="${mediaFileUrl}">
+                //             <source src="${mediaFileUrl}" type="audio/mpeg">
+                //             <source src="${mediaFileUrl}" type="audio/ogg">
+                //             <source src="${mediaFileUrl}" type="video/mp4">
+                //             <source src="${mediaFileUrl}" type="video/ogg">
+                //         </video>`
+                //     } else {
+                //         oneMsg.mediaDiv = "<a href='" + mediaFileUrl + "'>查看文件</a>"
+                //     }
+                // }
                 this.msgList.push(oneMsg);
             }
-            //return msgArr;
         },
         //遍历聊天记录数组，把里面的每一条json字符串构造为ChatPrompt中聊天历史记录List
         //在发送消息前把之前所有的消息构造一个json作为历史消息记录
         msgListToChatPromptList(msgArr) {
-            let historyMessage = [];
-            var len = msgArr.length;
+            var historyMessage = [];
+            const len = msgArr.length;
             if (len > 0) {
+                // msgArr.forEach(element => {});
                 for (var i = 0; i < len; i++) {
-                    // var temp = JSON.parse(msgArr[i]);
-                    // this.msgList.push(temp);
                     if (msgArr[i].align == "right") {
                         historyMessage.push({ role: "user", parts: [{ text: msgArr[i].text }] });
                         //historyMessage += "{\"role\": \"user\",\"parts\": [{\"text\": \"" + msgArr[i].text + "\"}]},";
@@ -1990,7 +1937,12 @@ export default {
         },
         isOnlyNewlines(str) { //是否仅包含换行符
             return /^\n*$/.test(str);
-        }
+        },
+        //判断是否是移动端
+        isMobile() {
+            const userAgent = navigator.userAgent
+            return /Android|iPhone|iPad|iPod|BlackBerry|webOS|Windows Phone|SymbianOS|IEMobile|Opera Mini/i.test(userAgent) || typeof window.orientation !== "undefined";
+        },
     },
     // 在Vue组件中
     directives: {
@@ -2033,7 +1985,7 @@ body {
     padding: 0;
 }
 
-#chat_app_container {
+.chat-app-container {
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
@@ -2084,7 +2036,7 @@ body {
     min-height: 100%;*/
 }
 
-.chatBoxHeader {
+.chat-box-header {
     position: fixed;
     transform: translateY(0);
     -webkit-transform: translateY(0);
@@ -2115,7 +2067,7 @@ body {
     align-content: center;
 }
 
-.chatBoxHeader div {
+.chat-box-header div {
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: auto;
@@ -2125,22 +2077,22 @@ body {
     padding-right: 8px;
 }
 
-.bigChatBox {
+.big-chat-box {
     overflow-y: scroll;
     padding: 40px 2px 0;
     flex: 1 1 auto;
 }
 
-.bigChatBox::-webkit-scrollbar {
+/* .big-chat-box::-webkit-scrollbar {
     display: none;
-}
+} */
 
-.listChatMsg {
+.list-chat-msg {
     font-size: 1.1em;
     margin: 10px auto;
 }
 
-.listChatMsg .chat_date_time {
+.list-chat-msg .chat-date-time {
     width: auto;
     text-align: center;
     font-size: 0.7em;
@@ -2148,21 +2100,34 @@ body {
     color: var(--color-link-text, #000);
 }
 
-.listChatItemL {
+.chat-msg-media-data {
+    width: 100%;
+    overflow: hidden; /* 超出容器的图片部分将被裁剪 */
+}
+
+.chat-msg-media-data > * {
+    width: 100%; /* 图片宽度自适应容器宽度 */
+    height: 100%; /* 图片高度自适应容器高度 */
+    object-fit: contain; /* 或者使用cover或scale-down */
+}
+
+.list-chat-item-left {
     display: flex;
     justify-content: flex-start;
+    flex-direction: row;
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
-.listChatItemR {
+.list-chat-item-right {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
-.listChatItemL .listChatItemContent {
+.list-chat-item-left .list-chat-item-content {
     margin-right: 49px;
     border-width: 1px;
     border-color: #66cdaa;
@@ -2176,11 +2141,11 @@ body {
     overflow-x: scroll;
 }
 
-.listChatItemL .listChatItemContent::-webkit-scrollbar {
+.list-chat-item-left .list-chat-item-content::-webkit-scrollbar {
     display: none;
 }
 
-.listChatItemR .listChatItemContent {
+.list-chat-item-right .list-chat-item-content {
     margin-left: 49px;
     border-width: 1px;
     border-color: #355CBF;
@@ -2192,7 +2157,7 @@ body {
     overflow-x: scroll;
 }
 
-/*.listChatItemR .listChatItemContent::before{
+/*.list-chat-item-right .list-chat-item-content::before{
     position: relative;
     left:12px; 
     top:10px; 
@@ -2222,7 +2187,7 @@ body {
     margin: 10px -0.5px 0 0;
 }
 
-.listChatItemL .pcChatTextSpan {
+.list-chat-item-left .pc-chat-item-span {
     /*color:#252020;
     background-color: var(--color-content-bg, #353434);
     color: var(--color-article-container-content-text, #d3d1d1);*/
@@ -2236,11 +2201,11 @@ body {
     overflow-x: scroll;
 }
 
-.listChatItemL .pcChatTextSpan::-webkit-scrollbar {
+.list-chat-item-left .pc-chat-item-span::-webkit-scrollbar {
     display: none;
 }
 
-.listChatItemR .pcChatTextSpan {
+.list-chat-item-right .pc-chat-item-span {
     /*background-color: #8ab3ca;
     color: #252020;*/
     background-color: #4c65b8;
@@ -2251,7 +2216,7 @@ body {
     overflow-X: scroll;
 }
 
-.chatUserIcon {
+.chat-user-icon {
     width: 35px;
     height: 35px;
     border-radius: 100%;
@@ -2259,7 +2224,7 @@ body {
     margin-left: 7px;
 }
 
-.chatBoxFooter {
+.chat-box-footer {
     /*position: relative;
     bottom: 0px;
     left: 0px;*/
@@ -2344,6 +2309,12 @@ body {
     display: inherit;
     cursor: pointer;
     position: relative;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .history-msg-list-item:hover .history-msg-list-item-close {
@@ -2447,7 +2418,7 @@ input:checked+.slider:before {
 }
 
 /******************（没有用到的样式）********************/
-.chatBoxFooterBtn {
+.chat-box-footer-btn {
     display: flex;
     width: 100%;
     flex-wrap: nowrap;
@@ -2457,7 +2428,7 @@ input:checked+.slider:before {
     font-family: auto;
 }
 
-.chatBoxFooterBtn .chat_btn_left a {
+.chat-box-footer-btn .chat_btn_left a {
     border: 1px solid var(--color-border-2, #c0c9cbb3);
     border-right: 0 !important;
     border-radius: 0;
@@ -2466,7 +2437,7 @@ input:checked+.slider:before {
     box-shadow: none !important;
 }
 
-.chatBoxFooterBtn .chat_btn_right a {
+.chat-box-footer-btn .chat_btn_right a {
     border: 1px solid var(--color-border-2, #c0c9cbb3);
     border-left: 0 !important;
     border-radius: 0;
@@ -2476,7 +2447,7 @@ input:checked+.slider:before {
     box-shadow: none !important;
 }
 
-.chatBoxFooterBtn span {
+.chat-box-footer-btn span {
     flex-grow: 0;
     flex-shrink: 0;
     /**margin:auto;
@@ -2484,8 +2455,8 @@ input:checked+.slider:before {
     align-self: flex-end;
 }
 
-.chatBoxFooterBtn>input,
-.chatBoxFooterBtn>textarea {
+.chat-box-footer-btn>input,
+.chat-box-footer-btn>textarea {
     -webkit-transition: width 0.2s ease-in-out;
     -moz-transition: width 0.2s ease-in-out;
     -o-transition: width 0.2s ease-in-out;
@@ -2498,8 +2469,8 @@ input:checked+.slider:before {
     -webkit-border-radius: 4px; */
 }
 
-.chatBoxFooterBtn>input:focus,
-.chatBoxFooterBtn>textarea:focus,
+.chat-box-footer-btn>input:focus,
+.chat-box-footer-btn>textarea:focus,
 textarea:focus,
 input:focus {
     outline: 0;

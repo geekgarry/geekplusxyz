@@ -545,6 +545,34 @@ export function loadXMLString(xmlStr) {
     return xmlDoc;
 }
 
+export function textToImage(text, font, color, width, height) {
+    // 创建canvas元素
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+ 
+    // 获取canvas上下文
+    var ctx = canvas.getContext('2d');
+ 
+    // 设置填充样式和字体
+    ctx.fillStyle = color;
+    ctx.font = font;
+ 
+    // 绘制文本
+    ctx.fillText(text, 0, height / 2 + 5);
+ 
+    // 将canvas转换为DataURL格式的图片
+    var dataURL = canvas.toDataURL('image/png');
+ 
+    // 创建Image元素并设置src属性为DataURL
+    var img = new Image();
+    img.src = dataURL;
+ 
+    return img;
+}
+// 使用例子
+// var image = textToImage('字', '20px Arial', '#000000', 100, 50);
+
 //添加复制代码按钮
 export function copyCode() {
     //在这里使用需要判断样式是否不存在，不存在则开始添加到head中，避免了使用return导致函数出现终止执行问题
@@ -558,8 +586,8 @@ export function copyCode() {
         .pre-tool-container {
         position: absolute;
         /* 设置复制按钮所在tool容器样式，使其绝对定位于父容器元素的右上角 */
-        top: 3px;
-        right: 4px;
+        top: 4px;
+        right: 10px;
         }
 
         .pre-tool-container.ptc-hidden {

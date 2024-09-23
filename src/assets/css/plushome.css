@@ -1276,8 +1276,8 @@ ol {
   opacity: 0.95;
 }
 
-.cancel_btn,
-.confirm_btn {
+.cancel-btn,
+.confirm-btn {
   display: block;
   height: 35px;
   text-align: center;

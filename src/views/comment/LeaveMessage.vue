@@ -327,7 +327,7 @@
                 </span>
                 <span class="pagenum-skip">
                   共<b class="pagenum-total">{{
-                    leaveMessageTotal / queryParams.pageSize <= 1
+                    ((leaveMessageTotal / queryParams.pageSize == 1) || (leaveMessageTotal / queryParams.pageSize == 0))
                       ? 1
                       : Math.ceil(leaveMessageTotal / queryParams.pageSize)
                   }}</b
@@ -650,7 +650,7 @@
                               v-model="userMessage.name"
                               type="text"
                               class="form-control"
-                              id="name-web"
+                              id="name-web-dialog"
                               name="name"
                               placeholder="姓名*"
                               required=""
@@ -661,7 +661,7 @@
                               v-model="userMessage.email"
                               type="email"
                               class="form-control"
-                              id="email-web"
+                              id="email-web-dialog"
                               name="email"
                               placeholder="Email*"
                               required=""
@@ -672,7 +672,7 @@
                               v-model="userMessage.website"
                               type="text"
                               class="form-control"
-                              id="myWebSite-web"
+                              id="myWebSite-web-dialog"
                               name="myWebSite"
                               placeholder="网址"
                             />
@@ -682,7 +682,7 @@
                           <textarea
                             v-model="userMessage.content"
                             class="form-control"
-                            id="message-mobile"
+                            id="message-mobile-dialog"
                             name="editordata-web"
                             rows="5"
                             placeholder="留言内容*"

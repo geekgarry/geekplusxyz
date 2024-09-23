@@ -1,5 +1,5 @@
 function isMobile() {
-    let userAgent = navigator.userAgent
+    const userAgent = navigator.userAgent
     return /Android|iPhone|iPad|iPod|BlackBerry|webOS|Windows Phone|SymbianOS|IEMobile|Opera Mini/i.test(userAgent) || typeof window.orientation !== "undefined";
 }
 
