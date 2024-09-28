@@ -136,10 +136,10 @@ export function getAboutMyGpWeb(id) {
   })
 }
 
-// 博客网站查询最新六条的不同目录文章
-export function getTenNewestArticle(param) {
+// 博客网站查询浏览量最多的前十条的文章
+export function getMostViewedArticle(param) {
   return request({
-    url: '/geekplusapp/getTenNewestArticle',
+    url: '/geekplusapp/getMostViewedArticle',
     method: 'get',
     params:param
   })

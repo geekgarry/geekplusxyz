@@ -8,7 +8,7 @@
               <div class="articleList-bread-crumb">
                 <div class="plus-bread-crumb">
                   <bread-crumb>
-                    <bread-crumb-item v-for="item,index in breadCrumbList" :key="index" :to="index+1==breadCrumbList.length?'':item.path">{{item.meta.title}}</bread-crumb-item>
+                    <bread-crumb-item v-for="(item,index) in breadCrumbList" :key="index" :to="index+1==breadCrumbList.length?'':item.path">{{item.meta.title}}</bread-crumb-item>
                     <!-- <bread-crumb-item>文章</bread-crumb-item> -->
                   </bread-crumb>
                 </div>
@@ -612,7 +612,7 @@
                     <!-- <div class="model recommend">
                                 						                            <div class="title">热门推荐</div>
                                 						                            <div class="content"> -->
-                    <p v-for="(item, index) in tenNewArticle" :key="index">
+                    <p v-for="(item, index) in tenMostViewedArticles" :key="index">
                       <a href="javascript:void(0);" @click="
                           $router.push({
                             name: 'article',
@@ -660,7 +660,7 @@
 import MKLogo from "@/assets/icon/mai.png";
 import {
   getGpArticlesByCategory,
-  getTenNewestArticle,
+  getMostViewedArticle,
   listSubCategory,
   getGpNoticeNewOne,
 } from "@/api/geekplus/geekplus";
@@ -679,7 +679,7 @@ export default {
       articleTotal: 0,
       articleList: [],
       pageNum: 9,
-      tenNewArticle: [],
+      tenMostViewedArticles: [],
       allCategoryList: [],
       oneNewNotice:{},
       categoryName:'',
@@ -699,7 +699,7 @@ export default {
     //console.log(this.categoryName);
     //console.log(this.queryParams.pathName);
     this.getArticleList(1);
-    this.getTenNewArticle();
+    this.getTenMostViewedArticle();
     this.getAllArticleCategory();
     this.getOneNewestNotice();
     this.getBreadCrumb();
@@ -794,12 +794,12 @@ export default {
         });
         //this.backToTop()
     },
-    getTenNewArticle() {
+    getTenMostViewedArticle() {
       let data = {};
-      getTenNewestArticle(data)
+      getMostViewedArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.tenNewArticle = response.data;
+          this.tenMostViewedArticles = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)

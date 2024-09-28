@@ -259,7 +259,7 @@
                 <!-- <div class="model recommend">
                   <div class="title">热门推荐</div>
                 <div class="content"> -->
-                <p v-for="(item, index) in tenNewArticle" :key="index">
+                <p v-for="(item, index) in tenMostViewedArticles" :key="index">
                   <a href="javascript:void(0);" @click="$router.push({
                           name: 'article',
                           params: { articleId: item.id },
@@ -292,7 +292,7 @@
 </template>
 
 <script>
-import { getAboutMyGpWeb, getTagArticleCount,getTenNewestArticle,listSubCategory,} from "@/api/geekplus/geekplus";
+import { getAboutMyGpWeb, getTagArticleCount,getMostViewedArticle,listSubCategory,} from "@/api/geekplus/geekplus";
 export default {
   data() {
     return {
@@ -300,7 +300,7 @@ export default {
       keywords: "",
       aboutMeData: "",
       allTagArticleCount: [], //查询每个标签的文章数量
-      tenNewArticle:[],
+      tenMostViewedArticles:[],
       allCategoryList:[],
       menuList:[],
       iframeAdsWin: null,
@@ -308,7 +308,7 @@ export default {
   },
   created() {
     this.getAboutMeAndMyWeb();
-    this.getTenNewArticle();
+    this.getTenMostViewedArticle();
     this.getAllArticleCategory();
     this.getTagAndArticleCount();
     // document.onkeydown = function (e) {
@@ -401,12 +401,12 @@ export default {
           });
         });
     },
-    getTenNewArticle() {
+    getTenMostViewedArticle() {
       let data = {};
-      getTenNewestArticle(data)
+      getMostViewedArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.tenNewArticle = response.data;
+          this.tenMostViewedArticles = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)

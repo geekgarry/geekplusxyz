@@ -536,7 +536,7 @@
                     <!-- <div class="model recommend">
                     <div class="title">热门推荐</div>
                     <div class="content"> -->
-                    <p v-for="(item, index) in tenNewArticle" :key="index">
+                    <p v-for="(item, index) in tenMostViewedArticles" :key="index">
                       <a
                         href="javascript:void(0);"
                         @click="
@@ -588,7 +588,7 @@
 <script>
 import {
   selectGpArticlesListByKeyWords,
-  getTenNewestArticle,
+  getMostViewedArticle,
   listSubCategory,
   getTagArticleCount,
   getGpNoticeNewOne,
@@ -604,7 +604,7 @@ export default {
       },
       articleList: [],
       articleTotal: 0,
-      tenNewArticle: [],
+      tenMostViewedArticles: [],
       allCategoryList: [],
       allTagArticleCount: [], //查询每个标签的文章数量
       oneNewNotice:{},//一个最新网站通知
@@ -630,7 +630,7 @@ export default {
     //   }
     // };
     this.searchGpArticlesList(1);
-    this.getTenNewArticle();
+    this.getTenMostViewedArticle();
     this.getTagAndArticleCount();
     this.getAllArticleCategory();
     this.getOneNewestNotice();
@@ -734,12 +734,12 @@ export default {
         });
         //this.backToTop()
     },
-    getTenNewArticle() {
+    getTenMostViewedArticle() {
       let data = {};
-      getTenNewestArticle(data)
+      getMostViewedArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.tenNewArticle = response.data;
+          this.tenMostViewedArticles = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)

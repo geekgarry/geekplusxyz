@@ -84,7 +84,7 @@
                             </p>
                             <p class="card-text">
                               <!-- 一个长期存在的事实是，当一个读者看到一个页面的布局时，它就会成为它的读者。 -->
-                              <span v-for="tags,index in item.tags" :key="index">
+                              <span v-for="(tags,index) in item.tags" :key="index">
                                 <router-link
                                   :to="{ path: '/articleListForTag', query: { tagName: tags.tagName } }">
                                   #{{ tags.tagName }}
@@ -355,7 +355,7 @@
 import MKLogo from "@/assets/icon/mai.png";
 import {
   getGpArticlesByCategory,
-  getTenNewestArticle,
+  getMostViewedArticle,
   listSubCategory,
   getGpNoticeNewOne,
 } from "@/api/geekplus/geekplus";
@@ -379,7 +379,7 @@ export default {
       articleTotal: 0,
       articleList: [],
       pageNum: 9,
-      tenNewArticle: [],
+      tenMostViewedArticles: [],
       allCategoryList: [],
       oneNewNotice:{},
       categoryName:'',
@@ -517,12 +517,12 @@ export default {
         });
         //this.backToTop()
     },
-    getTenNewArticle() {
+    getTenMostViewedArticle() {
       let data = {};
-      getTenNewestArticle(data)
+      getMostViewedArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.tenNewArticle = response.data;
+          this.tenMostViewedArticles = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)

@@ -563,7 +563,7 @@
                 <!-- <div class="model recommend">
                             <div class="title">热门推荐</div>
                             <div class="content"> -->
-                <p v-for="(item, index) in tenNewArticle" :key="index">
+                <p v-for="(item, index) in tenMostViewedArticles" :key="index">
                   <a
                     href="javascript:void(0);"
                     @click="
@@ -628,7 +628,7 @@
 import {
   getArticleDetail,
   getArticleDetailIsDisplay,
-  getTenNewestArticle,
+  getMostViewedArticle,
   listSubCategory,
   getTagArticleCount,
   updateViewCountAndLikeCount,
@@ -681,7 +681,7 @@ export default {
       prevArticle:{},
       nextArticle:{},
       articleDetail: {},
-      tenNewArticle: [],
+      tenMostViewedArticles: [],
       allCategoryList: [],
       allTagArticleCount: [],
       breadCrumbList: [],
@@ -776,7 +776,7 @@ export default {
   created() {
     this.getArticle();
     //console.log(this.$route.params.articleId);
-    this.getTenNewArticle();
+    this.getTenMostViewedArticle();
     this.getAllArticleCategory();
     this.getTagAndArticleCount();
     this.windowUrl = window.location.href;
@@ -975,12 +975,12 @@ export default {
           });
         });
     },
-    getTenNewArticle() {
+    getTenMostViewedArticle() {
       let data = { isDisplay: 1 };
-      getTenNewestArticle(data)
+      getMostViewedArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.tenNewArticle = response.data;
+          this.tenMostViewedArticles = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)

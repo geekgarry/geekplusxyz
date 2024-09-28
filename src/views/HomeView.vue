@@ -1280,7 +1280,7 @@
                   <!-- <div class="model recommend">
                     <div class="title">热门推荐</div>
                   <div class="content"> -->
-                  <p v-for="(item, index) in tenNewArticle" :key="index">
+                  <p v-for="(item, index) in tenMostViewedArticles" :key="index">
                     <a
                       href="javascript:void(0);"
                       @click="
@@ -1325,7 +1325,7 @@ import {
   getCarousel,
   getcovid,
   get163coviddata,
-  getTenNewestArticle,
+  getMostViewedArticle,
   getFourPlusOneArticles,
   getIndexAllCategoryArticleList,
   getArticleCategoryListByPath,
@@ -1373,7 +1373,7 @@ export default {
       allTagArticleCount: [], //查询每个标签的文章数量
       asideSixArticle0: [], //首页侧边六条文章面板
       asideSixArticle6: [], //首页侧边六条文章面板
-      tenNewArticle: [], //侧边最热六条文章面板
+      tenMostViewedArticles: [], //侧边最热十条条文章面板
       sixRecommendArticle: [], //首页六条大屏推荐文章
       oneIndexArticle: {}, //首页4+1文章
       fourIndexArticle: [], //首页4+1文章
@@ -1469,7 +1469,7 @@ export default {
       };
       getHomeViewData(queryParams).then((response) => {
         //this.swiperImgList = response.indexCarousel;
-        this.tenNewArticle = response.indexTenNewArticle;
+        this.tenMostViewedArticles = response.indexTenMostViewedArticles;
         this.sixRecommendArticle = response.indexSixArticles;
         this.oneIndexArticle = response.indexOneArticle;
         this.fourIndexArticle = response.indexFourArticles;
@@ -1546,12 +1546,12 @@ export default {
           });
         });
     },
-    getTenNewArticle() {
+    getTenMostViewedArticle() {
       let data = {};
-      getTenNewestArticle(data)
+      getMostViewedArticle(data)
         .then((response) => {
           //console.log(response.data);
-          this.tenNewArticle = response.data;
+          this.tenMostViewedArticles = response.data;
         })
         .catch((error) => {
           //console.log(error.msg)
